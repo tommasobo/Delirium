@@ -7,38 +7,54 @@ public class Position {
         RIGHT;
     }
     
-    private int x;
-    private int y;
+    public static class Dimension {
+        
+        private final int width;
+        private final int height;
+        
+        public Dimension(final int width, final int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+        
+    }
+
+    private Point point;
     private Directions direction;
+    private final Dimension dimension;
     
-    public Position(final int x, final int y, final Directions direction) {
-        this.x = x;
-        this.y = y;
+    public Position(final Point point, final Directions direction, final Dimension dimension) {
+        this.point = point;
         this.direction = direction;
+        this.dimension = dimension;
     }
 
-    public int getX() {
-        return x;
-    }
-    
-    public void setX(final int x) {
-        this.x = x;
+    public Point getPoint() {
+        return point;
     }
 
-    public int getY() {
-        return y;
-    }
-    
-    public void setY(final int y) {
-        this.y = y;
+    public void setPoint(final Point point) {
+        this.point = point;
     }
 
     public Directions getDirection() {
         return direction;
     }
-    
+
     public void setDirection(final Directions direction) {
         this.direction = direction;
     }
 
+    public Dimension getDimension() {
+        return dimension;
+    }
+    
 }
