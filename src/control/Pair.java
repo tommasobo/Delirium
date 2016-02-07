@@ -16,11 +16,11 @@ public class Pair<X,Y> {
 	}
 
 	public X getX() {
-		return x;
+		return this.x;
 	}
 
 	public Y getY() {
-		return y;
+		return this.y;
 	}
 
 	@Override

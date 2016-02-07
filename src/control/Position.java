@@ -18,11 +18,11 @@ public class Position {
         }
 
         public int getWidth() {
-            return width;
+            return this.width;
         }
 
         public int getHeight() {
-            return height;
+            return this.height;
         }
         
     }
@@ -38,7 +38,7 @@ public class Position {
     }
 
     public Point getPoint() {
-        return point;
+        return this.point;
     }
 
     public void setPoint(final Point point) {
@@ -46,7 +46,7 @@ public class Position {
     }
 
     public Directions getDirection() {
-        return direction;
+        return this.direction;
     }
 
     public void setDirection(final Directions direction) {
@@ -54,7 +54,7 @@ public class Position {
     }
 
     public Dimension getDimension() {
-        return dimension;
+        return this.dimension;
     }
     
 }
