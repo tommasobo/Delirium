@@ -9,9 +9,10 @@ import control.Position;
 
 public interface ViewController {
     
-    ViewController getView();
-    void drawContent(Map<Entities,List<Pair<Integer,Position>>> entities);
-    void changeStage(final boolean type);
-    void getWhatIsAppened();
+    void updateScene(Map<Entities,List<Pair<Integer,Position>>> entities);
+    //manca la struttura delle impostazioni Pair<SceneType, Settings>
+    void changeScene();
+    //da aggiungere il listener come parametro
+    void setListener();
     
 }
