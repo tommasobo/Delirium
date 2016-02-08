@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import control.Entities;
 import control.Pair;
+import control.Point;
 import control.Position;
 import control.Position.Directions;
 
@@ -14,6 +15,6 @@ public interface Arena {
 
     Map<Entities, List<Pair<Integer, Position>>> getHero();
 
-    void moveHero(Function<Integer, Integer> functionX, Function<Integer, Integer> functionY, Optional<Directions> direction);
+    void moveHero(Function<Point, Point> function, Optional<Directions> direction);
 
 }

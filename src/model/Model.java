@@ -10,7 +10,7 @@ import control.Dimension;
 
 public interface Model {
     
-    void notifyEvent(List<PGActions> actions);
+    void notifyEvent(PGActions action);
     
     public void updateArena();
     

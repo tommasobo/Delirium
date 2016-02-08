@@ -37,13 +37,13 @@ public class ArenaImpl implements Arena {
 
 
     @Override
-    public void moveHero(Function<Integer, Integer> functionX, Function<Integer, Integer> functionY, final Optional<Position.Directions> direction) {
+    public void moveHero(final Function<Point, Point> function, final Optional<Position.Directions> direction) {
         Point actualPoint = this.hero.getPosition().getPoint();
 //work in progress: per gestire salto
 //        if (!direction.isPresent()) {
 //            this.hero.onJump();
 //        }
-        this.hero.setPosition(new Point(functionX.apply(actualPoint.getX()), functionY.apply(actualPoint.getX())), direction.isPresent() ? direction.get() : this.hero.getPosition().getDirection());
+        this.hero.setPosition(function.apply(actualPoint), direction.isPresent() ? direction.get() : this.hero.getPosition().getDirection());
     }
     
 }
