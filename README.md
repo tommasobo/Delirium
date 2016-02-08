@@ -1,0 +1,3 @@
+# README #
+
+SCEMO CHI LEGGE
