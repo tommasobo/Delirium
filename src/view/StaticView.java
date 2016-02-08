@@ -1,16 +1,25 @@
 package view;
 
+import java.util.List;
+
+import control.Buttons;
+import control.Control;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class StaticView extends GenericViewImpl {
 
-    public StaticView(Stage stage) {
-        super(stage);
+    public StaticView(final Stage stage, final Control listener) {
+        super(stage, listener);
     }
     
     @Override
     protected void firstDraw() {
-        //aggiungere disegno dei pulsanti ottenuti dal listener
+        final List<Buttons> buttons = super.listener.getButtons();
+        for (Buttons b : buttons) {          
+            final Button but = new Button(b.name());
+            but.setOnAction(e -> super.listener.notifyEvent(b.getEvent()));
+        }
     }
 
 }

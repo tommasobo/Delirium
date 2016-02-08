@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 import java.util.Map;
 
+import control.Control;
 import control.Entities;
 import control.Pair;
 import control.Position;
@@ -15,8 +16,8 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     
     private GraphicsContext gc;
     
-    public DynamicViewImpl(Stage stage) {
-        super(stage);
+    public DynamicViewImpl(final Stage stage, final Control listener) {
+        super(stage, listener);
     }
 
     @Override
@@ -41,8 +42,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         super.root.getChildren().add(canvas);
         this.gc = canvas.getGraphicsContext2D();
         this.gc.fillRect(0, 0, 1000, 500);
+        
     }
-    
-    
-
+ 
 }

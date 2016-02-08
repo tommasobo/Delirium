@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import control.Control;
+import control.Dimension;
 import control.Entities;
 import control.Pair;
 import control.Position;
@@ -15,7 +16,6 @@ public class ViewControllerImpl implements ViewController {
     private final static ViewController singleton = new ViewControllerImpl();
     private final Stage primaryStage;
     private Optional<DynamicView> drawableView = Optional.empty();
-    //da modificare
     private Control listener;
     
     
@@ -34,14 +34,13 @@ public class ViewControllerImpl implements ViewController {
     }
     
     //stabilire la struttura di comunicazione
-    @Override
-    public void changeScene() {
-        this.drawableView = ViewFactory.createNewScene(this.primaryStage, this.listener);
+    public void changeScene(final Pair<SceneType, Dimension> settings) {
+        this.drawableView = ViewFactory.createNewScene(this.primaryStage, this.listener, settings);
     }
 
     @Override
-    public void setListener() {
-        //da aggiungere la roba
+    public void setListener(final Control listener) {
+        this.listener = listener;
     }
 
 }
