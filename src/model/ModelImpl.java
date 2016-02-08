@@ -3,6 +3,7 @@ package model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import control.Entities;
 import control.PGActions;
@@ -23,7 +24,15 @@ public class ModelImpl implements Model{
 
     @Override
     public void notifyEvent(List<PGActions> actions) {
-        
+        actions.stream().forEach(t -> {
+            if (t == PGActions.MRIGHT) {
+                this.arena.moveHero(x -> x + 1, y -> y, Optional.of(Position.Directions.RIGHT));
+            } else if (t == PGActions.MLEFT) {
+                this.arena.moveHero(x -> x - 1, y -> y, Optional.of(Position.Directions.RIGHT));
+            } else if (t == PGActions.JUMP) {
+                this.arena.moveHero(x -> x, y -> y + 1, Optional.empty());
+            }
+        });
     }
 
 

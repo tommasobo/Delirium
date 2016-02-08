@@ -19,5 +19,8 @@ public interface Heroe {
     void setPosition(Point point, Position.Directions direction);
 
     Entities getName();
+    
+//work in progress: per gestire salto    
+//    void onJump();
 
 }
