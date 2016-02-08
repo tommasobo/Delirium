@@ -39,7 +39,7 @@ public class ControlImpl implements Control {
 	}
 	
 	public List<Buttons> getButtons() {
-		List list = new LinkedList<>();
+		List<Buttons> list = new LinkedList<>();
 		list.add(Buttons.NEWGAME);
 		return list;
 	}
