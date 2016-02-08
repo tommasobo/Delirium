@@ -17,12 +17,12 @@ public class ViewFactory {
             final GenericView gv = new DynamicViewImpl(stage, listener);
             gv.initView(settings.getY());
             gv.display();
-            return Optional.empty();
+            return Optional.of((DynamicView)gv);
         case MENU:
             final GenericView sv = new StaticView(stage, listener);
             sv.initView(settings.getY());
             sv.display();
-            return Optional.of((DynamicView)sv);
+            return Optional.empty();
         default:
  
         }

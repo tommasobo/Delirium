@@ -14,17 +14,19 @@ import javafx.stage.Stage;
 public class ViewControllerImpl implements ViewController {
     
     private final static ViewController singleton = new ViewControllerImpl();
-    private final Stage primaryStage;
+    private static Stage primaryStage;
     private Optional<DynamicView> drawableView = Optional.empty();
     private Control listener;
     
     
-    private ViewControllerImpl() {
-        this.primaryStage = new MainStageGenerator().getStage();
-    }
+    private ViewControllerImpl() {}
     
     public static ViewController getView() {
         return singleton;
+    }
+    
+    public static void setStage(Stage ps) {
+        primaryStage = ps;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class ViewControllerImpl implements ViewController {
     
     //stabilire la struttura di comunicazione
     public void changeScene(final Pair<SceneType, Dimension> settings) {
-        this.drawableView = ViewFactory.createNewScene(this.primaryStage, this.listener, settings);
+        this.drawableView = ViewFactory.createNewScene(primaryStage, this.listener, settings);
     }
 
     @Override
