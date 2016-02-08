@@ -31,7 +31,7 @@ public class ControlImpl implements Control {
 			Map<Entities, List<Pair<Integer, Position>>> map = new HashMap<>();
 			map.put(Entities.JOYHERO, new LinkedList<>());
 			this.model.createArena(map, new Dimension(1000, 300));
-			this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300));
+			this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 			Thread game = new GameThread(this.model, this.view);
 			game.start();
 		}

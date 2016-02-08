@@ -6,4 +6,8 @@ public enum Buttons {
 	private Buttons(ViewEvents event) {
 		this.event = event;
 	}
+	public ViewEvents getEvent() {
+		return event;
+	}
+	
 }
