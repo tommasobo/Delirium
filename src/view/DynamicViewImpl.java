@@ -27,7 +27,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
             entities.get(k).forEach(e -> {
                 //da aggiungere il meccanismo di reperimento delle immagini
                 //gc.drawImage(new Image("") , e.getY().getPoint().getX(), e.getY().getPoint().getX(), e.getY().getDimension().getWidth(), e.getY().getDimension().getWidth());
-                gc.fillRect(e.getY().getPoint().getX(), e.getY().getPoint().getX(), e.getY().getDimension().getWidth(), e.getY().getDimension().getHeight());
+                gc.fillRect(e.getY().getPoint().getX(), e.getY().getPoint().getY(), e.getY().getDimension().getWidth(), e.getY().getDimension().getHeight());
             });
         });
     }
@@ -35,8 +35,9 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     @Override
     protected void firstDraw() {
         
-        super.stage.setHeight(500);
-        super.stage.setWidth(1000);
+        //super.stage.setHeight(500);
+        //super.stage.setWidth(1000);
+        super.stage.setResizable(false);
         Canvas canvas = new Canvas(super.root.getScene().getWidth() , super.root.getScene().getHeight());
         canvas.setCache(true);
         canvas.setCacheHint(CacheHint.SPEED);

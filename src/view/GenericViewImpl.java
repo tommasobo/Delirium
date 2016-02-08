@@ -20,7 +20,6 @@ public abstract class GenericViewImpl implements GenericView {
     @Override
     public void initView(final Dimension dimension) {
         this.root = new Group();
-        //dimensioni della scena da definire
         new Scene(this.root, dimension.getWidth(), dimension.getHeight());
         firstDraw();
     }
