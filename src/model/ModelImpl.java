@@ -30,10 +30,16 @@ public class ModelImpl implements Model{
                 this.arena.moveHero(x -> x + 1, y -> y, Optional.of(Position.Directions.RIGHT));
             } else if (t == PGActions.MLEFT) {
                 this.arena.moveHero(x -> x - 1, y -> y, Optional.of(Position.Directions.RIGHT));
-            } else if (t == PGActions.JUMP) {
-                this.arena.moveHero(x -> x, y -> y + 1, Optional.empty());
             }
+//work in progress: per il salto            
+//            } else if (t == PGActions.JUMP) {
+//                this.arena.moveHero(x -> x, y -> y + 1, Optional.empty());
+//            }
         });
+    }
+    
+    public void updateArena() {
+        
     }
 
 
@@ -52,13 +58,8 @@ public class ModelImpl implements Model{
             }
         });
         
-        
     }
 
    
-    
-    
-    
-    
 
 }

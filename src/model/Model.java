@@ -13,9 +13,10 @@ public interface Model {
     
     void notifyEvent(List<PGActions> actions);
     
+    public void updateArena();
+    
     Map<Entities, List<Pair<Integer, Position>>> getState();
 
     void createArena(Map<Entities, List<Pair<Integer, Position>>> entities, Dimension dimensions);
     
-
 }
