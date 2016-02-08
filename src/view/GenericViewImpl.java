@@ -8,9 +8,9 @@ import javafx.stage.Stage;
 
 public abstract class GenericViewImpl implements GenericView {
     
-    private final Stage stage;
-    protected Group root;
+    protected final Stage stage;
     protected final Control listener;
+    protected Group root;
     
     public GenericViewImpl(final Stage stage, final Control listener) {
         this.stage = stage;
@@ -20,9 +20,8 @@ public abstract class GenericViewImpl implements GenericView {
     @Override
     public void initView(final Dimension dimension) {
         this.root = new Group();
-        new Scene(this.root);
-        this.stage.setHeight(dimension.getHeight());
-        this.stage.setWidth(dimension.getWidth());
+        //dimensioni della scena da definire
+        new Scene(this.root, dimension.getWidth(), dimension.getHeight());
         firstDraw();
     }
     

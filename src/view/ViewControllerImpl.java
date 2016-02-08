@@ -18,14 +18,13 @@ public class ViewControllerImpl implements ViewController {
     private Optional<DynamicView> drawableView = Optional.empty();
     private Control listener;
     
-    
     private ViewControllerImpl() {}
     
     public static ViewController getView() {
         return singleton;
     }
     
-    public static void setStage(Stage ps) {
+    public static void setStage(final Stage ps) {
         primaryStage = ps;
     }
 
@@ -35,7 +34,7 @@ public class ViewControllerImpl implements ViewController {
         dv.updateScene(entities);
     }
     
-    //stabilire la struttura di comunicazione
+    
     public void changeScene(final Pair<SceneType, Dimension> settings) {
         this.drawableView = ViewFactory.createNewScene(primaryStage, this.listener, settings);
     }
