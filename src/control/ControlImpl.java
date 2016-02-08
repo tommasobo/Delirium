@@ -7,6 +7,7 @@ import java.util.Map;
 
 import model.Model;
 import model.ModelImpl;
+import model.PGActions;
 import view.SceneType;
 import view.ViewController;
 import view.ViewControllerImpl;
@@ -34,7 +35,13 @@ public class ControlImpl implements Control {
 			this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 			Thread game = new GameThread(this.model, this.view);
 			game.start();
-		}
+		} else if(event.equals(ViewEvents.MLEFT)) {
+		    this.model.notifyEvent(PGActions.MLEFT);
+		} else if(event.equals(ViewEvents.MRIGHT)) {
+		    this.model.notifyEvent(PGActions.MRIGHT);
+                } else if(event.equals(ViewEvents.JUMP)) {
+                    this.model.notifyEvent(PGActions.JUMP);
+                }
 		
 	}
 	
