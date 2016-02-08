@@ -30,7 +30,7 @@ public class ArenaImpl implements Arena {
     public Map<Entities, List<Pair<Integer, Position>>> getHero() {
         Map<Entities, List<Pair<Integer, Position>>> result = new HashMap<>();
         List<Pair<Integer, Position>> list = new LinkedList<>();
-        list.add(new Pair<Integer, Position>(this.hero.getLife(), this.hero.getPosition()));
+        list.add(new Pair<Integer, Position>(this.hero.getLife(), new Position(new Point(this.hero.getPosition().getPoint().getX(), this.hero.getPosition().getPoint().getY()), this.hero.getPosition().getDirection(), new Dimension(this.hero.getPosition().getDimension().getWidth(), this.hero.getPosition().getDimension().getHeight()))));
         result.put(this.hero.getName(), list);
         return result;
     }
