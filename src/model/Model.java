@@ -7,7 +7,7 @@ import control.Entities;
 import control.PGActions;
 import control.Pair;
 import control.Position;
-import control.Position.Dimension;
+import control.Dimension;
 
 public interface Model {
     
@@ -15,7 +15,7 @@ public interface Model {
     
     Map<Entities, List<Pair<Integer, Position>>> getState();
 
-    void CreateArena(Map<Entities, List<Pair<Integer, Position>>> entities, Dimension dimensions);
+    void createArena(Map<Entities, List<Pair<Integer, Position>>> entities, Dimension dimensions);
     
 
 }

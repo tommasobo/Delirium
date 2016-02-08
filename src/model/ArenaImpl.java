@@ -11,15 +11,16 @@ import control.Entities;
 import control.Pair;
 import control.Point;
 import control.Position;
+import control.Dimension;
 
 public class ArenaImpl implements Arena {
     
     
-    private final Position.Dimension dimensions;
+    private final Dimension dimensions;
     private final Heroe hero;
     
     
-    public ArenaImpl(final Entities heroName, final Position.Dimension dimensions ) {
+    public ArenaImpl(final Entities heroName, final Dimension dimensions ) {
         this.dimensions = dimensions;
         this.hero = new HeroeImpl(heroName, Heroe.MAX_LIFE, Heroe.INITIAL_POSITION);
     }

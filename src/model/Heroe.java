@@ -3,7 +3,7 @@ package model;
 import control.Entities;
 import control.Point;
 import control.Position;
-import control.Position.Dimension;
+import control.Dimension;
 
 public interface Heroe {
     

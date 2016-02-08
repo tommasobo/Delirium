@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import control.Dimension;
 import control.Entities;
 import control.PGActions;
 import control.Pair;
@@ -44,7 +45,7 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void CreateArena(Map<Entities, List<Pair<Integer, Position>>> entities, Position.Dimension dimensions) {
+    public void createArena(Map<Entities, List<Pair<Integer, Position>>> entities, Dimension dimensions) {
         entities.entrySet().stream().forEach( t -> {
             if (t.getKey() == Entities.JOYHERO) {
                 this.arena = new ArenaImpl(t.getKey(), dimensions);
