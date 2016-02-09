@@ -6,6 +6,7 @@ import java.util.Map;
 import control.Control;
 import control.Pair;
 import control.Position;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
@@ -41,11 +42,13 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         
         entities.keySet().forEach(k -> {
             
-            final ImageView temp = this.entitymap.get(k);
-            temp.relocate(entities.get(k).getY().getY().getPoint().getX(), entities.get(k).getY().getY().getPoint().getY());
-            if (entities.get(k).getX() == Entities.JOYHERO) {
-                moveScene(entities.get(k).getY().getY());
-            }
+            Platform.runLater(() -> {
+                final ImageView temp = this.entitymap.get(k);
+                temp.relocate(entities.get(k).getY().getY().getPoint().getX(), entities.get(k).getY().getY().getPoint().getY());
+                if (entities.get(k).getX() == Entities.JOYHERO) {
+                    moveScene(entities.get(k).getY().getY());
+                }
+            });
             
         });
     }
@@ -53,7 +56,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     @Override
     protected void firstDraw() {
         
-        new Scene(super.root, 1000, super.dim.getHeight());
+        new Scene(super.root, 500, super.dim.getHeight());
         
         this.entitiesPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
         this.entitiesPane.setCache(true);
@@ -77,20 +80,27 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     private void addElements(Map<Integer, Pair<Entities, Pair<Integer,Position>>> entities) {
         
         entities.keySet().forEach(k -> {
-            final ImageView temp = new ImageView(lando);
-            temp.setFitWidth(entities.get(k).getY().getY().getDimension().getWidth());
-            temp.setFitHeight(entities.get(k).getY().getY().getDimension().getHeight());
-            this.entitymap.merge(k, temp, (a,b) -> a);
+            
+            Platform.runLater(() -> {
+                final ImageView temp = new ImageView(lando);
+                temp.setFitWidth(entities.get(k).getY().getY().getDimension().getWidth());
+                temp.setFitHeight(entities.get(k).getY().getY().getDimension().getHeight());
+                this.entitiesPane.getChildren().add(temp);
+                this.entitymap.merge(k, temp, (a,b) -> a);
+            });
+
         }); 
     }
     
     private void moveScene(final Position position) {
         
         if (this.entitymap.get(0).getBoundsInParent().getMaxX() >= rightBounds.getBoundsInParent().getMinX()) {
-            this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 10);
+            this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 20);
+            //this.overlayPane.setTranslateX(this.entitiesPane.getTranslateX() - 20);
         }
         if (this.entitymap.get(0).getBoundsInParent().getMinX() <= leftBounds.getBoundsInParent().getMaxX()) {
-            this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 10);
+            this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 20);
+            //this.overlayPane.setTranslateX(this.entitiesPane.getTranslateX() - 20);
         }    
         
     }
