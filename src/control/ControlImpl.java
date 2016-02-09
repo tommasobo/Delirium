@@ -8,6 +8,7 @@ import java.util.Map;
 import model.Model;
 import model.ModelImpl;
 import model.PGActions;
+import view.Entities;
 import view.SceneType;
 import view.ViewController;
 import view.ViewControllerImpl;
@@ -29,19 +30,14 @@ public class ControlImpl implements Control {
 	
 	public void notifyEvent(ViewEvents event) {
 		if(event.equals(ViewEvents.LEVEL1)) {
-			Map<Entities, List<Pair<Integer, Position>>> map = new HashMap<>();
-			map.put(Entities.JOYHERO, new LinkedList<>());
-			this.model.createArena(map, new Dimension(1000, 300));
-			this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
-			Thread game = new GameThread(this.model, this.view);
-			game.start();
+			gameLoop(ViewEvents.LEVEL1);
 		} else if(event.equals(ViewEvents.MLEFT)) {
 		    this.model.notifyEvent(PGActions.MLEFT);
 		} else if(event.equals(ViewEvents.MRIGHT)) {
 		    this.model.notifyEvent(PGActions.MRIGHT);
-                } else if(event.equals(ViewEvents.JUMP)) {
-                    this.model.notifyEvent(PGActions.JUMP);
-                }
+        } else if(event.equals(ViewEvents.JUMP)) {
+            this.model.notifyEvent(PGActions.JUMP);
+        }
 		
 	}
 	
@@ -49,6 +45,25 @@ public class ControlImpl implements Control {
 		List<Buttons> list = new LinkedList<>();
 		list.add(Buttons.NEWGAME);
 		return list;
+	}
+	
+	private void gameLoop(ViewEvents level) {
+		//codice lettura file e put dei mostri, creazione database
+		EntitiesDatabase database = new EntitiesDatabaseImpl();
+		CodesIterator codIterator = new CodesIteratorImpl(); 
+		this.model.createArena(Entities.JOYHERO, new Dimension(1000, 300));
+		
+		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
+		
+		while(true) {
+			this.model.updateArena();
+			Map<Integer, Pair<Integer, Position>> modelMap = this.model.getState();
+			Map<Integer, Pair<Entities, Pair<Integer, Position>>> viewMap = new HashMap<>();
+			modelMap.entrySet().forEach(e -> {
+				viewMap.put(e.getKey(), new Pair<Entities, Pair<Integer,Position>>(database.getViewEntity(e.getKey()), e.getValue()));
+			});
+			this.view.updateScene(viewMap);
+		}
 	}
 
 }

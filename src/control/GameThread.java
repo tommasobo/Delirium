@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import model.Model;
+import view.Entities;
 import view.ViewController;
 
 public class GameThread extends Thread {
@@ -17,7 +18,7 @@ public class GameThread extends Thread {
 	}
 	public void run() {
 		while(true){
-			this.model.updateArena();
+			/*this.model.updateArena();
 			Map<Entities, List<Pair<Integer, Position>>> map = this.model.getState();
 			map.entrySet().stream().map(e -> e.getValue()).forEach(e -> {
                             e.stream().map(c -> c.getY().getPoint()).forEach(c -> {
@@ -30,7 +31,7 @@ public class GameThread extends Thread {
 				Thread.sleep(30L);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 }
