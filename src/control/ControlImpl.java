@@ -4,10 +4,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import control.Position.Directions;
+import model.Bounds;
+import model.DinamicOthers;
+import model.Heroes;
+import model.LifeManager;
 import model.Model;
 import model.ModelImpl;
 import model.PGActions;
+import model.StaticOthers;
 import view.Entities;
 import view.SceneType;
 import view.ViewController;
@@ -31,38 +38,46 @@ public class ControlImpl implements Control {
 	public void notifyEvent(ViewEvents event) {
 		if(event.equals(ViewEvents.LEVEL1)) {
 			gameLoop(ViewEvents.LEVEL1);
-		} else if(event.equals(ViewEvents.MLEFT)) {
-		    this.model.notifyEvent(PGActions.MLEFT);
-		} else if(event.equals(ViewEvents.MRIGHT)) {
-		    this.model.notifyEvent(PGActions.MRIGHT);
-        } else if(event.equals(ViewEvents.JUMP)) {
-            this.model.notifyEvent(PGActions.JUMP);
-        }
-		
+		}
+		this.model.notifyEvent(Translator.tranViewEvents(event));
 	}
 	
 	public List<Buttons> getButtons() {
 		List<Buttons> list = new LinkedList<>();
 		list.add(Buttons.NEWGAME);
+		list.add(Buttons.EXIT);
 		return list;
 	}
 	
 	private void gameLoop(ViewEvents level) {
 		//codice lettura file e put dei mostri, creazione database
 		EntitiesDatabase database = new EntitiesDatabaseImpl();
+		database.putEntity(0, Entities.JOYHERO);
 		CodesIterator codIterator = new CodesIteratorImpl(); 
-		this.model.createArena(Entities.JOYHERO, new Dimension(1000, 300));
+		
+		Map<Integer, StaticOthers> stati = new HashMap<>();
+		
+		Integer tmp = codIterator.next();
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(900, 150), Directions.RIGHT, new Dimension(40, 60))));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
+		tmp = codIterator.next();
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 150), Directions.RIGHT, new Dimension(40, 60))));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
+		Map<Integer, DinamicOthers> din = new HashMap<>();
+		
+		tmp = codIterator.next();
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 150), Directions.RIGHT, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
+		this.model.createArena(Heroes.JOY, stati, din, new Dimension(1000, 300));
 		
 		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 		
 		while(true) {
 			this.model.updateArena();
-			Map<Integer, Pair<Integer, Position>> modelMap = this.model.getState();
-			Map<Integer, Pair<Entities, Pair<Integer, Position>>> viewMap = new HashMap<>();
-			modelMap.entrySet().forEach(e -> {
-				viewMap.put(e.getKey(), new Pair<Entities, Pair<Integer,Position>>(database.getViewEntity(e.getKey()), e.getValue()));
-			});
-			this.view.updateScene(viewMap);
+			this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
 		}
 	}
 
