@@ -2,7 +2,8 @@ package view;
 
 public enum Entities {
 
-    JOYHERO("joyhero");
+    JOYHERO("joyhero"),
+    MONSTER1("monster1");
     
     private final String name;
 
