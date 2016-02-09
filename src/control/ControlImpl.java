@@ -38,6 +38,7 @@ public class ControlImpl implements Control {
 	public void notifyEvent(ViewEvents event) {
 		if(event.equals(ViewEvents.LEVEL1)) {
 			gameLoop(ViewEvents.LEVEL1);
+			return;
 		}
 		this.model.notifyEvent(Translator.tranViewEvents(event));
 	}
