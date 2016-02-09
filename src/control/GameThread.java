@@ -19,10 +19,14 @@ public class GameThread extends Thread {
 		this.database = database;
 	}
 	public void run() {
-		while(true){
-			while(true) {
-				this.model.updateArena();
-				this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
+		while(true) {
+			this.model.updateArena();
+			this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
+			try {
+				Thread.sleep(30L);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

@@ -66,6 +66,10 @@ public class ControlImpl implements Control {
 		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 150), Directions.RIGHT, new Dimension(40, 60))));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
+		tmp = codIterator.next();
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(220, 300), Directions.RIGHT, new Dimension(40, 60))));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
 		Map<Integer, DinamicOthers> din = new HashMap<>();
 		
 		tmp = codIterator.next();
