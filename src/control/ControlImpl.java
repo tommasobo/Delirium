@@ -75,10 +75,10 @@ public class ControlImpl implements Control {
 		
 		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 		
-		while(true) {
-			this.model.updateArena();
-			this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
-		}
+		Thread t = new GameThread(this.model, this.view, database);
+		t.start();
+		
+		
 	}
 
 }

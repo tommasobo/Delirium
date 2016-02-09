@@ -11,27 +11,19 @@ public class GameThread extends Thread {
 	
 	private final Model model;
 	private final ViewController view;
+	private final EntitiesDatabase database;
 	
-	public GameThread(final Model model, final ViewController view) {
+	public GameThread(final Model model, final ViewController view, EntitiesDatabase database) {
 		this.model = model;
 		this.view = view;
+		this.database = database;
 	}
 	public void run() {
 		while(true){
-			/*this.model.updateArena();
-			Map<Entities, List<Pair<Integer, Position>>> map = this.model.getState();
-			map.entrySet().stream().map(e -> e.getValue()).forEach(e -> {
-                            e.stream().map(c -> c.getY().getPoint()).forEach(c -> {
-                                c.setX(c.getX()*2);
-                                c.setY(c.getY()*-2);
-                            });;
-                        });
-			this.view.updateScene(map);
-			try {
-				Thread.sleep(30L);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}*/
+			while(true) {
+				this.model.updateArena();
+				this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
+			}
 		}
 	}
 }
