@@ -16,13 +16,13 @@ public class ArenaImpl implements Arena {
     
     
     private final Dimension dimensions;
-    private final Heroe hero;
+    private final Hero hero;
     private List<Other> others;
     
     
     public ArenaImpl(final Heroes hero, final Dimension dimensions ) {
         this.dimensions = dimensions;
-        this.hero = new HeroeImpl(hero.getCode(), hero.getLife(), hero.getPosition(), hero.gestSpeed());
+        this.hero = new HeroImpl(hero.getCode(), hero.getLife(), hero.getPosition(), hero.gestSpeed());
         this.others = new LinkedList<>();
     }
     
@@ -62,6 +62,17 @@ public class ArenaImpl implements Arena {
         return result;
         
     }
+
+
+    @Override
+    public void moveOthers() {
+        this.others.stream().forEach(t -> {
+            Position newPosition = t.getMovementManager().getNextMove();
+            t.getMovementManager().setPosition(newPosition.getPoint(), newPosition.getDirection());
+        });
+    }
+    
+    
     
     
     

@@ -3,7 +3,7 @@ package model;
 import control.Point;
 import control.Position;
 
-public class HeroeImpl implements Heroe {
+public class HeroImpl implements Hero {
     
     private final int code;
     private int life;
@@ -12,7 +12,7 @@ public class HeroeImpl implements Heroe {
 //work in progress: per gestire salto
 //    private boolean isOnJump;
     
-    public HeroeImpl(final int code, final int life, final Position position, final int speed) {
+    public HeroImpl(final int code, final int life, final Position position, final int speed) {
         this.code = code;
         this.life = life;
         this.position = position;

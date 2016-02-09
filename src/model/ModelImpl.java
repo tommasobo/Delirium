@@ -25,7 +25,7 @@ public class ModelImpl implements Model{
     }
     
     public void updateArena() {
-        
+        this.arena.moveOthers();
     }
 
 

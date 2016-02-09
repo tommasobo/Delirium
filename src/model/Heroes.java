@@ -4,7 +4,7 @@ import control.Position;
 
 public enum Heroes {
     
-    JOY(0, Heroe.MAX_LIFE, Heroe.INITIAL_POSITION, Heroe.INITIAL_SPEED);
+    JOY(Hero.STANDARD_CODE, Hero.MAX_LIFE, Hero.INITIAL_POSITION, Hero.INITIAL_SPEED);
     
     final private int code;
     final private int life;

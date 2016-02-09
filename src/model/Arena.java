@@ -18,5 +18,7 @@ public interface Arena {
     void putOthers(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers);
     
     Map<Integer, Pair<Integer, Position>> getOthers();
+    
+    void moveOthers();
 
 }
