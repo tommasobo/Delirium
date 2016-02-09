@@ -4,7 +4,10 @@ public class Position {
     
     public static enum Directions {
         LEFT,
-        RIGHT;
+        RIGHT,
+        UP,
+        DOWN,
+        NONE;
     }
 
     private Point point;

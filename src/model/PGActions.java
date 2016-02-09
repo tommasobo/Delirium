@@ -1,21 +1,22 @@
 package model;
 
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import control.Point;
 import control.Position;
 
 public enum PGActions {
-    MRIGHT(t -> new Point(t.getX() + 1, t.getY()), Optional.of(Position.Directions.RIGHT)),
-    MLEFT(t -> new Point(t.getX() - 1, t.getY()), Optional.of(Position.Directions.LEFT)),
-    JUMP(t -> new Point(t.getX(), t.getY() + 1), Optional.empty());
+    MRIGHT((t, s) -> (new Point(t.getX() + s, t.getY())), Optional.of(Position.Directions.RIGHT)),
+    MLEFT((t, s) -> (new Point(t.getX() - s, t.getY())), Optional.of(Position.Directions.LEFT)),
+    JUMP((t, s) -> (new Point(t.getX(), t.getY() + s)), Optional.empty()),
+    DOWN((t, s) -> (new Point(t.getX(), t.getY() - s)), Optional.empty());
 
     
-    private final Function<Point, Point> function;
+    private final BiFunction<Point, Integer, Point> function;
     private final Optional<Position.Directions> direction;
     
-    PGActions(final Function<Point, Point> function, final Optional<Position.Directions> direction) {
+    PGActions(final BiFunction<Point, Integer, Point> function, final Optional<Position.Directions> direction) {
         this.function = function;
         this.direction = direction;
     }
@@ -24,7 +25,7 @@ public enum PGActions {
         return direction;
     }
 
-    public Function<Point, Point> getFunction() {
+    public BiFunction<Point, Integer, Point> getFunction() {
         return this.function;
     }
 }

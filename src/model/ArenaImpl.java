@@ -5,45 +5,64 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-import control.Entities;
+import control.Dimension;
 import control.Pair;
 import control.Point;
 import control.Position;
-import control.Dimension;
 
 public class ArenaImpl implements Arena {
     
     
     private final Dimension dimensions;
     private final Heroe hero;
+    private List<Other> others;
     
     
-    public ArenaImpl(final Entities heroName, final Dimension dimensions ) {
+    public ArenaImpl(final Heroes hero, final Dimension dimensions ) {
         this.dimensions = dimensions;
-        this.hero = new HeroeImpl(heroName, Heroe.MAX_LIFE, Heroe.INITIAL_POSITION);
+        this.hero = new HeroeImpl(hero.getCode(), hero.getLife(), hero.getPosition(), hero.gestSpeed());
+        this.others = new LinkedList<>();
     }
     
     
     @Override
-    public Map<Entities, List<Pair<Integer, Position>>> getHero() {
-        Map<Entities, List<Pair<Integer, Position>>> result = new HashMap<>();
-        List<Pair<Integer, Position>> list = new LinkedList<>();
-        list.add(new Pair<Integer, Position>(this.hero.getLife(), new Position(new Point(this.hero.getPosition().getPoint().getX(), this.hero.getPosition().getPoint().getY()), this.hero.getPosition().getDirection(), new Dimension(this.hero.getPosition().getDimension().getWidth(), this.hero.getPosition().getDimension().getHeight()))));
-        result.put(this.hero.getName(), list);
+    public Map<Integer, Pair<Integer, Position>> getHero() {
+        Map<Integer, Pair<Integer, Position>> result = new HashMap<>();
+        result.put(this.hero.getCode(), new Pair<Integer, Position>(this.hero.getLife(), new Position(new Point(this.hero.getPosition().getPoint().getX(), this.hero.getPosition().getPoint().getY()), this.hero.getPosition().getDirection(), new Dimension(this.hero.getPosition().getDimension().getWidth(), this.hero.getPosition().getDimension().getHeight()))));
         return result;
     }
 
 
     @Override
-    public void moveHero(final Function<Point, Point> function, final Optional<Position.Directions> direction) {
+    public void moveHero(final BiFunction<Point, Integer, Point> function, final Optional<Position.Directions> direction) {
         Point actualPoint = this.hero.getPosition().getPoint();
-//work in progress: per gestire salto
-//        if (!direction.isPresent()) {
-//            this.hero.onJump();
-//        }
-        this.hero.setPosition(function.apply(actualPoint), direction.isPresent() ? direction.get() : this.hero.getPosition().getDirection());
+        this.hero.setPosition(function.apply(actualPoint, this.hero.getSpeed()), direction.isPresent() ? direction.get() : this.hero.getPosition().getDirection());
     }
+
+
+    @Override
+    public void putOthers(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers) {
+        dinamicOthers.entrySet().stream().forEach(t -> {
+            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), t.getValue().getPosition().getDirection() == Position.Directions.NONE ? new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed()) : new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()), t.getValue().getContactDamage()));
+        });
+        
+        staticOthers.entrySet().stream().forEach(t -> {
+            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new StaticMovementManager(t.getValue().getPosition()), t.getValue().getContactDamage()));
+        });
+        
+    }
+
+
+    @Override
+    public Map<Integer, Pair<Integer, Position>> getOthers() {
+        final Map<Integer, Pair<Integer, Position>> result = new HashMap<>();
+        this.others.stream().forEach(e -> result.put(e.getCode(), new Pair<Integer, Position>(e.getLife(), new Position(new Point(e.getMovementManager().getPosition().getPoint().getX(), e.getMovementManager().getPosition().getPoint().getY()), e.getMovementManager().getPosition().getDirection(), new Dimension(e.getMovementManager().getPosition().getDimension().getWidth(), e.getMovementManager().getPosition().getDimension().getHeight())))));
+        return result;
+        
+    }
+    
+    
     
 }

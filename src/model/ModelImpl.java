@@ -1,12 +1,9 @@
 package model;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import control.Dimension;
-import control.Entities;
 import control.Pair;
 import control.Position;
 
@@ -33,20 +30,16 @@ public class ModelImpl implements Model{
 
 
     @Override
-    public Map<Entities, List<Pair<Integer, Position>>> getState() {
-        Map<Entities, List<Pair<Integer, Position>>> result = new HashMap<>();
-        result.putAll(this.arena.getHero());
+    public Map<Integer, Pair<Integer, Position>> getState() {
+        Map<Integer, Pair<Integer, Position>> result = new HashMap<>(this.arena.getHero());
+        result.putAll(this.arena.getOthers());
         return result;
     }
 
     @Override
-    public void createArena(Map<Entities, List<Pair<Integer, Position>>> entities, Dimension dimensions) {
-        entities.entrySet().stream().forEach( t -> {
-            if (t.getKey() == Entities.JOYHERO) {
-                this.arena = new ArenaImpl(t.getKey(), dimensions);
-            }
-        });
-        
+    public void createArena(Heroes hero, Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers,  Dimension dimensions) {
+        this.arena = new ArenaImpl(hero, dimensions);
+        this.arena.putOthers(staticOthers, dinamicOthers);
     }
 
    
