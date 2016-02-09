@@ -5,6 +5,7 @@ import java.util.List;
 import control.Buttons;
 import control.Control;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,6 +19,7 @@ public class StaticView extends GenericViewImpl {
     @Override
     protected void firstDraw() {
         
+        new Scene(super.root, 500, 600);
         final List<Buttons> buttons = super.listener.getButtons();
         final VBox box = new VBox();
         

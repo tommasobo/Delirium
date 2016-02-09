@@ -1,6 +1,5 @@
 package view;
 
-import java.util.List;
 import java.util.Map;
 
 import control.Entities;
@@ -9,6 +8,6 @@ import control.Position;
 
 public interface DynamicView {
     
-    void updateScene(final Map<Entities, List<Pair<Integer, Position>>> entities);
+    void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,Position>>> entities);
     
 }

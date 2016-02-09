@@ -13,10 +13,12 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.setTitle("Delirium");
         ViewControllerImpl.setStage(primaryStage);
         Control control = new ControlImpl();
         control.startGame();
+        primaryStage.show();
         
     }
     
