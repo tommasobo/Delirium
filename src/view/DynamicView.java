@@ -2,7 +2,6 @@ package view;
 
 import java.util.Map;
 
-import control.Entities;
 import control.Pair;
 import control.Position;
 

@@ -4,7 +4,6 @@ import java.util.Map;
 
 import control.Control;
 import control.Dimension;
-import control.Entities;
 import control.Pair;
 import control.Position;
 

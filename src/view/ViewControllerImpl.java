@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import control.Control;
 import control.Dimension;
-import control.Entities;
 import control.Pair;
 import control.Position;
 import javafx.stage.Stage;
