@@ -6,7 +6,7 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     
     private final Bounds bounds;
     private final int speed;
-    private final MovementPattern pattern;
+    private MovementPattern pattern;
     private PGActions action;
 
     public DinamicMovementManager(Position position, int speed, Bounds bounds) {
@@ -37,6 +37,10 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
 
     public void setAction(PGActions action) {
         this.action = action;
+    }
+    
+    public void setPattern(MovementPattern pattern) {
+        this.pattern = pattern;
     }
 
 
