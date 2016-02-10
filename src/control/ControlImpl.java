@@ -67,13 +67,25 @@ public class ControlImpl implements Control {
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(220, 300), Directions.RIGHT, new Dimension(40, 60))));
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(300, 300), Directions.RIGHT, new Dimension(40, 60))));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		Map<Integer, DinamicOthers> din = new HashMap<>();
 		
 		tmp = codIterator.next();
 		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 150), Directions.RIGHT, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
+		tmp = codIterator.next();
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(200, 150), Directions.NONE, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
+		tmp = codIterator.next();
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 300), Directions.UP, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		database.putEntity(tmp, Entities.MONSTER1);
+		
+		tmp = codIterator.next();
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(200, 50), Directions.NONE, new Dimension(40, 60)), 10, new Bounds(150, 250, 0, 150)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		this.model.createArena(Heroes.JOY, stati, din, new Dimension(1000, 300));
