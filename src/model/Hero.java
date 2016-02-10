@@ -7,7 +7,7 @@ import control.Dimension;
 public interface Hero {
     
     public static final int MAX_LIFE = 30;
-    public static final Position INITIAL_POSITION = new Position(new Point(20, 20), Position.Directions.RIGHT, new Dimension(20, 50));
+    public static final ModelPosition INITIAL_POSITION = new ModelPosition(new Position(new Point(20, 20), new Dimension(20, 50)), ModelDirections.RIGHT);
     public static final int INITIAL_SPEED = 5;
     public static final int STANDARD_CODE = 0;
     
@@ -15,9 +15,9 @@ public interface Hero {
 
     void setLife(int life);
 
-    Position getPosition();
+    ModelPosition getPosition();
 
-    void setPosition(Point point, Position.Directions direction);
+    void setPosition(Point point, ModelDirections direction);
 
     int getCode();
 

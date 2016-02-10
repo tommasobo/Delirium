@@ -20,8 +20,8 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void notifyEvent(PGActions action) {
-       this.arena.moveHero(action.getFunction(), action.getDirection());
+    public void notifyEvent(ModelDirections action) {
+       this.arena.moveHero(action);
     }
     
     public void updateArena() {
@@ -30,8 +30,8 @@ public class ModelImpl implements Model{
 
 
     @Override
-    public Map<Integer, Pair<Integer, Position>> getState() {
-        Map<Integer, Pair<Integer, Position>> result = new HashMap<>(this.arena.getHero());
+    public Map<Integer, Pair<Integer, ModelPosition>> getState() {
+        Map<Integer, Pair<Integer, ModelPosition>> result = new HashMap<>(this.arena.getHero());
         result.putAll(this.arena.getOthers());
         return result;
     }

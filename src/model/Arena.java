@@ -1,23 +1,18 @@
 package model;
 
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.BiFunction;
 
 import control.Pair;
-import control.Point;
-import control.Position;
-import control.Position.Directions;
 
 public interface Arena {
 
-    Map<Integer, Pair<Integer, Position>> getHero();
+    Map<Integer, Pair<Integer, ModelPosition>> getHero();
 
-    void moveHero(BiFunction<Point, Integer, Point> function, Optional<Directions> direction);
+    void moveHero(ModelDirections action);
 
     void putOthers(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers);
     
-    Map<Integer, Pair<Integer, Position>> getOthers();
+    Map<Integer, Pair<Integer, ModelPosition>> getOthers();
     
     void moveOthers();
 

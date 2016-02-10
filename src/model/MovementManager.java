@@ -1,13 +1,12 @@
 package model;
 
 import control.Point;
-import control.Position;
 
 public interface MovementManager {
     
-    Position getPosition();
+    ModelPosition getPosition();
     
-    void setPosition(Point point, Position.Directions direction);
+    void setPosition(Point point, ModelDirections direction);
     
-    Position getNextMove();
+    ModelPosition getNextMove();
 }

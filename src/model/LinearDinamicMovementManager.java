@@ -8,15 +8,15 @@ public class LinearDinamicMovementManager extends DinamicMovementManager {
     
     
 
-    public LinearDinamicMovementManager(Position position, int speed, Bounds bounds) {
+    public LinearDinamicMovementManager(ModelPosition position, int speed, Bounds bounds) {
         super(position, speed, bounds);
         
     }
 
     @Override
-    public Position getNextMove() {
+    public ModelPosition getNextMove() {
         Point actualPoint = new Point(this.getPosition().getPoint().getX(), this.getPosition().getPoint().getY());
-        Position actualPosition = new Position(actualPoint, this.getPosition().getDirection(), this.getPosition().getDimension());
+        ModelPosition actualPosition = new ModelPosition(this.getPosition().getPrimitivePosition(), this.getPosition().getDirection());
         
         return this.linearMovement(actualPosition);
     }

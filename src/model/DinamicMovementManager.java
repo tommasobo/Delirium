@@ -1,24 +1,18 @@
 package model;
 
-import control.Position;
 
 public abstract class DinamicMovementManager extends AbstractMovementManager{
     
     private final Bounds bounds;
     private final int speed;
     private MovementPattern pattern;
-    private PGActions action;
 
-    public DinamicMovementManager(Position position, int speed, Bounds bounds) {
+    public DinamicMovementManager(ModelPosition position, int speed, Bounds bounds) {
         super(position);
         this.speed = speed;
         this.bounds = bounds;
-        this.pattern = this.getPosition().getDirection() == Position.Directions.RIGHT || this.getPosition().getDirection() == Position.Directions.LEFT ? MovementPattern.LEFT_RIGHT : MovementPattern.UP_DOWN;
-        if (this.pattern == MovementPattern.LEFT_RIGHT) {
-            this.action = PGActions.MRIGHT;
-        } else {
-            this.action = PGActions.JUMP;
-        }
+        this.pattern = this.getPosition().getDirection() == ModelDirections.RIGHT || this.getPosition().getDirection() == ModelDirections.LEFT ? MovementPattern.LEFT_RIGHT : MovementPattern.UP_DOWN;
+        
     }
 
 
@@ -29,15 +23,7 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     protected Bounds getBounds() {
         return bounds;
     }
-    
-    public PGActions getAction() {
-        return action;
-    }
 
-
-    public void setAction(PGActions action) {
-        this.action = action;
-    }
     
     public void setPattern(MovementPattern pattern) {
         this.pattern = pattern;
@@ -48,29 +34,29 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
         return pattern;
     }
     
-    protected Position linearMovement(Position actualPosition) {
+    protected ModelPosition linearMovement(ModelPosition actualPosition) {
         if (this.getPattern() == MovementPattern.LEFT_RIGHT) {
-            if ((actualPosition.getPoint().getX() + this.getSpeed()) >= this.getBounds().getMaxX() && this.getAction() == PGActions.MRIGHT) {
-                this.setAction(PGActions.MLEFT);
+            if ((actualPosition.getPoint().getX() + this.getSpeed()) >= this.getBounds().getMaxX() && this.getPosition().getDirection() == ModelDirections.RIGHT) {
+                this.getPosition().setDirection(ModelDirections.LEFT);
             } else if((actualPosition.getPoint().getX() - this.getSpeed()) <= this.getBounds().getMinX()) {
-                this.setAction(PGActions.MRIGHT);
+                this.getPosition().setDirection(ModelDirections.RIGHT);
             }
             
         } else {
-            if ((actualPosition.getPoint().getY() + this.getSpeed()) >= this.getBounds().getMaxY() && this.getAction() == PGActions.JUMP) {
-                this.setAction(PGActions.DOWN);
+            if ((actualPosition.getPoint().getY() + this.getSpeed()) >= this.getBounds().getMaxY() && this.getPosition().getDirection() == ModelDirections.UP) {
+                this.getPosition().setDirection(ModelDirections.DOWN);
             } else if((actualPosition.getPoint().getY() - this.getSpeed()) <= this.getBounds().getMinY()) {
-                this.setAction(PGActions.JUMP);
+                this.getPosition().setDirection(ModelDirections.UP);
             }
         }
         
-        actualPosition.setPoint(this.getAction().getFunction().apply(actualPosition.getPoint(), this.getSpeed()));
-        actualPosition.setDirection(this.getAction().getDirection().isPresent() ? this.getAction().getDirection().get() : actualPosition.getDirection());
+        actualPosition.setPoint(this.getPosition().getDirection().getFunction().apply(actualPosition.getPoint(), this.getSpeed()));
+        actualPosition.setDirection(this.getPosition().getDirection());
        
         return actualPosition;
     }
 
 
-    abstract public Position getNextMove();
+    abstract public ModelPosition getNextMove();
 
 }

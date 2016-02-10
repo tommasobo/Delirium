@@ -10,7 +10,6 @@ import java.util.function.BiFunction;
 import control.Dimension;
 import control.Pair;
 import control.Point;
-import control.Position;
 
 public class ArenaImpl implements Arena {
     
@@ -28,24 +27,24 @@ public class ArenaImpl implements Arena {
     
     
     @Override
-    public Map<Integer, Pair<Integer, Position>> getHero() {
-        Map<Integer, Pair<Integer, Position>> result = new HashMap<>();
-        result.put(this.hero.getCode(), new Pair<Integer, Position>(this.hero.getLife(), new Position(new Point(this.hero.getPosition().getPoint().getX(), this.hero.getPosition().getPoint().getY()), this.hero.getPosition().getDirection(), new Dimension(this.hero.getPosition().getDimension().getWidth(), this.hero.getPosition().getDimension().getHeight()))));
+    public Map<Integer, Pair<Integer, ModelPosition>> getHero() {
+        Map<Integer, Pair<Integer, ModelPosition>> result = new HashMap<>();
+        result.put(this.hero.getCode(), new Pair<Integer, ModelPosition>(this.hero.getLife(), this.hero.getPosition()));
         return result;
     }
 
 
     @Override
-    public void moveHero(final BiFunction<Point, Integer, Point> function, final Optional<Position.Directions> direction) {
+    public void moveHero(final ModelDirections action) {
         Point actualPoint = this.hero.getPosition().getPoint();
-        this.hero.setPosition(function.apply(actualPoint, this.hero.getSpeed()), direction.isPresent() ? direction.get() : this.hero.getPosition().getDirection());
+        this.hero.setPosition(action.getFunction().apply(actualPoint, this.hero.getSpeed()), action);
     }
 
 
     @Override
     public void putOthers(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers) {
         dinamicOthers.entrySet().stream().forEach(t -> {
-            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), t.getValue().getPosition().getDirection() == Position.Directions.NONE ? new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()) : new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()), t.getValue().getContactDamage()));
+            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), t.getValue().getPosition().getDirection() == ModelDirections.NONE ? new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()) : new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()), t.getValue().getContactDamage()));
         });
         
         staticOthers.entrySet().stream().forEach(t -> {
@@ -56,9 +55,9 @@ public class ArenaImpl implements Arena {
 
 
     @Override
-    public Map<Integer, Pair<Integer, Position>> getOthers() {
-        final Map<Integer, Pair<Integer, Position>> result = new HashMap<>();
-        this.others.stream().forEach(e -> result.put(e.getCode(), new Pair<Integer, Position>(e.getLife(), new Position(new Point(e.getMovementManager().getPosition().getPoint().getX(), e.getMovementManager().getPosition().getPoint().getY()), e.getMovementManager().getPosition().getDirection(), new Dimension(e.getMovementManager().getPosition().getDimension().getWidth(), e.getMovementManager().getPosition().getDimension().getHeight())))));
+    public Map<Integer, Pair<Integer, ModelPosition>> getOthers() {
+        final Map<Integer, Pair<Integer, ModelPosition>> result = new HashMap<>();
+        this.others.stream().forEach(e -> result.put(e.getCode(), new Pair<Integer, ModelPosition>(e.getLife(), e.getMovementManager().getPosition())));
         return result;
         
     }
@@ -67,7 +66,7 @@ public class ArenaImpl implements Arena {
     @Override
     public void moveOthers() {
         this.others.stream().forEach(t -> {
-            Position newPosition = t.getMovementManager().getNextMove();
+            ModelPosition newPosition = t.getMovementManager().getNextMove();
             t.getMovementManager().setPosition(newPosition.getPoint(), newPosition.getDirection());
         });
     }

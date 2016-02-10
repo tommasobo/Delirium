@@ -2,40 +2,33 @@ package model;
 
 import java.util.Random;
 
-import control.Point;
-import control.Position;
 
 public class RandomDinamicMovementManager extends DinamicMovementManager {
     
     private int count = 0;
 
-    public RandomDinamicMovementManager(Position position, int speed, Bounds bounds) {
+    public RandomDinamicMovementManager(ModelPosition position, int speed, Bounds bounds) {
         super(position, speed, bounds);
     }
 
     @Override
-    public Position getNextMove() {
+    public ModelPosition getNextMove() {
         int rn = new Random().nextInt(4);
-        Point actualPoint = new Point(this.getPosition().getPoint().getX(), this.getPosition().getPoint().getY());
-        Position actualPosition = new Position(actualPoint, this.getPosition().getDirection(), this.getPosition().getDimension());
+        ModelPosition actualPosition = new ModelPosition(this.getPosition().getPrimitivePosition(), this.getPosition().getDirection());
         if(count % 10 == 0) {
             
             switch(rn) {
-            case 0: actualPosition.setDirection(Position.Directions.RIGHT);
+            case 0: actualPosition.setDirection(ModelDirections.RIGHT);
                     this.setPattern(MovementPattern.LEFT_RIGHT);
-                    this.setAction(PGActions.MRIGHT);
                     break;
-            case 1: actualPosition.setDirection(Position.Directions.LEFT);
+            case 1: actualPosition.setDirection(ModelDirections.LEFT);
                     this.setPattern(MovementPattern.LEFT_RIGHT);
-                    this.setAction(PGActions.MLEFT);
                     break;
-            case 2: actualPosition.setDirection(Position.Directions.DOWN);
+            case 2: actualPosition.setDirection(ModelDirections.DOWN);
                     this.setPattern(MovementPattern.UP_DOWN);
-                    this.setAction(PGActions.DOWN);
                     break;
-            case 3: actualPosition.setDirection(Position.Directions.UP); 
+            case 3: actualPosition.setDirection(ModelDirections.UP); 
                     this.setPattern(MovementPattern.UP_DOWN);
-                    this.setAction(PGActions.JUMP);
                     break;
             }
             

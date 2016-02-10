@@ -8,11 +8,11 @@ import control.Dimension;
 
 public interface Model {
     
-    void notifyEvent(PGActions action);
+    void notifyEvent(ModelDirections action);
     
     public void updateArena();
     
-    Map<Integer, Pair<Integer, Position>> getState();
+    Map<Integer, Pair<Integer, ModelPosition>> getState();
 
     void createArena(Heroes hero, Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers,
             Dimension dimensions);
