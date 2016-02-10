@@ -5,7 +5,6 @@ import java.util.Map;
 
 import control.Dimension;
 import control.Pair;
-import control.Position;
 
 public class ModelImpl implements Model{
     

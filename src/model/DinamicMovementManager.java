@@ -36,22 +36,22 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     
     protected ModelPosition linearMovement(ModelPosition actualPosition) {
         if (this.getPattern() == MovementPattern.LEFT_RIGHT) {
-            if ((actualPosition.getPoint().getX() + this.getSpeed()) >= this.getBounds().getMaxX() && this.getPosition().getDirection() == ModelDirections.RIGHT) {
-                this.getPosition().setDirection(ModelDirections.LEFT);
+            if ((actualPosition.getPoint().getX() + this.getSpeed()) >= this.getBounds().getMaxX() && this.getDirection() == ModelDirections.RIGHT) {
+                this.setDirection(ModelDirections.LEFT);
             } else if((actualPosition.getPoint().getX() - this.getSpeed()) <= this.getBounds().getMinX()) {
-                this.getPosition().setDirection(ModelDirections.RIGHT);
+                this.setDirection(ModelDirections.RIGHT);
             }
             
         } else {
-            if ((actualPosition.getPoint().getY() + this.getSpeed()) >= this.getBounds().getMaxY() && this.getPosition().getDirection() == ModelDirections.UP) {
-                this.getPosition().setDirection(ModelDirections.DOWN);
+            if ((actualPosition.getPoint().getY() + this.getSpeed()) >= this.getBounds().getMaxY() && this.getDirection() == ModelDirections.UP) {
+                this.setDirection(ModelDirections.DOWN);
             } else if((actualPosition.getPoint().getY() - this.getSpeed()) <= this.getBounds().getMinY()) {
-                this.getPosition().setDirection(ModelDirections.UP);
+                this.setDirection(ModelDirections.UP);
             }
         }
         
-        actualPosition.setPoint(this.getPosition().getDirection().getFunction().apply(actualPosition.getPoint(), this.getSpeed()));
-        actualPosition.setDirection(this.getPosition().getDirection());
+        actualPosition.setPoint(this.getDirection().getFunction().apply(actualPosition.getPoint(), this.getSpeed()));
+        actualPosition.setDirection(this.getDirection());
        
         return actualPosition;
     }

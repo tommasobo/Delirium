@@ -30,8 +30,10 @@ public class HeroImpl implements Hero {
     
     @Override
     public ModelPosition getPosition() {
-        return new ModelPosition(this.position.getPrimitivePosition(), this.position.getDirection());
+        return this.position.getPosition();
     }
+    
+    
 
     
     @Override

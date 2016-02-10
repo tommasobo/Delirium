@@ -3,7 +3,6 @@ package model;
 import java.util.Map;
 
 import control.Pair;
-import control.Position;
 import control.Dimension;
 
 public interface Model {

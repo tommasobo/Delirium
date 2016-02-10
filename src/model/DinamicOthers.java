@@ -2,7 +2,6 @@ package model;
 
 import java.util.Optional;
 
-import control.Position;
 
 public class DinamicOthers extends StaticOthers {
     

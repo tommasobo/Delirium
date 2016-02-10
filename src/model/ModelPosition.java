@@ -14,8 +14,13 @@ public class ModelPosition {
         this.direction = direction;
     }
 
+    //da levare
     public Position getPrimitivePosition() {
         return new Position(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension());
+    }
+    
+    public ModelPosition getPosition() {
+        return new ModelPosition(new Position(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension()), this.direction);
     }
 
     public Point getPoint() {

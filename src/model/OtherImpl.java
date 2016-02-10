@@ -40,7 +40,7 @@ public class OtherImpl implements Other{
     public LifeManager getLifeManager() {
         return lifeManager;
     }
-
+    
     
     @Override
     public MovementManager getMovementManager() {

@@ -15,12 +15,20 @@ public abstract class AbstractMovementManager implements MovementManager {
     
     
     public ModelPosition getPosition() {
-        return position;
+        return position.getPosition();
     }
     
     public void setPosition(final Point point, final ModelDirections direction) {
         this.position.setPoint(point);
         this.position.setDirection(direction);
+    }
+    
+    protected void setDirection(final ModelDirections direction) {
+        this.position.setDirection(direction);
+    }
+    
+    protected ModelDirections getDirection() {
+        return position.getDirection();
     }
     
     

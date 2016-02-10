@@ -29,7 +29,11 @@ public class StaticOthers {
     }
 
     public ModelPosition getPosition() {
-        return position;
+        return position.getPosition();
+    }
+    
+    public ModelDirections getDirection() {
+        return this.position.getDirection();
     }
 
 }

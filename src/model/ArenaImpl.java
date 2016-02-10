@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.BiFunction;
 
 import control.Dimension;
 import control.Pair;
@@ -44,7 +42,13 @@ public class ArenaImpl implements Arena {
     @Override
     public void putOthers(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers) {
         dinamicOthers.entrySet().stream().forEach(t -> {
-            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), t.getValue().getPosition().getDirection() == ModelDirections.NONE ? new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()) : new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()), t.getValue().getContactDamage()));
+            MovementManager movementManager;
+            if(t.getValue().getDirection() == ModelDirections.NONE) {
+                movementManager = new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds());
+            } else {
+                movementManager = new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds());
+            }
+            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), movementManager, t.getValue().getContactDamage()));
         });
         
         staticOthers.entrySet().stream().forEach(t -> {
@@ -70,9 +74,5 @@ public class ArenaImpl implements Arena {
             t.getMovementManager().setPosition(newPosition.getPoint(), newPosition.getDirection());
         });
     }
-    
-    
-    
-    
     
 }
