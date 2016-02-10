@@ -6,7 +6,6 @@ import java.util.Optional;
 import control.Control;
 import control.Dimension;
 import control.Pair;
-import control.Position;
 import javafx.stage.Stage;
 
 public class ViewControllerImpl implements ViewController {
@@ -27,7 +26,7 @@ public class ViewControllerImpl implements ViewController {
     }
 
     @Override
-    public void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,Position>>> entities) {
+    public void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
         dv.updateScene(entities);
     }

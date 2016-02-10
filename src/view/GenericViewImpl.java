@@ -21,7 +21,7 @@ public abstract class GenericViewImpl implements GenericView {
     public void initView(final Dimension dimension) {
         this.root = new Group();
         this.dim = dimension;
-        this.stage.setResizable(false);
+        //this.stage.setResizable(false);
         firstDraw();
     }
     

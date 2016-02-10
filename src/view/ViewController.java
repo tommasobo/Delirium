@@ -5,11 +5,10 @@ import java.util.Map;
 import control.Control;
 import control.Dimension;
 import control.Pair;
-import control.Position;
 
 public interface ViewController {
     
-    void updateScene(Map<Integer, Pair<Entities, Pair<Integer,Position>>> entities);
+    void updateScene(Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities);
     //manca la struttura delle impostazioni Pair<SceneType, Settings>
     void changeScene(final Pair<SceneType, Dimension> settings);
     //da aggiungere il listener come parametro

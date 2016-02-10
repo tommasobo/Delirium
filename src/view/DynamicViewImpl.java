@@ -2,51 +2,54 @@ package view;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import control.Control;
 import control.Pair;
-import control.Position;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
-    
+    //pannello che visualizza il mondo di gioco
     private final Pane entitiesPane = new Pane();
-    //utile per la visualizzazione del menu
+    //pannello contenente gli elementi di overlay 
     private final Pane overlayPane = new Pane();
-    private final Map<Integer, ImageView> entitymap = new HashMap<>();
-    private final Image lando = new Image("lando.png");
-    
-    Rectangle rightBounds;
-    Rectangle leftBounds;
+    //contiene una lista degli elementi visualizzati al momento
+    private final Map<Integer, HeroSprite> entitymap = new HashMap<>();
+    private Optional<OverlayPanel> status = Optional.empty();  
     
     public DynamicViewImpl(final Stage stage, final Control listener) {
         super(stage, listener);
     }
 
     @Override
-    public void updateScene(Map<Integer, Pair<Entities, Pair<Integer,Position>>> entities) {
+    public void updateScene(Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities) {
         
         addElements(entities);
         
         entities.keySet().forEach(k -> {
             
             Platform.runLater(() -> {
-                final ImageView temp = this.entitymap.get(k);
+                final Group temp = this.entitymap.get(k).getGroup();
                 temp.relocate(entities.get(k).getY().getY().getPoint().getX(), entities.get(k).getY().getY().getPoint().getY());
                 if (entities.get(k).getX() == Entities.JOYHERO) {
+                    if (!status.isPresent()) {
+                        this.status = Optional.of(new OverlayPanel(this.overlayPane, entities.get(k).getX(), entities.get(k).getY().getX()));
+                        this.status.get().initOverlay();
+                    }
                     moveScene(entities.get(k).getY().getY());
+                    status.get().setProgressBar(entities.get(k).getY().getX());
                 }
             });
             
@@ -58,51 +61,50 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         
         new Scene(super.root, 500, super.dim.getHeight());
         
-        this.entitiesPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.entitiesPane.setPrefSize(super.dim.getWidth(), super.dim.getHeight());
+        this.overlayPane.setPrefSize(super.root.getScene().getWidth() + 2, super.root.getScene().getHeight());
+        //this.entitiesPane.setBackground(new Background(new BackgroundFill(Color.LIME, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.entitiesPane.setBackground(new Background(new BackgroundImage(new Image("nature.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(super.dim.getWidth(), super.dim.getHeight(), false, false, true, true))));
         this.entitiesPane.setCache(true);
         this.entitiesPane.setCacheHint(CacheHint.QUALITY);
-        this.root.getChildren().add(this.entitiesPane);
+        this.overlayPane.getChildren().addAll(new Rectangle(root.getScene().getWidth(), 0, 1, root.getScene().getHeight()), new Rectangle(-1, 0, 1, root.getScene().getHeight()));
         super.root.getScene().setOnKeyPressed(new InputFromUser(listener));
-        //porchetto time
-        rightBounds = new Rectangle();
-        rightBounds.setHeight(root.getScene().getHeight());
-        rightBounds.setWidth(5);
-        rightBounds.setTranslateX(root.getScene().getWidth());
-        leftBounds = new Rectangle();
-        leftBounds.setHeight(root.getScene().getHeight());
-        leftBounds.setWidth(5);
-        leftBounds.setTranslateX(-5);
-        overlayPane.getChildren().addAll(rightBounds, leftBounds);
-        root.getChildren().add(overlayPane);
+        super.root.getChildren().add(this.entitiesPane);
+        super.root.getChildren().add(this.overlayPane);
         
     }
     
-    private void addElements(Map<Integer, Pair<Entities, Pair<Integer,Position>>> entities) {
+    private void addElements(Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities) {
         
         entities.keySet().forEach(k -> {
             
             Platform.runLater(() -> {
-                final ImageView temp = new ImageView(lando);
-                temp.setFitWidth(entities.get(k).getY().getY().getDimension().getWidth());
-                temp.setFitHeight(entities.get(k).getY().getY().getDimension().getHeight());
-                this.entitiesPane.getChildren().add(temp);
-                this.entitymap.merge(k, temp, (a,b) -> a);
+                if (!this.entitymap.containsKey(k)) {
+                    final HeroSprite hs = new HeroSprite(this.entitiesPane);
+                    hs.getResources();
+                    hs.startAnimation();
+                    //temp.setFitWidth(entities.get(k).getY().getY().getDimension().getWidth());
+                    //temp.setFitHeight(entities.get(k).getY().getY().getDimension().getHeight());
+                    this.entitymap.put(k, hs);
+                }
             });
 
         }); 
     }
     
-    private void moveScene(final Position position) {
+    private void moveScene(final ViewPosition position) {
         
-        if (this.entitymap.get(0).getBoundsInParent().getMaxX() >= rightBounds.getBoundsInParent().getMinX()) {
-            this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 20);
-            //this.overlayPane.setTranslateX(this.entitiesPane.getTranslateX() - 20);
+        System.out.println(this.entitymap.get(0).getGroup().getBoundsInParent().getMaxX());
+        if (this.entitymap.get(0).getGroup().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
+            if (this.entitiesPane.getTranslateX() >= -(super.dim.getWidth() - super.root.getScene().getWidth() - 1)) {
+                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 5);
+            }
         }
-        if (this.entitymap.get(0).getBoundsInParent().getMinX() <= leftBounds.getBoundsInParent().getMaxX()) {
-            this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 20);
-            //this.overlayPane.setTranslateX(this.entitiesPane.getTranslateX() - 20);
+        if (this.entitymap.get(0).getGroup().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
+            if (this.entitiesPane.getTranslateX() <= -1) {
+                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 5);
+            }    
         }    
-        
     }
  
 }
