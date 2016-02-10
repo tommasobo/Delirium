@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import control.Position.Directions;
 import model.Bounds;
 import model.DinamicOthers;
 import model.Heroes;
 import model.LifeManager;
 import model.Model;
+import model.ModelDirections;
 import model.ModelImpl;
-import model.PGActions;
+import model.ModelPosition;
 import model.StaticOthers;
 import view.Entities;
 import view.SceneType;
@@ -59,36 +59,39 @@ public class ControlImpl implements Control {
 		Map<Integer, StaticOthers> stati = new HashMap<>();
 		
 		Integer tmp = codIterator.next();
-		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(900, 150), Directions.RIGHT, new Dimension(40, 60))));
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(900, 150), new Dimension(40, 60)), ModelDirections.RIGHT)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 150), Directions.RIGHT, new Dimension(40, 60))));
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(100, 150), new Dimension(40, 60)), ModelDirections.RIGHT)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(300, 300), Directions.RIGHT, new Dimension(40, 60))));
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(300, 300), new Dimension(40, 60)), ModelDirections.RIGHT)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		Map<Integer, DinamicOthers> din = new HashMap<>();
 		
 		tmp = codIterator.next();
-		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 150), Directions.RIGHT, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(100, 150), new Dimension(40, 60)), ModelDirections.RIGHT), 10, new Bounds(0, 1000, 0, 300)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(200, 150), Directions.NONE, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(200, 150), new Dimension(40, 60)), ModelDirections.NONE), 10, new Bounds(0, 1000, 0, 300)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(100, 300), Directions.UP, new Dimension(40, 60)), 10, new Bounds(0, 1000, 0, 300)));
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(100, 300), new Dimension(40, 60)), ModelDirections.UP), 10, new Bounds(0, 1000, 0, 300)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new Point(200, 50), Directions.NONE, new Dimension(40, 60)), 10, new Bounds(150, 250, 0, 150)));
+		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new Position(new Point(200, 50), new Dimension(40, 60)), ModelDirections.NONE), 10, new Bounds(150, 250, 0, 150)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
-		this.model.createArena(Heroes.JOY, stati, din, new Dimension(1000, 300));
+		Dimension arenaDim = new Dimension(1000, 300);
+		
+		this.model.createArena(Heroes.JOY, stati, din, arenaDim);
+		database.putArenaDimension(arenaDim);
 		
 		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 		

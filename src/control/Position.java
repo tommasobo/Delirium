@@ -11,7 +11,7 @@ public class Position {
     }
 
     public Point getPoint() {
-        return this.point;
+        return new Point(this.point.getX(), this.point.getY());
     }
 
     public void setPoint(final Point point) {
@@ -19,7 +19,7 @@ public class Position {
     }
 
     public Dimension getDimension() {
-        return this.dimension;
+        return new Dimension(this.dimension.getWidth(), this.dimension.getHeight());
     }
     
 }

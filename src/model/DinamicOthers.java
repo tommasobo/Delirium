@@ -9,7 +9,7 @@ public class DinamicOthers extends StaticOthers {
     private final int speed;
     private final Bounds bounds;
 
-    public DinamicOthers(int life, LifeManager lifemanager, Optional<Integer> contactDamage, Position position, int speed, Bounds bounds) {
+    public DinamicOthers(int life, LifeManager lifemanager, Optional<Integer> contactDamage, ModelPosition position, int speed, Bounds bounds) {
         super(life, lifemanager, contactDamage, position);
         this.speed = speed;
         this.bounds = bounds;

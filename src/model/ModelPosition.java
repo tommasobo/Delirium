@@ -15,7 +15,7 @@ public class ModelPosition {
     }
 
     public Position getPrimitivePosition() {
-        return new Position(new Point(this.position.getPoint().getX(), this.position.getPoint().getX()), this.position.getDimension());
+        return new Position(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension());
     }
 
     public Point getPoint() {
