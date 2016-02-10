@@ -5,9 +5,6 @@ import control.Position;
 
 public class LinearDinamicMovementManager extends DinamicMovementManager {
     
-    
-    
-
     public LinearDinamicMovementManager(ModelPosition position, int speed, Bounds bounds) {
         super(position, speed, bounds);
         
