@@ -45,7 +45,7 @@ public class ArenaImpl implements Arena {
     @Override
     public void putOthers(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers) {
         dinamicOthers.entrySet().stream().forEach(t -> {
-            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), t.getValue().getPosition().getDirection() == Position.Directions.NONE ? new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed()) : new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()), t.getValue().getContactDamage()));
+            this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), t.getValue().getPosition().getDirection() == Position.Directions.NONE ? new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()) : new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds()), t.getValue().getContactDamage()));
         });
         
         staticOthers.entrySet().stream().forEach(t -> {
