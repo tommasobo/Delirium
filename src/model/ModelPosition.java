@@ -24,7 +24,7 @@ public class ModelPosition {
     }
 
     public Point getPoint() {
-        return this.position.getPoint();
+        return new Point(this.position.getPoint().getX(), this.position.getPoint().getY());
     }
 
     public void setPoint(final Point point) {
