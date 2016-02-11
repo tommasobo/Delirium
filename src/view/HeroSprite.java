@@ -1,5 +1,8 @@
 package view;
 
+import java.util.Optional;
+
+import control.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
@@ -7,32 +10,88 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class HeroSprite extends AnimatedSprite {
+public class HeroSprite extends AnimatedSpriteImpl {
     
-    private ImageView[] iv;
+    private ImageView[] left;
+    private ImageView[] right;
+    private ImageView down;
+    private ImageView up;
+    protected Optional<Timeline> currentAnimation = Optional.empty();
+    private Optional<ViewPosition.Directions> currentDirection = Optional.empty();
 
-    public HeroSprite(Pane entitiesPane) {
-        super(entitiesPane);
+    public HeroSprite(final Pane entitiesPane, final Dimension dimension) {
+        super(entitiesPane, dimension);
+        this.getResources();
+    }
+    
+    @Override
+    protected void getResources() {
+        this.left = new ImageView[]{ new ImageView(new Image("sx1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), new ImageView(new Image("sx2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))};
+        this.right = new ImageView[]{ new ImageView(new Image("dx1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), new ImageView(new Image("dx2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))};
+        this.down = new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true));
+        this.up = new ImageView(new Image("fermo1.png" ,super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true));
     }
 
     @Override
-    void getResources() {
-        this.iv = new ImageView[]{ new ImageView(new Image("lando.png")), new ImageView(new Image("prova.png"))};
-        super.entityView.getChildren().add(this.iv[1]);
+    public void startAnimation(final ViewPosition.Directions dir) {
+        
+        if (!this.currentDirection.isPresent() || this.currentDirection.get() != dir) {
+            if (this.currentAnimation.isPresent()) {
+                this.currentAnimation.get().stop();
+            }
+            
+            switch (dir) {
+            case DOWN:
+                this.staticImage(down);
+                break;
+            case LEFT:
+                this.animate(left);
+                break;
+            case NONE:
+                this.staticImage(down);
+                break;
+            case RIGHT:
+                this.animate(right);
+                break;
+            case UP:
+                this.staticImage(up);
+                break;
+            default:
+                break;
+            
+            }
+            
+            this.currentDirection = Optional.of(dir);    
+        }
+        
+        
     }
-
-    @Override
-    void startAnimation() {
+    
+    private void animate(final ImageView...res) {
         
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
-        KeyFrame key1= new KeyFrame(Duration.millis(200), e -> super.entityView.getChildren().setAll(this.iv[1]));
-        KeyFrame key2= new KeyFrame(Duration.millis(200), e -> super.entityView.getChildren().setAll(this.iv[0]));
-        KeyFrame key3= new KeyFrame(Duration.millis(200), e -> super.entityView.getChildren().setAll(this.iv[1]));
-        timeline.getKeyFrames().addAll(key1, key2, key3);
-        timeline.play();
         
+        int duration = 0;
+        
+        for (final ImageView im : res) {
+            KeyFrame key= new KeyFrame(Duration.millis(duration), e -> {
+                super.entityView.getChildren().clear();
+                super.entityView.getChildren().add(im);
+            });
+            timeline.getKeyFrames().add(key);
+            duration+=500;
+        }
+        
+        timeline.play();
+        this.currentAnimation = Optional.of(timeline);
+    }
+    
+    private void staticImage(final ImageView image) {
+        super.entityView.getChildren().clear();
+        super.entityView.getChildren().add(image);
+        this.currentAnimation = Optional.empty();
     }
 
 }

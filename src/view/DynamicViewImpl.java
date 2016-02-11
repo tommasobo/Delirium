@@ -8,7 +8,6 @@ import control.Control;
 import control.Pair;
 import javafx.application.Platform;
 import javafx.scene.CacheHint;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -26,7 +25,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     //pannello contenente gli elementi di overlay 
     private final Pane overlayPane = new Pane();
     //contiene una lista degli elementi visualizzati al momento
-    private final Map<Integer, HeroSprite> entitymap = new HashMap<>();
+    private final Map<Integer, AnimatedSprite> entitymap = new HashMap<>();
     private Optional<OverlayPanel> status = Optional.empty();  
     
     public DynamicViewImpl(final Stage stage, final Control listener) {
@@ -41,8 +40,9 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         entities.keySet().forEach(k -> {
             
             Platform.runLater(() -> {
-                final Group temp = this.entitymap.get(k).getGroup();
+                final Pane temp = this.entitymap.get(k).getPane();
                 temp.relocate(entities.get(k).getY().getY().getPoint().getX(), entities.get(k).getY().getY().getPoint().getY());
+                this.entitymap.get(k).startAnimation(entities.get(k).getY().getY().getDirection());
                 if (entities.get(k).getX() == Entities.JOYHERO) {
                     if (!status.isPresent()) {
                         this.status = Optional.of(new OverlayPanel(this.overlayPane, entities.get(k).getX(), entities.get(k).getY().getX()));
@@ -80,11 +80,8 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
             
             Platform.runLater(() -> {
                 if (!this.entitymap.containsKey(k)) {
-                    final HeroSprite hs = new HeroSprite(this.entitiesPane);
-                    hs.getResources();
-                    hs.startAnimation();
-                    //temp.setFitWidth(entities.get(k).getY().getY().getDimension().getWidth());
-                    //temp.setFitHeight(entities.get(k).getY().getY().getDimension().getHeight());
+                    final HeroSprite hs = new HeroSprite(this.entitiesPane, entities.get(k).getY().getY().getDimension());
+                    hs.startAnimation(entities.get(k).getY().getY().getDirection());
                     this.entitymap.put(k, hs);
                 }
             });
@@ -93,16 +90,15 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     }
     
     private void moveScene(final ViewPosition position) {
-        
-        System.out.println(this.entitymap.get(0).getGroup().getBoundsInParent().getMaxX());
-        if (this.entitymap.get(0).getGroup().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
+       
+        if (this.entitymap.get(0).getPane().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
             if (this.entitiesPane.getTranslateX() >= -(super.dim.getWidth() - super.root.getScene().getWidth() - 1)) {
-                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 5);
+                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 10);
             }
         }
-        if (this.entitymap.get(0).getGroup().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
+        if (this.entitymap.get(0).getPane().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
             if (this.entitiesPane.getTranslateX() <= -1) {
-                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 5);
+                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 10);
             }    
         }    
     }
