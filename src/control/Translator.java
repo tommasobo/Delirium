@@ -26,7 +26,7 @@ class Translator {
 		return new ViewPosition(positionNormalizator(position.getPrimitivePosition(), arenaDimension), directionFromModeltoView(position.getDirection()));
 	}
 	
-	private static Position positionNormalizator(Position position, Dimension arenaDimension) {
+	private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
 		position.setPoint(new Point(position.getPoint().getX(), arenaDimension.getHeight() - position.getPoint().getY()));
 		return position;
 	}
