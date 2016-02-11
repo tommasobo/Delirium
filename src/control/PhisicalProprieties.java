@@ -1,13 +1,15 @@
 package control;
 
-public class Position {
+public class PhisicalProprieties {
 
     private Point point;
     private final Dimension dimension;
+    private int speed;
     
-    public Position(final Point point, final Dimension dimension) {
+    public PhisicalProprieties(final Point point, final Dimension dimension, final int speed) {
         this.point = point;
         this.dimension = dimension;
+        this.speed = speed;
     }
 
     public Point getPoint() {
@@ -39,7 +41,7 @@ public class Position {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Position other = (Position) obj;
+        PhisicalProprieties other = (PhisicalProprieties) obj;
         if (dimension == null) {
             if (other.dimension != null)
                 return false;
@@ -51,6 +53,14 @@ public class Position {
         } else if (!point.equals(other.point))
             return false;
         return true;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
     
     
