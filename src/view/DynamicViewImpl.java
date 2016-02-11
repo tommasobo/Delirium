@@ -40,9 +40,9 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         entities.keySet().forEach(k -> {
             
             Platform.runLater(() -> {
-                final Pane temp = this.entitymap.get(k).getPane();
+                final Pane temp = this.entitymap.get(k).getSpritePane();
                 temp.relocate(entities.get(k).getY().getY().getPoint().getX(), entities.get(k).getY().getY().getPoint().getY());
-                this.entitymap.get(k).startAnimation(entities.get(k).getY().getY().getDirection());
+                this.entitymap.get(k).updateSprite(entities.get(k).getY().getY());
                 if (entities.get(k).getX() == Entities.JOYHERO) {
                     if (!status.isPresent()) {
                         this.status = Optional.of(new OverlayPanel(this.overlayPane, entities.get(k).getX(), entities.get(k).getY().getX()));
@@ -80,8 +80,9 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
             
             Platform.runLater(() -> {
                 if (!this.entitymap.containsKey(k)) {
-                    final HeroSprite hs = new HeroSprite(this.entitiesPane, entities.get(k).getY().getY().getDimension());
-                    hs.startAnimation(entities.get(k).getY().getY().getDirection());
+                    //aggiungere factory
+                    final MovableSprite hs = new MovableSprite(this.entitiesPane, entities.get(k).getY().getY().getDimension(), entities.get(k).getX());
+                    hs.updateSprite(entities.get(k).getY().getY());
                     this.entitymap.put(k, hs);
                 }
             });
@@ -91,12 +92,12 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     
     private void moveScene(final ViewPosition position) {
        
-        if (this.entitymap.get(0).getPane().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
+        if (this.entitymap.get(0).getSpritePane().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
             if (this.entitiesPane.getTranslateX() >= -(super.dim.getWidth() - super.root.getScene().getWidth() - 1)) {
                 this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 10);
             }
         }
-        if (this.entitymap.get(0).getPane().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
+        if (this.entitymap.get(0).getSpritePane().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
             if (this.entitiesPane.getTranslateX() <= -1) {
                 this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 10);
             }    
