@@ -3,7 +3,6 @@ package model;
 import java.util.Map;
 
 import control.Pair;
-import control.Dimension;
 
 public interface Model {
     
@@ -12,9 +11,6 @@ public interface Model {
     public void updateArena();
     
     Map<Integer, Pair<Integer, ModelPosition>> getState();
-
-    /*void createArena(Heroes hero, Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers,
-            Dimension dimensions);*/
 
     void createArena(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers);
     

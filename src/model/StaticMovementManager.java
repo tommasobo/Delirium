@@ -12,7 +12,4 @@ public class StaticMovementManager extends AbstractMovementManager {
         return this.getPosition();
     }
     
-    
-  
-
 }

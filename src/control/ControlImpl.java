@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import model.Bounds;
 import model.DinamicOthers;
-import model.Hero;
 import model.LifeManager;
 import model.Model;
 import model.ModelDirections;
