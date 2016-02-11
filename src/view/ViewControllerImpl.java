@@ -26,7 +26,7 @@ public class ViewControllerImpl implements ViewController {
     }
 
     @Override
-    public void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities) {
+    public void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
         dv.updateScene(entities);
     }

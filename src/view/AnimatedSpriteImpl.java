@@ -26,6 +26,6 @@ public abstract class AnimatedSpriteImpl implements AnimatedSprite {
         this.entitiesPane.getChildren().remove(this.entityView);
     }
     
-    abstract public void updateSprite(final ViewPosition currentPosition);
+    abstract public void updateSprite(final ViewPhysicalProperties currentPosition);
 
 }

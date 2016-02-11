@@ -18,7 +18,7 @@ public class MovableSprite extends AnimatedSpriteImpl {
     private ImageView[] up;
     private ImageView[] stationary;
     private Optional<Timeline> currentAnimation = Optional.empty();
-    private Optional<ViewPosition> currentPosition = Optional.empty();
+    private Optional<ViewPhysicalProperties> currentPosition = Optional.empty();
     private boolean still = false;
 
     public MovableSprite(final Pane entitiesPane, final Dimension dimension, final Entities entity) {
@@ -41,8 +41,8 @@ public class MovableSprite extends AnimatedSpriteImpl {
                 new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
         };
         this.down = new ImageView[]{ 
-                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
-                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
+                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
+                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
         };
         this.stationary = new ImageView[]{ 
                 new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
@@ -52,7 +52,7 @@ public class MovableSprite extends AnimatedSpriteImpl {
     }
 
     @Override
-    public void updateSprite(final ViewPosition newPosition) {
+    public void updateSprite(final ViewPhysicalProperties newPosition) {
         
         if (!this.currentPosition.isPresent()) {
             this.currentPosition = Optional.of(newPosition);

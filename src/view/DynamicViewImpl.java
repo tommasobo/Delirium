@@ -33,7 +33,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     }
 
     @Override
-    public void updateScene(Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities) {
+    public void updateScene(Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
         
         addElements(entities);
         
@@ -74,7 +74,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         
     }
     
-    private void addElements(Map<Integer, Pair<Entities, Pair<Integer,ViewPosition>>> entities) {
+    private void addElements(Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
         
         entities.keySet().forEach(k -> {
             
@@ -90,16 +90,16 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         }); 
     }
     
-    private void moveScene(final ViewPosition position) {
+    private void moveScene(final ViewPhysicalProperties position) {
        
         if (this.entitymap.get(0).getSpritePane().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
             if (this.entitiesPane.getTranslateX() >= -(super.dim.getWidth() - super.root.getScene().getWidth() - 1)) {
-                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - 10);
+                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - position.getSpeed());
             }
         }
         if (this.entitymap.get(0).getSpritePane().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
             if (this.entitiesPane.getTranslateX() <= -1) {
-                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + 10);
+                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + position.getSpeed());
             }    
         }    
     }

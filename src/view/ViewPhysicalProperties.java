@@ -2,9 +2,9 @@ package view;
 
 import control.Dimension;
 import control.Point;
-import control.Position;
+import control.PhisicalProprieties;
 
-public class ViewPosition {
+public class ViewPhysicalProperties {
     
     public static enum Directions{
         
@@ -16,20 +16,24 @@ public class ViewPosition {
         
     }
   
-   private final Position position;
+   private final PhisicalProprieties physicalProperties;
    private final Directions direction;
    
-   public ViewPosition(final Position position, final Directions direction) {
-       this.position = position;
+   public ViewPhysicalProperties(final PhisicalProprieties phisicalProperties, final Directions direction) {
+       this.physicalProperties = phisicalProperties;
        this.direction = direction;
    }
    
    public Point getPoint() {
-       return this.position.getPoint();
+       return this.physicalProperties.getPoint();
    }
 
    public Dimension getDimension() {
-       return this.position.getDimension();
+       return this.physicalProperties.getDimension();
+   }
+   
+   public int getSpeed() {
+       return this.physicalProperties.getSpeed();
    }
     
    public Directions getDirection() {
@@ -41,7 +45,7 @@ public class ViewPosition {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((direction == null) ? 0 : direction.hashCode());
-        result = prime * result + ((position == null) ? 0 : position.hashCode());
+        result = prime * result + ((physicalProperties == null) ? 0 : physicalProperties.hashCode());
         return result;
     }
     
@@ -53,13 +57,13 @@ public class ViewPosition {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ViewPosition other = (ViewPosition) obj;
+        ViewPhysicalProperties other = (ViewPhysicalProperties) obj;
         if (direction != other.direction)
             return false;
-        if (position == null) {
-            if (other.position != null)
+        if (physicalProperties == null) {
+            if (other.physicalProperties != null)
                 return false;
-        } else if (!position.equals(other.position))
+        } else if (!physicalProperties.equals(other.physicalProperties))
             return false;
         return true;
     }
