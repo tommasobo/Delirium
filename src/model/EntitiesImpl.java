@@ -89,4 +89,15 @@ public class EntitiesImpl implements Entities {
         return this.movementManager.getNextMove();
     }
 
+    @Override
+    public int getSpeed() {
+        return this.movementManager.getPosition().getSpeed();
+    }
+
+    @Override
+    public void setSpeed(int speed) {
+        this.movementManager.getPosition().setSpeed(speed);
+        
+    }
+
 }

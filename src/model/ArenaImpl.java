@@ -49,9 +49,9 @@ public class ArenaImpl implements Arena {
         dinamicOthers.entrySet().stream().forEach(t -> {
             MovementManager movementManager;
             if(t.getValue().getDirection() == ModelDirections.NONE) {
-                movementManager = new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds());
+                movementManager = new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds());
             } else {
-                movementManager = new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds());
+                movementManager = new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds());
             }
             //this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), movementManager, t.getValue().getContactDamage()));
             this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), movementManager, t.getValue().getContactDamage().get()));

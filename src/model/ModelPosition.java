@@ -2,25 +2,26 @@ package model;
 
 import control.Dimension;
 import control.Point;
-import control.Position;
+import control.FisicalProprieties;
 
 public class ModelPosition {
     
-    private Position position;
+    private FisicalProprieties position;
     private ModelDirections direction;
     
-    public ModelPosition(Position position, ModelDirections direction) {
+    
+    public ModelPosition(FisicalProprieties position, ModelDirections direction) {
         this.position = position;
         this.direction = direction;
     }
 
     //da levare
-    public Position getPrimitivePosition() {
-        return new Position(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension());
+    public FisicalProprieties getPrimitivePosition() {
+        return new FisicalProprieties(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension(), this.position.getSpeed());
     }
     
     public ModelPosition getPosition() {
-        return new ModelPosition(new Position(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension()), this.direction);
+        return new ModelPosition(new FisicalProprieties(new Point(this.position.getPoint().getX(), this.position.getPoint().getY()), this.position.getDimension(), this.position.getSpeed()), this.direction);
     }
 
     public Point getPoint() {
@@ -41,6 +42,14 @@ public class ModelPosition {
 
     public void setDirection(ModelDirections direction) {
         this.direction = direction;
+    }
+    
+    public int getSpeed() {
+        return this.position.getSpeed();
+    }
+
+    public void setSpeed(int speed) {
+        this.position.setSpeed(speed);
     }
     
     

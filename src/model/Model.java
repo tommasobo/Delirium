@@ -13,7 +13,9 @@ public interface Model {
     
     Map<Integer, Pair<Integer, ModelPosition>> getState();
 
-    void createArena(Heroes hero, Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers,
-            Dimension dimensions);
+    /*void createArena(Heroes hero, Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers,
+            Dimension dimensions);*/
+
+    void createArena(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers);
     
 }

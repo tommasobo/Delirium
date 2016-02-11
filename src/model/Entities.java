@@ -30,6 +30,10 @@ public interface Entities {
     
     ModelPosition getNextMove();
     
+    int getSpeed();
+    
+    void setSpeed(final int speed);
+    
     /* FINE METODI PER POSIZIONE */
     
     int getContactDamage();

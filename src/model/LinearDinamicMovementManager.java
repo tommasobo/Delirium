@@ -2,8 +2,8 @@ package model;
 
 public class LinearDinamicMovementManager extends DinamicMovementManager {
     
-    public LinearDinamicMovementManager(ModelPosition position, int speed, Bounds bounds) {
-        super(position, speed, bounds);
+    public LinearDinamicMovementManager(ModelPosition position, Bounds bounds) {
+        super(position, bounds);
         
     }
 

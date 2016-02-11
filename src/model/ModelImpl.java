@@ -27,9 +27,12 @@ public class ModelImpl implements Model{
     public void notifyEvent(ModelDirections action) {
        //this.arena.moveHero(action);
         this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
-            //t.setPosition(action.getFunction().apply(t.getPoint(), Hero.INITIAL_SPEED), action);
-            t.setPosition(t.getNextMove().getPoint(), action);
+            t.setPosition(action.getFunction().apply(t.getPoint(), t.getSpeed()), action);
+            //t.setPosition(t.getNextMove().getPoint(), action);
         });
+        
+        
+        
     }
     
     public void updateArena() {
@@ -55,7 +58,7 @@ public class ModelImpl implements Model{
      * qui mi dovrai passare solo staticOthers e dinamicOthers
      */
     @Override
-    public void createArena(Heroes hero, Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers,  Dimension dimensions) {
+    public void createArena(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers) {
         //this.arena = new ArenaImpl(hero, dimensions);
         //this.arena.putOthers(staticOthers, dinamicOthers);
         
@@ -63,14 +66,17 @@ public class ModelImpl implements Model{
          * qui aggiungo l'eroe ma poi lo aggiungerò dentro ai dinamicOthers ma adesso non avendo il controller 
          * pronto ho preso le informazioni dall'interfaccia Hero che aveva prima ma poi verrà eliminata
          */
-        this.entities.add(new EntitiesImpl(hero.getCode(), hero.getLife(), LifeManager.WITH_LIFE, new HeroMovementManager(hero.getPosition(), Hero.INITIAL_SPEED, new Bounds(0, dimensions.getWidth(), 0, dimensions.getHeight())), 5));
+        //this.entities.add(new EntitiesImpl(hero.getCode(), hero.getLife(), LifeManager.WITH_LIFE, new HeroMovementManager(hero.getPosition(), Hero.INITIAL_SPEED, new Bounds(0, dimensions.getWidth(), 0, dimensions.getHeight())), 5));
         
-        dinamicOthers.entrySet().stream().forEach(t -> {
+        dinamicOthers.entrySet().stream().filter(t -> t.getKey() == 0).forEach(t -> {
+            this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new HeroMovementManager(t.getValue().getPosition(), t.getValue().getBounds()), t.getValue().getContactDamage().get()));
+        });
+        dinamicOthers.entrySet().stream().filter(t -> t.getKey() != 0).forEach(t -> {
             MovementManager movementManager;
             if(t.getValue().getDirection() == ModelDirections.NONE) {
-                movementManager = new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds());
+                movementManager = new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds());
             } else {
-                movementManager = new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getSpeed(), t.getValue().getBounds());
+                movementManager = new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds());
             }
             //this.others.add(new OtherImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), movementManager, t.getValue().getContactDamage()));
             this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), movementManager, t.getValue().getContactDamage().get()));
