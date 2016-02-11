@@ -53,7 +53,7 @@ public class MovableSprite extends AnimatedSpriteImpl {
 
     @Override
     public void updateSprite(final ViewPosition newPosition) {
-        //aggiungere equals della position al posto di true
+        
         if (!this.currentPosition.isPresent()) {
             this.currentPosition = Optional.of(newPosition);
         }
@@ -87,9 +87,10 @@ public class MovableSprite extends AnimatedSpriteImpl {
         } else {
             if (!still && this.currentAnimation.isPresent()) {
                 this.currentAnimation.get().stop();
+            } else if (!still) {
+                this.currentAnimation = Optional.of(this.animate(stationary));
             }
             this.still = true;
-            this.currentAnimation = Optional.of(this.animate(stationary));
         }
     }
     
