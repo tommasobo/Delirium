@@ -11,10 +11,12 @@ public class HeroMovementManager extends DinamicMovementManager{
 
     @Override
     public ModelPosition getNextMove() {
-        boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
+        //boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
         boolean checkDx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() <= this.getBounds().getMaxX();
         boolean checkSx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() >= this.getBounds().getMinX();
-        boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();
+        //boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();
+        
+        //MAGNANI PART BEGIN
         
         if (checkDx && checkSx && this.getDirection() != ModelDirections.UP) {
             this.setPosition(this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()), this.getDirection());
@@ -52,6 +54,7 @@ public class HeroMovementManager extends DinamicMovementManager{
                 newPosition.setDirection(ModelDirections.STOP);
             }
         }
+        // MAGNANI PART FINISH
         
         return newPosition;
     }

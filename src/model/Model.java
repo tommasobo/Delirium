@@ -12,8 +12,6 @@ public interface Model {
     
     Map<Integer, Pair<Integer, ModelPosition>> getState();
 
-    //void createArena(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers);
-
-    void createArena(Map<Integer, StaticOthers> staticOthers);
+    void createArena(Map<Integer, EntitiesInfo> staticOthers);
     
 }

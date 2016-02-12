@@ -7,7 +7,7 @@ public abstract class AbstractMovementManager implements MovementManager {
     public static final int GRAVITY = 2;
 
     private final ModelPosition position;
-    private boolean canFly;
+    private boolean canFly; 
     private final Bounds bounds;
 
     public AbstractMovementManager(ModelPosition position, Bounds bounds, boolean canFly) {
@@ -19,6 +19,7 @@ public abstract class AbstractMovementManager implements MovementManager {
 
     abstract public ModelPosition getNextMove();
     
+    // MAGNANI PART BEGIN
     protected ModelPosition applyGravity(ModelPosition position) {
         if(!canFly) {
             position.setPoint(new Point(position.getPoint().getX(), position.getPoint().getY() - AbstractMovementManager.GRAVITY));
@@ -28,6 +29,8 @@ public abstract class AbstractMovementManager implements MovementManager {
         }
         return position;
     }
+    
+    // MAGNANI PART FINISH
     
     /*private boolean checkBounds(ModelPosition position) {
         return bounds.getMinX() < position.getPoint().getX() && position.getPoint().getX() > bounds.getMaxX() && bounds.getMinY() < position.getPoint().getY() && position.getPoint().getY() > bounds.getMaxY();
