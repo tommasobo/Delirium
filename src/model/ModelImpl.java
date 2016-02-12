@@ -43,9 +43,9 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void createArena(Map<Integer, StaticOthers> staticOthers, Map<Integer, DinamicOthers> dinamicOthers) {
+    public void createArena(Map<Integer, StaticOthers> staticOthers/*, Map<Integer, DinamicOthers> dinamicOthers*/) {
         
-        dinamicOthers.entrySet().stream().filter(t -> t.getKey() == 0).forEach(t -> {
+        /*dinamicOthers.entrySet().stream().filter(t -> t.getKey() == 0).forEach(t -> {
             this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new HeroMovementManager(t.getValue().getPosition(), t.getValue().getBounds()), t.getValue().getContactDamage().get()));
         });
         
@@ -57,10 +57,25 @@ public class ModelImpl implements Model{
                 movementManager = new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds());
             }
             this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), movementManager, t.getValue().getContactDamage().get()));
-        });
+        });*/
         
         staticOthers.entrySet().stream().forEach(t -> {
-            this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new StaticMovementManager(t.getValue().getPosition()), t.getValue().getContactDamage().get()));
+            if(t.getKey() == 0) {
+                this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new HeroMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));
+            } else {
+                switch (t.getValue().getPosition().getDirection()) {
+                case NONE : 
+                    this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new StaticMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));    
+                    break;
+                case RANDOM: 
+                    this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));    
+                    break;
+                default:
+                    this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));
+            }
+            }
+            
+            //this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new StaticMovementManager(t.getValue().getPosition()), t.getValue().getContactDamage().get()));
             
         });
     }

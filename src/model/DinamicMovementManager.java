@@ -3,21 +3,16 @@ package model;
 
 public abstract class DinamicMovementManager extends AbstractMovementManager{
     
-    private final Bounds bounds;
+    
     private MovementPattern pattern;
 
-    public DinamicMovementManager(ModelPosition position,Bounds bounds) {
-        super(position);
-        this.bounds = bounds;
+    public DinamicMovementManager(ModelPosition position,Bounds bounds, boolean canFly) {
+        super(position, bounds, canFly);
         this.pattern = this.getPosition().getDirection() == ModelDirections.RIGHT || this.getPosition().getDirection() == ModelDirections.LEFT ? MovementPattern.LEFT_RIGHT : MovementPattern.UP_DOWN;
-        
     }
 
 
-    
-    protected Bounds getBounds() {
-        return bounds;
-    }
+
 
     
     public void setPattern(MovementPattern pattern) {
@@ -48,6 +43,9 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
         actualPosition.setPoint(this.getDirection().getFunction().apply(actualPosition.getPoint(), this.getPosition().getSpeed()));
         actualPosition.setDirection(this.getDirection());
        
+        //TODO eventualmente spostare da qua l'apply gravity, al momento sembra il sistema per richiamarlo meno volte
+        actualPosition = applyGravity(actualPosition);
+        
         return actualPosition;
     }
 

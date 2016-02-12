@@ -52,26 +52,34 @@ public class ControlImpl implements Control {
 	private void gameLoop(ViewEvents level) {
 		//codice lettura file e put dei mostri, creazione database
 		EntitiesDatabase database = new EntitiesDatabaseImpl();
-		database.putEntity(0, Entities.JOYHERO);
 		CodesIterator codIterator = new CodesIteratorImpl(); 
 		
 		Map<Integer, StaticOthers> stati = new HashMap<>();
 		
-		
+		//aggiungo l'eroe
+		database.putEntity(0, Entities.JOYHERO);
+		stati.put(0, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(0, 0), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), false));
 		
 		Integer tmp = codIterator.next();
-		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(900, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT)));
+		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), true));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
-		tmp = codIterator.next();
+		/*tmp = codIterator.next();
 		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(100, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT)));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
 		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(300, 300), new Dimension(40, 60), 5), ModelDirections.RIGHT)));
-		database.putEntity(tmp, Entities.MONSTER1);
+		database.putEntity(tmp, Entities.MONSTER1);*/
 		
-		Map<Integer, DinamicOthers> din = new HashMap<>();
+		
+		
+		
+		
+		
+		
+		
+		/*Map<Integer, DinamicOthers> din = new HashMap<>();
 		
 		tmp = codIterator.next();
 		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(100, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0, 1000, 0, 300)));
@@ -87,16 +95,16 @@ public class ControlImpl implements Control {
 		
 		tmp = codIterator.next();
 		din.put(tmp, new DinamicOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(200, 50), new Dimension(40, 60), 5), ModelDirections.NONE), new Bounds(150, 250, 0, 150)));
-		database.putEntity(tmp, Entities.MONSTER1);
+		database.putEntity(tmp, Entities.MONSTER1);*/
 		
 		Dimension arenaDim = new Dimension(1000, 300);
 		
 		//this.model.createArena(Heroes.JOY, stati, din, arenaDim);
 		
-                din.put(0, new DinamicOthers(30, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 20), new Dimension(40, 60), 10), ModelDirections.RIGHT), new Bounds(0, 1000, 0, 300)));
+                //din.put(0, new DinamicOthers(30, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 20), new Dimension(40, 60), 10), ModelDirections.RIGHT), new Bounds(0, 1000, 0, 300)));
 		
                 database.putArenaDimension(arenaDim);
-                this.model.createArena(stati, din);
+                this.model.createArena(stati/*, din*/);
 		
 		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 		

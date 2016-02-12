@@ -3,19 +3,18 @@ package model;
 public class HeroMovementManager extends DinamicMovementManager{
     
     private boolean onJump = false;
-    private boolean onFall = false;
     private int time = 0;
 
-    public HeroMovementManager(ModelPosition position, Bounds bounds) {
-        super(position, bounds);
+    public HeroMovementManager(ModelPosition position, Bounds bounds, boolean canFly) {
+        super(position, bounds, canFly);
     }
 
     @Override
     public ModelPosition getNextMove() {
-        boolean checkDx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() <= this.getBounds().getMaxX();
+        //boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
+        /*boolean checkDx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() <= this.getBounds().getMaxX();
         boolean checkSx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() >= this.getBounds().getMinX();
-        boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
-        boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();
+        boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();*/
         
         /*if (checkDx && checkSx && this.getDirection() != ModelDirections.UP) {
             this.setPosition(this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()), this.getDirection());
@@ -23,36 +22,38 @@ public class HeroMovementManager extends DinamicMovementManager{
             this.onJump = true;
         }
         this.setDirection(ModelDirections.NONE);*/
-        if (this.getDirection() == ModelDirections.UP && !onJump && !onFall) {
-            this.onJump = true;
+
+        ModelPosition newPosition;
+        
+        if(!onJump) {
+            newPosition = applyGravity(this.getPosition());
+        } else {
+            newPosition = this.getPosition();
+            newPosition.setDirection(ModelDirections.RIGHT);
+        }
+        
+        if(newPosition.getPoint().getY() == this.getPosition().getPoint().getY() && !onJump ) {
+            time = 0;
+            if(this.getDirection() == ModelDirections.UP) {
+                this.onJump = true;
+            }
         }
         
         if (onJump) {
             if(time < 60) {
-                if (checkUp) {
-                    this.setPosition(ModelDirections.UP.getFunction().apply(this.getPosition().getPoint(), 1), this.getDirection());
+                newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 1));
+                /*if (checkUp) {
+                    newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 1));
                 } else {
                     time = 60;
-                }
+                }*/
                 time++;
-            }
-        }
-        
-        if (time >= 60) {
-            onJump = false;
-            onFall= true;
-        }
-        
-        if (onFall) {
-            if(checkDown) {
-                this.setPosition(ModelDirections.DOWN.getFunction().apply(this.getPosition().getPoint(), 1), this.getDirection());
             } else {
-                onFall = false;
-                time = 0;
+                onJump = false;
             }
         }
         
-        return this.getPosition();
+        return newPosition;
     }
 
 }

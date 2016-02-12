@@ -9,6 +9,7 @@ public enum ModelDirections {
     LEFT((t, s) -> (new Point(t.getX() - s, t.getY()))),
     UP((t, s) -> (new Point(t.getX(), t.getY() + s))),
     DOWN((t, s) -> (new Point(t.getX(), t.getY() - s))),
+    RANDOM((t, s) -> (new Point(t.getX(), t.getY()))),
     NONE((t, s) -> (new Point(t.getX(), t.getY())));
 
     

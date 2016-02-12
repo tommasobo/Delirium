@@ -3,13 +3,13 @@ package model;
 
 public class StaticMovementManager extends AbstractMovementManager {
 
-    public StaticMovementManager(ModelPosition position) {
-        super(position);
+    public StaticMovementManager(ModelPosition position, Bounds bounds, boolean canFly) {
+        super(position, bounds, canFly);
     }
 
     @Override
     public ModelPosition getNextMove() {
-        return this.getPosition();
+        return applyGravity(this.getPosition());
     }
     
 }

@@ -27,7 +27,7 @@ class Translator {
 	}
 	
 	private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
-		position.setPoint(new Point(position.getPoint().getX(), arenaDimension.getHeight() - position.getPoint().getY()));
+		position.setPoint(new Point(position.getPoint().getX(), arenaDimension.getHeight() - position.getPoint().getY() - position.getDimension().getHeight()));
 		return position;
 	}
 	
