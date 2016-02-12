@@ -4,7 +4,7 @@ import control.Point;
 
 public abstract class AbstractMovementManager implements MovementManager {
     
-    public static final int GRAVITY = 2;
+    public static final int GRAVITY = 6;
 
     private final ModelPosition position;
     private boolean canFly; 

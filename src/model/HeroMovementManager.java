@@ -41,8 +41,8 @@ public class HeroMovementManager extends DinamicMovementManager{
         }
         
         if (onJump) {
-            if(time < 60) {
-                newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 1));
+            if(time < 20) {
+                newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 5));
                 /*if (checkUp) {
                     newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 1));
                 } else {
