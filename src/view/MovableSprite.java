@@ -29,24 +29,24 @@ public class MovableSprite extends AnimatedSpriteImpl {
     private void getResources() {
         
         this.left = new ImageView[]{ 
-                new ImageView(new Image("sx1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
-                new ImageView(new Image("sx2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
+                new ImageView(new Image("sx1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true)), 
+                new ImageView(new Image("sx2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true))
         };
         this.right = new ImageView[]{ 
-                new ImageView(new Image("dx1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
-                new ImageView(new Image("dx2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
+                new ImageView(new Image("dx1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true)), 
+                new ImageView(new Image("dx2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true))
         };
         this.up = new ImageView[]{ 
-                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
-                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
+                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true)), 
+                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true))
         };
         this.down = new ImageView[]{ 
-                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
-                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
+                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true)), 
+                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true))
         };
         this.stationary = new ImageView[]{ 
-                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true)), 
-                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), true, true))
+                new ImageView(new Image("fermo1.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true)), 
+                new ImageView(new Image("fermo2.png", super.entityView.getPrefWidth(), super.entityView.getPrefHeight(), false, true))
         };
         
     }
@@ -87,7 +87,8 @@ public class MovableSprite extends AnimatedSpriteImpl {
         } else {
             if (!still && this.currentAnimation.isPresent()) {
                 this.currentAnimation.get().stop();
-            } else if (!still) {
+            }
+            if (!still) {
                 this.currentAnimation = Optional.of(this.animate(stationary));
             }
             this.still = true;

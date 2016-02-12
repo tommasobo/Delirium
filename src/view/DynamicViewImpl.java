@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import control.Control;
 import control.Pair;
+import control.ViewEvents;
 import javafx.application.Platform;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
@@ -69,6 +70,7 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
         this.entitiesPane.setCacheHint(CacheHint.QUALITY);
         this.overlayPane.getChildren().addAll(new Rectangle(root.getScene().getWidth(), 0, 1, root.getScene().getHeight()), new Rectangle(-1, 0, 1, root.getScene().getHeight()));
         super.root.getScene().setOnKeyPressed(new InputFromUser(listener));
+        super.root.getScene().setOnKeyReleased(e -> super.listener.notifyEvent(ViewEvents.STOPMOVEMENT));
         super.root.getChildren().add(this.entitiesPane);
         super.root.getChildren().add(this.overlayPane);
         
