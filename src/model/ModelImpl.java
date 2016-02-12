@@ -23,7 +23,8 @@ public class ModelImpl implements Model{
     @Override
     public void notifyEvent(ModelDirections action) {
         this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
-            t.setPosition(action.getFunction().apply(t.getPoint(), t.getSpeed()), action);
+            //t.setPosition(action.getFunction().apply(t.getPoint(), t.getSpeed()), action);
+        	t.setDirection(action);
         });
     }
     
@@ -64,7 +65,7 @@ public class ModelImpl implements Model{
                 this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new HeroMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));
             } else {
                 switch (t.getValue().getPosition().getDirection()) {
-                case NONE : 
+                case STOP : 
                     this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new StaticMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));    
                     break;
                 case RANDOM: 

@@ -16,6 +16,7 @@ class Translator {
 		case MLEFT: return ModelDirections.LEFT;
 		case MRIGHT: return ModelDirections.RIGHT;
 		case JUMP: return ModelDirections.UP;
+		case STOPMOVEMENT : return ModelDirections.STOP;
 		default:
 			//TODO cambia exception in IllegalEventException
 			throw(new IllegalArgumentException());
@@ -37,7 +38,7 @@ class Translator {
 		case RIGHT: return ViewPhysicalProperties.Directions.RIGHT;
 		case UP: return ViewPhysicalProperties.Directions.UP;
 		case DOWN: return ViewPhysicalProperties.Directions.DOWN;
-		case NONE: return ViewPhysicalProperties.Directions.NONE;
+		case STOP: return ViewPhysicalProperties.Directions.NONE;
 		default:
 			//TODO cambia exception in IllegalEventException
 			throw(new IllegalArgumentException());

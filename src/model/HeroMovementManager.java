@@ -11,17 +11,16 @@ public class HeroMovementManager extends DinamicMovementManager{
 
     @Override
     public ModelPosition getNextMove() {
-        //boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
-        /*boolean checkDx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() <= this.getBounds().getMaxX();
+        boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
+        boolean checkDx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() <= this.getBounds().getMaxX();
         boolean checkSx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() >= this.getBounds().getMinX();
-        boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();*/
+        boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();
         
-        /*if (checkDx && checkSx && this.getDirection() != ModelDirections.UP) {
+        if (checkDx && checkSx && this.getDirection() != ModelDirections.UP) {
             this.setPosition(this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()), this.getDirection());
         } else if (this.getDirection() == ModelDirections.UP) {
             this.onJump = true;
         }
-        this.setDirection(ModelDirections.NONE);*/
 
         ModelPosition newPosition;
         
@@ -29,7 +28,7 @@ public class HeroMovementManager extends DinamicMovementManager{
             newPosition = applyGravity(this.getPosition());
         } else {
             newPosition = this.getPosition();
-            newPosition.setDirection(ModelDirections.RIGHT);
+            
         }
         
         if(newPosition.getPoint().getY() == this.getPosition().getPoint().getY() && !onJump ) {
@@ -50,6 +49,7 @@ public class HeroMovementManager extends DinamicMovementManager{
                 time++;
             } else {
                 onJump = false;
+                newPosition.setDirection(ModelDirections.STOP);
             }
         }
         

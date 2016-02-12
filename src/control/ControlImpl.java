@@ -58,7 +58,7 @@ public class ControlImpl implements Control {
 		
 		//aggiungo l'eroe
 		database.putEntity(0, Entities.JOYHERO);
-		stati.put(0, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(0, 0), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), false));
+		stati.put(0, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(0, 0), new Dimension(40, 60), 5), ModelDirections.STOP), new Bounds(0,  1000, 0, 300), false));
 		
 		Integer tmp = codIterator.next();
 		stati.put(tmp, new StaticOthers(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), true));

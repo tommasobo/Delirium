@@ -10,7 +10,7 @@ public enum ModelDirections {
     UP((t, s) -> (new Point(t.getX(), t.getY() + s))),
     DOWN((t, s) -> (new Point(t.getX(), t.getY() - s))),
     RANDOM((t, s) -> (new Point(t.getX(), t.getY()))),
-    NONE((t, s) -> (new Point(t.getX(), t.getY())));
+    STOP((t, s) -> (new Point(t.getX(), t.getY())));
 
     
     private final BiFunction<Point, Integer, Point> function;
