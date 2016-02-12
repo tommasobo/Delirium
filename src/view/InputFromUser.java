@@ -24,7 +24,7 @@ public class InputFromUser implements EventHandler<KeyEvent>{
         if (code == KeyCode.LEFT){
             this.listener.notifyEvent(ViewEvents.MLEFT);    
         }
-        if (code == KeyCode.UP){
+        if (code == KeyCode.SPACE){
             this.listener.notifyEvent(ViewEvents.JUMP);    
         }
     }
