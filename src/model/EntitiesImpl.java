@@ -99,6 +99,15 @@ public class EntitiesImpl implements Entities {
         this.movementManager.setSpeed(speed);
         
     }
+    
+    public Bounds getBounds() {
+        return this.movementManager.getBounds();
+    }
+    
+    public boolean isCanFly() {
+        return this.movementManager.isCanFly();
+    }
 
+   
 
 }

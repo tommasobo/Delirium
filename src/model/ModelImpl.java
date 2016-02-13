@@ -41,10 +41,13 @@ public class ModelImpl implements Model{
     }
 
 
+    //TODO cambia oggetto comunicazione con controller
     @Override
-    public Map<Integer, Pair<Integer, Position>> getState() {
-        final Map<Integer, Pair<Integer, Position>> result = new HashMap<>();
-        this.entities.stream().forEach(e -> result.put(e.getCode(), new Pair<Integer, Position>(e.getLife(), e.getPosition())));
+    public List<EntitiesInfo> getState() {
+        final List<EntitiesInfo> result = new LinkedList<>();
+        this.entities.stream().forEach(t -> {
+            result.add(new EntitiesInfoImpl(t.getCode(), t.getLife(), t.getLifeManager(), null, t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getContactDamage()));
+        });
         return result;
     }
 

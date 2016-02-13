@@ -12,5 +12,9 @@ public interface MovementManager {
     
     void setSpeed( final int speed);
     
+    Bounds getBounds();
+    
+    boolean isCanFly();
+    
     Position getNextMove();
 }

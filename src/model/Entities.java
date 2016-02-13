@@ -34,6 +34,10 @@ public interface Entities {
     
     void setSpeed(final int speed);
     
+    Bounds getBounds();
+    
+    boolean isCanFly();
+    
     /* FINE METODI PER POSIZIONE */
     
     int getContactDamage();

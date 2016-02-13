@@ -60,4 +60,6 @@ public class HeroMovementManager extends DinamicMovementManager{
         return newPosition;
     }
 
+    
+
 }

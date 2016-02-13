@@ -11,7 +11,7 @@ public interface Model {
     
     public void updateArena();
     
-    Map<Integer, Pair<Integer, Position>> getState();
+    List<EntitiesInfo> getState();
 
     void createArena(List<EntitiesInfo> entitiesInfo);
     

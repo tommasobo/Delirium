@@ -55,9 +55,6 @@ public abstract class AbstractMovementManager implements MovementManager {
         return position;
     }*/
     
-    protected Bounds getBounds() {
-        return bounds;
-    }
     
     public Position getPosition() {
         return new Position(this.position.getPoint(), this.position.getDirection(), this.position.getDimension());
@@ -82,6 +79,14 @@ public abstract class AbstractMovementManager implements MovementManager {
     
     public void setSpeed( final int speed) {
         this.speed = speed;
+    }
+    
+    public Bounds getBounds() {
+        return this.bounds;
+    }
+    
+    public boolean isCanFly() {
+        return this.canFly;
     }
     
 }
