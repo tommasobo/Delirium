@@ -14,9 +14,9 @@ public interface Entities {
     LifeManager getLifeManager();
     
     /* INIZIO METODI PER POSIZIONE */
-    ModelPosition getPosition();
+    Position getPosition();
     
-    void setPosition(final Point point, final ModelDirections direction);
+    void setPosition(final Point point, final Directions direction);
     
     Point getPoint();
     
@@ -24,11 +24,11 @@ public interface Entities {
     
     Dimension getDimension();
 
-    ModelDirections getDirection();
+    Directions getDirection();
 
-    void setDirection(final ModelDirections direction);
+    void setDirection(final Directions direction);
     
-    ModelPosition getNextMove();
+    Position getNextMove();
     
     int getSpeed();
     

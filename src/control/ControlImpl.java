@@ -9,11 +9,11 @@ import java.util.Optional;
 import model.Bounds;
 import model.LifeManager;
 import model.Model;
-import model.ModelDirections;
+import model.Actions;
 import model.ModelImpl;
-import model.ModelPosition;
+import model.Position;
 import model.MovementTypes;
-import model.EntitiesInfo;
+import model.EntitiesInfoImpl;
 import view.Entities;
 import view.SceneType;
 import view.ViewController;
@@ -53,26 +53,26 @@ public class ControlImpl implements Control {
 		EntitiesDatabase database = new EntitiesDatabaseImpl();
 		CodesIterator codIterator = new CodesIteratorImpl(); 
 		
-		Map<Integer, EntitiesInfo> stati = new HashMap<>();
+		Map<Integer, EntitiesInfoImpl> stati = new HashMap<>();
 		
 		//aggiungo l'eroe
 		database.putEntity(0, Entities.JOYHERO);
-		stati.put(0, new EntitiesInfo(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(0, 0), new Dimension(40, 60), 5), ModelDirections.STOP), new Bounds(0,  1000, 0, 300), false, MovementTypes.HERO));
+		stati.put(0, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(0, 0), new Dimension(40, 60), 5), Actions.STOP), new Bounds(0,  1000, 0, 300), false, MovementTypes.HERO));
 		
 		Integer tmp = codIterator.next();
-		stati.put(tmp, new EntitiesInfo(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.LINEAR));
+		stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), Actions.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.LINEAR));
 		database.putEntity(tmp, Entities.MONSTER1);
 		
 		tmp = codIterator.next();
-                stati.put(tmp, new EntitiesInfo(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 0), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.STATIC));
+                stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 0), Actions.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.STATIC));
                 database.putEntity(tmp, Entities.MONSTER1);
                 
                 tmp = codIterator.next();
-                stati.put(tmp, new EntitiesInfo(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), ModelDirections.UP), new Bounds(0,  1000, 0, 300), true, MovementTypes.LINEAR));
+                stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), Actions.UP), new Bounds(0,  1000, 0, 300), true, MovementTypes.LINEAR));
                 database.putEntity(tmp, Entities.MONSTER1);
                 
                 tmp = codIterator.next();
-                stati.put(tmp, new EntitiesInfo(10, LifeManager.WITH_LIFE, Optional.of(0), new ModelPosition(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), ModelDirections.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.RANDOM));
+                stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), Actions.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.RANDOM));
                 database.putEntity(tmp, Entities.MONSTER1);
                 
                 

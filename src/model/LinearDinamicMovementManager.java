@@ -2,13 +2,13 @@ package model;
 
 public class LinearDinamicMovementManager extends DinamicMovementManager {
     
-    public LinearDinamicMovementManager(ModelPosition position, Bounds bounds, boolean canFly) {
-        super(position, bounds, canFly);
+    public LinearDinamicMovementManager(Position position, Bounds bounds, int speed, boolean canFly) {
+        super(position, bounds, speed, canFly);
         
     }
 
     @Override
-    public ModelPosition getNextMove() {
+    public Position getNextMove() {
         return this.linearMovement(this.getPosition());
     }
 

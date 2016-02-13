@@ -4,9 +4,13 @@ import control.Point;
 
 public interface MovementManager {
     
-    ModelPosition getPosition();
+    Position getPosition();
     
-    void setPosition(Point point, ModelDirections direction);
+    void setPosition(Point point, Directions direction);
     
-    ModelPosition getNextMove();
+    int getSpeed();
+    
+    void setSpeed( final int speed);
+    
+    Position getNextMove();
 }

@@ -21,7 +21,7 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void notifyEvent(ModelDirections action) {
+    public void notifyEvent(Directions action) {
         this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
             t.setDirection(action);
         });
@@ -42,34 +42,29 @@ public class ModelImpl implements Model{
 
 
     @Override
-    public Map<Integer, Pair<Integer, ModelPosition>> getState() {
-        final Map<Integer, Pair<Integer, ModelPosition>> result = new HashMap<>();
-        this.entities.stream().forEach(e -> result.put(e.getCode(), new Pair<Integer, ModelPosition>(e.getLife(), e.getPosition())));
+    public Map<Integer, Pair<Integer, Position>> getState() {
+        final Map<Integer, Pair<Integer, Position>> result = new HashMap<>();
+        this.entities.stream().forEach(e -> result.put(e.getCode(), new Pair<Integer, Position>(e.getLife(), e.getPosition())));
         return result;
     }
 
     @Override
-    public void createArena(Map<Integer, EntitiesInfo> entitiesInfo) {
+    public void createArena(List<EntitiesInfo> entitiesInfo) {
         
         
-        entitiesInfo.entrySet().stream().forEach(t -> {
-            if(t.getKey() == 0) {
-                this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new HeroMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));
-            } else {
-                    switch (t.getValue().getMovementTypes()) {
-                    case HERO: 
-                        this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new HeroMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));
-                        break;
-                    case STATIC : 
-                        this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new StaticMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));    
-                        break;
-                    case RANDOM: 
-                        this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new RandomDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));    
-                        break;
-                    case LINEAR:
-                        this.entities.add(new EntitiesImpl(t.getKey(), t.getValue().getLife(), t.getValue().getLifemanager(), new LinearDinamicMovementManager(t.getValue().getPosition(), t.getValue().getBounds(), t.getValue().isCanFly()), t.getValue().getContactDamage().get()));
-                        break;
-                    }
+        entitiesInfo.stream().forEach(t -> {
+            switch (t.getMovementTypes()) {
+            case HERO: 
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                break;
+            case STATIC : 
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new StaticMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                break;
+            case RANDOM: 
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                break;
+            case LINEAR:
+                break;
             }
             
         });

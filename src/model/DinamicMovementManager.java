@@ -6,9 +6,9 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     
     private MovementPattern pattern;
 
-    public DinamicMovementManager(ModelPosition position,Bounds bounds, boolean canFly) {
-        super(position, bounds, canFly);
-        this.pattern = this.getPosition().getDirection() == ModelDirections.RIGHT || this.getPosition().getDirection() == ModelDirections.LEFT ? MovementPattern.LEFT_RIGHT : MovementPattern.UP_DOWN;
+    public DinamicMovementManager(Position position,Bounds bounds, int speed, boolean canFly) {
+        super(position, bounds, speed, canFly);
+        this.pattern = this.getDirection() == Directions.RIGHT || this.getDirection() == Directions.LEFT ? MovementPattern.LEFT_RIGHT : MovementPattern.UP_DOWN;
     }
 
 
@@ -24,23 +24,26 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
         return pattern;
     }
     
-    protected ModelPosition linearMovement(ModelPosition actualPosition) {
+    protected Position linearMovement(Position actualPosition) {
+        
         if (this.getPattern() == MovementPattern.LEFT_RIGHT) {
-            if ((actualPosition.getPoint().getX() + this.getPosition().getSpeed()) >= this.getBounds().getMaxX() && this.getDirection() == ModelDirections.RIGHT) {
-                this.setDirection(ModelDirections.LEFT);
-            } else if((actualPosition.getPoint().getX() - this.getPosition().getSpeed()) <= this.getBounds().getMinX()) {
-                this.setDirection(ModelDirections.RIGHT);
+            if ((actualPosition.getPoint().getX() + this.getSpeed()) >= this.getBounds().getMaxX() && this.getDirection() == Directions.RIGHT) {
+                this.setDirection(Directions.LEFT);
+            } else if((actualPosition.getPoint().getX() - this.getSpeed()) <= this.getBounds().getMinX()) {
+                this.setDirection(Directions.RIGHT);
             }
             
         } else {
-            if ((actualPosition.getPoint().getY() + this.getPosition().getSpeed()) >= this.getBounds().getMaxY() && this.getDirection() == ModelDirections.UP) {
-                this.setDirection(ModelDirections.DOWN);
-            } else if((actualPosition.getPoint().getY() - this.getPosition().getSpeed()) <= this.getBounds().getMinY()) {
-                this.setDirection(ModelDirections.UP);
+            if ((actualPosition.getPoint().getY() + this.getSpeed()) >= this.getBounds().getMaxY() && this.getDirection() == Directions.UP) {
+                this.setDirection(Directions.DOWN);
+            } else if((actualPosition.getPoint().getY() - this.getSpeed()) <= this.getBounds().getMinY()) {
+                this.setDirection(Directions.UP);
             }
         }
         
-        actualPosition.setPoint(this.getDirection().getFunction().apply(actualPosition.getPoint(), this.getPosition().getSpeed()));
+        Actions action = DinamicMovementManager.determinateAction(this.getDirection());
+        
+        actualPosition.setPoint(action.getFunction().apply(actualPosition.getPoint(), this.getSpeed()));
         actualPosition.setDirection(this.getDirection());
        
         //TODO eventualmente spostare da qua l'apply gravity, al momento sembra il sistema per richiamarlo meno volte
@@ -48,8 +51,25 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
         
         return actualPosition;
     }
+    
+    protected static Actions determinateAction(final Directions direction) {
+        switch (direction) {
+        case DOWN:
+            return Actions.DOWN;
+        case LEFT:
+            return Actions.LEFT;
+        case NONE:
+            return Actions.STOP;
+        case RIGHT:
+            return Actions.RIGHT;
+        case UP:
+            return Actions.UP;
+        default: 
+            return Actions.STOP;
+        }
+    }
 
 
-    abstract public ModelPosition getNextMove();
+    abstract public Position getNextMove();
 
 }

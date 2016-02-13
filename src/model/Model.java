@@ -1,17 +1,18 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
 
 import control.Pair;
 
 public interface Model {
     
-    void notifyEvent(ModelDirections action);
+    void notifyEvent(Directions action);
     
     public void updateArena();
     
-    Map<Integer, Pair<Integer, ModelPosition>> getState();
+    Map<Integer, Pair<Integer, Position>> getState();
 
-    void createArena(Map<Integer, EntitiesInfo> staticOthers);
+    void createArena(List<EntitiesInfo> entitiesInfo);
     
 }

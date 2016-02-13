@@ -5,26 +5,27 @@ public class HeroMovementManager extends DinamicMovementManager{
     private boolean onJump = false;
     private int time = 0;
 
-    public HeroMovementManager(ModelPosition position, Bounds bounds, boolean canFly) {
-        super(position, bounds, canFly);
+    public HeroMovementManager(Position position, Bounds bounds, int speed, boolean canFly) {
+        super(position, bounds, speed, canFly);
     }
 
     @Override
-    public ModelPosition getNextMove() {
+    public Position getNextMove() {
+        Actions action = determinateAction(this.getDirection());
         //boolean checkUp = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() <= this.getBounds().getMaxY() + this.getPosition().getDimension().getHeight();
-        boolean checkDx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() <= this.getBounds().getMaxX();
-        boolean checkSx = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getX() >= this.getBounds().getMinX();
+        boolean checkDx = action.getFunction().apply(this.getPosition().getPoint(), this.getSpeed()).getX() <= this.getBounds().getMaxX();
+        boolean checkSx = action.getFunction().apply(this.getPosition().getPoint(), this.getSpeed()).getX() >= this.getBounds().getMinX();
         //boolean checkDown = this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()).getY() >= this.getBounds().getMinY() - this.getPosition().getDimension().getHeight();
         
         //MAGNANI PART BEGIN
         
-        if (checkDx && checkSx && this.getDirection() != ModelDirections.UP) {
-            this.setPosition(this.getDirection().getFunction().apply(this.getPosition().getPoint(), this.getPosition().getSpeed()), this.getDirection());
-        } else if (this.getDirection() == ModelDirections.UP) {
+        if (checkDx && checkSx && this.getDirection() != Directions.UP) {
+            this.setPosition(action.getFunction().apply(this.getPosition().getPoint(), this.getSpeed()), this.getDirection());
+        } else if (this.getDirection() == Directions.UP) {
             this.onJump = true;
         }
 
-        ModelPosition newPosition;
+        Position newPosition;
         
         if(!onJump) {
             newPosition = applyGravity(this.getPosition());
@@ -35,14 +36,14 @@ public class HeroMovementManager extends DinamicMovementManager{
         
         if(newPosition.getPoint().getY() == this.getPosition().getPoint().getY() && !onJump ) {
             time = 0;
-            if(this.getDirection() == ModelDirections.UP) {
+            if(this.getDirection() == Directions.UP) {
                 this.onJump = true;
             }
         }
         
         if (onJump) {
             if(time < 20) {
-                newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 5));
+                newPosition.setPoint(Actions.UP.getFunction().apply(newPosition.getPoint(), 5));
                 /*if (checkUp) {
                     newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 1));
                 } else {
@@ -51,7 +52,7 @@ public class HeroMovementManager extends DinamicMovementManager{
                 time++;
             } else {
                 onJump = false;
-                newPosition.setDirection(ModelDirections.STOP);
+                newPosition.setDirection(Directions.NONE);
             }
         }
         // MAGNANI PART FINISH

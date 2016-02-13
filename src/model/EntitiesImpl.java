@@ -40,12 +40,12 @@ public class EntitiesImpl implements Entities {
     }
 
     @Override
-    public ModelPosition getPosition() {
+    public Position getPosition() {
         return this.movementManager.getPosition();
     }
 
     @Override
-    public void setPosition(final Point point, final ModelDirections direction) {
+    public void setPosition(final Point point, final Directions direction) {
         this.movementManager.setPosition(point, direction);
     }
 
@@ -65,12 +65,12 @@ public class EntitiesImpl implements Entities {
     }
 
     @Override
-    public ModelDirections getDirection() {
+    public Directions getDirection() {
         return this.movementManager.getPosition().getDirection();
     }
 
     @Override
-    public void setDirection(ModelDirections direction) {
+    public void setDirection(Directions direction) {
         this.movementManager.setPosition(this.getPoint(), direction);
     }
 
@@ -85,19 +85,20 @@ public class EntitiesImpl implements Entities {
     }
 
     @Override
-    public ModelPosition getNextMove() {
+    public Position getNextMove() {
         return this.movementManager.getNextMove();
     }
 
     @Override
     public int getSpeed() {
-        return this.movementManager.getPosition().getSpeed();
+        return this.movementManager.getSpeed();
     }
 
     @Override
     public void setSpeed(int speed) {
-        this.movementManager.getPosition().setSpeed(speed);
+        this.movementManager.setSpeed(speed);
         
     }
+
 
 }

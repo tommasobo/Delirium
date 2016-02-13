@@ -1,26 +1,29 @@
 package model;
 
+import control.Dimension;
 import control.Point;
 
 public abstract class AbstractMovementManager implements MovementManager {
     
     public static final int GRAVITY = 6;
 
-    private final ModelPosition position;
+    private final Position position;
     private boolean canFly; 
+    private int speed;
     private final Bounds bounds;
 
-    public AbstractMovementManager(ModelPosition position, Bounds bounds, boolean canFly) {
+    public AbstractMovementManager(Position position, Bounds bounds, int speed, boolean canFly) {
         this.position = position;
         this.canFly = canFly;
         this.bounds = bounds;
+        this.speed = speed;
     }
 
 
-    abstract public ModelPosition getNextMove();
+    abstract public Position getNextMove();
     
     // MAGNANI PART BEGIN
-    protected ModelPosition applyGravity(ModelPosition position) {
+    protected Position applyGravity(Position position) {
         if(!canFly) {
             position.setPoint(new Point(position.getPoint().getX(), position.getPoint().getY() - AbstractMovementManager.GRAVITY));
             if(position.getPoint().getY() < bounds.getMinY()) {
@@ -56,22 +59,29 @@ public abstract class AbstractMovementManager implements MovementManager {
         return bounds;
     }
     
-    public ModelPosition getPosition() {
-        return position.getPosition();
+    public Position getPosition() {
+        return new Position(this.position.getPoint(), this.position.getDirection(), this.position.getDimension());
     }
     
-    public void setPosition(final Point point, final ModelDirections direction) {
+    public void setPosition(final Point point, final Directions direction) {
         this.position.setPoint(point);
         this.position.setDirection(direction);
     }
     
-    protected void setDirection(final ModelDirections direction) {
+    protected void setDirection(final Directions direction) {
         this.position.setDirection(direction);
     }
     
-    protected ModelDirections getDirection() {
+    protected Directions getDirection() {
         return position.getDirection();
     }
     
+    public int getSpeed() {
+        return this.speed;
+    }
+    
+    public void setSpeed( final int speed) {
+        this.speed = speed;
+    }
     
 }
