@@ -19,7 +19,7 @@ public class HeroMovementManager extends DinamicMovementManager{
         
         //MAGNANI PART BEGIN
         
-        if (checkDx && checkSx && this.getDirection() != Directions.UP) {
+        if (checkDx && checkSx && this.getDirection() != Directions.UP && this.getDirection() != Directions.DOWN) {
             this.setPosition(action.getFunction().apply(this.getPosition().getPoint(), this.getSpeed()), this.getDirection());
         } else if (this.getDirection() == Directions.UP) {
             this.onJump = true;
@@ -42,7 +42,7 @@ public class HeroMovementManager extends DinamicMovementManager{
         }
         
         if (onJump) {
-            if(time < 20) {
+            if(time < 60) {
                 newPosition.setPoint(Actions.UP.getFunction().apply(newPosition.getPoint(), 5));
                 /*if (checkUp) {
                     newPosition.setPoint(ModelDirections.UP.getFunction().apply(newPosition.getPoint(), 1));
@@ -52,7 +52,7 @@ public class HeroMovementManager extends DinamicMovementManager{
                 time++;
             } else {
                 onJump = false;
-                newPosition.setDirection(Directions.NONE);
+                newPosition.setDirection(Directions.DOWN);
             }
         }
         // MAGNANI PART FINISH

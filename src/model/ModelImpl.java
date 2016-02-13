@@ -54,7 +54,6 @@ public class ModelImpl implements Model{
     @Override
     public void createArena(List<EntitiesInfo> entitiesInfo) {
         
-        
         entitiesInfo.stream().forEach(t -> {
             switch (t.getMovementTypes()) {
             case HERO: 
@@ -67,6 +66,7 @@ public class ModelImpl implements Model{
                 this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             case LINEAR:
+            	this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             }
             

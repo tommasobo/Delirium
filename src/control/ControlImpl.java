@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import model.Bounds;
+import model.Directions;
+import model.EntitiesInfo;
 import model.LifeManager;
 import model.Model;
 import model.Actions;
@@ -53,36 +55,30 @@ public class ControlImpl implements Control {
 		EntitiesDatabase database = new EntitiesDatabaseImpl();
 		CodesIterator codIterator = new CodesIteratorImpl(); 
 		
-		Map<Integer, EntitiesInfoImpl> stati = new HashMap<>();
+		List<EntitiesInfo> ls= new LinkedList<>();
 		
 		//aggiungo l'eroe
 		database.putEntity(0, Entities.JOYHERO);
-		stati.put(0, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(0, 0), new Dimension(40, 60), 5), Actions.STOP), new Bounds(0,  1000, 0, 300), false, MovementTypes.HERO));
+		ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO, new Position(new Point(0, 0), Directions.NONE, new Dimension(40, 60)), new Bounds(0, 1000, 0, 300), 10, false, 0));
+		
 		
 		Integer tmp = codIterator.next();
-		stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), Actions.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.LINEAR));
 		database.putEntity(tmp, Entities.MONSTER1);
+		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.LINEAR, new Position(new Point(150, 200), Directions.RIGHT, new Dimension(40, 60)), new Bounds(150, 300, 50, 300), 10, false, 0));
 		
 		tmp = codIterator.next();
-                stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 0), Actions.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.STATIC));
-                database.putEntity(tmp, Entities.MONSTER1);
-                
-                tmp = codIterator.next();
-                stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), Actions.UP), new Bounds(0,  1000, 0, 300), true, MovementTypes.LINEAR));
-                database.putEntity(tmp, Entities.MONSTER1);
-                
-                tmp = codIterator.next();
-                stati.put(tmp, new EntitiesInfoImpl(10, LifeManager.WITH_LIFE, Optional.of(0), new Position(new PhisicalProprieties(new Point(20, 150), new Dimension(40, 60), 5), Actions.RIGHT), new Bounds(0,  1000, 0, 300), true, MovementTypes.RANDOM));
-                database.putEntity(tmp, Entities.MONSTER1);
-                
+		database.putEntity(tmp, Entities.MONSTER1);
+		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM, new Position(new Point(500, 200), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 300, 0, 300), 10, true, 0));
+		
                 
                 
 		
 		Dimension arenaDim = new Dimension(1000, 300);
 		
 		
-                database.putArenaDimension(arenaDim);
-                this.model.createArena(stati/*, din*/);
+        database.putArenaDimension(arenaDim);
+        //System.out.println(ls);
+        this.model.createArena(ls);
 		
 		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
 		
