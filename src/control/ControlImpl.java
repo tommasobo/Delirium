@@ -60,18 +60,21 @@ public class ControlImpl implements Control {
 		
 		//aggiungo l'eroe
 		database.putEntity(0, Entities.JOY);
-		ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO, new Position(new Point(0, 0), Directions.NONE, new Dimension(40, 60)), new Bounds(0, 1000, 0, 300), 10, false, 0));
+		ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO, new Position(new Point(960, 40), Directions.NONE, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300), 10, false, 0));
 		
 		
 		Integer tmp = codIterator.next();
 		database.putEntity(tmp, Entities.PLATFORM);
-		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.LINEAR, new Position(new Point(150, 200), Directions.RIGHT, new Dimension(40, 60)), new Bounds(150, 300, 50, 300), 10, false, 0));
+		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM, new Position(new Point(150, 200), Directions.RIGHT, new Dimension(100, 20)), new Bounds(150, 300, 50, 300), 10, false, 0));
 		
 		tmp = codIterator.next();
 		database.putEntity(tmp, Entities.PLATFORM);
-		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM, new Position(new Point(500, 200), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 300, 0, 300), 10, true, 0));
+		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.LINEAR, new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 20)), new Bounds(0, 1000, 0, 300), 10, true, 0));
 		
-                
+		tmp = codIterator.next();
+		database.putEntity(tmp, Entities.GROUND);
+		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.STATIC, new Position(new Point(0, 0), Directions.NONE, new Dimension(1000, 20)), new Bounds(0, 1000, 10, 300), 10, true, 0));
+		    
                 
 		
 		Dimension arenaDim = new Dimension(1000, 300);
@@ -85,6 +88,7 @@ public class ControlImpl implements Control {
 		
 		Thread t = new GameThread(this.model, this.view, database);
 		t.start();
+		
 		
 		
 	}

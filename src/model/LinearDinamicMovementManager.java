@@ -9,7 +9,9 @@ public class LinearDinamicMovementManager extends DinamicMovementManager {
 
     @Override
     public Position getNextMove() {
-        return this.linearMovement(this.getPosition());
+        //return this.linearMovement(this.getPosition());
+    	return linearMovement(this.getPosition(), this.getBounds(), this.getSpeed());
+    	
     }
 
 }

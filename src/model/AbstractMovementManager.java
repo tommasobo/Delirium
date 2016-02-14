@@ -22,38 +22,72 @@ public abstract class AbstractMovementManager implements MovementManager {
 
     abstract public Position getNextMove();
     
-    // MAGNANI PART BEGIN
+    /**
+     * @author Matteo Magnani
+     * @param position
+     * @return
+     */
     protected Position applyGravity(Position position) {
         if(!canFly) {
             position.setPoint(new Point(position.getPoint().getX(), position.getPoint().getY() - AbstractMovementManager.GRAVITY));
-            if(position.getPoint().getY() < bounds.getMinY()) {
-                position.setPoint(new Point(position.getPoint().getX(), bounds.getMinY()));
+            position.setDirection(Directions.DOWN);
+            if(!checkBounds(position, this.getBounds())) {
+            	fixPositionBounds(position, this.bounds);
             }
+           /* if(position.getPoint().getY() < bounds.getMinY()) {
+                position.setPoint(new Point(position.getPoint().getX(), bounds.getMinY()));
+            }*/
+            //TODO eventualmente metti a NONE la position se hai raggiunto i bounds
         }
         return position;
     }
     
-    // MAGNANI PART FINISH
     
-    /*private boolean checkBounds(ModelPosition position) {
-        return bounds.getMinX() < position.getPoint().getX() && position.getPoint().getX() > bounds.getMaxX() && bounds.getMinY() < position.getPoint().getY() && position.getPoint().getY() > bounds.getMaxY();
+    /**
+     * 	@author Matteo Magnani 
+     */
+    protected static boolean checkBounds(Position position, Bounds bounds) {
+        switch (position.getDirection()) {
+		case DOWN:
+			return position.getPoint().getY() >= bounds.getMinY();
+		case LEFT:
+			return position.getPoint().getX() >= bounds.getMinX();
+		case NONE:
+			return true;
+		case RIGHT:
+			return (position.getPoint().getX() + position.getDimension().getWidth()) <= bounds.getMaxX();
+		case UP:
+			return (position.getPoint().getY() + position.getDimension().getHeight()) <= bounds.getMaxY();
+		default:
+			return false;
+		}
     }
     
-    private ModelPosition fixPositionBounds(ModelPosition position, boolean gravity) {
-        if(gravity)
-        {
-            position.setPoint(new Point(position.getPoint().getX(), bounds.getMinY()));
-        } else {
-            switch(this.position.getDirection()) {
-                case RIGHT : position.setPoint(new Point(bounds.getMaxX(), position.getPoint().getY())); break;
-                case LEFT : position.setPoint(new Point(bounds.getMinX(), position.getPoint().getY())); break;
-                case UP : position.setPoint(new Point(position.getPoint().getX(), bounds.getMaxY())); break;
-                case DOWN : position.setPoint(new Point(position.getPoint().getX(), bounds.getMinY())); break;
-            }
-        }
+    /**
+     * @author Matteo Magnani
+     * @param position
+     * @param gravity
+     * @return
+     */
+    protected static Position fixPositionBounds(Position position, Bounds bounds) {
+    	switch (position.getDirection()) {
+		case DOWN:
+			position.setPoint(new Point(position.getPoint().getX(), bounds.getMinY()));
+			break;
+		case LEFT:
+			position.setPoint(new Point(bounds.getMinX(), position.getPoint().getY()));
+			break;
+		case RIGHT:
+			position.setPoint(new Point(bounds.getMaxX() - position.getDimension().getWidth(), position.getPoint().getY()));
+			break;
+		case UP:
+			position.setPoint(new Point(position.getPoint().getX(), bounds.getMaxY() - position.getDimension().getHeight()));
+		default:
+			break;
+		}
         
         return position;
-    }*/
+    }
     
     
     public Position getPosition() {

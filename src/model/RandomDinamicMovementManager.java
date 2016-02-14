@@ -34,7 +34,8 @@ public class RandomDinamicMovementManager extends DinamicMovementManager {
         }
         this.count++;
         
-        return this.linearMovement(this.getPosition());
+        //return this.linearMovement(this.getPosition());
+        return linearMovement(this.getPosition(), this.getBounds(), this.getSpeed());
     }
 
 }
