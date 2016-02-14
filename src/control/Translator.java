@@ -7,6 +7,7 @@ import java.util.Map;
 import view.Actions;
 import model.Directions;
 import model.EntitiesInfo;
+import model.Position;
 import view.Entities;
 import view.ViewPhysicalProperties;
 
@@ -25,8 +26,10 @@ class Translator {
 		}
 	}
 	
-	public static ViewPhysicalProperties positionFromModeltoView (EntitiesInfo info, Dimension arenaDimension) {
-		return new ViewPhysicalProperties(info.getPosition().getPoint().getX(), info.getPosition().getPoint().getY() - info.getPosition().getDimension().getHeight() - arenaDimension.getHeight(), info.getPosition().getDimension().getWidth(), info.getPosition().getDimension().getHeight(), info.getSpeed(), directionFromModeltoView(info.getPosition().getDirection()));
+	public static ViewPhysicalProperties positionFromModeltoView (EntitiesInfo info, EntitiesDatabase database) {
+		//TODO mi serve una interfaccia position senza setter, anche un point
+		Position p = info.getPosition();
+		return new ViewPhysicalProperties(p.getPoint().getX(), p.getPoint().getY() - p.getDimension().getHeight() - database.getArenaDimension().getHeight(), p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(), database.getViewEntity(info.getCode()) == Entities.PLATFORM ? Actions.IDLE : directionFromModeltoView(p.getDirection()));
 	}
 	
 	/*private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
@@ -52,7 +55,7 @@ class Translator {
 		//System.out.println(listInfo);
 		Map<Integer, Pair<Entities, Pair<Integer, ViewPhysicalProperties>>> viewMap = new HashMap<>();
 		listInfo.stream().forEach(e -> {
-			viewMap.put(e.getCode(), new Pair<Entities, Pair<Integer, ViewPhysicalProperties>>(database.getViewEntity(e.getCode()), new Pair<Integer, ViewPhysicalProperties>(e.getLife(), positionFromModeltoView(e, database.getArenaDimension()))));
+			viewMap.put(e.getCode(), new Pair<Entities, Pair<Integer, ViewPhysicalProperties>>(database.getViewEntity(e.getCode()), new Pair<Integer, ViewPhysicalProperties>(e.getLife(), positionFromModeltoView(e, database))));
 		});
 		//System.out.println(viewMap);
 		return viewMap;
