@@ -27,9 +27,12 @@ public class HeroMovementManager extends DinamicMovementManager{
             newPosition = applyGravity(newPosition);
         }
         
-        if(newPosition.getPoint().getY() == this.getPosition().getPoint().getY() && !onJump && this.getDirection() == Directions.UP) {
-            time = 0;
-            this.onJump = true;
+        if(newPosition.getPoint().getY() == this.getPosition().getPoint().getY() && !onJump) {
+        	newPosition.setDirection(Directions.NONE);
+        	if(this.getDirection() == Directions.UP) {
+        		time = 0;
+            	this.onJump = true;
+        	}
         } else if (newPosition.getPoint().getY() < this.getPosition().getPoint().getY()) {
         	newPosition.setDirection(Directions.DOWN);
         }

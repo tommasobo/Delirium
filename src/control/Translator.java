@@ -29,7 +29,7 @@ class Translator {
 	public static ViewPhysicalProperties positionFromModeltoView (EntitiesInfo info, EntitiesDatabase database) {
 		//TODO mi serve una interfaccia position senza setter, anche un point
 		Position p = info.getPosition();
-		return new ViewPhysicalProperties(p.getPoint().getX(), p.getPoint().getY() - p.getDimension().getHeight() - database.getArenaDimension().getHeight(), p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(), database.getViewEntity(info.getCode()) == Entities.PLATFORM ? Actions.IDLE : directionFromModeltoView(p.getDirection()));
+		return new ViewPhysicalProperties(p.getPoint().getX(), database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(), p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(), database.getViewEntity(info.getCode()) == Entities.PLATFORM ? Actions.IDLE : directionFromModeltoView(p.getDirection()));
 	}
 	
 	/*private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
