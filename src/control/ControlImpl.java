@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javafx.geometry.Dimension2D;
 import model.Bounds;
 import model.Directions;
 import model.EntitiesInfo;
@@ -32,7 +33,7 @@ public class ControlImpl implements Control {
 	}
 	
 	public void startGame() {
-		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.MENU, new Dimension(1000, 300)));
+		this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.MENU, new Dimension2D(1000, 300)));
 	}
 	
 	public void notifyEvent(ViewEvents event) {
@@ -58,16 +59,16 @@ public class ControlImpl implements Control {
 		List<EntitiesInfo> ls= new LinkedList<>();
 		
 		//aggiungo l'eroe
-		database.putEntity(0, Entities.JOYHERO);
+		database.putEntity(0, Entities.JOY);
 		ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO, new Position(new Point(0, 0), Directions.NONE, new Dimension(40, 60)), new Bounds(0, 1000, 0, 300), 10, false, 0));
 		
 		
 		Integer tmp = codIterator.next();
-		database.putEntity(tmp, Entities.MONSTER1);
+		database.putEntity(tmp, Entities.PLATFORM);
 		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.LINEAR, new Position(new Point(150, 200), Directions.RIGHT, new Dimension(40, 60)), new Bounds(150, 300, 50, 300), 10, false, 0));
 		
 		tmp = codIterator.next();
-		database.putEntity(tmp, Entities.MONSTER1);
+		database.putEntity(tmp, Entities.PLATFORM);
 		ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM, new Position(new Point(500, 200), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 300, 0, 300), 10, true, 0));
 		
                 
@@ -80,7 +81,7 @@ public class ControlImpl implements Control {
         //System.out.println(ls);
         this.model.createArena(ls);
 		
-		this.view.changeScene(new Pair<SceneType, Dimension>(SceneType.DRAWABLE, new Dimension(1000, 300)));
+		this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 		
 		Thread t = new GameThread(this.model, this.view, database);
 		t.start();

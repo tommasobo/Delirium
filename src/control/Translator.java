@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.Actions;
+import view.Actions;
 import model.Directions;
 import model.EntitiesInfo;
 import view.Entities;
@@ -26,21 +26,21 @@ class Translator {
 	}
 	
 	public static ViewPhysicalProperties positionFromModeltoView (EntitiesInfo info, Dimension arenaDimension) {
-		return new ViewPhysicalProperties(positionNormalizator(new PhisicalProprieties(info.getPosition().getPoint(), info.getPosition().getDimension(), info.getSpeed()), arenaDimension), directionFromModeltoView(info.getPosition().getDirection()));
+		return new ViewPhysicalProperties(info.getPosition().getPoint().getX(), info.getPosition().getPoint().getY() - info.getPosition().getDimension().getHeight() - arenaDimension.getHeight(), info.getPosition().getDimension().getWidth(), info.getPosition().getDimension().getHeight(), info.getSpeed(), directionFromModeltoView(info.getPosition().getDirection()));
 	}
 	
-	private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
+	/*private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
 		position.setPoint(new Point(position.getPoint().getX(), arenaDimension.getHeight() - position.getPoint().getY() - position.getDimension().getHeight()));
 		return position;
-	}
+	}*/
 	
-	private static ViewPhysicalProperties.Directions directionFromModeltoView (Directions direction) {
+	private static Actions directionFromModeltoView (Directions direction) {
 		switch(direction) {
-		case LEFT: return ViewPhysicalProperties.Directions.LEFT;
-		case RIGHT: return ViewPhysicalProperties.Directions.RIGHT;
-		case UP: return ViewPhysicalProperties.Directions.UP;
-		case DOWN: return ViewPhysicalProperties.Directions.DOWN;
-		case NONE: return ViewPhysicalProperties.Directions.NONE;
+		case LEFT: return Actions.LEFT;
+		case RIGHT: return Actions.RIGHT;
+		case UP: return Actions.UP;
+		case DOWN: return Actions.DOWN;
+		case NONE: return Actions.IDLE;
 		default:
 			//TODO cambia exception in IllegalEventException
 			throw(new IllegalArgumentException());
