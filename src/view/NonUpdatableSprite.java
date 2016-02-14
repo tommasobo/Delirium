@@ -18,27 +18,41 @@ public class NonUpdatableSprite extends AbstractSprite {
         if (temp.size() == 1) {
             super.getSpritePane().getChildren().add(temp.get(0));
         } else {
+            
             //ignorance mode : on
-            double unit = super.getSpritePane().getPrefWidth() / 100;
             HBox box = new HBox();
-            ImageView im = temp.get(0);
-            im.setFitWidth(100);
-            im.autosize();
-            box.getChildren().add(im);
-            im = temp.get(1);
-            for (int i = 0; i< unit-2; i--) {
-                final ImageView iv = new ImageView(im.getImage());
-                iv.setFitWidth(100);
-                iv.autosize();
-                box.getChildren().add(iv);
+            if (super.getSpritePane().getPrefWidth() <= 180) {
+                final int unit = (int)super.getSpritePane().getPrefWidth() / 3;
+                final int offset = (int)super.getSpritePane().getPrefWidth() % 3;
+                ImageView im = temp.get(0);
+                im.setFitWidth(unit);
+                box.getChildren().add(im);
+                im = temp.get(1);
+                im.setFitWidth(unit + offset);
+                box.getChildren().add(im);
+                im = temp.get(2);
+                im.setFitWidth(unit);
+                box.getChildren().add(im);
+            } else {
+                final int unit = (int)super.getSpritePane().getPrefWidth() / 60;
+                final int offset = (int)super.getSpritePane().getPrefWidth() % 60;
+                ImageView im = temp.get(0);
+                im.setFitWidth(60);
+                box.getChildren().add(im);
+                for (int i = unit - 3; i > 0; i--) {
+                    final ImageView copy = new ImageView(temp.get(1).getImage());
+                    copy.setFitWidth(60);
+                    box.getChildren().add(copy);
+                }
+                im = temp.get(1);
+                im.setFitWidth(60 + offset);
+                box.getChildren().add(im);
+                im = temp.get(2);
+                im.setFitWidth(60);
+                box.getChildren().add(im);
             }
-            im = temp.get(2);
-            im.setFitWidth(100);
-            im.autosize();
-            box.getChildren().add(im);
             super.getSpritePane().getChildren().add(box);
           //ignorance mode : off
-
         }
     }
 
