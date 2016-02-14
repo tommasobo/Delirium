@@ -7,11 +7,14 @@ import control.Control;
 import control.Pair;
 import control.ViewEvents;
 import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -72,9 +75,9 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         entitiesPane.setCache(true);
         entitiesPane.setCacheHint(CacheHint.QUALITY);
         this.overlayPane.getChildren().addAll(new Rectangle(super.getRoot().getScene().getWidth(), 0, 1, super.getRoot().getScene().getHeight()), new Rectangle(-1, 0, 1, super.getRoot().getScene().getHeight()));
-        
-        super.getRoot().getScene().setOnKeyPressed(new InputFromUser(super.getListener()));
-        super.getRoot().getScene().setOnKeyReleased(e -> super.getListener().notifyEvent(ViewEvents.STOPMOVEMENT));
+        InputFromUser ifu = new InputFromUser(super.getListener());
+        super.getRoot().getScene().setOnKeyPressed(ifu);
+        super.getRoot().getScene().setOnKeyReleased(ifu);
         super.getRoot().getChildren().add(entitiesPane);
         super.getRoot().getChildren().add(this.overlayPane);
         this.spriteManager = new SpriteManagerImpl(entitiesPane);
