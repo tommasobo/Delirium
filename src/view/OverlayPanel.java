@@ -24,7 +24,7 @@ public class OverlayPanel {
         iv.setTranslateY(10);
         iv.setFitWidth(50);
         iv.setFitHeight(50);
-        pb = new ProgressBar(33);
+        pb = new ProgressBar();
         pb.setProgress(1);
         pb.setTranslateX(61);
         pb.setTranslateY(10);
@@ -35,8 +35,4 @@ public class OverlayPanel {
         pb.setProgress((life%100)*newLife);
     }
     
-    
-    
-    
-
 }

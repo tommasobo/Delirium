@@ -4,34 +4,35 @@ import java.util.List;
 
 import control.Buttons;
 import control.Control;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class StaticView extends GenericViewImpl {
+public class StaticView extends AbstractGenericView {
 
-    public StaticView(final Stage stage, final Control listener) {
-        super(stage, listener);
+    public StaticView(final Stage stage, final Control listener, final Dimension2D dimension) {
+        super(stage, listener, dimension);
     }
     
     @Override
-    protected void firstDraw() {
+    public void initScene() {
         
-        new Scene(super.root, 500, 600);
-        final List<Buttons> buttons = super.listener.getButtons();
+        new Scene(super.getRoot(), super.getDimension().getWidth(), super.getDimension().getHeight());
+        final List<Buttons> buttons = super.getListener().getButtons();
         final VBox box = new VBox();
         
         for (Buttons b : buttons) {          
             final Button but = new Button(b.name());
-            but.setOnAction(e -> super.listener.notifyEvent(b.getEvent()));
+            but.setOnAction(e -> super.getListener().notifyEvent(b.getEvent()));
             box.getChildren().add(but);
         }
         
-        box.setPrefSize(root.getScene().getWidth(), root.getScene().getHeight());
+        box.setPrefSize(super.getRoot().getScene().getWidth(), super.getRoot().getScene().getHeight());
         box.setAlignment(Pos.CENTER);
-        super.root.getChildren().add(box);
+        super.getRoot().getChildren().add(box);
     }
 
 }

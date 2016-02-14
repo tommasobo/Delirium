@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import control.Control;
-import control.Dimension;
 import control.Pair;
+import javafx.geometry.Dimension2D;
 import javafx.stage.Stage;
 
 public class ViewControllerImpl implements ViewController {
@@ -32,7 +32,7 @@ public class ViewControllerImpl implements ViewController {
     }
     
     
-    public void changeScene(final Pair<SceneType, Dimension> settings) {
+    public void changeScene(final Pair<SceneType, Dimension2D> settings) {
         this.drawableView = ViewFactory.createNewScene(primaryStage, this.listener, settings);
     }
 

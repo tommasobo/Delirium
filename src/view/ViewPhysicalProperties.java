@@ -1,72 +1,35 @@
 package view;
 
-import control.Dimension;
-import control.Point;
-import control.PhisicalProprieties;
+import javafx.geometry.Dimension2D;
+import javafx.geometry.Point2D;
 
 public class ViewPhysicalProperties {
-    
-    public static enum Directions{
-        
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        NONE;
-        
-    }
   
-   private final PhisicalProprieties physicalProperties;
-   private final Directions direction;
+    private final Point2D point;
+    private final Dimension2D dimension;
+    private final int speed;
+    private final Actions action;
    
-   public ViewPhysicalProperties(final PhisicalProprieties phisicalProperties, final Directions direction) {
-       this.physicalProperties = phisicalProperties;
-       this.direction = direction;
-   }
-   
-   public Point getPoint() {
-       return this.physicalProperties.getPoint();
-   }
+    public ViewPhysicalProperties(final int x, final int y, final int width, final int height, final int speed, final Actions action) {
+        this.point = new Point2D(x, y);
+        this.dimension = new Dimension2D(width, height);
+        this.speed = speed;
+        this.action = action;
+    }
 
-   public Dimension getDimension() {
-       return this.physicalProperties.getDimension();
-   }
-   
-   public int getSpeed() {
-       return this.physicalProperties.getSpeed();
-   }
-    
-   public Directions getDirection() {
-       return this.direction;
-   }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((direction == null) ? 0 : direction.hashCode());
-        result = prime * result + ((physicalProperties == null) ? 0 : physicalProperties.hashCode());
-        return result;
+    public Point2D getPoint() {
+        return this.point;
     }
     
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ViewPhysicalProperties other = (ViewPhysicalProperties) obj;
-        if (direction != other.direction)
-            return false;
-        if (physicalProperties == null) {
-            if (other.physicalProperties != null)
-                return false;
-        } else if (!physicalProperties.equals(other.physicalProperties))
-            return false;
-        return true;
+    public Dimension2D getDimension() {
+        return this.dimension;
     }
-   
-   
+    
+    public int getSpeed() {
+        return this.speed;
+    }
+    
+    public Actions getAction() {
+        return this.action;
+    }
 }

@@ -1,6 +1,5 @@
 package view;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -8,6 +7,7 @@ import control.Control;
 import control.Pair;
 import control.ViewEvents;
 import javafx.application.Platform;
+import javafx.geometry.Dimension2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -20,31 +20,29 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
-    //pannello che visualizza il mondo di gioco
-    private final Pane entitiesPane = new Pane();
-    //pannello contenente gli elementi di overlay 
+public class DynamicViewImpl extends AbstractGenericView implements DynamicView {
+    
+    private SpriteManagerImpl spriteManager;
     private final Pane overlayPane = new Pane();
-    //contiene una lista degli elementi visualizzati al momento
-    private final Map<Integer, AnimatedSprite> entitymap = new HashMap<>();
     private Optional<OverlayPanel> status = Optional.empty();  
     
-    public DynamicViewImpl(final Stage stage, final Control listener) {
-        super(stage, listener);
+    public DynamicViewImpl(final Stage stage, final Control listener, final Dimension2D dimension) {
+        super(stage, listener, dimension);
     }
 
     @Override
     public void updateScene(Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
         
-        addElements(entities);
-        
         entities.keySet().forEach(k -> {
             
             Platform.runLater(() -> {
-                final Pane temp = this.entitymap.get(k).getSpritePane();
-                temp.relocate(entities.get(k).getY().getY().getPoint().getX(), entities.get(k).getY().getY().getPoint().getY());
-                this.entitymap.get(k).updateSprite(entities.get(k).getY().getY());
-                if (entities.get(k).getX() == Entities.JOYHERO) {
+                
+                if(!this.spriteManager.isTracked(k)) {
+                    this.spriteManager.addSprite(k, entities.get(k).getX(), entities.get(k).getY().getY());
+                }
+                this.spriteManager.updateSpriteState(k, entities.get(k).getY().getY());
+                
+                if (entities.get(k).getX().getCode() == 0) {
                     if (!status.isPresent()) {
                         this.status = Optional.of(new OverlayPanel(this.overlayPane, entities.get(k).getX(), entities.get(k).getY().getX()));
                         this.status.get().initOverlay();
@@ -58,50 +56,38 @@ public class DynamicViewImpl extends GenericViewImpl implements DynamicView {
     }
 
     @Override
-    protected void firstDraw() {
+    public void initScene() {
         
-        new Scene(super.root, 500, super.dim.getHeight());
+        new Scene(super.getRoot(), 500, super.getDimension().getHeight());
         
-        this.entitiesPane.setPrefSize(super.dim.getWidth(), super.dim.getHeight());
-        this.overlayPane.setPrefSize(super.root.getScene().getWidth() + 2, super.root.getScene().getHeight());
+        final Pane entitiesPane = new Pane();
+        entitiesPane.setPrefSize(super.getDimension().getWidth(), super.getDimension().getHeight());
+        this.overlayPane.setPrefSize(super.getRoot().getScene().getWidth() + 2, super.getRoot().getScene().getHeight());
         //this.entitiesPane.setBackground(new Background(new BackgroundFill(Color.LIME, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.entitiesPane.setBackground(new Background(new BackgroundImage(new Image("nature.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(super.dim.getWidth(), super.dim.getHeight(), false, false, true, true))));
-        this.entitiesPane.setCache(true);
-        this.entitiesPane.setCacheHint(CacheHint.QUALITY);
-        this.overlayPane.getChildren().addAll(new Rectangle(root.getScene().getWidth(), 0, 1, root.getScene().getHeight()), new Rectangle(-1, 0, 1, root.getScene().getHeight()));
-        super.root.getScene().setOnKeyPressed(new InputFromUser(listener));
-        super.root.getScene().setOnKeyReleased(e -> super.listener.notifyEvent(ViewEvents.STOPMOVEMENT));
-        super.root.getChildren().add(this.entitiesPane);
-        super.root.getChildren().add(this.overlayPane);
+        entitiesPane.setBackground(new Background(new BackgroundImage(new Image("nature.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(super.getDimension().getWidth(), super.getDimension().getHeight(), false, false, true, true))));
+        entitiesPane.setCache(true);
+        entitiesPane.setCacheHint(CacheHint.QUALITY);
+        this.overlayPane.getChildren().addAll(new Rectangle(super.getRoot().getScene().getWidth(), 0, 1, super.getRoot().getScene().getHeight()), new Rectangle(-1, 0, 1, super.getRoot().getScene().getHeight()));
+        
+        super.getRoot().getScene().setOnKeyPressed(new InputFromUser(super.getListener()));
+        super.getRoot().getScene().setOnKeyReleased(e -> super.getListener().notifyEvent(ViewEvents.STOPMOVEMENT));
+        super.getRoot().getChildren().add(entitiesPane);
+        super.getRoot().getChildren().add(this.overlayPane);
+        this.spriteManager = new SpriteManagerImpl(entitiesPane);
         
     }
     
-    private void addElements(Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
-        
-        entities.keySet().forEach(k -> {
-            
-            Platform.runLater(() -> {
-                if (!this.entitymap.containsKey(k)) {
-                    //aggiungere factory
-                    final MovableSprite hs = new MovableSprite(this.entitiesPane, entities.get(k).getY().getY().getDimension(), entities.get(k).getX());
-                    hs.updateSprite(entities.get(k).getY().getY());
-                    this.entitymap.put(k, hs);
-                }
-            });
-
-        }); 
-    }
     
     private void moveScene(final ViewPhysicalProperties position) {
        
-        if (this.entitymap.get(0).getSpritePane().getBoundsInParent().getMaxX() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() -this.entitiesPane.getTranslateX() - 100) {
-            if (this.entitiesPane.getTranslateX() >= -(super.dim.getWidth() - super.root.getScene().getWidth() - 1)) {
-                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() - position.getSpeed());
+        if (position.getPoint().getX() + position.getDimension().getWidth() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() - this.spriteManager.getEntitiesPane().getTranslateX() - 100) {
+            if (this.spriteManager.getEntitiesPane().getTranslateX() >= -(super.getDimension().getWidth() - super.getRoot().getScene().getWidth() - 1)) {
+                this.spriteManager.getEntitiesPane().setTranslateX(this.spriteManager.getEntitiesPane().getTranslateX() - position.getSpeed());
             }
         }
-        if (this.entitymap.get(0).getSpritePane().getBoundsInParent().getMinX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.entitiesPane.getTranslateX() + 100) {
-            if (this.entitiesPane.getTranslateX() <= -1) {
-                this.entitiesPane.setTranslateX(this.entitiesPane.getTranslateX() + position.getSpeed());
+        if (position.getPoint().getX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.spriteManager.getEntitiesPane().getTranslateX() + 100) {
+            if (this.spriteManager.getEntitiesPane().getTranslateX() <= -1) {
+                this.spriteManager.getEntitiesPane().setTranslateX(this.spriteManager.getEntitiesPane().getTranslateX() + position.getSpeed());
             }    
         }    
     }
