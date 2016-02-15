@@ -38,6 +38,11 @@ public interface Entities {
     
     boolean isCanFly();
     
+    Actions getAction();
+
+    void setAction(final Actions action);
+    
+    
     /* FINE METODI PER POSIZIONE */
     
     int getContactDamage();

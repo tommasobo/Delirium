@@ -7,8 +7,8 @@ public class RandomDinamicMovementManager extends DinamicMovementManager {
     
     private int count = 0;
 
-    public RandomDinamicMovementManager(Position position, Bounds bounds, int speed, boolean canFly) {
-        super(position, bounds, speed, canFly);
+    public RandomDinamicMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
+        super(position, bounds, action, speed, canFly);
     }
 
     @Override

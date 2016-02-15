@@ -1,23 +1,22 @@
 package model;
 
-import java.util.function.BiFunction;
 
 import control.Point;
 
 public enum Actions {
-    MOVE((t, s) -> (new Point(t.getX() + s, t.getY()))),
-    JUMP((t, s) -> (new Point(t.getX(), t.getY() + s))),
-    FALL((t, s) -> (new Point(t.getX(), t.getY() - s))),
-    STOP((t, s) -> (new Point(t.getX(), t.getY())));
+    MOVE((point, speed, direction) -> (direction == Directions.RIGHT ? new Point(point.getX() + speed, point.getY()) : new Point(point.getX() - speed, point.getY()))),
+    JUMP((point, speed, direction) -> (new Point(point.getX(), point.getY() + speed))),
+    FALL((point, speed, direction) -> (new Point(point.getX(), point.getY() + speed))),
+    STOP((point, speed, direction) -> (point));
 
     
-    private final BiFunction<Point, Integer, Point> function;
+    private final DeterminateNewPoint function;
     
-    Actions(final BiFunction<Point, Integer, Point> function) {
+    Actions(final DeterminateNewPoint function) {
         this.function = function;
     }
     
-    public BiFunction<Point, Integer, Point> getFunction() {
+    public DeterminateNewPoint getFunction() {
         return this.function;
     }
 }

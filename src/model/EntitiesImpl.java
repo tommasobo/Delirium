@@ -108,6 +108,16 @@ public class EntitiesImpl implements Entities {
         return this.movementManager.isCanFly();
     }
 
+    @Override
+    public Actions getAction() {
+        return this.movementManager.getAction();
+    }
+
+    @Override
+    public void setAction(Actions action) {
+        this.movementManager.setAction(action);
+    }
+
    
 
 }

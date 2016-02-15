@@ -21,9 +21,16 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void notifyEvent(Directions action) {
+    public void notifyEvent(Directions direction) {
         this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
-            t.setDirection(action);
+            t.setDirection(direction);
+        });
+    }
+    
+    @Override
+    public void notifyEvent(Actions action) {
+        this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
+            t.setAction(action);
         });
     }
     
@@ -57,20 +64,22 @@ public class ModelImpl implements Model{
         entitiesInfo.stream().forEach(t -> {
             switch (t.getMovementTypes()) {
             case HERO: 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             case STATIC : 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new StaticMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new StaticMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             case RANDOM: 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             case LINEAR:
-            	this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+            	this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             }
             
         });
     }
+
+    
 
 }

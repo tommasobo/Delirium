@@ -6,8 +6,8 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     
     private MovementPattern pattern;
 
-    public DinamicMovementManager(Position position,Bounds bounds, int speed, boolean canFly) {
-        super(position, bounds, speed, canFly);
+    public DinamicMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
+        super(position, bounds, action, speed, canFly);
         this.pattern = this.getDirection() == Directions.RIGHT || this.getDirection() == Directions.LEFT ? MovementPattern.LEFT_RIGHT : MovementPattern.UP_DOWN;
     }
 
@@ -26,9 +26,8 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     
     protected Position linearMovement(Position position, Bounds bounds, int speed) {
         
-    	Actions action = DinamicMovementManager.determinateAction(this.getDirection());
     	
-    	position.setPoint(action.getFunction().apply(position.getPoint(), speed));
+    	position.setPoint(this.getAction().getFunction().deterimnateNewPoint(position.getPoint(), speed, position.getDirection()));
     	
     	if(!checkBounds(position, bounds)) {
     		fixPositionBounds(position, bounds);
@@ -74,22 +73,6 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
         return position;
     }
     
-    protected static Actions determinateAction(final Directions direction) {
-        switch (direction) {
-        case DOWN:
-            return Actions.DOWN;
-        case LEFT:
-            return Actions.LEFT;
-        case NONE:
-            return Actions.STOP;
-        case RIGHT:
-            return Actions.RIGHT;
-        case UP:
-            return Actions.UP;
-        default: 
-            return Actions.STOP;
-        }
-    }
 
 
     abstract public Position getNextMove();

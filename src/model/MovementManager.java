@@ -17,4 +17,8 @@ public interface MovementManager {
     boolean isCanFly();
     
     Position getNextMove();
+    
+    void setAction(final Actions action);
+    
+    Actions getAction();
 }

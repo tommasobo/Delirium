@@ -11,12 +11,14 @@ public abstract class AbstractMovementManager implements MovementManager {
     private boolean canFly; 
     private int speed;
     private final Bounds bounds;
+    private Actions action;
 
-    public AbstractMovementManager(Position position, Bounds bounds, int speed, boolean canFly) {
+    public AbstractMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
         this.position = position;
         this.canFly = canFly;
         this.bounds = bounds;
         this.speed = speed;
+        this.action = action;
     }
 
 
@@ -121,6 +123,14 @@ public abstract class AbstractMovementManager implements MovementManager {
     
     public boolean isCanFly() {
         return this.canFly;
+    }
+    
+    public void setAction(final Actions action) {
+        this.action = action;
+    }
+    
+    public Actions getAction() {
+        return this.action;
     }
     
 }

@@ -7,7 +7,9 @@ import control.Pair;
 
 public interface Model {
     
-    void notifyEvent(Directions action);
+    void notifyEvent(Directions direction);
+    
+    void notifyEvent(Actions action);
     
     public void updateArena();
     
