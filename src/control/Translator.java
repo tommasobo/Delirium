@@ -3,25 +3,27 @@ package control;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import view.Actions;
 import model.Directions;
 import model.EntitiesInfo;
 import model.Position;
+import view.Actions;
 import view.Entities;
 import view.ViewPhysicalProperties;
 
 class Translator {
 	
 	//eventualmente da sostare dentro controller impl
-	public static Directions tranViewEvents(ViewEvents event) {
+	public static Pair<model.Actions, Optional<model.Directions>> tranViewEvents(ViewEvents event) {
 		switch(event) {
-		case MLEFT: return Directions.LEFT;
-		case MRIGHT: return Directions.RIGHT;
-		case JUMP: return Directions.UP;
-		case STOPMOVEMENT : return Directions.NONE;
+		case STOPMLEFT:
+		case MLEFT: return new Pair<>(model.Actions.MOVE, Optional.of(model.Directions.LEFT));
+		case STOPMRIGHT:
+		case MRIGHT: return new Pair<>(model.Actions.MOVE, Optional.of(model.Directions.RIGHT));
+		case STOPJUMP:
+		case JUMP: return new Pair<>(model.Actions.JUMP, Optional.empty());
 		default:
-			//TODO cambia exception in IllegalEventException
 			throw(new IllegalArgumentException());
 		}
 	}
@@ -41,8 +43,6 @@ class Translator {
 		switch(direction) {
 		case LEFT: return Actions.LEFT;
 		case RIGHT: return Actions.RIGHT;
-		case UP: return Actions.UP;
-		case DOWN: return Actions.DOWN;
 		case NONE: return Actions.IDLE;
 		default:
 			//TODO cambia exception in IllegalEventException

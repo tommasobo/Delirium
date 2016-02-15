@@ -1,22 +1,21 @@
 package control;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javafx.geometry.Dimension2D;
 import model.Bounds;
 import model.Directions;
 import model.EntitiesInfo;
+import model.EntitiesInfoImpl;
 import model.LifeManager;
 import model.Model;
-import model.Actions;
 import model.ModelImpl;
-import model.Position;
 import model.MovementTypes;
-import model.EntitiesInfoImpl;
+import model.Position;
 import view.Entities;
 import view.SceneType;
 import view.ViewController;
@@ -25,6 +24,7 @@ import view.ViewControllerImpl;
 public class ControlImpl implements Control {
 	private final Model model;
 	private ViewController view;
+	private final Queue<Pair<model.Actions, Optional<model.Directions>>> actions = new ConcurrentLinkedQueue<>(); 
 	
 	public ControlImpl() {
 		this.model = ModelImpl.getModel();
@@ -41,7 +41,22 @@ public class ControlImpl implements Control {
 			gameLoop(ViewEvents.LEVEL1);
 			return;
 		}
-		this.model.notifyEvent(Translator.tranViewEvents(event));
+		
+		//Pair<model.Actions, Optional<model.Directions>> comunicationToModel = Translator.tranViewEvents(event);
+		
+		if(event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT) {
+			if(!actions.contains(Translator.tranViewEvents(event))) {
+				actions.add(Translator.tranViewEvents(event));
+			}
+			if(event == ViewEvents.MLEFT && actions.contains(Translator.tranViewEvents(ViewEvents.MRIGHT))) {
+				actions.remove(Translator.tranViewEvents(ViewEvents.MRIGHT));
+			}
+			if(event == ViewEvents.MRIGHT && actions.contains(Translator.tranViewEvents(ViewEvents.MLEFT))) {
+				actions.remove(Translator.tranViewEvents(ViewEvents.MLEFT));
+			}
+		} else {
+			actions.remove(Translator.tranViewEvents(event));
+		}
 	}
 	
 	public List<Buttons> getButtons() {
@@ -86,7 +101,7 @@ public class ControlImpl implements Control {
 		
 		this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 		
-		Thread t = new GameThread(this.model, this.view, database);
+		Thread t = new GameThread(this.model, this.view, database, actions);
 		t.start();
 		
 		
