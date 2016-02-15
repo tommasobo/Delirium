@@ -3,6 +3,7 @@ package control;
 import java.util.Optional;
 import java.util.Queue;
 
+import model.Actions;
 import model.Model;
 import view.ViewController;
 
@@ -21,15 +22,19 @@ public class GameThread extends Thread {
 	}
 	public void run() {
 		while(true) {
-			Pair<model.Actions, Optional<model.Directions>> action = this.actions.peek();
+			if(!this.actions.isEmpty()) {
+				Pair<model.Actions, Optional<model.Directions>> action = this.actions.peek();
 			
-			if(action.getY().isPresent()) {
-				this.model.notifyEvent(action.getY().get());
+				if(action.getY().isPresent()) {
+					this.model.notifyEvent(action.getY().get());
+				}
+				this.model.notifyEvent(action.getX());
+				this.actions.add(this.actions.poll());
+			} else {
+				this.model.notifyEvent(Actions.STOP);
 			}
-			this.model.notifyEvent(action.getX());
 			
 			
-			this.actions.add(this.actions.poll());
 			this.model.updateArena();
 			this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
 			try {

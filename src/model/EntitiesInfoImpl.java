@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Optional;
 
 public class EntitiesInfoImpl implements EntitiesInfo {
     
@@ -10,6 +9,7 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     
     private final MovementTypes movementTypes;
     private final Position position;
+    private final Actions action;
     private final Bounds bounds;
     private final int speed;
     private final boolean canFly;
@@ -17,13 +17,14 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     private final int contactDamage;
 
     public EntitiesInfoImpl(int code, int life, LifeManager lifemanager, MovementTypes movementTypes, Position position,
-            Bounds bounds, int speed, boolean canFly, int contactDamage) {
+            Bounds bounds, Actions action, int speed, boolean canFly, int contactDamage) {
         this.code = code;
         this.life = life;
         this.lifemanager = lifemanager;
         this.movementTypes = movementTypes;
         this.position = position;
         this.bounds = bounds;
+        this.action = action;
         this.speed = speed;
         this.canFly = canFly;
         this.contactDamage = contactDamage;
@@ -100,5 +101,11 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     public int getContactDamage() {
         return contactDamage;
     }
+
+	@Override
+	public Actions getAction() {
+		// TODO Auto-generated method stub
+		return this.action;
+	}
     
 }

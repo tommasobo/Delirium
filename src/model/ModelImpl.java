@@ -53,7 +53,7 @@ public class ModelImpl implements Model{
     public List<EntitiesInfo> getState() {
         final List<EntitiesInfo> result = new LinkedList<>();
         this.entities.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), t.getLife(), t.getLifeManager(), null, t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getContactDamage()));
+            result.add(new EntitiesInfoImpl(t.getCode(), t.getLife(), t.getLifeManager(), null, t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly(), t.getContactDamage()));
         });
         return result;
     }

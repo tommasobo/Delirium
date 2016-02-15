@@ -31,6 +31,9 @@ class Translator {
 	public static ViewPhysicalProperties positionFromModeltoView (EntitiesInfo info, EntitiesDatabase database) {
 		//TODO mi serve una interfaccia position senza setter, anche un point
 		Position p = info.getPosition();
+		/*if(info.getCode() == 0) {
+			System.out.println(info.getPosition().getDirection() + " " + info.getAction());
+		}*/
 		return new ViewPhysicalProperties(p.getPoint().getX(), database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(), p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(), database.getViewEntity(info.getCode()) == Entities.PLATFORM ? Actions.IDLE : directionFromModeltoView(p.getDirection()));
 	}
 	
@@ -39,7 +42,7 @@ class Translator {
 		return position;
 	}*/
 	
-	private static Actions directionFromModeltoView (Directions direction) {
+	private static Actions directionFromModeltoView (model.Directions direction) {
 		switch(direction) {
 		case LEFT: return Actions.LEFT;
 		case RIGHT: return Actions.RIGHT;
@@ -57,7 +60,7 @@ class Translator {
 		listInfo.stream().forEach(e -> {
 			viewMap.put(e.getCode(), new Pair<Entities, Pair<Integer, ViewPhysicalProperties>>(database.getViewEntity(e.getCode()), new Pair<Integer, ViewPhysicalProperties>(e.getLife(), positionFromModeltoView(e, database))));
 		});
-		//System.out.println(viewMap);
+		//System.out.println(viewMap.get(0).getY().getY().getPoint());
 		return viewMap;
 	}
 

@@ -29,8 +29,8 @@ public abstract class DinamicMovementManager extends AbstractMovementManager{
     	
     	position.setPoint(this.getAction().getFunction().deterimnateNewPoint(position.getPoint(), speed, position.getDirection()));
     	
-    	if(!checkBounds(position, bounds)) {
-    		fixPositionBounds(position, bounds);
+    	if(!checkBounds(position, bounds, this.getAction())) {
+    		fixPositionBounds(position, bounds, this.getAction());
     		if(this.getPattern() == MovementPattern.LEFT_RIGHT) {
     			if(position.getDirection() == Directions.LEFT) {
     				position.setDirection(Directions.RIGHT);

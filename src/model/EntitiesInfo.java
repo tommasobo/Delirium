@@ -19,5 +19,7 @@ public interface EntitiesInfo {
     boolean isCanFly();
 
     int getContactDamage();
+    
+    Actions getAction();
 
 }
