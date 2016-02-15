@@ -77,7 +77,7 @@ public class ControlImpl implements Control {
 		
 		//aggiungo l'eroe
 		database.putEntity(0, Entities.JOY);
-		ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO, new Position(new Point(960, 40), Directions.NONE, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300), Actions.STOP,  10, false, 0));
+		ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO, new Position(new Point(0, 240), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300), Actions.STOP,  10, false, 0));
 		
 
                 Integer tmp = codIterator.next();
