@@ -1,14 +1,13 @@
 package control;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import model.Directions;
 import model.EntitiesInfo;
 import model.Position;
 import view.Actions;
+import view.ControlComunication;
 import view.Entities;
 import view.ViewPhysicalProperties;
 
@@ -31,37 +30,42 @@ class Translator {
 	public static ViewPhysicalProperties positionFromModeltoView (EntitiesInfo info, EntitiesDatabase database) {
 		//TODO mi serve una interfaccia position senza setter, anche un point
 		Position p = info.getPosition();
-		/*if(info.getCode() == 0) {
-			System.out.println(info.getPosition().getDirection() + " " + info.getAction());
-		}*/
-		return new ViewPhysicalProperties(p.getPoint().getX(), database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(), p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(), database.getViewEntity(info.getCode()) == Entities.PLATFORM ? Actions.IDLE : directionFromModeltoView(p.getDirection()));
+		return new ViewPhysicalProperties(p.getPoint().getX(), database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(), p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(), directionFromModeltoView(p.getDirection()));
 	}
 	
-	/*private static PhisicalProprieties positionNormalizator(PhisicalProprieties position, Dimension arenaDimension) {
-		position.setPoint(new Point(position.getPoint().getX(), arenaDimension.getHeight() - position.getPoint().getY() - position.getDimension().getHeight()));
-		return position;
-	}*/
-	
-	private static Actions directionFromModeltoView (model.Directions direction) {
+	private static view.Directions directionFromModeltoView (model.Directions direction) {
 		switch(direction) {
-		case LEFT: return Actions.LEFT;
-		case RIGHT: return Actions.RIGHT;
-		case NONE: return Actions.IDLE;
+		case LEFT: return view.Directions.LEFT;
+		case RIGHT: return view.Directions.RIGHT;
+		case NONE: return view.Directions.NONE;
 		default:
 			//TODO cambia exception in IllegalEventException
 			throw(new IllegalArgumentException());
 		}
 	}
 	
+	private static view.Actions actionsFromModeltoView (model.Actions action) {
+		switch(action) {
+		case FALL:
+			return view.Actions.FALL;
+		case JUMP:
+			return view.Actions.JUMP;
+		case MOVE:
+			return view.Actions.MOVE;
+		case STOP:
+			return view.Actions.IDLE;
+		default:
+			throw(new IllegalArgumentException());
+		}
+	}
+	
 	//eventualmente da sostare dentro controller impl
-	public static Map<Integer, Pair<Entities, Pair<Integer, ViewPhysicalProperties>>> mapFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
-		//System.out.println(listInfo);
-		Map<Integer, Pair<Entities, Pair<Integer, ViewPhysicalProperties>>> viewMap = new HashMap<>();
+	public static List<ControlComunication> mapFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
+		List<ControlComunication> viewList = new LinkedList<>();
 		listInfo.stream().forEach(e -> {
-			viewMap.put(e.getCode(), new Pair<Entities, Pair<Integer, ViewPhysicalProperties>>(database.getViewEntity(e.getCode()), new Pair<Integer, ViewPhysicalProperties>(e.getLife(), positionFromModeltoView(e, database))));
+			viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), positionFromModeltoView(e, database), actionsFromModeltoView(e.getAction())));
 		});
-		//System.out.println(viewMap.get(0).getY().getY().getPoint());
-		return viewMap;
+		return viewList;
 	}
 
 }
