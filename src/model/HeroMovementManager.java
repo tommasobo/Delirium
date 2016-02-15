@@ -31,12 +31,14 @@ public class HeroMovementManager extends AbstractMovementManager{
         
         if(this.getAction() != Actions.FALL && this.getAction() == Actions.JUMP && !onJump) {
         	time = 0;
-            this.onJump = true;
+                this.onJump = true;
+                this.setAction(Actions.JUMP);
         }
         
         if (onJump) {
             if(time < 200) {
                 newPosition.setPoint(Actions.JUMP.getFunction().deterimnateNewPoint(newPosition.getPoint(), this.getSpeed(), newPosition.getDirection()));
+                this.setAction(Actions.JUMP);
                 //TODO metti controllo bounds salto
                 if (!UtilityMovement.checkBounds(newPosition, this.getBounds(), Actions.JUMP)) {
                     UtilityMovement.fixPositionBounds(newPosition, getBounds(), Actions.JUMP);
