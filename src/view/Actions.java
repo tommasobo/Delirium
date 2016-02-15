@@ -2,8 +2,8 @@ package view;
 
 public enum Actions {
     
-    JUMP("up"),
-    FALL("down"),
+    JUMP("jump"),
+    FALL("fall"),
     MOVE("move"),
     IDLE("idle");
     //SHOOT("shoot"),

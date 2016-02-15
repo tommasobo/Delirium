@@ -13,8 +13,8 @@ public class NonUpdatableSprite extends AbstractSprite {
     }
 
     @Override
-    public void initSprite(Actions action) {
-        final List<ImageView> temp = super.getResourcesManager().getResources(action);
+    public void initSprite(final Actions action, final Directions direction) {
+        final List<ImageView> temp = super.getResourcesManager().getResources(action.getString());
         if (temp.size() == 1) {
             super.getSpritePane().getChildren().add(temp.get(0));
         } else {

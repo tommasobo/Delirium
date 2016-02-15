@@ -16,7 +16,7 @@ public abstract class AbstractSprite implements Sprite {
     }
 
     @Override
-    abstract public void initSprite(final Actions action);
+    abstract public void initSprite(final Actions action, final Directions direction);
 
 
     @Override

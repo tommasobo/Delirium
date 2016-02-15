@@ -2,7 +2,7 @@ package view;
 
 public interface UpdatableSprite extends Sprite{
     
-    void updateSprite(final Actions action, final int duration);
+    void updateSprite(final Actions action, final Directions direction, final int duration);
     void resetSprite();
     
 }

@@ -6,5 +6,5 @@ import javafx.scene.image.ImageView;
 
 public interface ResourcesManager {
     
-    List<ImageView> getResources(final Actions action); 
+    List<ImageView> getResources(final String composedAction); 
 }

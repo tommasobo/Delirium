@@ -1,5 +1,6 @@
 package view;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class ViewControllerImpl implements ViewController {
     }
 
     @Override
-    public void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
+    public void updateScene(final List<ControlComunication> entities) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
         dv.updateScene(entities);
     }

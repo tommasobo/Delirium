@@ -20,7 +20,6 @@ public class InputFromUser implements EventHandler<KeyEvent>{
         if (KeyEvent.KEY_PRESSED.equals(event.getEventType())) {
             if (code == KeyCode.RIGHT){
                 this.listener.notifyEvent(ViewEvents.MRIGHT);
-                System.out.println("CIAO");
             }
             if (code == KeyCode.LEFT){
                 this.listener.notifyEvent(ViewEvents.MLEFT);    
@@ -38,7 +37,6 @@ public class InputFromUser implements EventHandler<KeyEvent>{
             if (code == KeyCode.SPACE){
                 this.listener.notifyEvent(ViewEvents.STOPJUMP);
             }
-        
         }
         event.consume();
     }

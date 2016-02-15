@@ -63,7 +63,7 @@ class Translator {
 	public static List<ControlComunication> mapFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
 		List<ControlComunication> viewList = new LinkedList<>();
 		listInfo.stream().forEach(e -> {
-			viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), positionFromModeltoView(e, database), actionsFromModeltoView(e.getAction())));
+			viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()),e.getLife(), positionFromModeltoView(e, database), actionsFromModeltoView(e.getAction())));
 		});
 		return viewList;
 	}

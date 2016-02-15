@@ -15,22 +15,22 @@ public class SpriteManagerImpl {
     public SpriteManagerImpl(final Pane entitiesPane) {
         this.entitiesPane = entitiesPane;
     }
-    
-    public void addSprite(final int code, final Entities entity, final ViewPhysicalProperties properties) {
-        if (entity.getCode() == 0 || entity.getCode() == 1) {
-            this.updatableSprite.put(code, new UpdatableSpriteImpl(entity, properties.getDimension()));
+    //cambiare i nomi ai code
+    public void addSprite(final ControlComunication object) {
+        if (object.getEntity().getCode() == 0 || object.getEntity().getCode() == 1) {
+            this.updatableSprite.put(object.getCode(), new UpdatableSpriteImpl(object.getEntity(), object.getProperty().getDimension()));
         } else {
-            this.nonUpdatableSprite.put(code, new NonUpdatableSprite(entity, properties.getDimension()));
+            this.nonUpdatableSprite.put(object.getCode(), new NonUpdatableSprite(object.getEntity(), object.getProperty().getDimension()));
         }
-        this.getFromMaps(code).initSprite(properties.getAction());
-        this.updateSpriteState(code, properties);
-        this.entitiesPane.getChildren().add(this.getFromMaps(code).getSpritePane());
+        this.getFromMaps(object.getCode()).initSprite(object.getAction(), object.getProperty().getDirection());
+        this.updateSpriteState(object.getCode(), object.getAction(), object.getProperty());
+        this.entitiesPane.getChildren().add(this.getFromMaps(object.getCode()).getSpritePane());
         
     }
     //to add death control
-    public void updateSpriteState(final int code, final ViewPhysicalProperties properties) {
+    public void updateSpriteState(final int code, final Actions action, final ViewPhysicalProperties properties) {
         if (this.updatableSprite.containsKey(code)) {
-            this.updatableSprite.get(code).updateSprite(properties.getAction(), Timeline.INDEFINITE);
+            this.updatableSprite.get(code).updateSprite(action, properties.getDirection(), Timeline.INDEFINITE);
         }
         this.getFromMaps(code).getSpritePane().relocate(properties.getPoint().getX(), properties.getPoint().getY());
     }

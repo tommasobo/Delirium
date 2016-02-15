@@ -1,26 +1,16 @@
 package view;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 import control.Control;
-import control.Pair;
-import control.ViewEvents;
 import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -38,24 +28,24 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     }
 
     @Override
-    public void updateScene(Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities) {
+    public void updateScene(final List<ControlComunication> entities) {
         
-        entities.keySet().forEach(k -> {
+        entities.stream().forEach(k -> {
             
             Platform.runLater(() -> {
                 
-                if(!this.spriteManager.isTracked(k)) {
-                    this.spriteManager.addSprite(k, entities.get(k).getX(), entities.get(k).getY().getY());
+                if(!this.spriteManager.isTracked(k.getCode())) {
+                    this.spriteManager.addSprite(k);
                 }
-                this.spriteManager.updateSpriteState(k, entities.get(k).getY().getY());
+                this.spriteManager.updateSpriteState(k.getCode(), k.getAction(), k.getProperty());
                 
-                if (entities.get(k).getX().getCode() == 0) {
+                if (k.getEntity().getCode() == 0) {
                     if (!status.isPresent()) {
-                        this.status = Optional.of(new OverlayPanel(this.overlayPane, entities.get(k).getX(), entities.get(k).getY().getX()));
+                        this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
                         this.status.get().initOverlay();
                     }
-                    moveScene(entities.get(k).getY().getY());
-                    status.get().setProgressBar(entities.get(k).getY().getX());
+                    moveScene(k.getProperty());
+                    status.get().setProgressBar(k.getLife());
                 }
             });
             

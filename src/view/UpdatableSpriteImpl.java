@@ -10,24 +10,25 @@ import javafx.util.Pair;
 
 public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
 
-    private Pair<Actions, Timeline> currentAnimation;
+    private Pair<String, Timeline> currentAnimation;
     
     public UpdatableSpriteImpl(final Entities entity, final Dimension2D dimension) {
         super(entity, dimension);
     }
 
     @Override
-    public void initSprite(Actions action) {
-        this.currentAnimation = new Pair<>(action, animate(action, Timeline.INDEFINITE));
+    public void initSprite(final Actions action, final Directions direction) {
+        final String composedAction = this.composeAction(action, direction);
+        this.currentAnimation = new Pair<>(composedAction, animate(composedAction, Timeline.INDEFINITE));
     }
 
     @Override
-    public void updateSprite(Actions action, int duration) {
-        if (action != this.currentAnimation.getKey()) {
+    public void updateSprite(final Actions action, final Directions direction, final int duration) {
+        final String composedAction = this.composeAction(action, direction);
+        if (composedAction != this.currentAnimation.getKey()) {
             this.currentAnimation.getValue().stop();
-            this.currentAnimation = new Pair<>(action, animate(action, duration));
+            this.currentAnimation = new Pair<>(composedAction, animate(composedAction, duration));
         }
-        
     }
     
     @Override
@@ -35,7 +36,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
         this.currentAnimation.getValue().stop();
     }
     
-    private Timeline animate(final Actions action, final int duration) {
+    private Timeline animate(final String composedAction, final int duration) {
         
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(duration);
@@ -43,7 +44,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
         
         int cont = 0;
         
-        for (final ImageView im : super.getResourcesManager().getResources(action)) {
+        for (final ImageView im : super.getResourcesManager().getResources(composedAction)) {
             KeyFrame key= new KeyFrame(Duration.millis(cont), e -> {
                 super.getSpritePane().getChildren().clear();
                 super.getSpritePane().getChildren().add(im);
@@ -54,6 +55,10 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
         
         timeline.play();
         return timeline;
+    }
+    
+    private String composeAction(final Actions action, final Directions direction) {
+        return action.getString() + "-" + direction.getName();
     }
 
 }

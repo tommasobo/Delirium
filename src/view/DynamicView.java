@@ -1,11 +1,9 @@
 package view;
 
-import java.util.Map;
-
-import control.Pair;
+import java.util.List;
 
 public interface DynamicView {
     
-    void updateScene(final Map<Integer, Pair<Entities, Pair<Integer,ViewPhysicalProperties>>> entities);
+    void updateScene(final List<ControlComunication> entities);
     
 }

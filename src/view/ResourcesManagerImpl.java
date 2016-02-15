@@ -19,10 +19,12 @@ public class ResourcesManagerImpl implements ResourcesManager {
     }
 
     @Override
-    public List<ImageView> getResources(final Actions action) {
+    public List<ImageView> getResources(final String composedAction) {
         final List<ImageView> temp = new LinkedList<>();
+        
         IntStream.range(0, this.entity.getnAssets()).forEach(n -> {
-            temp.add(new ImageView(new Image(this.entity.getName() + "/" + action.getString() + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true)));
+            System.out.println(this.entity.getName() + "/" + composedAction + Integer.toString(n) + ".png");
+            temp.add(new ImageView(new Image(this.entity.getName() + "/" + composedAction + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true)));
         });
         return temp;
     }
