@@ -4,8 +4,8 @@ public enum Directions {
     
     RIGHT,
     LEFT,
-    UP,
-    DOWN,
+    /*UP,
+    DOWN,*/
     NONE;
 
 }

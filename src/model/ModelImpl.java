@@ -67,13 +67,14 @@ public class ModelImpl implements Model{
                 this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             case STATIC : 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new StaticMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new ReactiveMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
                 break;
             case RANDOM: 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), t.getContactDamage()));
                 break;
-            case LINEAR:
-            	this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), t.getContactDamage()));
+            case VERTICAL_LINEAR:
+            case HORIZONTAL_LINEAR:
+            	this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), t.getContactDamage()));
                 break;
             }
             

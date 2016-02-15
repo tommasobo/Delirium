@@ -3,39 +3,39 @@ package model;
 import java.util.Random;
 
 
-public class RandomDinamicMovementManager extends DinamicMovementManager {
+public class RandomDinamicMovementManager extends LinearDinamicMovementManager {
     
     private int count = 0;
 
-    public RandomDinamicMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
-        super(position, bounds, action, speed, canFly);
+    public RandomDinamicMovementManager(Position position, Bounds bounds, int speed, boolean canFly, MovementTypes movementTypes) {
+        super(position, bounds, speed, canFly, movementTypes);
     }
 
     @Override
     public Position getNextMove() {
         
         if(count % 10 == 0 || count == 0) {
-            int rn = new Random().nextInt(4);
-            switch(rn) {
-            case 0: this.setDirection(Directions.RIGHT);
-                    this.setPattern(MovementPattern.LEFT_RIGHT);
+            switch(new Random().nextInt(4)) {
+            case 0: this.setAction(Actions.MOVE);
+                    this.setDirection(Directions.RIGHT);
+                    this.setMovementTypes(MovementTypes.HORIZONTAL_LINEAR);
                     break;
-            case 1: this.setDirection(Directions.LEFT);
-                    this.setPattern(MovementPattern.LEFT_RIGHT);
+            case 1: this.setAction(Actions.MOVE);
+                    this.setDirection(Directions.LEFT);
+                    this.setMovementTypes(MovementTypes.HORIZONTAL_LINEAR);
                     break;
-            case 2: this.setDirection(Directions.DOWN);
-                    this.setPattern(MovementPattern.UP_DOWN);
+            case 2: this.setAction(Actions.JUMP);
+                    this.setMovementTypes(MovementTypes.VERTICAL_LINEAR);
                     break;
-            case 3: this.setDirection(Directions.UP); 
-                    this.setPattern(MovementPattern.UP_DOWN);
+            case 3: this.setAction(Actions.FALL);
+                    this.setMovementTypes(MovementTypes.VERTICAL_LINEAR);
                     break;
             }
             
         }
         this.count++;
         
-        //return this.linearMovement(this.getPosition());
-        return linearMovement(this.getPosition(), this.getBounds(), this.getSpeed());
+        return super.getNextMove();
     }
 
 }

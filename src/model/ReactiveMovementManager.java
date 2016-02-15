@@ -1,9 +1,9 @@
 package model;
 
 
-public class StaticMovementManager extends AbstractMovementManager {
+public class ReactiveMovementManager extends AbstractMovementManager {
 
-    public StaticMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
+    public ReactiveMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
         super(position, bounds, action, speed, canFly);
     }
 

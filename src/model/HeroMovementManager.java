@@ -1,6 +1,6 @@
 package model;
 
-public class HeroMovementManager extends DinamicMovementManager{
+public class HeroMovementManager extends AbstractMovementManager{
     
     private boolean onJump = false;
     private int time = 0;
@@ -19,8 +19,8 @@ public class HeroMovementManager extends DinamicMovementManager{
     	//applico le funzioni dopo il calcolo dell'eventuale salto o caduta in modo da poter settare la reale direzione del personaggio 
         if (this.getAction() == Actions.MOVE) {
         	newPosition.setPoint(this.getAction().getFunction().deterimnateNewPoint(newPosition.getPoint(), this.getSpeed(), newPosition.getDirection()));
-        	if(!checkBounds(newPosition, getBounds(), this.getAction())) {
-        		fixPositionBounds(newPosition, getBounds(), this.getAction());
+        	if(!UtilityMovement.checkBounds(newPosition, getBounds(), this.getAction())) {
+        	    UtilityMovement.fixPositionBounds(newPosition, getBounds(), this.getAction());
         	}
         }
     	
@@ -38,8 +38,8 @@ public class HeroMovementManager extends DinamicMovementManager{
             if(time < 200) {
                 newPosition.setPoint(Actions.JUMP.getFunction().deterimnateNewPoint(newPosition.getPoint(), this.getSpeed(), newPosition.getDirection()));
                 //TODO metti controllo bounds salto
-                if (!checkBounds(newPosition, this.getBounds(), Actions.JUMP)) {
-                    fixPositionBounds(newPosition, getBounds(), Actions.JUMP);
+                if (!UtilityMovement.checkBounds(newPosition, this.getBounds(), Actions.JUMP)) {
+                    UtilityMovement.fixPositionBounds(newPosition, getBounds(), Actions.JUMP);
                     time = 200;
                 }
                 time++;
