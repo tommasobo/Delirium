@@ -28,7 +28,15 @@ public class GameThread extends Thread {
 				if(action.getY().isPresent()) {
 					this.model.notifyEvent(action.getY().get());
 				}
-				this.model.notifyEvent(action.getX());
+				if(action.getX() == Actions.JUMP && actions.stream().anyMatch(t -> t.getX() == Actions.MOVE)) {
+				    Optional<Pair<model.Actions, Optional<model.Directions>>> op = actions.stream().filter(t -> t.getX() == Actions.MOVE).findFirst();
+				    this.model.notifyEvent(Actions.MOVEONJUMP);
+				    this.model.notifyEvent(op.get().getY().get());
+				} else if(action.getX() == Actions.MOVE && actions.stream().anyMatch(t -> t.getX() == Actions.JUMP)) {
+				    this.model.notifyEvent(Actions.MOVEONJUMP);
+				} else {
+				    this.model.notifyEvent(action.getX());
+				}
 				this.actions.add(this.actions.poll());
 			} else {
 				this.model.notifyEvent(Actions.STOP);

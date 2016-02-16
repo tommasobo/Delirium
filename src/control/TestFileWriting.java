@@ -9,6 +9,8 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.representer.Representer;
 
 import model.Actions;
 import model.LifeManager;
@@ -35,15 +37,18 @@ public class TestFileWriting {
         constructor.addTypeDescription(new TypeDescription(EntitiesStoreImpl.class, "!entity"));
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(options);
+        options.setExplicitStart(true);
+        options.setExplicitEnd(true);
         
+        Yaml yaml = new Yaml(options);
         /*BufferedWriter buff = Files.newBufferedWriter(Paths.get("src/ciao.yaml"));
         yaml.dump(dim, buff);
         yaml.dump(prova, buff);
         yaml.dump(a, buff);*/
         
         //EntitiesStoreImpl ciao = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), EntitiesStoreImpl.class);
-        DimensionStoreImpl ci = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), DimensionStoreImpl.class);
+        //DimensionStoreImpl ci = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), DimensionStoreImpl.class);
+        yaml.loadAll("src/ciao.yaml");
         //System.out.println(ciao.getMaxY());
     }
 

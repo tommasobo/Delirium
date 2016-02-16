@@ -5,7 +5,9 @@ import control.Point;
 
 public enum Actions {
     MOVE((point, speed, direction) -> (direction == Directions.RIGHT ? new Point(point.getX() + speed, point.getY()) : new Point(point.getX() - speed, point.getY()))),
+    MOVEONJUMP((point, speed, direction) -> (direction == Directions.RIGHT ? new Point(point.getX() + speed, point.getY()) : new Point(point.getX() - speed, point.getY() + speed))),
     JUMP((point, speed, direction) -> (new Point(point.getX(), point.getY() + speed))),
+    MOVEONFALL((point, speed, direction) -> (direction == Directions.RIGHT ? new Point(point.getX() + speed, point.getY()) : new Point(point.getX() - speed, point.getY() - speed))),
     FALL((point, speed, direction) -> (new Point(point.getX(), point.getY() - speed))),
     STOP((point, speed, direction) -> (point));
 

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 public class HeroMovementManager extends AbstractMovementManager{
     
     private boolean onJump = false;
@@ -15,35 +17,34 @@ public class HeroMovementManager extends AbstractMovementManager{
     @Override
     public Position getNextMove() {
     	Position newPosition = this.getPosition();
-    	
-    	//applico le funzioni dopo il calcolo dell'eventuale salto o caduta in modo da poter settare la reale direzione del personaggio 
-        if (this.getAction() == Actions.MOVE) {
-        	newPosition.setPoint(this.getAction().getFunction().deterimnateNewPoint(newPosition.getPoint(), this.getSpeed(), newPosition.getDirection()));
-        	if(!UtilityMovement.checkBounds(newPosition, getBounds(), this.getAction())) {
-        	    UtilityMovement.fixPositionBounds(newPosition, getBounds(), this.getAction());
-        	}
-        }
-    	
+        
         //TODO eventualmente aumetare il salto ed applicare comunque la gravità, a livello astratto è forse più logico
         if(!onJump) {
-            newPosition = applyGravity(newPosition);
+            newPosition = applyGravity();
         }
         
-        if(this.getAction() != Actions.FALL && this.getAction() == Actions.JUMP && !onJump) {
+        if(this.getAction() != Actions.FALL && this.getAction() != Actions.MOVEONFALL && (this.getAction() == Actions.JUMP || this.getAction() == Actions.MOVEONJUMP) && !onJump) {
         	time = 0;
-                this.onJump = true;
-                this.setAction(Actions.JUMP);
+            this.onJump = true;
         }
         
         if (onJump) {
             if(time < 200) {
-                newPosition.setPoint(Actions.JUMP.getFunction().deterimnateNewPoint(newPosition.getPoint(), this.getSpeed(), newPosition.getDirection()));
-                this.setAction(Actions.JUMP);
-                //TODO metti controllo bounds salto
-                if (!UtilityMovement.checkBounds(newPosition, this.getBounds(), Actions.JUMP)) {
-                    UtilityMovement.fixPositionBounds(newPosition, getBounds(), Actions.JUMP);
-                    time = 200;
+                if(this.getAction() == Actions.MOVE) {
+                    this.setAction(Actions.MOVEONJUMP);
                 }
+                this.setAction(Actions.JUMP);
+                
+                for(Actions e : UtilityMovement.splitActions(this.getAction())) {
+                    if(e != Actions.FALL) {
+                        Optional<Position> op = UtilityMovement.Move(newPosition, this.getBounds(), e, this.getSpeed());
+                        if(op.isPresent()) {
+                            newPosition = op.get();
+                        }
+                    }
+                }
+                
+                
                 time++;
             } else {
                 onJump = false;

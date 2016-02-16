@@ -46,16 +46,18 @@ class Translator {
 	
 	private static view.Actions actionsFromModeltoView (model.Actions action) {
 		switch(action) {
+		case MOVEONFALL:
 		case FALL:
 			return view.Actions.FALL;
+		case MOVEONJUMP:
 		case JUMP:
 			return view.Actions.JUMP;
 		case MOVE:
 			return view.Actions.MOVE;
 		case STOP:
 			return view.Actions.IDLE;
-		default:
-			throw(new IllegalArgumentException());
+        default:
+        throw(new IllegalArgumentException());
 		}
 	}
 	

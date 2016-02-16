@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 import control.Point;
 
 public abstract class AbstractMovementManager implements MovementManager {
@@ -23,12 +25,8 @@ public abstract class AbstractMovementManager implements MovementManager {
 
     abstract public Position getNextMove();
     
-    /**
-     * @author Matteo Magnani
-     * @param position
-     * @return
-     */
-    protected Position applyGravity(Position position) {
+    
+    /*protected Position applyGravity(Position position) {
         if(!canFly) {
             position.setPoint(Actions.FALL.getFunction().deterimnateNewPoint(position.getPoint(), AbstractMovementManager.GRAVITY, position.getDirection()));
             if(!UtilityMovement.checkBounds(position, this.bounds, Actions.FALL)) {
@@ -40,14 +38,34 @@ public abstract class AbstractMovementManager implements MovementManager {
             }
            /* if(position.getPoint().getY() < bounds.getMinY()) {
                 position.setPoint(new Point(position.getPoint().getX(), bounds.getMinY()));
-            }*/
+            }*//*
             //TODO eventualmente metti a NONE la position se hai raggiunto i bounds
         }
         return position;
+    }*/
+    
+    
+    /**
+     * @author Matteo Magnani
+     * @param position
+     * @return
+     */
+    protected Position applyGravity() {
+        if(!canFly) {
+            Optional<Position> opPos = UtilityMovement.Move(this.getPosition(), this.getBounds(), Actions.FALL, AbstractMovementManager.GRAVITY);
+            if(opPos.isPresent()) {
+                if(this.getAction() == Actions.MOVE) {
+                    this.setAction(Actions.MOVEONFALL);
+                } else {
+                    this.setAction(Actions.FALL);
+                }
+                return opPos.get();
+            } else {
+                return this.getPosition();
+            }
+        }
+        return this.getPosition();
     }
-    
-    
-    
     
     
     public Position getPosition() {
