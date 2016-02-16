@@ -36,7 +36,8 @@ public class ModelImpl implements Model{
     
     public void updateArena() {
         this.entities.stream().forEach(t -> {
-           t.setPosition(t.getNextMove().getPoint(), t.getNextMove().getDirection());
+           Position p = t.getNextMove();
+           t.setPosition(p.getPoint(), p.getDirection());
         });
         
         //MAGNI PART BEGIN

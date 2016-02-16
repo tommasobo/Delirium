@@ -24,10 +24,11 @@ public class GameThread extends Thread {
 		while(true) {
 			if(!this.actions.isEmpty()) {
 				Pair<model.Actions, Optional<model.Directions>> action = this.actions.peek();
-			
+				
 				if(action.getY().isPresent()) {
 					this.model.notifyEvent(action.getY().get());
 				}
+				
 				if(action.getX() == Actions.JUMP && actions.stream().anyMatch(t -> t.getX() == Actions.MOVE)) {
 				    Optional<Pair<model.Actions, Optional<model.Directions>>> op = actions.stream().filter(t -> t.getX() == Actions.MOVE).findFirst();
 				    this.model.notifyEvent(Actions.MOVEONJUMP);
@@ -37,13 +38,15 @@ public class GameThread extends Thread {
 				} else {
 				    this.model.notifyEvent(action.getX());
 				}
+				
 				this.actions.add(this.actions.poll());
 			} else {
 				this.model.notifyEvent(Actions.STOP);
 			}
 			
-			
+			System.out.println("diocane");
 			this.model.updateArena();
+			System.out.println("diocane2");
 			this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
 			try {
 				Thread.sleep(30L);
