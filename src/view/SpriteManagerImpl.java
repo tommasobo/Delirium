@@ -15,9 +15,9 @@ public class SpriteManagerImpl {
     public SpriteManagerImpl(final Pane entitiesPane) {
         this.entitiesPane = entitiesPane;
     }
-    //cambiare i nomi ai code
+    
     public void addSprite(final ControlComunication object) {
-        if (object.getEntity().getCode() == 0 || object.getEntity().getCode() == 1) {
+        if (object.getEntity().isAnimated()) {
             this.updatableSprite.put(object.getCode(), new UpdatableSpriteImpl(object.getEntity(), object.getProperty().getDimension()));
         } else {
             this.nonUpdatableSprite.put(object.getCode(), new NonUpdatableSprite(object.getEntity(), object.getProperty().getDimension()));

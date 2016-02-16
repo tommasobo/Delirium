@@ -39,7 +39,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
                 }
                 this.spriteManager.updateSpriteState(k.getCode(), k.getAction(), k.getProperty());
                 
-                if (k.getEntity().getCode() == 0) {
+                if (k.getCode() == 0) {
                     if (!status.isPresent()) {
                         this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
                         this.status.get().initOverlay();

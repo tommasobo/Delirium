@@ -17,7 +17,7 @@ public abstract class AbstractGenericView implements GenericView {
         this.listener = listener;
         this.root = new Group();
         this.dimension = dimension;
-        this.stage.setResizable(true);
+        this.stage.setResizable(false);
         
     }
     

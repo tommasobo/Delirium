@@ -8,11 +8,15 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,30 +31,27 @@ public class StaticView extends AbstractGenericView {
         
         new Scene(super.getRoot(), super.getDimension().getWidth(), super.getDimension().getHeight());
         super.getRoot().getScene().getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        Font.loadFont(this.getClass().getResourceAsStream("Zombie_Holocaust.ttf"),100);
-        super.getRoot().getScene().setFill(Color.BLACK);
         
-        BorderPane border = new BorderPane();
-        HBox g = new HBox();
-        g.setAlignment(Pos.CENTER);
-        Text  txt = new Text("DELIRIUM");
+        final BorderPane border = new BorderPane();
+        border.setPrefSize(super.getRoot().getScene().getWidth(), super.getRoot().getScene().getHeight());
+        border.setBackground(new Background(new BackgroundImage(new Image("window.jpg", super.getDimension().getWidth(), super.getDimension().getHeight(), false, true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        
+        final HBox top = new HBox();
+        top.setAlignment(Pos.CENTER);
+        final Text  txt = new Text("DELIRIUM");
         txt.setId("fancytext");
-        
-        g.getChildren().add(txt);
-        final List<Buttons> buttons = super.getListener().getButtons();
+        top.getChildren().add(txt);
         final VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
-        
-        for (Buttons b : buttons) {          
+        final List<Buttons> buttons = super.getListener().getButtons();
+        for (final Buttons b : buttons) {          
             final Button but = new Button(b.name());
-            but.setId("Button");
+            but.setId("cool");
             but.setOnAction(e -> super.getListener().notifyEvent(b.getEvent()));
             box.getChildren().add(but);
         }
-        
-        border.setPrefSize(super.getRoot().getScene().getWidth(), super.getRoot().getScene().getHeight());
         border.setCenter(box);
-        border.setTop(g);
+        border.setTop(top);
         
         super.getRoot().getChildren().add(border);
     }
