@@ -28,7 +28,7 @@ public class ResourcesManagerImpl implements ResourcesManager {
         }
         final List<ImageView> temp = new LinkedList<>();
         IntStream.range(0, this.entity.getnAssets()).forEach(n -> {
-            System.out.println(this.entity.getName() + "/" + composedAction + Integer.toString(n) + ".png");
+            //System.out.println(this.entity.getName() + "/" + composedAction + Integer.toString(n) + ".png");
             temp.add(new ImageView(new Image(this.entity.getName() + "/" + composedAction + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true)));
         });
         this.buffer.put(composedAction, temp);

@@ -9,7 +9,9 @@ import control.Point;
 public class UtilityMovement {
     
     enum CheckResult {
-        TRUE, TRUEBUTFIX, FALSE;
+        TRUE,
+        TRUEBUTFIX,
+        FALSE;
     }
     
     public static List<Actions> splitActions(Actions action) {
@@ -51,13 +53,11 @@ public class UtilityMovement {
         return Optional.of(position);
     }
     
-    /**
-     *  @author Matteo Magnani 
-     */
+   
     private static CheckResult checkBounds(Position position, Bounds bounds, Actions action, int speed) {
         position.setPoint(action.getFunction().deterimnateNewPoint(position.getPoint(), speed, position.getDirection()));
         CheckResult checkDown = position.getPoint().getY() >= bounds.getMinY() ? CheckResult.TRUE : (position.getPoint().getY() + AbstractMovementManager.GRAVITY > bounds.getMinY() ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
-        CheckResult checkUp = position.getPoint().getY() + position.getDimension().getHeight() <= bounds.getMaxY() ? CheckResult.TRUE : (position.getPoint().getY() + position.getDimension().getHeight() - speed > bounds.getMinY() ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
+        CheckResult checkUp = position.getPoint().getY() + position.getDimension().getHeight() <= bounds.getMaxY() ? CheckResult.TRUE : (position.getPoint().getY() + position.getDimension().getHeight() - speed < bounds.getMaxY() ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
         CheckResult checkMove;
         switch(position.getDirection()) {
         case LEFT: 
@@ -88,12 +88,7 @@ public class UtilityMovement {
                   }
     }
     
-    /**
-     * @author Matteo Magnani
-     * @param position
-     * @param gravity
-     * @return
-     */
+    
     private static Position fixPositionBounds(Position position, Bounds bounds, Actions action) {
 
         //TODO metodo statico, lavorare su copia protetta!!!!

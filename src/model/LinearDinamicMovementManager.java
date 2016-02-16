@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 public class LinearDinamicMovementManager extends AbstractMovementManager {
     
     private MovementTypes movementTypes;
@@ -11,10 +13,9 @@ public class LinearDinamicMovementManager extends AbstractMovementManager {
 
     @Override
     public Position getNextMove() {
-        Position position = this.getPosition();
-        position.setPoint(this.getAction().getFunction().deterimnateNewPoint(position.getPoint(), this.getSpeed(), position.getDirection()));
+        //Position position = this.getPosition();
         
-        if(!UtilityMovement.checkBounds(position, this.getBounds(), this.getAction())) {
+        /*if(!UtilityMovement.checkBounds(position, this.getBounds(), this.getAction())) {
                 UtilityMovement.fixPositionBounds(position, this.getBounds(), this.getAction());
                 if(this.movementTypes == MovementTypes.HORIZONTAL_LINEAR) {
                         if(position.getDirection() == Directions.LEFT) {
@@ -29,9 +30,28 @@ public class LinearDinamicMovementManager extends AbstractMovementManager {
                             this.setAction(Actions.JUMP);
                         }
                 }
+        }*/
+        
+        
+        Position actualPosition = this.getPosition();
+        if(!UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed()).isPresent()) {
+            if(this.movementTypes == MovementTypes.HORIZONTAL_LINEAR) {
+                if(actualPosition.getDirection() == Directions.LEFT) {
+                    actualPosition.setDirection(Directions.RIGHT);
+                } else {
+                    actualPosition.setDirection(Directions.LEFT);
+                }
+            } else {
+                if(this.getAction() == Actions.JUMP) {
+                        this.setAction(Actions.FALL);
+                } else {
+                    this.setAction(Actions.JUMP);
+                }
+            }
+            
         }
         
-        return position;
+        return UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed()).orElseThrow(IllegalStateException::new);
     	
     }
     
