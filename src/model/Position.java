@@ -44,6 +44,13 @@ public class Position {
         this.dimension = dimension;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Position [point=" + point + ", direction=" + direction + ", dimension=" + dimension + "]";
+    }
+
     
     
     

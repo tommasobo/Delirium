@@ -42,4 +42,11 @@ public class Dimension {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Dimension [width=" + width + ", height=" + height + "]";
+    }
+    
+    
 }

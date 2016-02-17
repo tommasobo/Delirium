@@ -44,9 +44,7 @@ public class GameThread extends Thread {
 				this.model.notifyEvent(Actions.STOP);
 			}
 			
-			System.out.println("diocane");
 			this.model.updateArena();
-			System.out.println("diocane2");
 			this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
 			try {
 				Thread.sleep(30L);

@@ -54,7 +54,7 @@ public abstract class AbstractMovementManager implements MovementManager {
         if(!canFly) {
             Optional<Position> opPos = UtilityMovement.Move(this.getPosition(), this.getBounds(), Actions.FALL, AbstractMovementManager.GRAVITY);
             if(opPos.isPresent()) {
-                if(this.getAction() == Actions.MOVE) {
+                if(this.getAction() == Actions.MOVE || this.getAction() == Actions.MOVEONJUMP) {
                     this.setAction(Actions.MOVEONFALL);
                 } else {
                     this.setAction(Actions.FALL);
