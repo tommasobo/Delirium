@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 import control.Dimension;
 import control.Point;
 
@@ -9,14 +11,16 @@ public class EntitiesImpl implements Entities {
     private int life;
     private final LifeManager lifeManager;
     private final MovementManager movementManager;
+    private final ShootManager shootManager;
     private int contactDamage;
 
-    public EntitiesImpl(int code, int life, LifeManager lifeManager, MovementManager movementManager, int contactDamage) {
+    public EntitiesImpl(int code, int life, LifeManager lifeManager, MovementManager movementManager, ShootManager shootManager, int contactDamage) {
         this.code = code;
         this.life = life;
         this.lifeManager = lifeManager;
         this.movementManager = movementManager;
         this.contactDamage = contactDamage;
+        this.shootManager = shootManager;
     }
 
     @Override
@@ -107,10 +111,22 @@ public class EntitiesImpl implements Entities {
     public boolean isCanFly() {
         return this.movementManager.isCanFly();
     }
+    
+    protected MovementManager getMovementManager() {
+        return this.movementManager;
+    }
+    
+    protected ShootManager getShootManager() {
+        return this.shootManager;
+    }
 
     @Override
     public Actions getAction() {
-        return this.movementManager.getAction();
+        if (!this.shootManager.isOnShoot()) {
+            return this.movementManager.getAction();
+        } else {
+            return Actions.SHOOT;
+        }
     }
 
     @Override
@@ -118,6 +134,12 @@ public class EntitiesImpl implements Entities {
         this.movementManager.setAction(action);
     }
 
+    @Override
+    public Optional<EntitiesInfo> shoot() {
+        return this.shootManager.getBullet(this.getPosition());
+    }
+
+    
    
 
 }

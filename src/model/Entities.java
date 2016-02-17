@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 import control.Dimension;
 import control.Point;
 
@@ -48,5 +50,7 @@ public interface Entities {
     int getContactDamage();
     
     void setContactDamage(final int contactDamage);
+    
+    Optional<EntitiesInfo> shoot();
     
 }

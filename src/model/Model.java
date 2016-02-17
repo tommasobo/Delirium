@@ -8,10 +8,12 @@ public interface Model {
     
     void notifyEvent(Actions action);
     
-    public void updateArena();
+    List<EntitiesInfo> updateArena();
     
     List<EntitiesInfo> getState();
 
     void createArena(List<EntitiesInfo> entitiesInfo);
+    
+    void putBullet(List<EntitiesInfo> entitiesInfo);
     
 }
