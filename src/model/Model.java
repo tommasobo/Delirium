@@ -1,9 +1,6 @@
 package model;
 
 import java.util.List;
-import java.util.Map;
-
-import control.Pair;
 
 public interface Model {
     

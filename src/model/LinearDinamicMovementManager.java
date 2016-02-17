@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Optional;
-
 public class LinearDinamicMovementManager extends AbstractMovementManager {
     
     private MovementTypes movementTypes;

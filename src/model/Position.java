@@ -2,7 +2,6 @@ package model;
 
 import control.Dimension;
 import control.Point;
-import control.PhisicalProprieties;
 
 public class Position {
     
