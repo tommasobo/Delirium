@@ -25,11 +25,10 @@ import view.ViewControllerImpl;
 public class ControlImpl implements Control {
     private final Model model;
     private ViewController view;
-    private final Queue<Pair<model.Actions, Optional<model.Directions>>> actions;
-    boolean keyDeactivated = false;
+    private final InputManager inputManager;
 
     public ControlImpl() {
-        this.actions = new ConcurrentLinkedQueue<>();
+        this.inputManager = new InputManagerImpl();
         this.model = ModelImpl.getModel();
         this.view = ViewControllerImpl.getView();
         this.view.setListener(this);
@@ -47,35 +46,10 @@ public class ControlImpl implements Control {
             gameLoop(ViewEvents.LEVEL1);
             return;
         }
+        
+        inputManager.notifyViewInput(event);
 
-        // Pair<model.Actions, Optional<model.Directions>> comunicationToModel =
-        // Translator.tranViewEvents(event);
-
-        if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT) {
-            if (!this.actions.contains(Translator.tranViewEvents(event))) {
-                this.actions.add(Translator.tranViewEvents(event));
-            }
-            if (event == ViewEvents.MLEFT && actions.contains(Translator.tranViewEvents(ViewEvents.MRIGHT))) {
-                this.actions.remove(Translator.tranViewEvents(ViewEvents.MRIGHT));
-                keyDeactivated = true;
-            }
-            if (event == ViewEvents.MRIGHT && actions.contains(Translator.tranViewEvents(ViewEvents.MLEFT))) {
-                this.actions.remove(Translator.tranViewEvents(ViewEvents.MLEFT));
-                keyDeactivated = true;
-            }
-        } else {
-            if (this.actions.remove(Translator.tranViewEvents(event)) != true) {
-                keyDeactivated = false;
-            }
-            if(event == ViewEvents.STOPMLEFT && keyDeactivated) {
-                this.actions.add(Translator.tranViewEvents(ViewEvents.MRIGHT));
-                keyDeactivated = false;
-            }
-            if(event == ViewEvents.STOPMRIGHT && keyDeactivated) {
-                this.actions.add(Translator.tranViewEvents(ViewEvents.MLEFT));
-                keyDeactivated = false;
-            }
-        }
+        
     }
 
     public List<Buttons> getButtons() {
@@ -130,7 +104,7 @@ public class ControlImpl implements Control {
 
         this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 
-        Thread t = new GameThread(this.model, this.view, database, this.actions);
+        Thread t = new GameThread(this.model, this.view, database, this.inputManager);
         t.start();
 
     }
