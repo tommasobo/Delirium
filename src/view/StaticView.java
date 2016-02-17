@@ -33,8 +33,8 @@ public class StaticView extends AbstractGenericView {
         super.getRoot().getScene().getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         
         final BorderPane border = new BorderPane();
-        border.setPrefSize(super.getRoot().getScene().getWidth(), super.getRoot().getScene().getHeight());
-        border.setBackground(new Background(new BackgroundImage(new Image("window.jpg", super.getDimension().getWidth(), super.getDimension().getHeight(), false, true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        border.setPrefSize(super.getDimension().getWidth(), super.getDimension().getHeight());
+        border.setBackground(new Background(new BackgroundImage(new Image("window.jpg", super.getDimension().getWidth(), super.getDimension().getHeight(), false, true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(super.getDimension().getWidth(), super.getDimension().getHeight(), false, false, false, false))));
         
         final HBox top = new HBox();
         top.setAlignment(Pos.CENTER);

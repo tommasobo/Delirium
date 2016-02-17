@@ -4,11 +4,19 @@ import java.util.List;
 import java.util.Optional;
 
 import control.Control;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -16,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import sun.util.resources.ParallelListResourceBundle;
 
 public class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     
@@ -26,7 +36,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     public DynamicViewImpl(final Stage stage, final Control listener, final Dimension2D dimension) {
         super(stage, listener, dimension);
     }
-
+    
     @Override
     public void updateScene(final List<ControlComunication> entities) {
         
@@ -60,7 +70,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         final Pane entitiesPane = new Pane();
         entitiesPane.setPrefSize(super.getDimension().getWidth(), super.getDimension().getHeight());
         this.overlayPane.setPrefSize(super.getRoot().getScene().getWidth() + 2, super.getRoot().getScene().getHeight());
-        entitiesPane.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        entitiesPane.setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
         //entitiesPane.setBackground(new Background(new BackgroundImage(new Image("nature.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(super.getDimension().getWidth(), super.getDimension().getHeight(), false, false, true, true))));
         entitiesPane.setCache(true);
         entitiesPane.setCacheHint(CacheHint.QUALITY);
@@ -71,7 +81,47 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         super.getRoot().getChildren().add(entitiesPane);
         super.getRoot().getChildren().add(this.overlayPane);
         this.spriteManager = new SpriteManagerImpl(entitiesPane);
+        this.backGround(entitiesPane);
         
+    }
+    
+    
+    private void backGround(Pane pane) {
+        Rectangle rectParallel = new Rectangle(20, 20, 200, 200);
+        ImageView moon = new ImageView(new Image("moon.png", 200, 200, true, true));
+
+        /*FadeTransition fadeTransition = new FadeTransition(Duration.millis(3000),
+            moon);
+        fadeTransition.setFromValue(1.0f);
+        fadeTransition.setToValue(0.3f);
+        fadeTransition.setCycleCount(2);
+        fadeTransition.setAutoReverse(true);*/
+        TranslateTransition translateTransition = new TranslateTransition(
+            Duration.millis(4000), moon);
+        translateTransition.setFromX(-300);
+        translateTransition.setToX(1500);
+        translateTransition.setCycleCount(Timeline.INDEFINITE);
+        translateTransition.setAutoReverse(false);
+        translateTransition.play();
+        /*RotateTransition rotateTransition = new RotateTransition(
+            Duration.millis(3000), moon);
+        rotateTransition.setByAngle(180f);
+        rotateTransition.setCycleCount(4);
+        rotateTransition.setAutoReverse(true);*/
+        /*ScaleTransition scaleTransition = new ScaleTransition(
+            Duration.millis(2000), rectParallel);
+        scaleTransition.setToX(2f);
+        scaleTransition.setToY(2f);
+        scaleTransition.setCycleCount(2);
+        scaleTransition.setAutoReverse(true);*/
+
+        /*ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.getChildren().addAll(fadeTransition,
+            translateTransition, rotateTransition);
+        parallelTransition.setCycleCount(Timeline.INDEFINITE);
+        parallelTransition.play();*/
+        pane.getChildren().add(moon);
+
     }
     
     

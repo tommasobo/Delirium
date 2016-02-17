@@ -24,7 +24,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
     @Override
     public void updateSprite(final Actions action, final Directions direction, final int duration) {
         final String composedAction = this.composeAction(action, direction);
-        if (!composedAction.equals(this.currentAnimation.getKey()) || this.currentAnimation.getValue().getCycleCount() >= 1) {
+        if (!composedAction.equals(this.currentAnimation.getKey())) {
             this.currentAnimation.getValue().stop();
             this.currentAnimation = new Pair<>(composedAction, animate(composedAction, duration));
         }
@@ -39,7 +39,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
         
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(duration);
-        timeline.setAutoReverse(true);
+        timeline.setAutoReverse(false);
         
         int cont = 0;
         
@@ -49,7 +49,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
                 super.getSpritePane().getChildren().add(im);
             });
             timeline.getKeyFrames().add(key);
-            cont+=200;
+            cont+=125;
         }
         
         timeline.play();
@@ -57,7 +57,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
     }
     
     private String composeAction(final Actions action, final Directions direction) {
-        return action.getString() + direction.getName();
+        return action.getString() + "-" + direction.getName();
     }
 
 }

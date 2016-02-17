@@ -1,8 +1,8 @@
 package view;
 
 public enum Directions {
-    LEFT("left"),
-    RIGHT("right"),
+    LEFT("sx"),
+    RIGHT("dx"),
     NONE("none");
     
     private final String name;
