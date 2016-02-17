@@ -3,7 +3,7 @@ package model;
 
 public class EntitiesInfoImpl implements EntitiesInfo {
     
-    private final int code;
+    private int code;
     private final int life;
     private final LifeManager lifemanager;
     
@@ -107,5 +107,11 @@ public class EntitiesInfoImpl implements EntitiesInfo {
 		// TODO Auto-generated method stub
 		return this.action;
 	}
+
+    @Override
+    public void setCode(int code) {
+        // TODO Auto-generated method stub
+        this.code = code;
+    }
     
 }

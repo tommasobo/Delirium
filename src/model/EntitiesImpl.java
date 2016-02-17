@@ -122,7 +122,7 @@ public class EntitiesImpl implements Entities {
 
     @Override
     public Actions getAction() {
-        if (!this.shootManager.isOnShoot()) {
+        if (!this.shootManager.haveShooted()) {
             return this.movementManager.getAction();
         } else {
             return Actions.SHOOT;

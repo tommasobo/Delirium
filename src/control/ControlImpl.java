@@ -37,12 +37,14 @@ public class ControlImpl implements Control {
 
     public void notifyEvent(ViewEvents event) {
         
-        
-        
         if (event.equals(ViewEvents.LEVEL1)) {
             gameLoop(ViewEvents.LEVEL1);
             return;
-        }
+        } else if (event.equals(ViewEvents.EXIT)) {
+            System.exit(0);
+        } /*else if (event.equals(ViewEvents.PAUSE)) {
+            
+        }*/
         
         inputManager.notifyViewInput(event);
 
@@ -101,9 +103,8 @@ public class ControlImpl implements Control {
 
         this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 
-        Thread t = new GameThread(this.model, this.view, database, this.inputManager);
+        GameThread t = new GameThreadImpl(this.model, this.view, database, this.inputManager, codIterator);
         t.start();
-
     }
 
 }

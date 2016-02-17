@@ -21,5 +21,7 @@ public interface EntitiesInfo {
     int getContactDamage();
     
     Actions getAction();
+    
+    void setCode(final int code);
 
 }
