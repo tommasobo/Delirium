@@ -2,7 +2,7 @@ package control;
 
 public class CodesIteratorImpl implements CodesIterator {
 	
-	private Integer number = 0;
+	private Integer number = -1;
 
 	@Override
 	public boolean hasNext() {

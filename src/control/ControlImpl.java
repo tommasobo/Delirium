@@ -61,49 +61,35 @@ public class ControlImpl implements Control {
     private void gameLoop(ViewEvents level) {
         // codice lettura file e put dei mostri, creazione database
         EntitiesDatabase database = new EntitiesDatabaseImpl();
-        CodesIterator codIterator = new CodesIteratorImpl();
 
         List<EntitiesInfo> ls = new LinkedList<>();
 
-        // aggiungo l'eroe
-        database.putEntity(0, Entities.JOY);
-        ls.add(new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO,
                 new Position(new Point(0, 240), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300),
-                Actions.STOP, 10, false, 0));
-
-        Integer tmp = codIterator.next();
-        database.putEntity(tmp, Entities.PLATFORM);
-        ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM,
+                Actions.STOP, 10, false, 0), Entities.JOY));
+        
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM,
                 new Position(new Point(150, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(150, 300, 50, 300), Actions.MOVE, 10, false, 0));
+                new Bounds(150, 300, 50, 300), Actions.MOVE, 10, false, 0), Entities.PLATFORM));
 
-        tmp = codIterator.next();
-        database.putEntity(tmp, Entities.PLATFORM);
-        ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.HORIZONTAL_LINEAR,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HORIZONTAL_LINEAR,
                 new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(0, 1000, 0, 300), Actions.MOVE, 10, true, 0));
+                new Bounds(0, 1000, 0, 300), Actions.MOVE, 10, true, 0), Entities.PLATFORM));
 
-        tmp = codIterator.next();
-        database.putEntity(tmp, Entities.PLATFORM);
-        ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.VERTICAL_LINEAR,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.VERTICAL_LINEAR,
                 new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(0, 1000, 0, 300), Actions.JUMP, 10, true, 0));
+                new Bounds(0, 1000, 0, 300), Actions.JUMP, 10, true, 0), Entities.PLATFORM));
 
-        tmp = codIterator.next();
-        database.putEntity(tmp, Entities.GROUND);
-        ls.add(new EntitiesInfoImpl(tmp, 30, LifeManager.WITH_LIFE, MovementTypes.STATIC,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.STATIC,
                 new Position(new Point(0, 0), Directions.NONE, new Dimension(1000, 20)), new Bounds(0, 1000, 10, 300),
-                Actions.STOP, 10, true, 0));
+                Actions.STOP, 10, true, 0), Entities.GROUND));
 
         Dimension arenaDim = new Dimension(1000, 300);
-
         database.putArenaDimension(arenaDim);
-        System.out.println(ls);
         this.model.createArena(ls);
-
         this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 
-        GameThread t = new GameThreadImpl(this.model, this.view, database, this.inputManager, codIterator);
+        GameThread t = new GameThreadImpl(this.model, this.view, database, this.inputManager);
         t.start();
     }
 

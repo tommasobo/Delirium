@@ -1,5 +1,8 @@
 package control;
 
+import java.util.List;
+
+import model.EntitiesInfo;
 import view.Entities;
 
 interface EntitiesDatabase {
@@ -8,4 +11,6 @@ interface EntitiesDatabase {
 	Entities getViewEntity(Integer code);
 	Dimension getArenaDimension();
 	void putArenaDimension(Dimension dimension);
+	List<EntitiesInfo> putEntitiesAndSetCodes(List<EntitiesInfo> entities, Entities entity);
+	public EntitiesInfo putEntityAndSetCode(EntitiesInfo modelEnt, Entities entity);
 }
