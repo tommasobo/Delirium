@@ -73,11 +73,11 @@ public class ControlImpl implements Control {
                 new Bounds(150, 300, 50, 300), Actions.MOVE, 1, false, 0), Entities.PLATFORM));
 
         ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.HORIZONTAL_LINEAR,
-                new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 50)),
+                new Position(new Point(500, 30), Directions.RIGHT, new Dimension(100, 50)),
                 new Bounds(0, 1000, 0, 300), Actions.MOVE, 1, true, 0), Entities.BUG));
 
         ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.VERTICAL_LINEAR,
-                new Position(new Point(500, 200), Directions.RIGHT, new Dimension(65, 100)),
+                new Position(new Point(500, 100), Directions.RIGHT, new Dimension(65, 100)),
                 new Bounds(0, 1000, 0, 300), Actions.JUMP, 1, true, 0), Entities.VOLPE));
 
         ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.STATIC,

@@ -6,6 +6,7 @@ public class HeroMovementManager extends AbstractMovementManager{
     
     private boolean onJump = false;
     private int time = 0;
+    private boolean onPlatform = false;
 
     public HeroMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
         super(position, bounds, action, speed, canFly);
@@ -18,9 +19,11 @@ public class HeroMovementManager extends AbstractMovementManager{
     public Position getNextMove() {
     	Position newPosition = this.getPosition();
         //TODO eventualmente aumetare il salto ed applicare comunque la gravità, a livello astratto è forse più logico
-        if(!onJump) {
+        if(!onJump && !onPlatform) {
             newPosition = applyGravity();
         }
+
+        this.onPlatform = false;
         
         if(!UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.FALL) && UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump) {
             time = 0;
@@ -52,6 +55,10 @@ public class HeroMovementManager extends AbstractMovementManager{
         }
         
         return newPosition;
+    }
+    
+    public void setOnPlatform(boolean bool) {
+        this.onPlatform = bool;
     }
 
     

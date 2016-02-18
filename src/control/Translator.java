@@ -62,6 +62,7 @@ class Translator {
         case MOVE:
             return view.Actions.MOVE;
         case SHOOT:
+            return view.Actions.SHOOT;
         case STOP:
             return view.Actions.IDLE;
         default:
