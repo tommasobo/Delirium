@@ -7,6 +7,7 @@ import java.util.Optional;
 public class ModelImpl implements Model{
     
     private static final ModelImpl singleton = new ModelImpl();
+    private Hero hero;
     private List<Entities> entities;
     
     private ModelImpl() {
@@ -19,16 +20,14 @@ public class ModelImpl implements Model{
 
     @Override
     public void notifyEvent(Directions direction) {
-        this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
-            t.setDirection(direction);
-        });
+        if(hero.getMovementManager().isPresent()) {
+            hero.getMovementManager().get().setPosition(hero.getPosition().getPoint(), direction);
+        }
     }
     
     @Override
     public void notifyEvent(Actions action) {
-        this.entities.stream().filter(t -> t.getCode() == 0).forEach(t -> {
-            t.setAction(action);
-        });
+        hero.setAction(action);
     }
     
     public List<EntitiesInfo> updateArena() {
@@ -36,9 +35,11 @@ public class ModelImpl implements Model{
         List<EntitiesInfo> bullets = new LinkedList<>();
         
         this.entities.stream().forEach(t -> {
-           Position p = t.getNextMove();
-           t.setPosition(p.getPoint(), p.getDirection());
-           Optional<EntitiesInfo> bullet = t.shoot();
+           Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
+           if (p.isPresent()) {
+               t.setPosition(p.get().getPoint(), p.get().getDirection());
+           }
+           Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getPosition());
            if(bullet.isPresent()) {
                bullets.add(bullet.get());
            }
@@ -61,7 +62,7 @@ public class ModelImpl implements Model{
     public List<EntitiesInfo> getState() {
         final List<EntitiesInfo> result = new LinkedList<>();
         this.entities.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), t.getLife(), t.getLifeManager(), null, t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly(), t.getContactDamage()));
+            result.add(new EntitiesInfoImpl(t.getCode(), 10, null, null, t.getPosition(), null, t.getAction(), 10, false, 5));
         });
         return result;
     }
@@ -72,17 +73,18 @@ public class ModelImpl implements Model{
         entitiesInfo.stream().forEach(t -> {
             switch (t.getMovementTypes()) {
             case HERO: 
-                this.entities.add(new Hero(t.getCode(), t.getLife(), t.getLifemanager(), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), new HeroShootManagerImpl(10), t.getContactDamage()));
+                hero = new Hero(t.getCode(), Optional.of(new LifeManager(t.getLife())), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), Optional.of(new HeroShootManagerImpl(10)), Optional.of(t.getContactDamage()));
+                this.entities.add(hero);
                 break;
             case STATIC : 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new ReactiveMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), new ShootManagerImpl(20), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), t.getPosition(), Optional.empty(), Optional.of(t.getContactDamage())));
                 break;
             case RANDOM: 
-                this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), new ShootManagerImpl(20), t.getContactDamage()));
+                this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.of(new ShootManagerImpl(20)), Optional.of(t.getContactDamage())));
                 break;
             case VERTICAL_LINEAR:
             case HORIZONTAL_LINEAR:
-            	this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), new ShootManagerImpl(20), t.getContactDamage()));
+            	this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.of(new ShootManagerImpl(20)), Optional.of(t.getContactDamage())));
                 break;
             }
             
@@ -92,9 +94,9 @@ public class ModelImpl implements Model{
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.entities.add(new EntitiesImpl(t.getCode(), t.getLife(), t.getLifemanager(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), new ShootManagerImpl(200000), t.getContactDamage()));
+            this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.empty(), Optional.of(t.getContactDamage())));
         });
-        }
+    }
     
     
 

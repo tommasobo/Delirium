@@ -4,24 +4,19 @@ import java.util.Optional;
 
 public class Hero extends EntitiesImpl {
 
-    public Hero(int code, int life, LifeManager lifeManager, MovementManager movementManager, ShootManager shootManager, int contactDamage) {
-        super(code, life, lifeManager, movementManager, shootManager, contactDamage);
+    public Hero(int code, Optional<LifeManager> lifeManager, MovementManager movementManager,
+            Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
+        super(code, lifeManager, movementManager, shootManager, contactDamage);
     }
-    
 
     @Override
     public void setAction(Actions action) {
         if (action != Actions.SHOOT) {
-            super.getMovementManager().setAction(action);
+            super.getMovementManager().get().setAction(action);
         } else {
-            HeroShootManager heroShootManager = (HeroShootManager) getShootManager();
+            HeroShootManager heroShootManager = (HeroShootManager) getShootManager().get();
             heroShootManager.wannaShoot();
         }
-    }
-
-    @Override
-    public Optional<EntitiesInfo> shoot() {
-        return super.getShootManager().getBullet(this.getPosition());
     }
 
 }

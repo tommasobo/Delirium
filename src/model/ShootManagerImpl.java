@@ -39,7 +39,7 @@ public class ShootManagerImpl implements ShootManager {
         position.setPoint(new Point(position.getDirection() == Directions.LEFT? position.getPoint().getX() : position.getPoint().getX() + position.getDimension().getWidth(), (int) position.getPoint().getY() + position.getDimension().getHeight()/2));
         position.setDimension(new Dimension(10, 5));
         count++;
-        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(0, 1, LifeManager.WITH_LIFE, MovementTypes.HORIZONTAL_LINEAR, position, new Bounds(position.getPoint().getX(), position.getPoint().getX() + 100, position.getPoint().getY(), position.getPoint().getY() + 100), Actions.MOVE, 10, true, 5));
+        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(0, 1, null, MovementTypes.HORIZONTAL_LINEAR, position, new Bounds(position.getPoint().getX(), position.getPoint().getX() + 100, position.getPoint().getY(), position.getPoint().getY() + 100), Actions.MOVE, 10, true, 5));
     }
 
 

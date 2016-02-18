@@ -2,142 +2,98 @@ package model;
 
 import java.util.Optional;
 
-import control.Dimension;
 import control.Point;
 
 public class EntitiesImpl implements Entities {
     
     private final int code;
-    private int life;
-    private final LifeManager lifeManager;
-    private final MovementManager movementManager;
-    private final ShootManager shootManager;
-    private int contactDamage;
+    private Optional<Position> position;
+//    private Optional<Actions> action;
+//    private Optional<StaticManager> staticManager;
+    private final Optional<LifeManager> lifeManager;
+    private final Optional<MovementManager> movementManager;
+    private final Optional<ShootManager> shootManager;
+    private final Optional<Integer> contactDamage;
 
-    public EntitiesImpl(int code, int life, LifeManager lifeManager, MovementManager movementManager, ShootManager shootManager, int contactDamage) {
+    public EntitiesImpl(int code, Optional<LifeManager> lifeManager, MovementManager movementManager, Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
         this.code = code;
-        this.life = life;
+        this.position = Optional.empty();
         this.lifeManager = lifeManager;
-        this.movementManager = movementManager;
+        this.movementManager = Optional.of(movementManager);
         this.contactDamage = contactDamage;
         this.shootManager = shootManager;
     }
+    
+    public EntitiesImpl(int code, Optional<LifeManager> lifeManager, Position position, Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
+        this.code = code;
+        this.position = Optional.of(position);
+        this.lifeManager = lifeManager;
+        this.movementManager = Optional.empty();
+        this.contactDamage = contactDamage;
+        this.shootManager = shootManager;
+    }
+    
 
     @Override
     public int getCode() {
         return this.code;
     }
-
-    @Override
-    public int getLife() {
-        return this.life;
-    }
-
-    @Override
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-    @Override
-    public LifeManager getLifeManager() {
-        return this.lifeManager;
-    }
-
+    
     @Override
     public Position getPosition() {
-        return this.movementManager.getPosition();
+        return this.position.isPresent() ? new Position(this.position.get().getPoint(), this.position.get().getDirection(), this.position.get().getDimension()) : this.movementManager.get().getPosition();
     }
 
     @Override
     public void setPosition(final Point point, final Directions direction) {
-        this.movementManager.setPosition(point, direction);
-    }
-
-    @Override
-    public Point getPoint() {
-        return this.movementManager.getPosition().getPoint();
-    }
-
-    @Override
-    public void setPoint(Point point) {
-        this.movementManager.setPosition(point, this.getDirection());
-    }
-
-    @Override
-    public Dimension getDimension() {
-        return this.movementManager.getPosition().getDimension();
-    }
-
-    @Override
-    public Directions getDirection() {
-        return this.movementManager.getPosition().getDirection();
-    }
-
-    @Override
-    public void setDirection(Directions direction) {
-        this.movementManager.setPosition(this.getPoint(), direction);
-    }
-
-    @Override
-    public int getContactDamage() {
-        return this.contactDamage;
-    }
-
-    @Override
-    public void setContactDamage(int contactDamage) {
-        this.contactDamage = contactDamage;
-    }
-
-    @Override
-    public Position getNextMove() {
-        return this.movementManager.getNextMove();
-    }
-
-    @Override
-    public int getSpeed() {
-        return this.movementManager.getSpeed();
-    }
-
-    @Override
-    public void setSpeed(int speed) {
-        this.movementManager.setSpeed(speed);
-        
-    }
-    
-    public Bounds getBounds() {
-        return this.movementManager.getBounds();
-    }
-    
-    public boolean isCanFly() {
-        return this.movementManager.isCanFly();
-    }
-    
-    protected MovementManager getMovementManager() {
-        return this.movementManager;
-    }
-    
-    protected ShootManager getShootManager() {
-        return this.shootManager;
-    }
-
-    @Override
-    public Actions getAction() {
-        if (!this.shootManager.haveShooted()) {
-            return this.movementManager.getAction();
+        if (this.position.isPresent()) {
+            this.position = Optional.of(new Position(point, direction, this.position.get().getDimension()));
         } else {
-            return Actions.SHOOT;
+            this.movementManager.get().setPosition(point, direction);
         }
     }
 
-    @Override
-    public void setAction(Actions action) {
-        this.movementManager.setAction(action);
-    }
 
     @Override
-    public Optional<EntitiesInfo> shoot() {
-        return this.shootManager.getBullet(this.getPosition());
+    public Optional<LifeManager> getLifeManager() {
+        return this.lifeManager;
     }
+    
+    public Optional<MovementManager> getMovementManager() {
+        return this.movementManager;
+    }
+    
+    public Optional<ShootManager> getShootManager() {
+        return this.shootManager;
+    }
+    
+    @Override
+    public Optional<Integer> getContactDamage() {
+        return this.contactDamage;
+    }
+    
+    
+    @Override
+    public Actions getAction() {
+//        if (!this.shootManager.haveShooted()) {
+//           return this.movementManager.get().getAction();
+//        } else {
+//            return Actions.SHOOT;
+//        }
+        if (this.movementManager.isPresent()) {
+           return this.movementManager.get().getAction();
+        } else {
+            return Actions.STOP;
+        }
+    }
+    
+    @Override
+    public void setAction(Actions action) {
+        if (this.movementManager.isPresent()) {
+            this.movementManager.get().setAction(action);
+        }
+    }
+
 
     
    
