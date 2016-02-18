@@ -19,7 +19,7 @@ public enum Actions {
         this.function = function;
     }
     
-    public DeterminateNewPoint getFunction() {
-        return this.function;
+    public Point apply(Point point, int speed, Directions direction) {
+        return this.function.determinateNewPoint(point, speed, direction);
     }
 }

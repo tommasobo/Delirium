@@ -8,8 +8,6 @@ public class EntitiesImpl implements Entities {
     
     private final int code;
     private Optional<Position> position;
-//    private Optional<Actions> action;
-//    private Optional<StaticManager> staticManager;
     private final Optional<LifeManager> lifeManager;
     private final Optional<MovementManager> movementManager;
     private final Optional<ShootManager> shootManager;

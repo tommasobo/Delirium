@@ -4,6 +4,7 @@ import java.util.Optional;
 
 public class Hero extends EntitiesImpl {
 
+    //TODO cambiare costruttore levando optional
     public Hero(int code, Optional<LifeManager> lifeManager, MovementManager movementManager,
             Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
         super(code, lifeManager, movementManager, shootManager, contactDamage);

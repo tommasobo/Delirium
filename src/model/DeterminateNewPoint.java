@@ -4,7 +4,7 @@ import control.Point;
 
 public interface DeterminateNewPoint {
     
-    Point deterimnateNewPoint(Point point, int speed, Directions direction);
+    Point determinateNewPoint(Point point, int speed, Directions direction);
     
 
 }
