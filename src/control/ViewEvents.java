@@ -5,9 +5,11 @@ public enum ViewEvents {
 	EXIT, 
 	MRIGHT, 
 	MLEFT, 
-	JUMP, 
+	JUMP,
+	SHOOT,
 	STOPMRIGHT,
 	STOPMLEFT,
-	STOPJUMP;
+	STOPJUMP,
+	STOPSHOOT;
     
 }

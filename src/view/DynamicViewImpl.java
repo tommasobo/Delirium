@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import control.Control;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -25,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sun.util.resources.ParallelListResourceBundle;
 
 public class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     
@@ -87,15 +82,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     
     
     private void backGround(Pane pane) {
-        Rectangle rectParallel = new Rectangle(20, 20, 200, 200);
         ImageView moon = new ImageView(new Image("moon.png", 200, 200, true, true));
-
-        /*FadeTransition fadeTransition = new FadeTransition(Duration.millis(3000),
-            moon);
-        fadeTransition.setFromValue(1.0f);
-        fadeTransition.setToValue(0.3f);
-        fadeTransition.setCycleCount(2);
-        fadeTransition.setAutoReverse(true);*/
         TranslateTransition translateTransition = new TranslateTransition(
             Duration.millis(4000), moon);
         translateTransition.setFromX(-300);
@@ -103,23 +90,6 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         translateTransition.setCycleCount(Timeline.INDEFINITE);
         translateTransition.setAutoReverse(false);
         translateTransition.play();
-        /*RotateTransition rotateTransition = new RotateTransition(
-            Duration.millis(3000), moon);
-        rotateTransition.setByAngle(180f);
-        rotateTransition.setCycleCount(4);
-        rotateTransition.setAutoReverse(true);*/
-        /*ScaleTransition scaleTransition = new ScaleTransition(
-            Duration.millis(2000), rectParallel);
-        scaleTransition.setToX(2f);
-        scaleTransition.setToY(2f);
-        scaleTransition.setCycleCount(2);
-        scaleTransition.setAutoReverse(true);*/
-
-        /*ParallelTransition parallelTransition = new ParallelTransition();
-        parallelTransition.getChildren().addAll(fadeTransition,
-            translateTransition, rotateTransition);
-        parallelTransition.setCycleCount(Timeline.INDEFINITE);
-        parallelTransition.play();*/
         pane.getChildren().add(moon);
 
     }

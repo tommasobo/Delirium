@@ -3,7 +3,6 @@ package view;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 
 public class SpriteManagerImpl {
@@ -16,24 +15,21 @@ public class SpriteManagerImpl {
         this.entitiesPane = entitiesPane;
     }
     
-    public void addSprite(final ControlComunication object) {
-        if (object.getEntity().isAnimated()) {
-            this.updatableSprite.put(object.getCode(), new UpdatableSpriteImpl(object.getEntity(), object.getProperty().getDimension()));
+    public void addSprite(final ControlComunication addedEntity) {
+        if (addedEntity.getEntity().isAnimated()) {
+            this.updatableSprite.put(addedEntity.getCode(), new UpdatableSpriteImpl(addedEntity.getEntity(), addedEntity.getProperty().getDimension()));
         } else {
-            this.nonUpdatableSprite.put(object.getCode(), new NonUpdatableSprite(object.getEntity(), object.getProperty().getDimension()));
+            this.nonUpdatableSprite.put(addedEntity.getCode(), new NonUpdatableSprite(addedEntity.getEntity(), addedEntity.getProperty().getDimension()));
         }
-        this.getFromMaps(object.getCode()).initSprite(object.getAction(), object.getProperty().getDirection());
-        this.updateSpriteState(object.getCode(), object.getAction(), object.getProperty());
-        this.entitiesPane.getChildren().add(this.getFromMaps(object.getCode()).getSpritePane());
+        this.getFromMaps(addedEntity.getCode()).initSprite(addedEntity.getAction(), addedEntity.getProperty().getDirection());
+        this.updateSpriteState(addedEntity.getCode(), addedEntity.getAction(), addedEntity.getProperty());
+        this.entitiesPane.getChildren().add(this.getFromMaps(addedEntity.getCode()).getSpritePane());
         
     }
     //to add death control
     public void updateSpriteState(final int code, final Actions action, final ViewPhysicalProperties properties) {
         if (this.updatableSprite.containsKey(code)) {
-            if (action == Actions.FALL || action == Actions.DEATH) {
-                this.updatableSprite.get(code).updateSprite(action, properties.getDirection(), 1);
-            }
-            this.updatableSprite.get(code).updateSprite(action, properties.getDirection(), Timeline.INDEFINITE);
+            this.updatableSprite.get(code).updateSprite(action, properties.getDirection());
         }
         this.getFromMaps(code).getSpritePane().relocate(properties.getPoint().getX(), properties.getPoint().getY());
     }

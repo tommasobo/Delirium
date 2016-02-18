@@ -1,11 +1,8 @@
 package view;
 
-import com.sun.javafx.geom.Dimension2D;
-
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 
 public class OverlayPanel {
@@ -29,7 +26,7 @@ public class OverlayPanel {
         iv.setTranslateX(10);
         iv.setTranslateY(10);
         this.pb = new ProgressBar();
-        this.pb.setStyle("-fx-accent: #7d0303;");
+        this.pb.setStyle("-fx-accent: #7d0303; -fx-background-color: transparent ;");
         this.pb.setProgress(1);
         this.pb.setTranslateX(overlayPane.getPrefHeight()/6 + 11);
         this.pb.setTranslateY(10);

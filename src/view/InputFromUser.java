@@ -18,25 +18,31 @@ public class InputFromUser implements EventHandler<KeyEvent>{
     public void handle(KeyEvent event) {
         KeyCode code = event.getCode();
         if (KeyEvent.KEY_PRESSED.equals(event.getEventType())) {
-            if (code == KeyCode.RIGHT){
-                this.listener.notifyEvent(ViewEvents.MRIGHT);
+            if (code == KeyCode.A){
+                this.listener.notifyEvent(ViewEvents.MLEFT);
             }
-            if (code == KeyCode.LEFT){
-                this.listener.notifyEvent(ViewEvents.MLEFT);    
+            if (code == KeyCode.D){
+                this.listener.notifyEvent(ViewEvents.MRIGHT);    
             }
-            if (code == KeyCode.SPACE){
+            if (code == KeyCode.W){
                 this.listener.notifyEvent(ViewEvents.JUMP);
-            }   
-        } else {
-            if (code == KeyCode.RIGHT){
-                this.listener.notifyEvent(ViewEvents.STOPMRIGHT);
-            }
-            if (code == KeyCode.LEFT){
-                this.listener.notifyEvent(ViewEvents.STOPMLEFT);    
             }
             if (code == KeyCode.SPACE){
+                this.listener.notifyEvent(ViewEvents.SHOOT);
+            }  
+        } else {
+            if (code == KeyCode.A){
+                this.listener.notifyEvent(ViewEvents.STOPMLEFT);
+            }
+            if (code == KeyCode.D){
+                this.listener.notifyEvent(ViewEvents.STOPMRIGHT);    
+            }
+            if (code == KeyCode.W){
                 this.listener.notifyEvent(ViewEvents.STOPJUMP);
             }
+            if (code == KeyCode.SPACE){
+                this.listener.notifyEvent(ViewEvents.STOPSHOOT);
+            }  
         }
         event.consume();
     }

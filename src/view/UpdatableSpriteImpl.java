@@ -18,22 +18,23 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
 
     @Override
     public void initSprite(final Actions action, final Directions direction) {
+        super.checkAction(action);
         final String composedAction = this.composeAction(action, direction);
         this.currentAnimation = new Pair<>(composedAction, animate(composedAction, Timeline.INDEFINITE));
     }
 
     @Override
-    public void updateSprite(final Actions action, final Directions direction, final int duration) {
+    public void updateSprite(final Actions action, final Directions direction) {
+        super.checkAction(action);
         final String composedAction = this.composeAction(action, direction);
-        //non funziona
-        if (!composedAction.equals(this.currentAnimation.getKey())) {
+        if (!composedAction.equals(this.currentAnimation.getKey()) && (this.currentAnimation.getValue().cycleCountProperty().get() < 0 || (this.currentAnimation.getValue().cycleCountProperty().get() > 0 && this.currentAnimation.getValue().getStatus() != Status.RUNNING))) {
             this.currentAnimation.getValue().stop();
-            this.currentAnimation = new Pair<>(composedAction, animate(composedAction, duration));
+            this.currentAnimation = new Pair<>(composedAction, animate(composedAction, action.getDuration()));
         }
     }
     
     @Override
-    public void resetSprite() {
+    public void pauseSprite() {
         this.currentAnimation.getValue().pause();
     }
     
