@@ -39,6 +39,14 @@ public class ModelImpl implements Model{
     
     public List<EntitiesInfo> updateArena() {
         
+        //GESTIONE VITA??
+        /*entities.stream().filter(t -> t.getCode() != 0).forEach(t -> {
+            if(t.getLifeManager().getLife() == 0) {
+                entities.remove(t);
+            }
+        });*/
+        
+        
         List<EntitiesInfo> bullets = new LinkedList<>();
         this.lastPositions = new HashMap<>();
         for(Entities t : entities) {
@@ -107,7 +115,7 @@ public class ModelImpl implements Model{
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.empty(), Optional.of(t.getContactDamage())));
+            this.entities.add(new Bullet(t.getCode(), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), t.getContactDamage()));
         });
     }
     
