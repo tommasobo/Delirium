@@ -9,7 +9,7 @@ public class OverlayPanel {
     
     private final Pane overlayPane;
     private  ProgressBar pb;
-    private final int life;
+    private final double life;
     private final Image icon;
 
     public OverlayPanel(Pane overlayPane, Entities entity, int life) {
@@ -34,7 +34,7 @@ public class OverlayPanel {
     }
     
     public void setProgressBar(final int newLife) {
-        this.pb.setProgress((life/100)*newLife);
+        this.pb.setProgress((double)newLife/this.life);
     }
     
 }
