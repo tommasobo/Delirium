@@ -1,5 +1,6 @@
 package view;
 
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Dimension2D;
@@ -24,6 +25,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
     @Override
     public void updateSprite(final Actions action, final Directions direction, final int duration) {
         final String composedAction = this.composeAction(action, direction);
+        //non funziona
         if (!composedAction.equals(this.currentAnimation.getKey())) {
             this.currentAnimation.getValue().stop();
             this.currentAnimation = new Pair<>(composedAction, animate(composedAction, duration));
@@ -32,7 +34,7 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
     
     @Override
     public void resetSprite() {
-        this.currentAnimation.getValue().stop();
+        this.currentAnimation.getValue().pause();
     }
     
     private Timeline animate(final String composedAction, final int duration) {

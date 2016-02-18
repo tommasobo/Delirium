@@ -54,10 +54,24 @@
     -fx-fill: white;
     -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
 }
+#cool1 {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+#cool1:hover {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+#cool1:pressed {
+    -fx-text-fill: white;
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
 #fancytext {
     -fx-font-family: 'Zombie Holocaust';
-    -fx-fill: red;
+    -fx-fill: black;
     -fx-font-size: 10em;
-    -fx-stroke: black;
-    -fx-stroke-width: 1;
 }
+

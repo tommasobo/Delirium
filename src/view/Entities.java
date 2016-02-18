@@ -2,9 +2,14 @@ package view;
 
 public enum Entities {
 
-    JOY("joy", true, 4),
-    //MONSTER1("monster1", true, 2, Actions.values()),
-    //COFFER("coffer", true, 2, Actions.IDLE, Actions.DEATH),
+    MAGNO("magno", true, 4),
+    BOCC("bocc", true, 4),
+    MAGNOBULLET("magnobullet",true, 3),
+    BOCCBULLET("boccbullet",true, 3),
+    DINO("dino",true,3),
+    VOLPE("volpe",true,3),
+    BUG("bug",true,3),
+    BULLET("bullet",true,3),
     GROUND("ground", false, 3),
     PLATFORM("platform", false, 3);
     

@@ -30,6 +30,9 @@ public class SpriteManagerImpl {
     //to add death control
     public void updateSpriteState(final int code, final Actions action, final ViewPhysicalProperties properties) {
         if (this.updatableSprite.containsKey(code)) {
+            if (action == Actions.FALL || action == Actions.DEATH) {
+                this.updatableSprite.get(code).updateSprite(action, properties.getDirection(), 1);
+            }
             this.updatableSprite.get(code).updateSprite(action, properties.getDirection(), Timeline.INDEFINITE);
         }
         this.getFromMaps(code).getSpritePane().relocate(properties.getPoint().getX(), properties.getPoint().getY());
@@ -49,4 +52,5 @@ public class SpriteManagerImpl {
         }
         return nonUpdatableSprite.get(code);
     }
+    
 }
