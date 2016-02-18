@@ -5,7 +5,7 @@ import java.util.Optional;
 public class Hero extends EntitiesImpl {
 
     //TODO cambiare costruttore levando optional
-    public Hero(int code, Optional<LifeManager> lifeManager, MovementManager movementManager,
+    public Hero(int code, LifeManager lifeManager, MovementManager movementManager,
             Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
         super(code, lifeManager, movementManager, shootManager, contactDamage);
     }
@@ -18,6 +18,11 @@ public class Hero extends EntitiesImpl {
             HeroShootManager heroShootManager = (HeroShootManager) getShootManager().get();
             heroShootManager.wannaShoot();
         }
+    }
+    
+    public void setOnPlatform(boolean bool) {
+        HeroMovementManager move = (HeroMovementManager) this.getMovementManager().get();
+        move.setOnPlatform(bool);
     }
 
 }

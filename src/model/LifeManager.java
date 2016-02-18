@@ -3,9 +3,11 @@ package model;
 public class LifeManager {
     
     private int life;
+    private final LifePattern lifePattern;
 
-    public LifeManager(int life) {
+    public LifeManager(int life, LifePattern lifePattern) {
         this.life = life;
+        this.lifePattern = lifePattern;
     }
 
     public int getLife() {
@@ -13,7 +15,7 @@ public class LifeManager {
     }
 
     public void setLife(int damage) {
-        this.life = life - damage > 0 ? life - damage : 0;
+        this.life = lifePattern.getFunction().apply(this.life, damage);
     }
     
     

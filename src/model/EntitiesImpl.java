@@ -7,13 +7,13 @@ import control.Point;
 public class EntitiesImpl implements Entities {
     
     private final int code;
-    private Optional<Position> position;
-    private final Optional<LifeManager> lifeManager;
+    private final Optional<Position> position;
+    private final LifeManager lifeManager;
     private final Optional<MovementManager> movementManager;
     private final Optional<ShootManager> shootManager;
     private final Optional<Integer> contactDamage;
 
-    public EntitiesImpl(int code, Optional<LifeManager> lifeManager, MovementManager movementManager, Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
+    public EntitiesImpl(int code, LifeManager lifeManager, MovementManager movementManager, Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
         this.code = code;
         this.position = Optional.empty();
         this.lifeManager = lifeManager;
@@ -22,7 +22,7 @@ public class EntitiesImpl implements Entities {
         this.shootManager = shootManager;
     }
     
-    public EntitiesImpl(int code, Optional<LifeManager> lifeManager, Position position, Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
+    public EntitiesImpl(int code, LifeManager lifeManager, Position position, Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
         this.code = code;
         this.position = Optional.of(position);
         this.lifeManager = lifeManager;
@@ -45,15 +45,16 @@ public class EntitiesImpl implements Entities {
     @Override
     public void setPosition(final Point point, final Directions direction) {
         if (this.position.isPresent()) {
-            this.position = Optional.of(new Position(point, direction, this.position.get().getDimension()));
-        } else {
+            this.position.get().setPoint(point);
+            this.position.get().setDirection(direction);
+            } else {
             this.movementManager.get().setPosition(point, direction);
         }
     }
 
 
     @Override
-    public Optional<LifeManager> getLifeManager() {
+    public LifeManager getLifeManager() {
         return this.lifeManager;
     }
     
@@ -83,7 +84,6 @@ public class EntitiesImpl implements Entities {
                 return Actions.STOP;
             }
         }
-        
     }
     
     @Override
@@ -93,8 +93,6 @@ public class EntitiesImpl implements Entities {
         }
     }
 
-
-    
    
 
 }

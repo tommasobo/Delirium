@@ -73,18 +73,18 @@ public class ModelImpl implements Model{
         entitiesInfo.stream().forEach(t -> {
             switch (t.getMovementTypes()) {
             case HERO: 
-                hero = new Hero(t.getCode(), Optional.of(new LifeManager(t.getLife())), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), Optional.of(new HeroShootManagerImpl(10000)), Optional.of(t.getContactDamage()));
+                hero = new Hero(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), Optional.of(new HeroShootManagerImpl(10000)), Optional.of(t.getContactDamage()));
                 this.entities.add(hero);
                 break;
             case STATIC : 
-                this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), t.getPosition(), Optional.empty(), Optional.of(t.getContactDamage())));
+                this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), t.getPosition(), Optional.empty(), Optional.of(t.getContactDamage())));
                 break;
             case RANDOM: 
-                this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.of(new ShootManagerImpl(100)), Optional.of(t.getContactDamage())));
+                this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new RandomDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.of(new ShootManagerImpl(100)), Optional.of(t.getContactDamage())));
                 break;
             case VERTICAL_LINEAR:
             case HORIZONTAL_LINEAR:
-            	this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.of(new ShootManagerImpl(100)), Optional.of(t.getContactDamage())));
+            	this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.of(new ShootManagerImpl(100)), Optional.of(t.getContactDamage())));
                 break;
             }
             
@@ -94,7 +94,7 @@ public class ModelImpl implements Model{
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.entities.add(new EntitiesImpl(t.getCode(), Optional.of(new LifeManager(t.getLife())), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.empty(), Optional.of(t.getContactDamage())));
+            this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new LinearDinamicMovementManager(t.getPosition(), t.getBounds(), t.getSpeed(), t.isCanFly(), t.getMovementTypes()), Optional.empty(), Optional.of(t.getContactDamage())));
         });
     }
     

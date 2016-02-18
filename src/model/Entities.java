@@ -12,7 +12,7 @@ public interface Entities {
     
     void setPosition(final Point point, final Directions direction);
     
-    Optional<LifeManager> getLifeManager();
+    LifeManager getLifeManager();
     
     Optional<MovementManager> getMovementManager();
     
