@@ -34,7 +34,7 @@ public class OverlayPanel {
     }
     
     public void setProgressBar(final int newLife) {
-        this.pb.setProgress((life%100)*newLife);
+        this.pb.setProgress((life/100)*newLife);
     }
     
 }
