@@ -75,16 +75,17 @@ public class EntitiesImpl implements Entities {
     
     @Override
     public Actions getAction() {
-//        if (!this.shootManager.haveShooted()) {
-//           return this.movementManager.get().getAction();
-//        } else {
-//            return Actions.SHOOT;
-//        }
-        if (this.movementManager.isPresent()) {
-           return this.movementManager.get().getAction();
+        
+        if (this.shootManager.isPresent() && this.shootManager.get().haveShooted()) {
+            return Actions.SHOOT;
         } else {
-            return Actions.STOP;
+            if (this.movementManager.isPresent()) {
+                return this.movementManager.get().getAction();
+            } else {
+                return Actions.STOP;
+            }
         }
+        
     }
     
     @Override

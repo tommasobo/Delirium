@@ -48,7 +48,7 @@ public class GameThreadImpl extends Thread implements GameThread {
                 database.putEntity(tmp, Entities.PLATFORM);
             }*/
             
-            bullets = database.putEntitiesAndSetCodes(bullets, Entities.PLATFORM);
+            bullets = database.putEntitiesAndSetCodes(bullets, Entities.BULLET);
             this.model.putBullet(bullets);
             
             this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));

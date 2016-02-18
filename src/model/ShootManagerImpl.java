@@ -37,9 +37,9 @@ public class ShootManagerImpl implements ShootManager {
     @Override
     public Optional<EntitiesInfo> getBullet(Position position) {
         position.setPoint(new Point(position.getDirection() == Directions.LEFT? position.getPoint().getX() : position.getPoint().getX() + position.getDimension().getWidth(), (int) position.getPoint().getY() + position.getDimension().getHeight()/2));
-        position.setDimension(new Dimension(10, 5));
+        position.setDimension(new Dimension(30, 30));
         count++;
-        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(0, 1, null, MovementTypes.HORIZONTAL_LINEAR, position, new Bounds(position.getPoint().getX(), position.getPoint().getX() + 100, position.getPoint().getY(), position.getPoint().getY() + 100), Actions.MOVE, 10, true, 5));
+        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(0, 1, null, MovementTypes.HORIZONTAL_LINEAR, position, new Bounds(position.getPoint().getX(), position.getPoint().getX() + 100, position.getPoint().getY(), position.getPoint().getY() + 100), Actions.MOVE, 1, true, 5));
     }
 
 

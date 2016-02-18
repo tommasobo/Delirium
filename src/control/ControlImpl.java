@@ -64,25 +64,25 @@ public class ControlImpl implements Control {
 
         List<EntitiesInfo> ls = new LinkedList<>();
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HERO,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.HERO,
                 new Position(new Point(0, 240), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300),
-                Actions.STOP, 10, false, 0), Entities.JOY));
+                Actions.STOP, 10, false, 0), Entities.BOCC));
         
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.RANDOM,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.RANDOM,
                 new Position(new Point(150, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(150, 300, 50, 300), Actions.MOVE, 10, false, 0), Entities.PLATFORM));
+                new Bounds(150, 300, 50, 300), Actions.MOVE, 1, false, 0), Entities.PLATFORM));
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.HORIZONTAL_LINEAR,
-                new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(0, 1000, 0, 300), Actions.MOVE, 10, true, 0), Entities.PLATFORM));
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.HORIZONTAL_LINEAR,
+                new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 50)),
+                new Bounds(0, 1000, 0, 300), Actions.MOVE, 1, true, 0), Entities.BUG));
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.VERTICAL_LINEAR,
-                new Position(new Point(500, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(0, 1000, 0, 300), Actions.JUMP, 10, true, 0), Entities.PLATFORM));
+        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.VERTICAL_LINEAR,
+                new Position(new Point(500, 200), Directions.RIGHT, new Dimension(65, 100)),
+                new Bounds(0, 1000, 0, 300), Actions.JUMP, 1, true, 0), Entities.VOLPE));
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, LifeManager.WITH_LIFE, MovementTypes.STATIC,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.STATIC,
                 new Position(new Point(0, 0), Directions.NONE, new Dimension(1000, 20)), new Bounds(0, 1000, 10, 300),
-                Actions.STOP, 10, true, 0), Entities.GROUND));
+                Actions.STOP, 1, true, 0), Entities.GROUND));
 
         Dimension arenaDim = new Dimension(1000, 300);
         database.putArenaDimension(arenaDim);
