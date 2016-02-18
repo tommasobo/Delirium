@@ -75,7 +75,7 @@ public class ModelImpl implements Model{
     public List<EntitiesInfo> getState() {
         final List<EntitiesInfo> result = new LinkedList<>();
         this.entities.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), 10, null, null, t.getPosition(), null, t.getAction(), 10, false, 5));
+            result.add(new EntitiesInfoImpl(t.getCode(), t.getLifeManager().getLife(), null, null, t.getPosition(), null, t.getAction(), 10, false, 5));
         });
         return result;
     }
@@ -180,6 +180,7 @@ public class ModelImpl implements Model{
             if(ent.getCode() != entity.getCode()) {
                 Rectangle elementToTest = getRectangle(ent.getPosition());
                 if(rectangle.intersects(elementToTest)) {
+                    entity.getLifeManager().setLife(ent.getContactDamage().orElseGet(() -> 0));
                     //TODO questo cast fa cagare, prova ad usare solo rectangle 2D
                     ret.add(new Rectangle((Rectangle) rectangle.createIntersection(elementToTest)));
                 }

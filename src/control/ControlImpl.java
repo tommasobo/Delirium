@@ -64,7 +64,7 @@ public class ControlImpl implements Control {
 
         List<EntitiesInfo> ls = new LinkedList<>();
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.HERO,
+        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 60, null, MovementTypes.HERO,
                 new Position(new Point(0, 240), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300),
                 Actions.STOP, 10, false, 0), Entities.BOCC));
         
@@ -74,7 +74,7 @@ public class ControlImpl implements Control {
 
         ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.HORIZONTAL_LINEAR,
                 new Position(new Point(500, 30), Directions.RIGHT, new Dimension(100, 50)),
-                new Bounds(0, 1000, 0, 300), Actions.MOVE, 1, true, 0), Entities.BUG));
+                new Bounds(0, 1000, 0, 300), Actions.MOVE, 1, true, 1), Entities.BUG));
 
         ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.VERTICAL_LINEAR,
                 new Position(new Point(500, 100), Directions.RIGHT, new Dimension(65, 100)),
