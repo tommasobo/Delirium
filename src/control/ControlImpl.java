@@ -102,14 +102,14 @@ public class ControlImpl implements Control {
                         Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
                 Entities.DINO));
         
-        ls.add(database.putEntityAndSetCode(
+        /*ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(700, 40), Directions.RIGHT, new Dimension(70, 40)),
                         Optional.of(new MovementInfo(3, new Bounds(700, 1000, 40, 300), Actions.MOVE, false,
                                 MovementTypes.HORIZONTAL_LINEAR)),
                         300, LifePattern.WITH_LIFE,
                         Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
-                Entities.BUG));
+                Entities.BUG));*/
         
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,

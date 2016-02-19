@@ -6,15 +6,15 @@ public class ShootInfo {
     private final int minTime;
     private final int bulletDamage;
     private final MovementTypes movementType;
-    private final int offset;
+    private final int range;
     private final int speed;
     
     
-    public ShootInfo(int minTime, int bulletDamage, MovementTypes movementType, int offset, int speed) {
+    public ShootInfo(int minTime, int bulletDamage, MovementTypes movementType, int range, int speed) {
         this.minTime = minTime;
         this.bulletDamage = bulletDamage;
         this.movementType = movementType;
-        this.offset = offset;
+        this.range = range;
         this.speed = speed;
     }
 
@@ -34,8 +34,8 @@ public class ShootInfo {
     }
 
 
-    public int getOffset() {
-        return offset;
+    public int getRange() {
+        return range;
     }
     
     public int getSpeed() {
