@@ -1,32 +1,26 @@
 package model;
 
+import java.util.Optional;
 
 public class EntitiesInfoImpl implements EntitiesInfo {
     
     private int code;
-    private final int life;
-    private final LifeManager lifemanager;
-    
-    private final MovementTypes movementTypes;
     private final Position position;
-    private final Actions action;
-    private final Bounds bounds;
-    private final int speed;
-    private final boolean canFly;
+    private Optional<MovementInfo> movementInfo; 
+    private final int life;
+    private final LifePattern lifePattern;
+    private final Optional<ShootInfo> shootInfo;
+    private final Optional<Integer> contactDamage;
     
-    private final int contactDamage;
-
-    public EntitiesInfoImpl(int code, int life, LifeManager lifemanager, MovementTypes movementTypes, Position position,
-            Bounds bounds, Actions action, int speed, boolean canFly, int contactDamage) {
+    public EntitiesInfoImpl(int code, Position position, Optional<MovementInfo> movementInfo, int life,
+            LifePattern lifePattern, Optional<ShootInfo> shootInfo, Optional<Integer> contactDamage) {
+        super();
         this.code = code;
-        this.life = life;
-        this.lifemanager = lifemanager;
-        this.movementTypes = movementTypes;
         this.position = position;
-        this.bounds = bounds;
-        this.action = action;
-        this.speed = speed;
-        this.canFly = canFly;
+        this.movementInfo = movementInfo;
+        this.life = life;
+        this.lifePattern = lifePattern;
+        this.shootInfo = shootInfo;
         this.contactDamage = contactDamage;
     }
 
@@ -39,27 +33,19 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     }
 
     /* (non-Javadoc)
-     * @see model.EntitiesInfo#getLife()
+     * @see model.EntitiesInfo#getMovementInfo()
      */
     @Override
-    public int getLife() {
-        return life;
+    public Optional<MovementInfo> getMovementInfo() {
+        return movementInfo;
     }
 
     /* (non-Javadoc)
-     * @see model.EntitiesInfo#getLifemanager()
+     * @see model.EntitiesInfo#setMovementInfo(java.util.Optional)
      */
     @Override
-    public LifeManager getLifemanager() {
-        return lifemanager;
-    }
-
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getMovementTypes()
-     */
-    @Override
-    public MovementTypes getMovementTypes() {
-        return movementTypes;
+    public void setMovementInfo(Optional<MovementInfo> movementInfo) {
+        this.movementInfo = movementInfo;
     }
 
     /* (non-Javadoc)
@@ -71,47 +57,38 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     }
 
     /* (non-Javadoc)
-     * @see model.EntitiesInfo#getBounds()
+     * @see model.EntitiesInfo#getLife()
      */
     @Override
-    public Bounds getBounds() {
-        return bounds;
+    public int getLife() {
+        return life;
     }
 
     /* (non-Javadoc)
-     * @see model.EntitiesInfo#getSpeed()
+     * @see model.EntitiesInfo#getLifePattern()
      */
     @Override
-    public int getSpeed() {
-        return speed;
+    public LifePattern getLifePattern() {
+        return lifePattern;
     }
 
     /* (non-Javadoc)
-     * @see model.EntitiesInfo#isCanFly()
+     * @see model.EntitiesInfo#getShootInfo()
      */
     @Override
-    public boolean isCanFly() {
-        return canFly;
+    public Optional<ShootInfo> getShootInfo() {
+        return shootInfo;
     }
 
     /* (non-Javadoc)
      * @see model.EntitiesInfo#getContactDamage()
      */
     @Override
-    public int getContactDamage() {
+    public Optional<Integer> getContactDamage() {
         return contactDamage;
     }
-
-	@Override
-	public Actions getAction() {
-		// TODO Auto-generated method stub
-		return this.action;
-	}
-
-    @Override
-    public void setCode(int code) {
-        // TODO Auto-generated method stub
-        this.code = code;
-    }
     
+    
+    
+
 }

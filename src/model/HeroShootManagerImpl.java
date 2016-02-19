@@ -5,9 +5,8 @@ public class HeroShootManagerImpl extends ShootManagerImpl implements HeroShootM
     
     private boolean wannaShoot = false;
     
-    
-    public HeroShootManagerImpl(int minTime) {
-        super(minTime);
+    public HeroShootManagerImpl(int minTime, int bulletDamage, MovementTypes movementType, int offset, int speed) {
+        super(minTime, bulletDamage, movementType, offset, speed);
     }
 
     @Override
