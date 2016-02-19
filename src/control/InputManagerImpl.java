@@ -16,7 +16,7 @@ public class InputManagerImpl implements InputManager {
     }
     
     synchronized public void notifyViewInput(ViewEvents event) {
-        if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT) {
+        if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT || event == ViewEvents.SHOOT) {
             if (!this.actions.contains(Translator.tranViewEvents(event))) {
                 this.actions.add(Translator.tranViewEvents(event));
             }

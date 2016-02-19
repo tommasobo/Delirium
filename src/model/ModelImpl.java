@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +33,7 @@ public class ModelImpl implements Model{
     
     @Override
     public void notifyEvent(Actions action) {
+        System.out.println(action);
         hero.setAction(action);
     }
     

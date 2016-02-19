@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import model.EntitiesInfo;
 import model.Position;
+import view.Actions;
 import view.ControlComunication;
 import view.ViewPhysicalProperties;
 
@@ -23,6 +24,9 @@ class Translator {
         case STOPJUMP:
         case JUMP:
             return new Pair<>(model.Actions.JUMP, Optional.empty());
+        case SHOOT:
+        case STOPSHOOT:
+            return new Pair<>(model.Actions.SHOOT, Optional.empty());
         default:
             throw (new IllegalArgumentException());
         }
@@ -33,7 +37,7 @@ class Translator {
         Position p = info.getPosition();
         return new ViewPhysicalProperties(p.getPoint().getX(),
                 database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(),
-                p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed(),
+                p.getDimension().getWidth(), p.getDimension().getHeight(), info.getMovementInfo().isPresent() ? info.getMovementInfo().get().getSpeed() : 0,
                 directionFromModeltoView(p.getDirection()));
     }
 
@@ -75,7 +79,7 @@ class Translator {
         List<ControlComunication> viewList = new LinkedList<>();
         listInfo.stream().forEach(e -> {
             viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
-                    positionFromModeltoView(e, database), actionsFromModeltoView(e.getAction())));
+                    positionFromModeltoView(e, database), e.getMovementInfo().isPresent() ? actionsFromModeltoView(e.getMovementInfo().get().getActions()) : view.Actions.IDLE));
         });
         return viewList;
     }

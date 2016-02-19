@@ -2,6 +2,7 @@ package control;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.geometry.Dimension2D;
 import model.Actions;
@@ -10,10 +11,13 @@ import model.Directions;
 import model.EntitiesInfo;
 import model.EntitiesInfoImpl;
 import model.LifeManager;
+import model.LifePattern;
 import model.Model;
 import model.ModelImpl;
+import model.MovementInfo;
 import model.MovementTypes;
 import model.Position;
+import model.ShootInfo;
 import view.Entities;
 import view.SceneType;
 import view.ViewController;
@@ -64,30 +68,36 @@ public class ControlImpl implements Control {
 
         List<EntitiesInfo> ls = new LinkedList<>();
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 60, null, MovementTypes.HERO,
-                new Position(new Point(0, 240), Directions.RIGHT, new Dimension(40, 60)), new Bounds(0, 1000, 20, 300),
-                Actions.STOP, 10, false, 0), Entities.BOCC));
+        ls.add(database.putEntityAndSetCode(
+                (EntitiesInfo) new EntitiesInfoImpl(0,
+                        new Position(new Point(0, 200), Directions.RIGHT, new Dimension(180, 120)),
+                        Optional.of(new MovementInfo(10, new Bounds(0, 3000, 0, 900), Actions.STOP, false,
+                                MovementTypes.HERO)),
+                        300, LifePattern.WITH_LIFE,
+                        Optional.of(new ShootInfo(5, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
+                Entities.MAGNO));
+
+        ls.add(database.putEntityAndSetCode(
+                (EntitiesInfo) new EntitiesInfoImpl(0,
+                        new Position(new Point(1000, 200), Directions.RIGHT, new Dimension(180, 120)),
+                        Optional.of(new MovementInfo(10, new Bounds(0, 3000, 0, 900), Actions.JUMP, false,
+                                MovementTypes.VERTICAL_LINEAR)),
+                        300, LifePattern.WITH_LIFE,
+                        Optional.of(new ShootInfo(500, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
+                Entities.VOLPE));
         
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.RANDOM,
-                new Position(new Point(150, 200), Directions.RIGHT, new Dimension(100, 20)),
-                new Bounds(150, 300, 50, 300), Actions.MOVE, 1, false, 0), Entities.PLATFORM));
+        ls.add(database.putEntityAndSetCode(
+                (EntitiesInfo) new EntitiesInfoImpl(0,
+                        new Position(new Point(0, 0), Directions.RIGHT, new Dimension(3000, 40)),
+                        Optional.empty(),
+                        300, LifePattern.WITHOUT_LIFE,
+                        Optional.empty(), Optional.empty()),
+                Entities.GROUND));
 
-        ls.add(database.putEntityAndSetCode((EntitiesInfo) new EntitiesInfoImpl(0, 30, null, MovementTypes.HORIZONTAL_LINEAR,
-                new Position(new Point(500, 30), Directions.RIGHT, new Dimension(100, 50)),
-                new Bounds(0, 1000, 0, 300), Actions.MOVE, 1, true, 1), Entities.BUG));
-
-        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.VERTICAL_LINEAR,
-                new Position(new Point(500, 100), Directions.RIGHT, new Dimension(65, 100)),
-                new Bounds(0, 1000, 0, 300), Actions.JUMP, 1, true, 0), Entities.VOLPE));
-
-        ls.add(database.putEntityAndSetCode((EntitiesInfo)new EntitiesInfoImpl(0, 30, null, MovementTypes.STATIC,
-                new Position(new Point(0, 0), Directions.NONE, new Dimension(1000, 20)), new Bounds(0, 1000, 10, 300),
-                Actions.STOP, 1, true, 0), Entities.GROUND));
-
-        Dimension arenaDim = new Dimension(1000, 300);
+        Dimension arenaDim = new Dimension(3000, 900);
         database.putArenaDimension(arenaDim);
         this.model.createArena(ls);
-        this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
+        this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(3000, 900)));
 
         GameThread t = new GameThreadImpl(this.model, this.view, database, this.inputManager);
         t.start();
