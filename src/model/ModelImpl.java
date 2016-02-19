@@ -33,7 +33,6 @@ public class ModelImpl implements Model{
     
     @Override
     public void notifyEvent(Actions action) {
-        System.out.println(action);
         hero.setAction(action);
     }
     
@@ -55,8 +54,8 @@ public class ModelImpl implements Model{
            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
            if (p.isPresent()) {
                t.setPosition(p.get().getPoint(), p.get().getDirection());
-               //Position pos = collisionFixer(p.get(), t);
-               //t.setPosition(pos.getPoint(), pos.getDirection());
+               Position pos = collisionFixer(p.get(), t);
+               t.setPosition(pos.getPoint(), pos.getDirection());
                
            }
            Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
@@ -65,6 +64,8 @@ public class ModelImpl implements Model{
            }
            
         }
+        
+        
         
         return bullets;
         

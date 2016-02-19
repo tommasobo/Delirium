@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Optional;
+
+import control.Dimension;
+import control.Point;
 
 public class HeroShootManagerImpl extends ShootManagerImpl implements HeroShootManager {
     
@@ -15,9 +19,17 @@ public class HeroShootManagerImpl extends ShootManagerImpl implements HeroShootM
     }
 
     @Override
-    public boolean isOnShoot() {
-        return this.wannaShoot? super.isOnShoot() : false;
+    public boolean isOnShoot(boolean wannaShoot) {
+        return this.wannaShoot? super.isOnShoot(wannaShoot) : false;
     }
+    
+    @Override
+    public boolean haveShooted() {
+        wannaShoot = super.haveShooted() ? false : wannaShoot;
+        return super.haveShooted();
+    }
+    
+    
 
    
 

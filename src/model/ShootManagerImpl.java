@@ -24,9 +24,9 @@ public class ShootManagerImpl implements ShootManager {
     }
 
     @Override
-    public boolean isOnShoot() {
-        if (this.count == minTime) {
-            this.count = 0;
+    public boolean isOnShoot(boolean wannaShoot) {
+        if (this.count >= minTime) {
+            this.count = wannaShoot? 0 : this.count;
             return true;
         } else {
             return false;
@@ -46,7 +46,7 @@ public class ShootManagerImpl implements ShootManager {
         position.setPoint(new Point(position.getDirection() == Directions.LEFT? position.getPoint().getX() : position.getPoint().getX() + position.getDimension().getWidth(), (int) position.getPoint().getY() + position.getDimension().getHeight()/2));
         position.setDimension(new Dimension(30, 30));
         count++;
-        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(code, position, Optional.of(new MovementInfo(this.speed, new Bounds(position.getPoint().getX() - this.offset, position.getPoint().getX() + this.offset, position.getPoint().getY() - this.offset, position.getPoint().getY() + this.offset), Actions.MOVE, true, this.movementType)), 1, LifePattern.WITH_LIFE, Optional.empty(), Optional.of(this.bulletDamage)));
+        return !this.isOnShoot(true) ? Optional.empty() : Optional.of(new EntitiesInfoImpl(code, position, Optional.of(new MovementInfo(this.speed, new Bounds(position.getPoint().getX() - this.offset, position.getPoint().getX() + this.offset, position.getPoint().getY() - this.offset, position.getPoint().getY() + this.offset), Actions.MOVE, true, this.movementType)), 1, LifePattern.WITH_LIFE, Optional.empty(), Optional.of(this.bulletDamage)));
     }
 
 

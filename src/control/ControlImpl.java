@@ -80,10 +80,10 @@ public class ControlImpl implements Control {
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(300, 100), Directions.RIGHT, new Dimension(50, 70)),
-                        Optional.of(new MovementInfo(10, new Bounds(0, 1000, 0, 300), Actions.JUMP, false,
+                        Optional.of(new MovementInfo(3, new Bounds(0, 1000, 40, 300), Actions.JUMP, false,
                                 MovementTypes.VERTICAL_LINEAR)),
                         300, LifePattern.WITH_LIFE,
-                        Optional.of(new ShootInfo(500, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
+                        Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
                 Entities.VOLPE));
         
         ls.add(database.putEntityAndSetCode(
@@ -93,6 +93,33 @@ public class ControlImpl implements Control {
                         300, LifePattern.WITHOUT_LIFE,
                         Optional.empty(), Optional.empty()),
                 Entities.GROUND));
+        
+        ls.add(database.putEntityAndSetCode(
+                (EntitiesInfo) new EntitiesInfoImpl(0,
+                        new Position(new Point(500, 40), Directions.LEFT, new Dimension(50, 70)),
+                        Optional.empty(),
+                        300, LifePattern.WITH_LIFE,
+                        Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
+                Entities.DINO));
+        
+        ls.add(database.putEntityAndSetCode(
+                (EntitiesInfo) new EntitiesInfoImpl(0,
+                        new Position(new Point(700, 40), Directions.RIGHT, new Dimension(70, 40)),
+                        Optional.of(new MovementInfo(3, new Bounds(700, 1000, 40, 300), Actions.MOVE, false,
+                                MovementTypes.HORIZONTAL_LINEAR)),
+                        300, LifePattern.WITH_LIFE,
+                        Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
+                Entities.BUG));
+        
+        ls.add(database.putEntityAndSetCode(
+                (EntitiesInfo) new EntitiesInfoImpl(0,
+                        new Position(new Point(600, 200), Directions.RIGHT, new Dimension(100, 20)),
+                        Optional.of(new MovementInfo(3, new Bounds(500, 1000, 100, 300), Actions.MOVE, false,
+                                MovementTypes.RANDOM)),
+                        300, LifePattern.WITHOUT_LIFE,
+                        Optional.empty(), Optional.empty()),
+                Entities.PLATFORM));
+        
 
         Dimension arenaDim = new Dimension(1000, 300);
         database.putArenaDimension(arenaDim);
