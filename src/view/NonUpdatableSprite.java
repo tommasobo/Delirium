@@ -8,8 +8,8 @@ import javafx.scene.layout.HBox;
 
 public class NonUpdatableSprite extends AbstractSprite {
 
-    public NonUpdatableSprite(final Entities entity, final Dimension2D dimension) {
-        super(entity, dimension);
+    public NonUpdatableSprite(final Entities entity, final int code, final Dimension2D dimension) {
+        super(entity, code, dimension);
     }
 
     @Override

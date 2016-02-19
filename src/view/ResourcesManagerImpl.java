@@ -26,6 +26,7 @@ public class ResourcesManagerImpl implements ResourcesManager {
         if (this.buffer.containsKey(composedAction)) {
             return new LinkedList<>(buffer.get(composedAction));
         }
+        System.out.println(this.entity.getName() + "-" +composedAction);
         final List<ImageView> temp = new LinkedList<>();
         IntStream.range(0, this.entity.getnAssets()).forEach(n -> {
             temp.add(new ImageView(new Image(this.entity.getName() + "/" + composedAction + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true)));

@@ -24,7 +24,7 @@ import javafx.util.Duration;
 
 public class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     
-    private SpriteManagerImpl spriteManager;
+    private SpriteManager spriteManager;
     private final Pane overlayPane = new Pane();
     private Optional<OverlayPanel> status = Optional.empty();  
     

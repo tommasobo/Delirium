@@ -83,7 +83,7 @@ public class ModelImpl implements Model{
     public List<EntitiesInfo> getState() {
         final List<EntitiesInfo> result = new LinkedList<>();
         this.entities.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.empty(), t.getLifeManager().getLife(), null, null, null));
+            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfo(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
         });
         return result;
     }

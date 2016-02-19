@@ -11,9 +11,11 @@ import javafx.util.Pair;
 public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
 
     private Pair<String, Timeline> currentAnimation;
+    private final SpriteRemover remover;
     
-    public UpdatableSpriteImpl(final Entities entity, final Dimension2D dimension) {
-        super(entity, dimension);
+    public UpdatableSpriteImpl(final Entities entity, final int code, final Dimension2D dimension, final SpriteRemover remover) {
+        super(entity, code, dimension);
+        this.remover = remover;
     }
 
     @Override
@@ -30,6 +32,9 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
         if (!composedAction.equals(this.currentAnimation.getKey()) && (this.currentAnimation.getValue().cycleCountProperty().get() < 0 || (this.currentAnimation.getValue().cycleCountProperty().get() > 0 && this.currentAnimation.getValue().getStatus() != Status.RUNNING))) {
             this.currentAnimation.getValue().stop();
             this.currentAnimation = new Pair<>(composedAction, animate(composedAction, action.getDuration()));
+        }
+        if (action == Actions.DEATH) {
+            currentAnimation.getValue().setOnFinished(e -> this.remover.removeSprite(super.getCode()));
         }
     }
     
