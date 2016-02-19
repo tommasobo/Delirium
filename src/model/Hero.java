@@ -6,8 +6,8 @@ public class Hero extends EntitiesImpl {
 
     //TODO cambiare costruttore levando optional
     public Hero(int code, LifeManager lifeManager, MovementManager movementManager,
-            Optional<ShootManager> shootManager, Optional<Integer> contactDamage) {
-        super(code, lifeManager, movementManager, shootManager, contactDamage);
+            ShootManager shootManager, Integer contactDamage) {
+        super(code, lifeManager, movementManager, Optional.of(shootManager), Optional.of(contactDamage));
     }
 
     @Override

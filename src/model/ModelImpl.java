@@ -94,7 +94,7 @@ public class ModelImpl implements Model{
         entitiesInfo.stream().forEach(t -> {
             switch (t.getMovementTypes()) {
             case HERO: 
-                hero = new Hero(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), Optional.of(new HeroShootManagerImpl(10000)), Optional.of(t.getContactDamage()));
+                hero = new Hero(t.getCode(), new LifeManager(t.getLife(), LifePattern.WITH_LIFE), new HeroMovementManager(t.getPosition(), t.getBounds(), t.getAction(), t.getSpeed(), t.isCanFly()), new HeroShootManagerImpl(10000), t.getContactDamage());
                 this.entities.add(hero);
                 break;
             case STATIC : 
