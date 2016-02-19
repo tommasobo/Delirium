@@ -70,8 +70,8 @@ public class ControlImpl implements Control {
 
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
-                        new Position(new Point(0, 200), Directions.RIGHT, new Dimension(180, 120)),
-                        Optional.of(new MovementInfo(10, new Bounds(0, 3000, 0, 900), Actions.STOP, false,
+                        new Position(new Point(0, 200), Directions.RIGHT, new Dimension(40, 60)),
+                        Optional.of(new MovementInfo(10, new Bounds(0, 1000, 40, 300), Actions.STOP, false,
                                 MovementTypes.HERO)),
                         300, LifePattern.WITH_LIFE,
                         Optional.of(new ShootInfo(5, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
@@ -79,8 +79,8 @@ public class ControlImpl implements Control {
 
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
-                        new Position(new Point(1000, 200), Directions.RIGHT, new Dimension(180, 120)),
-                        Optional.of(new MovementInfo(10, new Bounds(0, 3000, 0, 900), Actions.JUMP, false,
+                        new Position(new Point(300, 100), Directions.RIGHT, new Dimension(50, 70)),
+                        Optional.of(new MovementInfo(10, new Bounds(0, 1000, 0, 300), Actions.JUMP, false,
                                 MovementTypes.VERTICAL_LINEAR)),
                         300, LifePattern.WITH_LIFE,
                         Optional.of(new ShootInfo(500, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
@@ -88,16 +88,16 @@ public class ControlImpl implements Control {
         
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
-                        new Position(new Point(0, 0), Directions.RIGHT, new Dimension(3000, 40)),
+                        new Position(new Point(0, 0), Directions.RIGHT, new Dimension(1000, 40)),
                         Optional.empty(),
                         300, LifePattern.WITHOUT_LIFE,
                         Optional.empty(), Optional.empty()),
                 Entities.GROUND));
 
-        Dimension arenaDim = new Dimension(3000, 900);
+        Dimension arenaDim = new Dimension(1000, 300);
         database.putArenaDimension(arenaDim);
         this.model.createArena(ls);
-        this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(3000, 900)));
+        this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 
         GameThread t = new GameThreadImpl(this.model, this.view, database, this.inputManager);
         t.start();

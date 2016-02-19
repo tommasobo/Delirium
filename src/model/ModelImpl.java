@@ -54,10 +54,9 @@ public class ModelImpl implements Model{
            lastPositions.put(t.getCode(), t.getPosition());
            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
            if (p.isPresent()) {
-               //t.setPosition(p.get().getPoint(), p.get().getDirection());
-               //collisionFixer(p.get(), t);
-               Position pos = collisionFixer(p.get(), t);
-               t.setPosition(pos.getPoint(), pos.getDirection());
+               t.setPosition(p.get().getPoint(), p.get().getDirection());
+               //Position pos = collisionFixer(p.get(), t);
+               //t.setPosition(pos.getPoint(), pos.getDirection());
                
            }
            Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
@@ -83,7 +82,7 @@ public class ModelImpl implements Model{
     public List<EntitiesInfo> getState() {
         final List<EntitiesInfo> result = new LinkedList<>();
         this.entities.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getMovementManager().get().getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.empty(), t.getLifeManager().getLife(), null, null, null));
+            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.empty(), t.getLifeManager().getLife(), null, null, null));
         });
         return result;
     }
