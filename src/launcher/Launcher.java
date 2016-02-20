@@ -1,5 +1,7 @@
 package launcher;
 
+import com.sun.javafx.css.StyleManager;
+
 import control.Control;
 import control.ControlImpl;
 import javafx.application.Application;
@@ -16,6 +18,9 @@ public class Launcher extends Application {
     public void start(Stage primaryStage) throws Exception {
         
         //primaryStage.initStyle(StageStyle.UNDECORATED);
+        /*
+        Application.setUserAgentStylesheet(null);
+        StyleManager.getInstance().addUserAgentStylesheet("style.css");*/
         primaryStage.getIcons().add(new Image("gameicon.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.setTitle("Delirium");

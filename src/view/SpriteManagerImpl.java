@@ -41,6 +41,17 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
         return this.updatableSprite.containsKey(code) || this.nonUpdatableSprite.containsKey(code);
     }
     
+
+    @Override
+    public void pauseAllSprite() {
+        this.updatableSprite.values().forEach(t -> t.pauseSprite()); 
+    }
+
+    @Override
+    public void playAllSprite() {
+        this.updatableSprite.values().forEach(t -> t.playSprite()); 
+    }  
+    
     @Override
     public Pane getEntitiesPane() {
         return this.entitiesPane;
@@ -57,5 +68,6 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
             return updatableSprite.get(code);
         }
         return nonUpdatableSprite.get(code);
-    }   
+    }
+ 
 }

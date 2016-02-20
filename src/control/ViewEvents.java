@@ -10,6 +10,7 @@ public enum ViewEvents {
 	STOPMRIGHT,
 	STOPMLEFT,
 	STOPJUMP,
-	STOPSHOOT;
+	STOPSHOOT,
+	PAUSE;
     
 }

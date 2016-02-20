@@ -33,7 +33,13 @@ public class ViewControllerImpl implements ViewController {
     
     
     public void changeScene(final Pair<SceneType, Dimension2D> settings) {
-        this.drawableView = ViewFactory.createNewScene(primaryStage, this.listener, settings);
+        final GenericView newScene = ViewFactory.createNewScene(primaryStage, this.listener, settings);
+        newScene.initScene();
+        newScene.display();
+        //sucks
+        if (newScene instanceof DynamicView) {
+            this.drawableView = Optional.of((DynamicView)newScene);
+        }
     }
 
     @Override
@@ -41,4 +47,16 @@ public class ViewControllerImpl implements ViewController {
         this.listener = listener;
     }
 
+    @Override
+    public void pauseGame() {
+        final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
+        dv.pauseScene();
+    }
+
+    @Override
+    public void resumeGame() {
+        final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
+        dv.playScene();
+    }
+    
 }

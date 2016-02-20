@@ -29,7 +29,7 @@ public class InputFromUser implements EventHandler<KeyEvent>{
             }
             if (code == KeyCode.SPACE){
                 this.listener.notifyEvent(ViewEvents.SHOOT);
-            }  
+            }
         } else {
             if (code == KeyCode.A){
                 this.listener.notifyEvent(ViewEvents.STOPMLEFT);
@@ -42,7 +42,10 @@ public class InputFromUser implements EventHandler<KeyEvent>{
             }
             if (code == KeyCode.SPACE){
                 this.listener.notifyEvent(ViewEvents.STOPSHOOT);
-            }  
+            }
+            if (code == KeyCode.ESCAPE){
+                this.listener.notifyEvent(ViewEvents.PAUSE);
+            }
         }
         event.consume();
     }
