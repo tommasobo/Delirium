@@ -11,12 +11,12 @@ public abstract class AbstractSprite implements Sprite {
     private final ResourcesManager resources;
 
     public AbstractSprite(final Entities entity, final int code, final Dimension2D dimension) {
-        this.resources = new ResourcesManagerImpl(entity, dimension);
         this.spritePane = new Pane();
-        this.entity = entity;
-        this.code = code;
         this.spritePane.setPrefWidth(dimension.getWidth());
         this.spritePane.setPrefHeight(dimension.getHeight());
+        this.entity = entity;
+        this.code = code;
+        this.resources = ResourcesManager.getResourceManager();
     }
 
     @Override
@@ -39,5 +39,9 @@ public abstract class AbstractSprite implements Sprite {
     
     protected int getCode() {
         return this.code;
+    }
+    
+    protected Entities getEntity() {
+        return this.entity;
     }
 }

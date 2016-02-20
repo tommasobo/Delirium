@@ -9,9 +9,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -26,13 +24,16 @@ import javafx.util.Duration;
 
 public class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     
-    private SpriteManager spriteManager;
     private final Pane overlayPane = new Pane();
+    private final Dimension2D worldDimension;
+    private SpriteManager spriteManager;
     private Optional<OverlayPanel> status = Optional.empty();
     private Optional<StackPane> pausePane = Optional.empty();
     
-    public DynamicViewImpl(final Stage stage, final Control listener, final Dimension2D dimension) {
-        super(stage, listener, dimension);
+    
+    public DynamicViewImpl(final Stage stage, final Control listener, final Dimension2D sceneDimension, final Dimension2D worldDimension) {
+        super(stage, listener, sceneDimension);
+        this.worldDimension = worldDimension;
     }
     
     @Override
@@ -61,16 +62,15 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     }
 
     @Override
-    public void initScene() {
-        new Scene(super.getRoot(), 500, super.getDimension().getHeight());
-        super.getRoot().getScene().getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    protected void completeInitialization() {
+        
         final Pane entitiesPane = new Pane();
-        entitiesPane.setPrefSize(super.getDimension().getWidth(), super.getDimension().getHeight());
-        this.overlayPane.setPrefSize(super.getRoot().getScene().getWidth() + 2, super.getRoot().getScene().getHeight());
+        entitiesPane.setPrefSize(this.worldDimension.getWidth(), this.worldDimension.getHeight());
         entitiesPane.setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
         entitiesPane.setCache(true);
         entitiesPane.setCacheHint(CacheHint.QUALITY);
-        this.overlayPane.getChildren().addAll(new Rectangle(super.getRoot().getScene().getWidth(), 0, 1, super.getRoot().getScene().getHeight()), new Rectangle(-1, 0, 1, super.getRoot().getScene().getHeight()));
+        this.overlayPane.setPrefSize(super.getSceneDimension().getWidth() + 2, super.getSceneDimension().getHeight());
+        this.overlayPane.getChildren().addAll(new Rectangle(super.getSceneDimension().getWidth(), 0, 1, super.getSceneDimension().getHeight()), new Rectangle(-1, 0, 1, super.getSceneDimension().getHeight()));
         final InputFromUser ifu = new InputFromUser(super.getListener());
         super.getRoot().getScene().setOnKeyPressed(ifu);
         super.getRoot().getScene().setOnKeyReleased(ifu);
@@ -78,10 +78,8 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         super.getRoot().getChildren().add(this.overlayPane);
         this.spriteManager = new SpriteManagerImpl(entitiesPane);
         this.backGround(entitiesPane);
-        pauseScene();
-        
+
     }
-    
     
     private void backGround(Pane pane) {
         ImageView moon = new ImageView(new Image("moon.png", 200, 200, true, true));
@@ -100,7 +98,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     private void moveScene(final ViewPhysicalProperties position) {
        
         if (position.getPoint().getX() + position.getDimension().getWidth() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() - this.spriteManager.getEntitiesPane().getTranslateX() - 100) {
-            if (this.spriteManager.getEntitiesPane().getTranslateX() >= -(super.getDimension().getWidth() - super.getRoot().getScene().getWidth() - 1)) {
+            if (this.spriteManager.getEntitiesPane().getTranslateX() >= -(this.worldDimension.getWidth() - super.getSceneDimension().getWidth() - 1)) {
                 this.spriteManager.getEntitiesPane().setTranslateX(this.spriteManager.getEntitiesPane().getTranslateX() - position.getSpeed());
             }
         }
@@ -113,9 +111,9 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
 
     @Override
     public void pauseScene() {
-        this.spriteManager.pauseAllSprite();
+        this.spriteManager.pauseAllSprites();
         final StackPane pausePane = new StackPane();
-        pausePane.setPrefSize(500, super.getDimension().getHeight());
+        pausePane.setPrefSize(super.getSceneDimension().getWidth(), super.getSceneDimension().getHeight());
         pausePane.setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY)));
         pausePane.getChildren().add(new ButtonsPane(super.getListener()).getButtonPane());
         super.getRoot().getChildren().add(pausePane);
@@ -124,7 +122,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
 
     @Override
     public void playScene() {
-        this.spriteManager.playAllSprite();
+        this.spriteManager.resumeAllSprites();
         super.getRoot().getChildren().remove(this.pausePane.get());
         this.pausePane = Optional.empty();
     }

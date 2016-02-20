@@ -15,7 +15,7 @@ public class NonUpdatableSprite extends AbstractSprite {
     @Override
     public void initSprite(final Actions action, final Directions direction) {
         super.checkAction(action);
-        final List<ImageView> temp = super.getResourcesManager().getResources(action.getString());
+        final List<ImageView> temp = super.getResourcesManager().getResources(super.getEntity(), action.getString(), new Dimension2D(super.getSpritePane().getPrefWidth(), super.getSpritePane().getPrefHeight()));
         if (temp.size() == 1) {
             super.getSpritePane().getChildren().add(temp.get(0));
         } else {

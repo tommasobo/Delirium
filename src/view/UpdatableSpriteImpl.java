@@ -1,6 +1,7 @@
 package view;
 
 import javafx.animation.Animation.Status;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Dimension2D;
@@ -39,12 +40,12 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
     }
     
     @Override
-    public void pauseSprite() {
+    public void pauseSpriteAnimation() {
         this.currentAnimation.getValue().pause();
     }
     
     @Override
-    public void playSprite() {
+    public void resumeSpriteAnimation() {
         this.currentAnimation.getValue().play();   
     }
     
@@ -55,8 +56,8 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
         timeline.setAutoReverse(false);
         
         int cont = 0;
-        
-        for (final ImageView im : super.getResourcesManager().getResources(composedAction)) {
+
+        for (final ImageView im : super.getResourcesManager().getResources(super.getEntity(), composedAction, new Dimension2D(super.getSpritePane().getPrefWidth(), super.getSpritePane().getPrefHeight()))) {
             KeyFrame key= new KeyFrame(Duration.millis(cont), e -> {
                 super.getSpritePane().getChildren().clear();
                 super.getSpritePane().getChildren().add(im);
@@ -72,7 +73,5 @@ public class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSpri
     private String composeAction(final Actions action, final Directions direction) {
         return action.getString() + "-" + direction.getName();
     }
-
     
-
 }

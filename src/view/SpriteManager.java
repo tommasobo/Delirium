@@ -10,9 +10,9 @@ public interface SpriteManager {
 
     boolean isTracked(final int code);
     
-    void pauseAllSprite();
+    void pauseAllSprites();
     
-    void playAllSprite();
+    void resumeAllSprites();
 
     Pane getEntitiesPane();
 

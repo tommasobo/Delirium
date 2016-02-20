@@ -31,7 +31,6 @@ public class ViewControllerImpl implements ViewController {
         dv.updateScene(entities);
     }
     
-    
     public void changeScene(final Pair<SceneType, Dimension2D> settings) {
         final GenericView newScene = ViewFactory.createNewScene(primaryStage, this.listener, settings);
         newScene.initScene();

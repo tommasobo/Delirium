@@ -43,13 +43,13 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
     
 
     @Override
-    public void pauseAllSprite() {
-        this.updatableSprite.values().forEach(t -> t.pauseSprite()); 
+    public void pauseAllSprites() {
+        this.updatableSprite.values().forEach(t -> t.pauseSpriteAnimation()); 
     }
 
     @Override
-    public void playAllSprite() {
-        this.updatableSprite.values().forEach(t -> t.playSprite()); 
+    public void resumeAllSprites() {
+        this.updatableSprite.values().forEach(t -> t.resumeSpriteAnimation()); 
     }  
     
     @Override
