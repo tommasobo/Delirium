@@ -11,5 +11,7 @@ public interface GameThread{
     void start();
     
     void stopGame();
+    
+    boolean isPaused();
 
 }

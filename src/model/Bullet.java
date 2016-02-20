@@ -10,8 +10,14 @@ public class Bullet extends EntitiesImpl {
     
     @Override
     public Optional<Integer> getContactDamage() {
-        super.getLifeManager().setLife(1);
-        return super.getContactDamage();
+        
+        if(super.getLifeManager().getLife() > 0) {
+            super.getLifeManager().setLife(1);
+            return super.getContactDamage();
+        } else {
+            return Optional.empty();
+        }
+        
     }
 
 }

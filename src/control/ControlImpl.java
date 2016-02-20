@@ -10,7 +10,6 @@ import model.Bounds;
 import model.Directions;
 import model.EntitiesInfo;
 import model.EntitiesInfoImpl;
-import model.LifeManager;
 import model.LifePattern;
 import model.Model;
 import model.ModelImpl;
@@ -27,6 +26,7 @@ public class ControlImpl implements Control {
     private final Model model;
     private ViewController view;
     private final InputManager inputManager;
+    private GameThread gameThread;
 
     public ControlImpl() {
         this.inputManager = new InputManagerImpl();
@@ -46,13 +46,20 @@ public class ControlImpl implements Control {
             return;
         } else if (event.equals(ViewEvents.EXIT)) {
             System.exit(0);
-        } /*else if (event.equals(ViewEvents.PAUSE)) {
-            
-        }*/
-        
+            return;
+        } else if (event.equals(ViewEvents.PAUSE)) {
+            if(gameThread != null) {
+                if( this.gameThread.isPaused()) {
+                    gameThread.reStart();
+                    this.view.resumeGame();
+                } else {
+                    gameThread.pause();
+                    this.view.pauseGame();
+                }
+            }
+            return;
+        } 
         inputManager.notifyViewInput(event);
-
-        
     }
 
     public List<Buttons> getButtons() {
@@ -71,7 +78,7 @@ public class ControlImpl implements Control {
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(0, 200), Directions.RIGHT, new Dimension(40, 60)),
-                        Optional.of(new MovementInfo(10, new Bounds(0, 1000, 40, 300), Actions.STOP, false,
+                        Optional.of(new MovementInfo(10, new Bounds(0, 1000, 0, 300), Actions.STOP, false,
                                 MovementTypes.HERO)),
                         300, LifePattern.WITH_LIFE,
                         Optional.of(new ShootInfo(5, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
@@ -82,9 +89,11 @@ public class ControlImpl implements Control {
                         new Position(new Point(300, 100), Directions.RIGHT, new Dimension(50, 70)),
                         Optional.of(new MovementInfo(3, new Bounds(0, 1000, 40, 300), Actions.JUMP, false,
                                 MovementTypes.VERTICAL_LINEAR)),
-                        300, LifePattern.WITH_LIFE,
-                        Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
+                        10, LifePattern.WITH_LIFE,
+                        Optional.empty(), Optional.empty()),
                 Entities.VOLPE));
+        
+        //Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10))
         
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
@@ -94,13 +103,13 @@ public class ControlImpl implements Control {
                         Optional.empty(), Optional.empty()),
                 Entities.GROUND));
         
-        ls.add(database.putEntityAndSetCode(
+        /*ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(500, 40), Directions.LEFT, new Dimension(50, 70)),
                         Optional.empty(),
                         300, LifePattern.WITH_LIFE,
                         Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
-                Entities.DINO));
+                Entities.DINO));*/
         
         /*ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
@@ -111,14 +120,14 @@ public class ControlImpl implements Control {
                         Optional.of(new ShootInfo(200, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.empty()),
                 Entities.BUG));*/
         
-        ls.add(database.putEntityAndSetCode(
+        /*ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(600, 200), Directions.RIGHT, new Dimension(100, 20)),
                         Optional.of(new MovementInfo(3, new Bounds(500, 1000, 100, 300), Actions.MOVE, false,
                                 MovementTypes.RANDOM)),
                         300, LifePattern.WITHOUT_LIFE,
                         Optional.empty(), Optional.empty()),
-                Entities.PLATFORM));
+                Entities.PLATFORM));*/
         
 
         Dimension arenaDim = new Dimension(1000, 300);
@@ -126,8 +135,8 @@ public class ControlImpl implements Control {
         this.model.createArena(ls);
         this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
 
-        GameThread t = new GameThreadImpl(this.model, this.view, database, this.inputManager);
-        t.start();
+        this.gameThread = new GameThreadImpl(this.model, this.view, database, this.inputManager);
+        gameThread.start();
     }
 
 }

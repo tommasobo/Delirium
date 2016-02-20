@@ -17,6 +17,7 @@ public class GameThreadImpl extends Thread implements GameThread {
     private final InputManager inputManager;
     private final Mutex mutex;
     private boolean running;
+    private boolean paused;
 
     public GameThreadImpl(final Model model, final ViewController view, EntitiesDatabase database,
             InputManager inputManager) {
@@ -40,17 +41,13 @@ public class GameThreadImpl extends Thread implements GameThread {
             }
             this.model.notifyEvent(action.getX());
             
-            
             List<EntitiesInfo> bullets = this.model.updateArena();
-            /*for (EntitiesInfo ent : bullets) {
-                Integer tmp = this.codeIterator.next();
-                ent.setCode(tmp);
-                database.putEntity(tmp, Entities.PLATFORM);
-            }*/
             
             bullets = database.putEntitiesAndSetCodes(bullets, Entities.BULLET);
             this.model.putBullet(bullets);
-            //System.out.println(Translator.mapFromModelToView(this.model.getState(), database).get(0).getLife());
+            /*this.model.getState().stream().filter(t -> t.getCode() == 1).forEach(t -> {
+                System.out.println(t.getPosition() + " " + t.getMovementInfo().get().getActions());
+            });*/
             this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
             this.mutex.unlock();
             try {
@@ -63,11 +60,17 @@ public class GameThreadImpl extends Thread implements GameThread {
     }
 
     public void pause() {
+        this.paused = true;
         mutex.lock();
     }
 
     public void reStart() {
+        this.paused = false;
         mutex.unlock();
+    }
+    
+    public boolean isPaused() {
+        return this.paused;
     }
 
     public void stopGame() {

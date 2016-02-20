@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import model.EntitiesInfo;
 import model.Position;
-import view.Actions;
 import view.ControlComunication;
 import view.ViewPhysicalProperties;
 
@@ -73,13 +72,22 @@ class Translator {
             throw (new IllegalArgumentException());
         }
     }
+    
+    private static view.Actions getViewActionsForEntities(EntitiesInfo entity) {
+        
+        if(entity.getLife() == 0) {
+            return view.Actions.DEATH;
+        } else {
+            return entity.getMovementInfo().isPresent() ? actionsFromModeltoView(entity.getMovementInfo().get().getActions()) : view.Actions.IDLE;
+        }
+    }
 
     // eventualmente da sostare dentro controller impl
     public static List<ControlComunication> mapFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
         List<ControlComunication> viewList = new LinkedList<>();
         listInfo.stream().forEach(e -> {
             viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
-                    positionFromModeltoView(e, database), e.getMovementInfo().isPresent() ? actionsFromModeltoView(e.getMovementInfo().get().getActions()) : view.Actions.IDLE));
+                    positionFromModeltoView(e, database), getViewActionsForEntities(e)));
         });
         return viewList;
     }
