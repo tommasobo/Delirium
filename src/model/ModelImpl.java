@@ -85,26 +85,55 @@ public class ModelImpl implements Model{
     public void createArena(List<EntitiesInfo> entitiesInfo) {
         
         entitiesInfo.stream().forEach(t -> {
+            
+            
+            
             if (!t.getMovementInfo().isPresent()) {
-                this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), t.getPosition(), (t.getShootInfo().isPresent() ? Optional.of(new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed())) : Optional.empty()), t.getContactDamage()));
+                this.entities.add(new Entities.Builder()
+                        .code(t.getCode())
+                        .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
+                        .position(t.getPosition())
+                        .shootManager(t.getShootInfo().isPresent() ? new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed()) : null)
+                        .contactDamage(t.getContactDamage().isPresent() ? t.getContactDamage().get() : null)
+                        .build());
+                //this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), t.getPosition(), (t.getShootInfo().isPresent() ? Optional.of(new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed())) : Optional.empty()), t.getContactDamage()));
             } else {
-                
-                switch (t.getMovementInfo().get().getMovementTypes()) {
+                MovementInfo movementInfo = t.getMovementInfo().get();
+                Optional<MovementManager> movementManager = Optional.empty();
+                switch (movementInfo.getMovementTypes()) {
                 case HERO: 
-                    hero = new Hero(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), new HeroMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getActions(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly()), new HeroShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed()), t.getContactDamage().get());
+                    hero = (Hero) new Entities.Builder()
+                                        .code(t.getCode())
+                                        .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
+                                        .movementManager(new HeroMovementManager(t.getPosition(), movementInfo.getBounds(), movementInfo.getActions(), movementInfo.getSpeed(), movementInfo.isCanFly()))
+                                        .shootManager(new HeroShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed()))
+                                        .contactDamage(t.getContactDamage().get())
+                                        .build();
+                    //hero = new Hero(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), new HeroMovementManager(t.getPosition(), movementInfo.getBounds(), movementInfo.getActions(), movementInfo.getSpeed(), movementInfo.isCanFly()), new HeroShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed()), t.getContactDamage().get());
                     this.entities.add(hero);
                     break;
-                case REACTIVE : 
-                    this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), new ReactiveMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getActions(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly()), (t.getShootInfo().isPresent() ? Optional.of(new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed())) : Optional.empty()), t.getContactDamage()));
+                case REACTIVE :
+                    movementManager = Optional.of(new ReactiveMovementManager(t.getPosition(), movementInfo.getBounds(), movementInfo.getActions(), movementInfo.getSpeed(), movementInfo.isCanFly()));
                     break;
-                case RANDOM: 
-                    this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), new RandomDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()), (t.getShootInfo().isPresent() ? Optional.of(new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed())) : Optional.empty()), t.getContactDamage()));
+                case RANDOM:
+                    movementManager = Optional.of(new RandomDinamicMovementManager(t.getPosition(), movementInfo.getBounds(), movementInfo.getSpeed(), movementInfo.isCanFly(), movementInfo.getMovementTypes()));
                     break;
                 case VERTICAL_LINEAR:
                 case HORIZONTAL_LINEAR:
-                    this.entities.add(new EntitiesImpl(t.getCode(), new LifeManager(t.getLife(), t.getLifePattern()), new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()), (t.getShootInfo().isPresent() ? Optional.of(new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed())) : Optional.empty()), t.getContactDamage()));
+                    movementManager = Optional.of(new LinearDinamicMovementManager(t.getPosition(), movementInfo.getBounds(), movementInfo.getSpeed(), movementInfo.isCanFly(), movementInfo.getMovementTypes()));
                     break;
                 }
+                if (movementManager.isPresent()) {
+                    this.entities.add(new Entities.Builder()
+                            .code(t.getCode())
+                            .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
+                            .movementManager(movementManager.get())
+                            .shootManager(t.getShootInfo().isPresent() ? new ShootManagerImpl(t.getShootInfo().get().getMinTime(), t.getShootInfo().get().getBulletDamage(), t.getShootInfo().get().getMovementType(), t.getShootInfo().get().getRange(), t.getShootInfo().get().getSpeed()) : null)
+                            .contactDamage(t.getContactDamage().isPresent() ? t.getContactDamage().get() : null)
+                            .build());
+                }
+                
+                
                 
             }
             
@@ -115,7 +144,13 @@ public class ModelImpl implements Model{
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.entities.add(new Bullet(t.getCode(), new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()), t.getContactDamage().get()));
+            this.entities.add(new Entities.Builder()
+                    .code(t.getCode())
+                    .movementManager(new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
+                    .contactDamage(t.getContactDamage().get())
+                    .build());
+            
+            //this.entities.add(new Bullet(t.getCode(), new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()), t.getContactDamage().get()));
         });
     }
     
