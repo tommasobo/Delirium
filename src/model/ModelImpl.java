@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import control.Point;
 
@@ -14,12 +15,12 @@ public class ModelImpl implements Model{
     private static final ModelImpl singleton = new ModelImpl();
     private Hero hero;
     private List<Entities> entities;
-    private List<Bullet> bullet;
+    private List<Bullet> bullets;
     private Map<Integer,Position> lastPositions;
     
     private ModelImpl() {
         this.entities = new LinkedList<>();
-        this.bullet = new LinkedList<>();
+        this.bullets = new LinkedList<>();
     }
     
     public static ModelImpl getModel() {
@@ -50,9 +51,34 @@ public class ModelImpl implements Model{
             }
         }
         
+        size = bullets.size();
+        for(int i = 0; i < size; i++) {
+            if(bullets.get(i).getLifeManager().getLife() == 0) {
+                bullets.remove(i);
+                i--;
+                size--;
+            }
+        }
+        
         List<EntitiesInfo> bullets = new LinkedList<>();
         this.lastPositions = new HashMap<>();
-        for(Entities t : entities) {
+        
+        Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
+            lastPositions.put(t.getCode(), t.getPosition());
+            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
+            if (p.isPresent()) {
+                //t.setPosition(p.get().getPoint(), p.get().getDirection());
+                Position pos = collisionFixer(p.get(), t);
+                t.setPosition(pos.getPoint(), pos.getDirection());
+                
+            }
+            Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
+            if(bullet.isPresent()) {
+                bullets.add(bullet.get());
+            }
+        });
+        
+        /*for(Entities t : entities) {
            //TODO se non usi piu la mappa cambiala con una variabile temporanea
            lastPositions.put(t.getCode(), t.getPosition());
            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
@@ -67,7 +93,7 @@ public class ModelImpl implements Model{
                bullets.add(bullet.get());
            }
            
-        }
+        }*/
         return bullets;
         
     }
@@ -80,7 +106,7 @@ public class ModelImpl implements Model{
         this.entities.stream().forEach(t -> {
             result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfo(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
         });
-        this.bullet.stream().forEach(t -> {
+        this.bullets.stream().forEach(t -> {
             result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfo(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
         });
         return result;
@@ -149,7 +175,7 @@ public class ModelImpl implements Model{
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.bullet.add( (Bullet) new Entities.Builder()
+            this.bullets.add( (Bullet) new Entities.Builder()
                     .code(t.getCode())
                     .movementManager(new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
                     .contactDamage(t.getContactDamage().get())
@@ -272,7 +298,7 @@ public class ModelImpl implements Model{
     
     private List<Rectangle> getCollisionList(Rectangle rectangle, Entities entity) {
         List<Rectangle> ret = new LinkedList<>();
-        for(Entities entityToTest : entities) {
+        /*for(Entities entityToTest : entities) {
             if(entityToTest.getCode() != entity.getCode()) {
                 Rectangle rectangleToTest = getRectangle(entityToTest.getPosition());
                 if(rectangle.intersects(rectangleToTest)) {
@@ -284,7 +310,21 @@ public class ModelImpl implements Model{
                         ret.add((Rectangle) rectangle.createIntersection(rectangleToTest));
                 }
             }
-        }
+        }*/
+        
+        Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(entityToTest -> {
+            if(entityToTest.getCode() != entity.getCode()) {
+                Rectangle rectangleToTest = getRectangle(entityToTest.getPosition());
+                if(rectangle.intersects(rectangleToTest)) {
+                    //se noto la collisione setto i danni
+                    entity.getLifeManager().setLife(entityToTest.getContactDamage().orElseGet(() -> 0));
+                    entityToTest.getLifeManager().setLife(entity.getContactDamage().orElseGet(() -> 0));
+                    //TODO questo cast fa cagare, prova ad usare solo rectangle 2D
+                    if(entityToTest.getLifeManager().getLife() > 0)
+                        ret.add((Rectangle) rectangle.createIntersection(rectangleToTest));
+                }
+            }
+        });
         
         
         return ret;
