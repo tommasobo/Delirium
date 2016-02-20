@@ -22,6 +22,9 @@ public class StaticView extends AbstractGenericView {
     @Override
     protected void completeInitialization() {
         
+        if (AudioManager.getAudioManager().isAudioAvailable()) {
+            AudioManager.getAudioManager().playTheme("kala");
+        }
         final BorderPane border = new BorderPane();
         border.setPrefSize(super.getSceneDimension().getWidth(), super.getSceneDimension().getHeight());
         border.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));

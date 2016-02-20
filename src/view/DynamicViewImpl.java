@@ -64,6 +64,9 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     @Override
     protected void completeInitialization() {
         
+        if (AudioManager.getAudioManager().isAudioAvailable()) {
+            AudioManager.getAudioManager().playTheme("Shots");
+        }
         final Pane entitiesPane = new Pane();
         entitiesPane.setPrefSize(this.worldDimension.getWidth(), this.worldDimension.getHeight());
         entitiesPane.setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -82,7 +85,7 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     }
     
     private void backGround(Pane pane) {
-        ImageView moon = new ImageView(new Image("moon.png", 200, 200, true, true));
+        ImageView moon = new ImageView(new Image("images/moon.png", 200, 200, true, true));
         TranslateTransition translateTransition = new TranslateTransition(
             Duration.millis(4000), moon);
         translateTransition.setFromX(-300);

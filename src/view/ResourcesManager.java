@@ -30,7 +30,7 @@ public class ResourcesManager {
         System.out.println(key.getKey());
         final List<ImageView> temp = new LinkedList<>();
         IntStream.range(0, entity.getnAssets()).forEach(n -> {
-            temp.add(new ImageView(new Image(key.getKey() + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true)));
+            temp.add(new ImageView(new Image("images/" + key.getKey() + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true)));
         });
         this.buffer.put(key, temp);
         return new LinkedList<>(temp);

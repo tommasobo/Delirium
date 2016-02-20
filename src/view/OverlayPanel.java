@@ -15,7 +15,7 @@ public class OverlayPanel {
     public OverlayPanel(Pane overlayPane, Entities entity, int life) {
         this.overlayPane = overlayPane;
         this.life = life;
-        this.icon = new Image(entity.getName() + "/icon.png", overlayPane.getPrefHeight()/6, overlayPane.getPrefHeight()/6, true, true);
+        this.icon = new Image("images/" + entity.getName() + "/icon.png", overlayPane.getPrefHeight()/6, overlayPane.getPrefHeight()/6, true, true);
     }
     
     public void initOverlay() {

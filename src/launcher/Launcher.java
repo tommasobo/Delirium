@@ -14,7 +14,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         
-        primaryStage.getIcons().add(new Image("gameicon.png"));
+        primaryStage.getIcons().add(new Image("images/gameicon.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.setTitle("Delirium");
         ViewControllerImpl.setStage(primaryStage);
