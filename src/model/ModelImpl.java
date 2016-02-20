@@ -14,10 +14,12 @@ public class ModelImpl implements Model{
     private static final ModelImpl singleton = new ModelImpl();
     private Hero hero;
     private List<Entities> entities;
+    private List<Bullet> bullet;
     private Map<Integer,Position> lastPositions;
     
     private ModelImpl() {
         this.entities = new LinkedList<>();
+        this.bullet = new LinkedList<>();
     }
     
     public static ModelImpl getModel() {
@@ -76,6 +78,9 @@ public class ModelImpl implements Model{
     public List<EntitiesInfo> getState() {
         final List<EntitiesInfo> result = new LinkedList<>();
         this.entities.stream().forEach(t -> {
+            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfo(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
+        });
+        this.bullet.stream().forEach(t -> {
             result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfo(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfo(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
         });
         return result;
@@ -144,7 +149,7 @@ public class ModelImpl implements Model{
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.entities.add(new Entities.Builder()
+            this.bullet.add( (Bullet) new Entities.Builder()
                     .code(t.getCode())
                     .movementManager(new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
                     .contactDamage(t.getContactDamage().get())
