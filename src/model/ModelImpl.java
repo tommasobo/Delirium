@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ModelImpl implements Model{
             Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
             if (p.isPresent()) {
                 //t.setPosition(p.get().getPoint(), p.get().getDirection());
-                Position pos = collisionFixer(p.get(), t);
+                Position pos = collisionFixerTest(p.get(), t);
                 t.setPosition(pos.getPoint(), pos.getDirection());
                 
             }
@@ -185,149 +186,125 @@ public class ModelImpl implements Model{
         });
     }
     
-    //TODO problemi collisioni
-    //se collido a destra o sinistra mentre sono su un pavimento il tutto sfarfalla OK
-    //differenzia moveonfall e muveonjumb per raggiungere limiti collisone OK
-    //se gioco attorno alla volpe mentre sale questa schizza RISOLTO CON RICORSIONE
-    private Position collisionFixer(Position pos, Entities entity) {
+    
+    private Position collisionFixerTest(Position pos, Entities entity) {
+        boolean verticalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         Rectangle retToFix = getRectangle(posToFix);
-        List<Rectangle> collisionList = getCollisionList(retToFix, entity);
+        Rectangle collisionRectangle = getFirstCollision(retToFix, entity);
+        if (collisionRectangle == null) {
+            return pos;
+        }
+        // TODO togli operatore ternario e metti metodo per azione effettiva
+        switch (realAction(entity)) {
+        case JUMP:
+            posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y - posToFix.getDimension().getHeight()));
+            // TODO cosi anche quando l'ero collide sopra attacca a cadere? NO,
+            // cambia controllo salto che se è fall riempie il contatore
+            //entity.setAction(Actions.FALL);
+            verticalLimit = true;
+            break;
+        case FALL:
+            posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y + collisionRectangle.height));
+            /*if (entity == this.hero) {
+                hero.setOnPlatform(true);
+                entity.setAction(Actions.STOP);
+            } else {
+                entity.setAction(Actions.JUMP);
+            }*/
+            verticalLimit = true;
+            break;
+        case MOVE:
+            fixPositionInMoveSwitch(posToFix, collisionRectangle);
+            break;
+        case MOVEONJUMP:
+            if (!new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width,
+                    retToFix.height).intersects(collisionRectangle)) {
+                posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y - retToFix.height));
+            } else {
+                fixPositionInMoveSwitch(posToFix, collisionRectangle);
+            }
+            break;
+        case MOVEONFALL:
+            if (!new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width,
+                    retToFix.height).intersects(collisionRectangle)) {
+                posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y + collisionRectangle.height));
+                if (entity.getAction() == Actions.MOVEONFALL) {
+                    entity.setAction(Actions.MOVE);
+                }
+                if (entity == this.hero) {
+                    hero.setOnPlatform(true);
+                }
+            } else {
+                fixPositionInMoveSwitch(posToFix, collisionRectangle);
+            }
+            break;
+        case SHOOT:
+            throw new IllegalAccessError();
+        case STOP:
+            break;
+        default:
+            break;
+        }
+
+        posToFix = collisionFixerTest(posToFix, entity);
         
-        
-        for(Rectangle collisionRectangle: collisionList) {
-           //se ho più elementi in lista mi devo ricalcolare il rettangolo della figura dopo il primo fix della posizione, non so
-           //se metterlo qui o direttamente quando fixo (dopo il set posToFix), sarebbe uno spreco
-           retToFix = getRectangle(posToFix);
-           //TODO togli operatore ternario e metti metodo per azione effettiva
-           switch(entity.getMovementManager().isPresent() ? entity.getMovementManager().get().getAction() : Actions.STOP) {
-            case JUMP:
-                posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y - posToFix.getDimension().getHeight()));
-                //TODO cosi anche quando l'ero collide sopra attacca a cadere? NO, cambia controllo salto che se è fall riempie il contatore
-                entity.setAction(Actions.FALL);
-                break;
-            case FALL:
-                posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y + collisionRectangle.height));
-                if(entity == this.hero) {
+        //TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare DOPO la ricorsione per evitare problemi
+        if(verticalLimit) {
+            if(entity.equals(this.hero)) {
+                if(realAction(entity) == Actions.FALL) {
                     hero.setOnPlatform(true);
                     entity.setAction(Actions.STOP);
                 } else {
+                    //stacosanonfunge, l'hero non cade
+                    entity.setAction(Actions.FALL);
+                }
+            } else {
+                if(realAction(entity) == Actions.FALL) {
                     entity.setAction(Actions.JUMP);
-                }
-                break;
-            case MOVE:
-                switch(posToFix.getDirection()) {
-                case LEFT:
-                    posToFix.setPoint(new Point(collisionRectangle.x + collisionRectangle.width, posToFix.getPoint().getY()));
-                    break;
-                case NONE:
-                    break;
-                case RIGHT:
-                    posToFix.setPoint(new Point(collisionRectangle.x - retToFix.width, posToFix.getPoint().getY()));
-                    break;
-                default:
-                    break;
-                }
-                break;
-                //TODO differenzia moveonjump e moveonfall
-            case MOVEONJUMP:
-                if(!new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width, retToFix.height).intersects(collisionRectangle)/* && 
-                        !new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width, retToFix.height).contains(collisionRectangle)*/) {
-                    //posToFix.setPoint(new Point(retToFix.x,  lastPositions.get(entity.getCode()).getPoint().getY()));
-                    posToFix.setPoint(new Point(retToFix.x,  collisionRectangle.y - retToFix.height));
                 } else {
-                    switch(posToFix.getDirection()) {
-                    case LEFT:
-                        posToFix.setPoint(new Point(collisionRectangle.x + collisionRectangle.width, posToFix.getPoint().getY()));
-                        break;
-                    case NONE:
-                        break;
-                    case RIGHT:
-                    posToFix.setPoint(new Point(collisionRectangle.x - retToFix.width, posToFix.getPoint().getY()));
-                    break;
-                    default:
-                        break;
-                    }
+                    entity.setAction(Actions.FALL);
                 }
-                break;
-            case MOVEONFALL:
-                if(!new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width, retToFix.height).intersects(collisionRectangle)/* && 
-                        !new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width, retToFix.height).contains(collisionRectangle)*/) {
-                    //posToFix.setPoint(new Point(retToFix.x,  lastPositions.get(entity.getCode()).getPoint().getY()));
-                    posToFix.setPoint(new Point(retToFix.x,  collisionRectangle.y + collisionRectangle.height));
-                    if(entity.getAction() == Actions.MOVEONFALL) {
-                        entity.setAction(Actions.MOVE);
-                    }  
-                    if(entity == this.hero) {
-                        hero.setOnPlatform(true);
-                    }
-                } else {
-                    switch(posToFix.getDirection()) {
-                    case LEFT:
-                        posToFix.setPoint(new Point(collisionRectangle.x + collisionRectangle.width, posToFix.getPoint().getY()));
-                        break;
-                    case NONE:
-                        break;
-                    case RIGHT:
-                        posToFix.setPoint(new Point(collisionRectangle.x - retToFix.width, posToFix.getPoint().getY()));
-                        //posToFix.setPoint(new Point(lastPositions.get(entity.getCode()).getPoint().getX(),  lastPositions.get(entity.getCode()).getPoint().getY()));
-                        break;
-                    default:
-                        break;
-                    }
-                }
-                break;
-            case SHOOT:
-                //mentre un'entità sta aparando può cadere a causa della gravità, oppure può star saltando (l'eroe), per destra e sinistra non è un problema,
-                //ma, visto che io uso l'ultima posizione di y per risolvere le collisioni, per Jump e Fall lo diventa
-                //RISOLTO CON GET AZIONE EFFETTIVA
-                throw new IllegalAccessError();
-            case STOP:
-                break;
-            default:
-                break;
-           }
+            }
         }
-        
-        if(!posToFix.equals(pos)) {
-            posToFix = collisionFixer(posToFix, entity);
-        }
-        
+
         return posToFix;
     }
     
-    private List<Rectangle> getCollisionList(Rectangle rectangle, Entities entity) {
-        List<Rectangle> ret = new LinkedList<>();
-        /*for(Entities entityToTest : entities) {
-            if(entityToTest.getCode() != entity.getCode()) {
-                Rectangle rectangleToTest = getRectangle(entityToTest.getPosition());
-                if(rectangle.intersects(rectangleToTest)) {
-                    //se noto la collisione setto i danni
-                    entity.getLifeManager().setLife(entityToTest.getContactDamage().orElseGet(() -> 0));
-                    entityToTest.getLifeManager().setLife(entity.getContactDamage().orElseGet(() -> 0));
-                    //TODO questo cast fa cagare, prova ad usare solo rectangle 2D
-                    if(entityToTest.getLifeManager().getLife() > 0)
-                        ret.add((Rectangle) rectangle.createIntersection(rectangleToTest));
-                }
-            }
-        }*/
-        
-        Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(entityToTest -> {
-            if(entityToTest.getCode() != entity.getCode()) {
-                Rectangle rectangleToTest = getRectangle(entityToTest.getPosition());
-                if(rectangle.intersects(rectangleToTest)) {
-                    //se noto la collisione setto i danni
-                    entity.getLifeManager().setLife(entityToTest.getContactDamage().orElseGet(() -> 0));
-                    entityToTest.getLifeManager().setLife(entity.getContactDamage().orElseGet(() -> 0));
-                    //TODO questo cast fa cagare, prova ad usare solo rectangle 2D
-                    if(entityToTest.getLifeManager().getLife() > 0)
-                        ret.add((Rectangle) rectangle.createIntersection(rectangleToTest));
-                }
-            }
-        });
-        
-        
-        return ret;
+    private Actions realAction(Entities entity) {
+        return entity.getMovementManager().isPresent() ? entity.getMovementManager().get().getAction()
+                : Actions.STOP;
+    }
+    
+    private void fixPositionInMoveSwitch(Position posToFix, Rectangle collisionRectangle) {
+        switch (posToFix.getDirection()) {
+        case LEFT:
+            posToFix.setPoint(new Point(collisionRectangle.x + collisionRectangle.width, posToFix.getPoint().getY()));
+            break;
+        case NONE:
+            break;
+        case RIGHT:
+            posToFix.setPoint(new Point(collisionRectangle.x - posToFix.getDimension().getWidth(), posToFix.getPoint().getY()));
+            break;
+        default:
+            break;
+        }
+    }
+    
+    private Rectangle getFirstCollision(Rectangle rectangle, Entities entity) {
+
+        Optional<Entities> ret = Stream.concat(this.entities.stream(), this.bullets.stream())
+                .filter(entityToTest -> entityToTest.getCode() != entity.getCode())
+                .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
+
+        if (ret.isPresent()) {
+            Entities inCollision = ret.get();
+            entity.getLifeManager().setLife(inCollision.getContactDamage().orElseGet(() -> 0));
+            inCollision.getLifeManager().setLife(entity.getContactDamage().orElseGet(() -> 0));
+            return (Rectangle) rectangle.createIntersection(getRectangle(inCollision.getPosition()));
+        }
+
+        return null;
     }
     
     private static Rectangle getRectangle(Position p) {

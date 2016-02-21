@@ -23,6 +23,8 @@ public class HeroMovementManager extends AbstractMovementManager{
             newPosition = applyGravity();
         }
 
+        System.out.println(super.getAction());
+        
         this.onPlatform = false;
         
         if(!UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.FALL) && UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump) {
@@ -32,6 +34,9 @@ public class HeroMovementManager extends AbstractMovementManager{
         
         if (onJump) {
             if(time < 60) {
+                if(UtilityMovement.splitActions(this.getAction()).contains(Actions.FALL)) {
+                    time = 60;
+                }
                 if(this.getAction() == Actions.MOVE) {
                     this.setAction(Actions.MOVEONJUMP);
                 } else if(this.getAction() != Actions.MOVEONJUMP){
