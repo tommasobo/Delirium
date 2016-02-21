@@ -1,41 +1,26 @@
 package control;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.yaml.snakeyaml.Yaml;
 
 import model.EntitiesInfo;
 
 public class LevelLoaderImpl {
-    private final List<EntitiesInfo> entities;
-    private final String filename;
-    private EntitiesDatabase database;
-    private final CodesIterator codeIter;
+    LevelInfo levelInfo;
     
-    public LevelLoaderImpl(final String filename) {
-        this.filename = filename;
-        this.entities = new LinkedList<>();
-        this.codeIter = new CodesIteratorImpl();
+    public LevelLoaderImpl(Levels menu) {
+        //TODO crea classe loader per ottenere gli input stream?
+        try (InputStream is = Files.newInputStream(Paths.get("res/storefiles/levels/" + menu.getFilename()))){
+            this.levelInfo = new Yaml().loadAs(is, LevelInfo.class);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
-    public void load() {
-        
-    }
-
-    public List<EntitiesInfo> getEntities() {
-        return entities;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public EntitiesDatabase getDatabase() {
-        return database;
-    }
-
-    public CodesIterator getCodeIterator() {
-        return codeIter;
-    }
-    
-    
 }

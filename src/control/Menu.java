@@ -1,7 +1,7 @@
 package control;
 
 public enum Menu {
-    INITIAL("InitialMenu.yaml");
+    INITIAL("initialMenu.yaml"), PAUSE("pauseMenu.yaml");
     private final String filename;
     
     private Menu(String filename) {

@@ -23,13 +23,11 @@ public class TestFileWriting {
         dim.setX(1);
         dim.setY(2);
         
-        EntitiesStoreImpl prova = new EntitiesStoreImpl();
-        prova.setAction(Actions.JUMP);
+        EntitiesInfoStore prova = new EntitiesInfoStore();
         
-        EntitiesStoreImpl a = new EntitiesStoreImpl();
-        prova.setAction(Actions.FALL);
+        EntitiesInfoStore a = new EntitiesInfoStore();
         
-        List<EntitiesStoreImpl> ls = new LinkedList<>();
+        List<EntitiesInfoStore> ls = new LinkedList<>();
         ls.add(a);
         ls.add(prova);
         

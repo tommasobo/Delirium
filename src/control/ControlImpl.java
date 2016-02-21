@@ -28,6 +28,7 @@ public class ControlImpl implements Control {
     private ViewController view;
     private final InputManager inputManager;
     private GameThread gameThread;
+    private MenuLoader menuLoader;
 
     public ControlImpl() {
         this.inputManager = new InputManagerImpl();
@@ -49,6 +50,7 @@ public class ControlImpl implements Control {
             System.exit(0);
             return;
         } else if (event.equals(ViewEvents.PAUSE)) {
+            this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
             if(gameThread != null) {
                 if( this.gameThread.isPaused()) {
                     gameThread.reStart();
@@ -64,10 +66,10 @@ public class ControlImpl implements Control {
     }
 
     public List<Buttons> getButtons() {
-        List<Buttons> list = new LinkedList<>();
-        list.add(Buttons.NEWGAME);
-        list.add(Buttons.EXIT);
-        return list;
+        if(this.menuLoader == null) {
+            this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+        }
+        return this.menuLoader.getButtonsList();
     }
 
     private void gameLoop(ViewEvents level) {

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class ShootManagerFactory {
     
-    public static Optional<ShootManager> getShootManager(final Optional<ShootInfoImpl> shootInfo) {
+    public static Optional<ShootManager> getShootManager(final Optional<ShootInfo> shootInfo) {
         
         if (!shootInfo.isPresent()) {
             return Optional.empty();

@@ -6,9 +6,9 @@ public interface EntitiesInfo {
 
     int getCode();
 
-    Optional<MovementInfoImpl> getMovementInfo();
+    Optional<MovementInfo> getMovementInfo();
 
-    void setMovementInfo(Optional<MovementInfoImpl> movementInfo);
+    void setMovementInfo(Optional<MovementInfo> movementInfo);
 
     Position getPosition();
 
@@ -16,7 +16,7 @@ public interface EntitiesInfo {
 
     LifePattern getLifePattern();
 
-    Optional<ShootInfoImpl> getShootInfo();
+    Optional<ShootInfo> getShootInfo();
 
     Optional<Integer> getContactDamage();
 
