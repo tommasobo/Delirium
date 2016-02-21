@@ -1,6 +1,6 @@
 package control;
 
-public class DimensionStore implements Dimension{
+public class DimensionStore{
     private int width;
     private int height;
     

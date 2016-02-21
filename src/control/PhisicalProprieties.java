@@ -21,7 +21,7 @@ public class PhisicalProprieties {
     }
 
     public Dimension getDimension() {
-        return new DimensionImpl(this.dimension.getWidth(), this.dimension.getHeight());
+        return new Dimension(this.dimension.getWidth(), this.dimension.getHeight());
     }
 
     @Override
