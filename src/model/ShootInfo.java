@@ -11,7 +11,8 @@ public class ShootInfo {
     private final int speed;
     
     
-    public ShootInfo(int minTime, ShootTypes shootType, int bulletDamage, MovementTypes movementType, int range, int speed) {
+    public ShootInfo(final int minTime, final ShootTypes shootType, final int bulletDamage, 
+            final MovementTypes movementType, final int range, final int speed) {
         this.minTime = minTime;
         this.shootType = shootType;
         this.bulletDamage = bulletDamage;

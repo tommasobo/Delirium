@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class Bullet extends EntitiesImpl {
 
-    public Bullet(int code, MovementManager movementManager, int contactDamage) {
+    public Bullet(final int code, final MovementManager movementManager, final int contactDamage) {
         super(code, new LifeManager(1, LifePattern.WITH_LIFE), movementManager, Optional.empty(), Optional.of(contactDamage));
     }
     

@@ -1,15 +1,11 @@
 package model;
 
-import java.util.Optional;
-
-import control.Dimension;
-import control.Point;
-
-public class HeroShootManagerImpl extends ShootManagerImpl implements HeroShootManager {
+public class HeroShootManagerImpl extends MonsterShootManager implements HeroShootManager {
     
     private boolean wannaShoot = false;
     
-    public HeroShootManagerImpl(int minTime, int bulletDamage, MovementTypes movementType, int offset, int speed) {
+    public HeroShootManagerImpl(final int minTime, final int bulletDamage, final MovementTypes movementType, 
+            final int offset, final int speed) {
         super(minTime, bulletDamage, movementType, offset, speed);
     }
 
@@ -19,8 +15,8 @@ public class HeroShootManagerImpl extends ShootManagerImpl implements HeroShootM
     }
 
     @Override
-    public boolean isOnShoot(boolean wannaShoot) {
-        return this.wannaShoot? super.isOnShoot(wannaShoot) : false;
+    public boolean isOnShoot() {
+        return this.wannaShoot? super.isOnShoot() : false;
     }
     
     @Override
