@@ -39,13 +39,6 @@ public class EntitiesInfoImpl implements EntitiesInfo {
         return movementInfo;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#setMovementInfo(java.util.Optional)
-     */
-    @Override
-    public void setMovementInfo(Optional<MovementInfo> movementInfo) {
-        this.movementInfo = movementInfo;
-    }
 
     /* (non-Javadoc)
      * @see model.EntitiesInfo#getPosition()

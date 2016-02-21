@@ -80,7 +80,7 @@ public class ControlImpl implements Control {
 
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
-                        new Position(new Point(0, 200), Directions.RIGHT, new Dimension(40, 60)),
+                        new Position(new Point(0, 200), Directions.RIGHT, new DimensionImpl(40, 60)),
                         Optional.of(new MovementInfoImpl(10, new Bounds(0, 1000, 0, 300), Actions.STOP, false,
                                 MovementTypes.HERO)),
                         300, LifePattern.WITH_LIFE,
@@ -89,7 +89,7 @@ public class ControlImpl implements Control {
 
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
-                        new Position(new Point(300, 100), Directions.RIGHT, new Dimension(50, 70)),
+                        new Position(new Point(300, 100), Directions.RIGHT, new DimensionImpl(50, 70)),
                         Optional.of(new MovementInfoImpl(3, new Bounds(0, 1000, 40, 300), Actions.JUMP, false,
                                 MovementTypes.VERTICAL_LINEAR)),
                         10, LifePattern.WITH_LIFE,
@@ -100,7 +100,7 @@ public class ControlImpl implements Control {
         
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
-                        new Position(new Point(0, 0), Directions.RIGHT, new Dimension(1000, 40)),
+                        new Position(new Point(0, 0), Directions.RIGHT, new DimensionImpl(1000, 40)),
                         Optional.empty(),
                         300, LifePattern.WITHOUT_LIFE,
                         Optional.empty(), Optional.empty()),
@@ -133,7 +133,7 @@ public class ControlImpl implements Control {
                 Entities.PLATFORM));*/
         
 
-        Dimension arenaDim = new Dimension(1000, 300);
+        Dimension arenaDim = new DimensionImpl(1000, 300);
         database.putArenaDimension(arenaDim);
         this.model.createArena(ls);
         this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));

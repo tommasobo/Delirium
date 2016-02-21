@@ -1,22 +1,18 @@
 package control;
 
-import java.util.Optional;
-
-import model.EntitiesInfo;
 import model.LifePattern;
-import model.MovementInfo;
 import model.Position;
-import model.ShootInfo;
 
-public class EntitiesInfoStore implements EntitiesInfo {
+public class EntitiesInfoStore {
 
     private int code;
     private Position position;
-    private Optional<MovementInfo> movementInfo; 
+    private MovementInfoStore movementInfo; 
     private int life;
     private LifePattern lifePattern;
-    private Optional<ShootInfo> shootInfo;
-    private Optional<Integer> contactDamage;
+    private ShootInfoStore shootInfo;
+    private Integer contactDamage;
+    
     public int getCode() {
         return code;
     }
@@ -29,10 +25,10 @@ public class EntitiesInfoStore implements EntitiesInfo {
     public void setPosition(Position position) {
         this.position = position;
     }
-    public Optional<MovementInfo> getMovementInfo() {
+    public MovementInfoStore getMovementInfo() {
         return movementInfo;
     }
-    public void setMovementInfo(Optional<MovementInfo> movementInfo) {
+    public void setMovementInfo(MovementInfoStore movementInfo) {
         this.movementInfo = movementInfo;
     }
     public int getLife() {
@@ -47,18 +43,20 @@ public class EntitiesInfoStore implements EntitiesInfo {
     public void setLifePattern(LifePattern lifePattern) {
         this.lifePattern = lifePattern;
     }
-    public Optional<ShootInfo> getShootInfo() {
+    public ShootInfoStore getShootInfo() {
         return shootInfo;
     }
-    public void setShootInfo(Optional<ShootInfo> shootInfo) {
+    public void setShootInfo(ShootInfoStore shootInfo) {
         this.shootInfo = shootInfo;
     }
-    public Optional<Integer> getContactDamage() {
+    public Integer getContactDamage() {
         return contactDamage;
     }
-    public void setContactDamage(Optional<Integer> contactDamage) {
+    public void setContactDamage(Integer contactDamage) {
         this.contactDamage = contactDamage;
     }
+    
+    
     
     
 }

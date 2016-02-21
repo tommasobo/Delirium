@@ -1,23 +1,31 @@
 package control;
 
-public class Dimension {
+public class DimensionImpl implements Dimension {
 
     private final int width;
     private final int height;
     
-    public Dimension(final int width, final int height) {
+    public DimensionImpl(final int width, final int height) {
         this.width = width;
         this.height = height;
     }
 
+    /* (non-Javadoc)
+     * @see control.Dimension#getWidth()
+     */
     public int getWidth() {
         return this.width;
     }
 
+    /* (non-Javadoc)
+     * @see control.Dimension#getHeight()
+     */
     public int getHeight() {
         return this.height;
     }
     
+    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -35,7 +43,7 @@ public class Dimension {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Dimension other = (Dimension) obj;
+        DimensionImpl other = (DimensionImpl) obj;
         if (height != other.height)
             return false;
         if (width != other.width)

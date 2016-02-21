@@ -1,6 +1,7 @@
 package model;
 
 import control.Dimension;
+import control.DimensionImpl;
 import control.Point;
 
 public class Position {
@@ -36,7 +37,7 @@ public class Position {
     }
 
     public Dimension getDimension() {
-        return new Dimension(this.dimension.getWidth(), this.dimension.getHeight());
+        return new DimensionImpl(this.dimension.getWidth(), this.dimension.getHeight());
     }
 
     public void setDimension(Dimension dimension) {

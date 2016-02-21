@@ -8,8 +8,6 @@ public interface EntitiesInfo {
 
     Optional<MovementInfo> getMovementInfo();
 
-    void setMovementInfo(Optional<MovementInfo> movementInfo);
-
     Position getPosition();
 
     int getLife();
