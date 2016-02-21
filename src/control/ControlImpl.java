@@ -17,6 +17,7 @@ import model.MovementInfo;
 import model.MovementTypes;
 import model.Position;
 import model.ShootInfo;
+import model.ShootTypes;
 import view.Entities;
 import view.SceneType;
 import view.ViewController;
@@ -81,7 +82,7 @@ public class ControlImpl implements Control {
                         Optional.of(new MovementInfo(10, new Bounds(0, 1000, 0, 300), Actions.STOP, false,
                                 MovementTypes.HERO)),
                         300, LifePattern.WITH_LIFE,
-                        Optional.of(new ShootInfo(5, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
+                        Optional.of(new ShootInfo(5, ShootTypes.HERO, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
                 Entities.MAGNO));
 
         ls.add(database.putEntityAndSetCode(

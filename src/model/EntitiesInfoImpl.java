@@ -14,7 +14,6 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     
     public EntitiesInfoImpl(int code, Position position, Optional<MovementInfo> movementInfo, int life,
             LifePattern lifePattern, Optional<ShootInfo> shootInfo, Optional<Integer> contactDamage) {
-        super();
         this.code = code;
         this.position = position;
         this.movementInfo = movementInfo;
