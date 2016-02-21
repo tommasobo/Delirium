@@ -18,7 +18,15 @@ public class AudioManager {
     private double effectsVolume = 1.0;
     
     private AudioManager() {
-        this.audioState = AudioSystem.getMixerInfo().length > 0;
+        boolean temp = true;
+        try {
+            final MediaPlayer mp = new MediaPlayer(new Media(getClass().getResource("/music/kala.mp3").toExternalForm()));
+            mp.setVolume(0);
+            mp.stop();
+        } catch (Exception e) {
+            temp = false;
+        }
+        this.audioState = temp && AudioSystem.getMixerInfo().length > 0;
     }
     
     static AudioManager getAudioManager() {
