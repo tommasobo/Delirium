@@ -129,5 +129,9 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         super.getRoot().getChildren().remove(this.pausePane.get());
         this.pausePane = Optional.empty();
     }
+    
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
+    }
  
 }

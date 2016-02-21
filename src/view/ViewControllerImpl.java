@@ -35,10 +35,9 @@ public class ViewControllerImpl implements ViewController {
         final GenericView newScene = ViewFactory.createNewScene(primaryStage, this.listener, settings);
         newScene.initScene();
         newScene.display();
-        //sucks
-        if (newScene instanceof DynamicView) {
-            this.drawableView = Optional.of((DynamicView)newScene);
-        }
+        final VisitorImpl visitor = new VisitorImpl();
+        newScene.accept(visitor);
+        this.drawableView = visitor.getView();
     }
 
     @Override

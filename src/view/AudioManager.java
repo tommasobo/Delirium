@@ -20,7 +20,7 @@ public class AudioManager {
     private AudioManager() {
         boolean temp = true;
         try {
-            final MediaPlayer mp = new MediaPlayer(new Media(getClass().getResource("/music/kala.mp3").toExternalForm()));
+            final MediaPlayer mp = new MediaPlayer(new Media(getClass().getResource("../music/kala.mp3").toExternalForm()));
             mp.setVolume(0);
             mp.stop();
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class AudioManager {
     }
    
     public void playTheme(final String id) {
-        final MediaPlayer mp = new MediaPlayer(new Media(getClass().getResource("/music/" + id + ".mp3").toExternalForm()));
+        final MediaPlayer mp = new MediaPlayer(new Media(getClass().getResource("../music/" + id + ".mp3").toExternalForm()));
         mp.setCycleCount(Integer.MAX_VALUE);
         if (this.theme.isPresent()) {
             mp.setVolume(this.theme.get().getVolume());

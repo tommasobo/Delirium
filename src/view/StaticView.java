@@ -38,5 +38,9 @@ public class StaticView extends AbstractGenericView {
         super.getRoot().getChildren().add(border);
         
     }
+    
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
+    }
 
 }

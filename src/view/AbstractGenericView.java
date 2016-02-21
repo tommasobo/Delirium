@@ -23,7 +23,7 @@ public abstract class AbstractGenericView implements GenericView {
     public void initScene() {
         this.stage.setResizable(false);
         final Scene mainScene = new Scene(this.root, this.sceneDimension.getWidth(), this.sceneDimension.getHeight());
-        mainScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        mainScene.getStylesheets().add(getClass().getResource("../style.css").toExternalForm());
         this.completeInitialization();
     }
     
