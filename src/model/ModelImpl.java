@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import control.Dimension;
 import control.Pair;
 import control.Point;
 
@@ -68,10 +69,8 @@ public class ModelImpl implements Model{
             lastPositions.put(t.getCode(), t.getPosition());
             Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
             if (p.isPresent()) {
-                //t.setPosition(p.get().getPoint(), p.get().getDirection());
                 Position pos = collisionFixerTest(p.get(), t);
                 t.setPosition(pos.getPoint(), pos.getDirection());
-                
             }
             Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
             if(bullet.isPresent()) {
@@ -79,22 +78,6 @@ public class ModelImpl implements Model{
             }
         });
         
-        /*for(Entities t : entities) {
-           //TODO se non usi piu la mappa cambiala con una variabile temporanea
-           lastPositions.put(t.getCode(), t.getPosition());
-           Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
-           if (p.isPresent()) {
-               //t.setPosition(p.get().getPoint(), p.get().getDirection());
-               Position pos = collisionFixer(p.get(), t);
-               t.setPosition(pos.getPoint(), pos.getDirection());
-               
-           }
-           Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
-           if(bullet.isPresent()) {
-               bullets.add(bullet.get());
-           }
-           
-        }*/
         return bullets;
         
     }
@@ -153,6 +136,13 @@ public class ModelImpl implements Model{
         Rectangle retToFix = getRectangle(posToFix);
         Rectangle collisionRectangle = getFirstCollision(retToFix, entity);
         if (collisionRectangle == null) {
+            //elimino i proiettili quando toccano i bounds
+            //TODO o metti qui, oppure nell'update arena
+            if(bullets.contains(entity)) {
+                if(onBounds(posToFix, entity)) {
+                    entity.getLifeManager().setLife(10);
+                }
+            }
             return pos;
         }
         // TODO togli operatore ternario e metti metodo per azione effettiva
@@ -161,17 +151,10 @@ public class ModelImpl implements Model{
             posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y - posToFix.getDimension().getHeight()));
             // TODO cosi anche quando l'ero collide sopra attacca a cadere? NO,
             // cambia controllo salto che se è fall riempie il contatore
-            //entity.setAction(Actions.FALL);
             verticalLimit = true;
             break;
         case FALL:
             posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y + collisionRectangle.height));
-            /*if (entity == this.hero) {
-                hero.setOnPlatform(true);
-                entity.setAction(Actions.STOP);
-            } else {
-                entity.setAction(Actions.JUMP);
-            }*/
             verticalLimit = true;
             break;
         case MOVE:
@@ -216,7 +199,7 @@ public class ModelImpl implements Model{
                     hero.setOnPlatform(true);
                     entity.setAction(Actions.STOP);
                 } else {
-                    //stacosanonfunge, l'hero non cade
+                    //TODO stacosanonfunge, l'hero non cade
                     entity.setAction(Actions.FALL);
                 }
             } else {
@@ -227,13 +210,26 @@ public class ModelImpl implements Model{
                 }
             }
         }
-
+        
         return posToFix;
     }
     
     private Actions realAction(Entities entity) {
         return entity.getMovementManager().isPresent() ? entity.getMovementManager().get().getAction()
                 : Actions.STOP;
+    }
+    
+    //TODO sposta in utilityMovement
+    private static boolean onBounds(Position pos, Entities entity) {
+        Point point = pos.getPoint();
+        Dimension dimension = pos.getDimension();
+        //TODO i proiettili hanno sempre il movement manager, ma per sicurezza controlla se c'è
+        Bounds bounds = entity.getMovementManager().get().getBounds();
+        if(point.getX() == bounds.getMinX() || point.getY() == bounds.getMinY() || point.getX() + dimension.getWidth() == bounds.getMaxX() || point.getY() + dimension.getHeight()== bounds.getMaxY()) {
+            return true;
+        }
+        return false;
+        
     }
     
     private void fixPositionInMoveSwitch(Position posToFix, Rectangle collisionRectangle) {

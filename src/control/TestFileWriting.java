@@ -1,11 +1,17 @@
 package control;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+
 
 import model.Actions;
 public class TestFileWriting {
@@ -23,25 +29,36 @@ public class TestFileWriting {
         EntitiesStoreImpl a = new EntitiesStoreImpl();
         prova.setAction(Actions.FALL);
         
+        List<EntitiesStoreImpl> ls = new LinkedList<>();
+        ls.add(a);
+        ls.add(prova);
+        
+        LevelInfo li= new LevelInfo();
+        li.setEntities(ls);
+        
         
         
         Constructor constructor = new Constructor();
-        constructor.addTypeDescription(new TypeDescription(EntitiesStoreImpl.class, "!entity"));
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
         
         Yaml yaml = new Yaml(options);
-        /*BufferedWriter buff = Files.newBufferedWriter(Paths.get("src/ciao.yaml"));
-        yaml.dump(dim, buff);
-        yaml.dump(prova, buff);
-        yaml.dump(a, buff);*/
+        //Yaml yaml = new Yaml();
         
-        //EntitiesStoreImpl ciao = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), EntitiesStoreImpl.class);
-        //DimensionStoreImpl ci = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), DimensionStoreImpl.class);
-        yaml.loadAll("src/ciao.yaml");
-        //System.out.println(ciao.getMaxY());
+        /*TypeDescription listDescription = new TypeDescription(List.class);
+        BufferedWriter buff = Files.newBufferedWriter(Paths.get("src/ciao.yaml"));
+        MenuInfo mi = new MenuInfo();
+        List<Buttons> b = new LinkedList<>();
+        b.add(Buttons.NEWGAME);
+        b.add(Buttons.EXIT);
+        mi.setButtons(b);
+        yaml.dump(mi, buff);*/
+        
+        MenuInfo mi = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), MenuInfo.class);
+        System.out.println(mi.getButtons());
+        //List<EntitiesStoreImpl> up = yaml.loadAs(Files.newInputStream(Paths.get("src/ciao.yaml")), ls.getClass());
     }
 
 }
