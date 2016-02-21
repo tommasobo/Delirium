@@ -14,7 +14,8 @@ public abstract class AbstractMovementManager implements MovementManager {
     private final Bounds bounds;
     private Actions action;
 
-    public AbstractMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
+    public AbstractMovementManager(final Position position, final Bounds bounds, final Actions action, 
+            final int speed, final boolean canFly) {
         this.position = position;
         this.canFly = canFly;
         this.bounds = bounds;
@@ -89,7 +90,7 @@ public abstract class AbstractMovementManager implements MovementManager {
         return this.speed;
     }
     
-    public void setSpeed( final int speed) {
+    public void setSpeed(final int speed) {
         this.speed = speed;
     }
     

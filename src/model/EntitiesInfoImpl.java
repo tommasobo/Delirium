@@ -6,14 +6,14 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     
     private int code;
     private final Position position;
-    private Optional<MovementInfo> movementInfo; 
+    private Optional<MovementInfoImpl> movementInfo; 
     private final int life;
     private final LifePattern lifePattern;
-    private final Optional<ShootInfo> shootInfo;
+    private final Optional<ShootInfoImpl> shootInfo;
     private final Optional<Integer> contactDamage;
     
-    public EntitiesInfoImpl(int code, Position position, Optional<MovementInfo> movementInfo, int life,
-            LifePattern lifePattern, Optional<ShootInfo> shootInfo, Optional<Integer> contactDamage) {
+    public EntitiesInfoImpl(int code, Position position, Optional<MovementInfoImpl> movementInfo, int life,
+            LifePattern lifePattern, Optional<ShootInfoImpl> shootInfo, Optional<Integer> contactDamage) {
         this.code = code;
         this.position = position;
         this.movementInfo = movementInfo;
@@ -35,7 +35,7 @@ public class EntitiesInfoImpl implements EntitiesInfo {
      * @see model.EntitiesInfo#getMovementInfo()
      */
     @Override
-    public Optional<MovementInfo> getMovementInfo() {
+    public Optional<MovementInfoImpl> getMovementInfo() {
         return movementInfo;
     }
 
@@ -43,7 +43,7 @@ public class EntitiesInfoImpl implements EntitiesInfo {
      * @see model.EntitiesInfo#setMovementInfo(java.util.Optional)
      */
     @Override
-    public void setMovementInfo(Optional<MovementInfo> movementInfo) {
+    public void setMovementInfo(Optional<MovementInfoImpl> movementInfo) {
         this.movementInfo = movementInfo;
     }
 
@@ -75,7 +75,7 @@ public class EntitiesInfoImpl implements EntitiesInfo {
      * @see model.EntitiesInfo#getShootInfo()
      */
     @Override
-    public Optional<ShootInfo> getShootInfo() {
+    public Optional<ShootInfoImpl> getShootInfo() {
         return shootInfo;
     }
 

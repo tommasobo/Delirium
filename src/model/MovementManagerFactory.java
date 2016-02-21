@@ -6,7 +6,7 @@ import control.Pair;
 
 public class MovementManagerFactory {
     
-    public static Pair<Optional<Position>, Optional<MovementManager>> getMovementManager(Position position, Optional<MovementInfo> movementInfo) {
+    public static Pair<Optional<Position>, Optional<MovementManager>> getMovementManager(Position position, Optional<MovementInfoImpl> movementInfo) {
         
         if(!movementInfo.isPresent()) {
             return new Pair<>(Optional.of(position), Optional.empty());

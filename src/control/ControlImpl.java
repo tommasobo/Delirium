@@ -13,10 +13,10 @@ import model.EntitiesInfoImpl;
 import model.LifePattern;
 import model.Model;
 import model.ModelImpl;
-import model.MovementInfo;
+import model.MovementInfoImpl;
 import model.MovementTypes;
 import model.Position;
-import model.ShootInfo;
+import model.ShootInfoImpl;
 import model.ShootTypes;
 import view.Entities;
 import view.SceneType;
@@ -79,16 +79,16 @@ public class ControlImpl implements Control {
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(0, 200), Directions.RIGHT, new Dimension(40, 60)),
-                        Optional.of(new MovementInfo(10, new Bounds(0, 1000, 0, 300), Actions.STOP, false,
+                        Optional.of(new MovementInfoImpl(10, new Bounds(0, 1000, 0, 300), Actions.STOP, false,
                                 MovementTypes.HERO)),
                         300, LifePattern.WITH_LIFE,
-                        Optional.of(new ShootInfo(5, ShootTypes.HERO, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
+                        Optional.of(new ShootInfoImpl(5, ShootTypes.HERO, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(0)),
                 Entities.MAGNO));
 
         ls.add(database.putEntityAndSetCode(
                 (EntitiesInfo) new EntitiesInfoImpl(0,
                         new Position(new Point(300, 100), Directions.RIGHT, new Dimension(50, 70)),
-                        Optional.of(new MovementInfo(3, new Bounds(0, 1000, 40, 300), Actions.JUMP, false,
+                        Optional.of(new MovementInfoImpl(3, new Bounds(0, 1000, 40, 300), Actions.JUMP, false,
                                 MovementTypes.VERTICAL_LINEAR)),
                         10, LifePattern.WITH_LIFE,
                         Optional.empty(), Optional.empty()),

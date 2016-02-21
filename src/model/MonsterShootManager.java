@@ -47,7 +47,7 @@ public class MonsterShootManager implements ShootManager {
         position.setPoint(new Point(position.getDirection() == Directions.LEFT? position.getPoint().getX() - ShootManager.BULLET_DIMENSION.getWidth() - ShootManager.BULLET_OFFSET : position.getPoint().getX() + position.getDimension().getWidth() + ShootManager.BULLET_DIMENSION.getWidth() + ShootManager.BULLET_OFFSET, (int) position.getPoint().getY() + position.getDimension().getHeight()/2));
         position.setDimension(ShootManager.BULLET_DIMENSION);
         count++;
-        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(code, position, Optional.of(new MovementInfo(this.speed, new Bounds(position.getPoint().getX() - this.range, position.getPoint().getX() + this.range, position.getPoint().getY() - this.range, position.getPoint().getY() + this.range), Actions.MOVE, true, this.movementType)), 1, LifePattern.WITH_LIFE, Optional.empty(), Optional.of(this.bulletDamage)));
+        return !this.isOnShoot() ? Optional.empty() : Optional.of(new EntitiesInfoImpl(code, position, Optional.of(new MovementInfoImpl(this.speed, new Bounds(position.getPoint().getX() - this.range, position.getPoint().getX() + this.range, position.getPoint().getY() - this.range, position.getPoint().getY() + this.range), Actions.MOVE, true, this.movementType)), 1, LifePattern.WITH_LIFE, Optional.empty(), Optional.of(this.bulletDamage)));
     }
 
 
