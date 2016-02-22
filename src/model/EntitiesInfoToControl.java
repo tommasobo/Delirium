@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 public interface EntitiesInfoToControl {
     
     int getCode();
@@ -9,5 +11,7 @@ public interface EntitiesInfoToControl {
     Position getPosition();
     
     Actions getAction();
+    
+    Optional<Integer> getSpeed();
 
 }

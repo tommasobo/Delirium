@@ -89,7 +89,7 @@ public class ModelImpl implements Model{
         final List<EntitiesInfoToControl> result = new LinkedList<>();
         
         Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
-            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction()));
+            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty()));
         });
         
         return result;
