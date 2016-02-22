@@ -85,14 +85,13 @@ public class ModelImpl implements Model{
 
     //TODO cambia oggetto comunicazione con controller
     @Override
-    public List<EntitiesInfo> getState() {
-        final List<EntitiesInfo> result = new LinkedList<>();
-        this.entities.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfoImpl(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfoImpl(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
+    public List<EntitiesInfoToControl> getState() {
+        final List<EntitiesInfoToControl> result = new LinkedList<>();
+        
+        Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
+            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction()));
         });
-        this.bullets.stream().forEach(t -> {
-            result.add(new EntitiesInfoImpl(t.getCode(), t.getPosition(), t.getMovementManager().isPresent() ? Optional.of(new MovementInfoImpl(t.getMovementManager().get().getSpeed(), t.getMovementManager().get().getBounds(), t.getAction(), t.getMovementManager().get().isCanFly(), null)) : Optional.of(new MovementInfoImpl(0, null, t.getAction(), false, null)), t.getLifeManager().getLife(), null, null, null));
-        });
+        
         return result;
     }
 

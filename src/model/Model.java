@@ -10,7 +10,7 @@ public interface Model {
     
     List<EntitiesInfo> updateArena();
     
-    List<EntitiesInfo> getState();
+    List<EntitiesInfoToControl> getState();
 
     void createArena(List<EntitiesInfo> entitiesInfo);
     
