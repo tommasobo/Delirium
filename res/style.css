@@ -19,7 +19,11 @@
     -fx-fill: black;
     -fx-font-size: 10em;
 }
-
+#text1 {
+    -fx-font-family: 'Zombie Holocaust';
+    -fx-fill: #7d0303;
+    -fx-font-size: 10em;
+}
 .menu-item:focused {
      -fx-background-color: transparent;
 }

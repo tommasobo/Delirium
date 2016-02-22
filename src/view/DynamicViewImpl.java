@@ -89,9 +89,9 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     }
 
     @Override
-    public void pauseScene() {
+    public void pauseScene(final Notifications notification) {
         this.spriteManager.pauseAllSprites();
-        this.status.orElseThrow(IllegalStateException::new).addPausePane(super.getListener());
+        this.status.orElseThrow(IllegalStateException::new).addPausePane(super.getListener(), notification);
     }
 
     @Override

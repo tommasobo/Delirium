@@ -13,6 +13,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class OverlayPanel {
     
@@ -47,11 +48,13 @@ public class OverlayPanel {
         this.pb.setProgress((double)newLife/this.life);
     }
     
-    public void addPausePane(final Control listener) {
+    public void addPausePane(final Control listener, final Notifications notification) {
         final StackPane pausePane = new StackPane();
         pausePane.setPrefSize(this.overlayPane.getPrefWidth(), this.overlayPane.getPrefHeight());
         pausePane.setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY)));
-        pausePane.getChildren().add(new ButtonsPane(listener).getButtonPane());
+        Text txt = new Text(notification.getToShow());
+        txt.setId("text1");
+        pausePane.getChildren().addAll(txt, new ButtonsPane(listener).getButtonPane());
         this.overlayPane.getChildren().add(pausePane);
         this.pausePane = Optional.of(pausePane);
     }
@@ -61,5 +64,4 @@ public class OverlayPanel {
         this.pausePane = Optional.empty();
     }
     
-    //si puo aggiungere qui il messaggio di sconfitta/vittoria?
 }

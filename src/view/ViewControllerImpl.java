@@ -46,15 +46,14 @@ public class ViewControllerImpl implements ViewController {
     }
 
     @Override
-    public void pauseGame() {
+    public void notifySceneEvent(final Notifications notification) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
-        dv.pauseScene();
-    }
-
-    @Override
-    public void resumeGame() {
-        final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
-        dv.playScene();
+        if (notification == Notifications.PLAY) {
+            dv.playScene();
+        } else {
+            dv.pauseScene(notification);
+        }
+        
     }
     
 }
