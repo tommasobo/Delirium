@@ -71,12 +71,5 @@ public class AudioManager {
     public void setEffectsVolume(final double volume) {
         this.effectsVolume = volume;
     }
-    
-    public void muteTheme() {
-        this.theme.orElseThrow(IllegalStateException::new).setMute(true);
-    }
-    
-    public void unMuteTheme() {
-        this.theme.orElseThrow(IllegalStateException::new).setMute(false);
-    }
+
 }

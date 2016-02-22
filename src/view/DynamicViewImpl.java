@@ -63,7 +63,10 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
                     if (!status.isPresent()) {
                         this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
                         this.status.get().initOverlay();
-                    }
+                    }/*
+                    if (AudioManager.getAudioManager().isAudioAvailable()) {
+                        AudioManager.getAudioManager().playClip(k.getEntity(), k.getAction());
+                    }*/
                     moveScene(k.getProperty());
                     status.get().updateLife(k.getLife());
                 }

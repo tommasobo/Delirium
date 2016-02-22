@@ -5,9 +5,11 @@ import java.util.List;
 import control.Buttons;
 import control.Control;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ButtonsPane {
@@ -18,7 +20,6 @@ public class ButtonsPane {
     public ButtonsPane(final Control listener) {
         this.box = new VBox();
         this.listener = listener;
-        
     }
     
     public VBox getButtonPane() {
@@ -31,15 +32,26 @@ public class ButtonsPane {
             but.setOnAction(e -> this.listener.notifyEvent(b.getEvent()));
             box.getChildren().add(but);
         }
-        /*
+        
         if (AudioManager.getAudioManager().isAudioAvailable()) {
-            final Slider sl = new Slider(0.0, 1.0, AudioManager.getAudioManager().getMusicVolume());
-            sl.valueProperty().addListener(e -> AudioManager.getAudioManager().setMusicVolume(sl.getValue()));;
-            box.getChildren().add(sl);
+            final Button themeMusic = new Button("AUDIO SETTINGS");
+            themeMusic.setId("button");
+            themeMusic.setOnAction(e -> this.getAudioContextMenu().show(themeMusic, Side.RIGHT, 0, 0));
+            box.getChildren().add(themeMusic);
         }
-        */
         
         return box;
+    }
+    
+    private ContextMenu getAudioContextMenu() {
+        
+        final ContextMenu cm = new ContextMenu();
+        final Slider sliderTheme = new Slider(0.0, 1.0, AudioManager.getAudioManager().getMusicVolume());
+        sliderTheme.valueProperty().addListener(e -> AudioManager.getAudioManager().setMusicVolume(sliderTheme.getValue()));
+        final Slider sliderEffects = new Slider(0.0, 1.0, AudioManager.getAudioManager().getEffectsVolume());
+        sliderEffects.valueProperty().addListener(e -> AudioManager.getAudioManager().setEffectsVolume(sliderEffects.getValue()));
+        cm.getItems().addAll(new CustomMenuItem(sliderTheme, false), new CustomMenuItem(sliderEffects, false));
+        return cm;
     }
     
 }
