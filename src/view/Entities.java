@@ -8,8 +8,10 @@ public enum Entities {
 
     MAGNO("magno", true, 4, Actions.values()),
     BOCC("bocc", true, 4, Actions.values()),
+    JOY("joy", true, 4, Actions.values()),
     MAGNOBULLET("magnobullet",true, 3, Actions.MOVE, Actions.DEATH),
     BOCCBULLET("boccbullet",true, 3, Actions.MOVE, Actions.DEATH),
+    JOYBULLET("joybullet",true, 3, Actions.MOVE, Actions.DEATH),
     DINO("dino",true, 4, Actions.IDLE, Actions.SHOOT, Actions.DEATH),
     VOLPE("volpe", true, 3, Actions.values()),
     BUG("bug", true, 3, Actions.MOVE, Actions.IDLE, Actions.SHOOT, Actions.DEATH),

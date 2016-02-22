@@ -7,6 +7,7 @@ import control.Control;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ButtonsPane {
@@ -37,6 +38,8 @@ public class ButtonsPane {
             box.getChildren().add(sl);
         }
         */
+        
         return box;
     }
+    
 }
