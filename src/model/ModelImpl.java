@@ -1,10 +1,8 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -18,11 +16,12 @@ public class ModelImpl implements Model{
     private Hero hero;
     private List<Entities> entities;
     private List<Bullet> bullets;
-    private Map<Integer,Position> lastPositions;
+    private final LastPositionsManager lastPositionsMan;
     
     private ModelImpl() {
         this.entities = new LinkedList<>();
         this.bullets = new LinkedList<>();
+        this.lastPositionsMan = new LastPositionsManager();
     }
     
     public static ModelImpl getModel() {
@@ -63,10 +62,11 @@ public class ModelImpl implements Model{
         }
         
         List<EntitiesInfo> bullets = new LinkedList<>();
-        this.lastPositions = new HashMap<>();
+        //this.lastPositions = new HashMap<>();
         
         Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
-            lastPositions.put(t.getCode(), t.getPosition());
+            //lastPositions.put(t.getCode(), t.getPosition());
+            this.lastPositionsMan.putPosition(t, t.getPosition());
             Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
             if (p.isPresent()) {
                 Position pos = collisionFixerTest(p.get(), t);
@@ -132,6 +132,7 @@ public class ModelImpl implements Model{
     
     private Position collisionFixerTest(Position pos, Entities entity) {
         boolean verticalLimit = false;
+        boolean orizzontalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         Rectangle retToFix = getRectangle(posToFix);
         Rectangle collisionRectangle = getFirstCollision(retToFix, entity);
@@ -145,12 +146,9 @@ public class ModelImpl implements Model{
             }
             return pos;
         }
-        // TODO togli operatore ternario e metti metodo per azione effettiva
         switch (realAction(entity)) {
         case JUMP:
             posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y - posToFix.getDimension().getHeight()));
-            // TODO cosi anche quando l'ero collide sopra attacca a cadere? NO,
-            // cambia controllo salto che se è fall riempie il contatore
             verticalLimit = true;
             break;
         case FALL:
@@ -159,58 +157,71 @@ public class ModelImpl implements Model{
             break;
         case MOVE:
             fixPositionInMoveSwitch(posToFix, collisionRectangle);
+            orizzontalLimit = true;
             break;
         case MOVEONJUMP:
-            if (!new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width,
+            if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(), retToFix.width,
                     retToFix.height).intersects(collisionRectangle)) {
                 posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y - retToFix.height));
+                verticalLimit = true;
             } else {
                 fixPositionInMoveSwitch(posToFix, collisionRectangle);
+                orizzontalLimit = true;
             }
             break;
         case MOVEONFALL:
-            if (!new Rectangle(retToFix.x, lastPositions.get(entity.getCode()).getPoint().getY(), retToFix.width,
+            if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(), retToFix.width,
                     retToFix.height).intersects(collisionRectangle)) {
                 posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y + collisionRectangle.height));
-                if (entity.getAction() == Actions.MOVEONFALL) {
-                    entity.setAction(Actions.MOVE);
-                }
-                if (entity == this.hero) {
-                    hero.setOnPlatform(true);
-                }
+                verticalLimit = true;
             } else {
                 fixPositionInMoveSwitch(posToFix, collisionRectangle);
+                orizzontalLimit = true;
             }
             break;
-        case SHOOT:
-            throw new IllegalAccessError();
-        case STOP:
-            break;
         default:
-            break;
+            //TODO cambia eccezione
+            throw new IllegalAccessError();
         }
 
         posToFix = collisionFixerTest(posToFix, entity);
         
         //TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare DOPO la ricorsione per evitare problemi
-        if(verticalLimit) {
-            if(entity.equals(this.hero)) {
+        if(entity.equals(this.hero)) {
+            if(verticalLimit) {
                 if(realAction(entity) == Actions.FALL) {
                     hero.setOnPlatform(true);
                     entity.setAction(Actions.STOP);
+                } else if (entity.getAction() == Actions.MOVEONFALL) {
+                    entity.setAction(Actions.MOVE);
+                    hero.setOnPlatform(true);
                 } else {
                     //TODO stacosanonfunge, l'hero non cade
                     entity.setAction(Actions.FALL);
                 }
-            } else {
+            }
+        } else {
+            if(verticalLimit) {
                 if(realAction(entity) == Actions.FALL) {
                     entity.setAction(Actions.JUMP);
+                } else if (entity.getAction() == Actions.MOVEONFALL) {
+                    entity.setAction(Actions.MOVE);
                 } else {
                     entity.setAction(Actions.FALL);
                 }
             }
+            if(orizzontalLimit) {
+                if(posToFix.getDirection() == Directions.LEFT) {
+                    posToFix.setDirection(Directions.RIGHT);
+                } else if(posToFix.getDirection() == Directions.RIGHT) {
+                    posToFix.setDirection(Directions.LEFT);
+                }
+            }
         }
-        
+        //TODO devo muovere tutti gli oggetti che ho sopra con un metodo,
+        //se questo ritorna false io non devo muovere la piattaforma
+        //(ho qualcuno sopra, non posso salire se quello sopra è in 
+        //collisione oppure se rischia di superare i bounds)
         return posToFix;
     }
     

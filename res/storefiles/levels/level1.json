@@ -40,7 +40,7 @@
         }
       },
       "contactDamage": {
-        "value": 55
+        "value": 0
       },
       "entityType": "JOY"
     },
