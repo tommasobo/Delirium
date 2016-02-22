@@ -11,7 +11,8 @@ import view.ViewPhysicalProperties;
 
 class Translator {
 
-    // eventualmente da sostare dentro controller impl
+    //TODO eventualmente da spostare dentro controller impl
+    //TODO cambiare nome in translate key event
     public static Pair<model.Actions, Optional<model.Directions>> tranViewEvents(ViewEvents event) {
         switch (event) {
         case STOPMLEFT:
@@ -29,6 +30,16 @@ class Translator {
         default:
             throw (new IllegalArgumentException());
         }
+    }
+    
+ // eventualmente da sostare dentro controller impl
+    public static List<ControlComunication> entitiesListFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
+        List<ControlComunication> viewList = new LinkedList<>();
+        listInfo.stream().forEach(e -> {
+            viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
+                    positionFromModeltoView(e, database), getViewActionsForEntities(e)));
+        });
+        return viewList;
     }
 
     public static ViewPhysicalProperties positionFromModeltoView(EntitiesInfo info, EntitiesDatabase database) {
@@ -74,7 +85,6 @@ class Translator {
     }
     
     private static view.Actions getViewActionsForEntities(EntitiesInfo entity) {
-        
         if(entity.getLife() == 0) {
             return view.Actions.DEATH;
         } else {
@@ -82,14 +92,18 @@ class Translator {
         }
     }
 
-    // eventualmente da sostare dentro controller impl
-    public static List<ControlComunication> mapFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
-        List<ControlComunication> viewList = new LinkedList<>();
-        listInfo.stream().forEach(e -> {
-            viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
-                    positionFromModeltoView(e, database), getViewActionsForEntities(e)));
-        });
-        return viewList;
+    public static view.Entities getEntityBulletType(view.Entities entity) {
+        switch(entity) {
+        case BOCC:
+            return view.Entities.BOCCBULLET;
+        case MAGNO:
+            return view.Entities.MAGNOBULLET;
+        case JOY:
+            return view.Entities.JOYBULLET;
+        default:
+            return view.Entities.BULLET;
+        
+        }
     }
 
 }

@@ -62,6 +62,14 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
         }
         return entitiesRet;
     }
+    
+    public List<EntitiesInfo> putBulletsAndSetCodes(List<EntitiesInfo> entities) {
+        List<EntitiesInfo> entitiesRet = new LinkedList<>();
+        for (EntitiesInfo ent : entities) {
+            entitiesRet.add(this.putEntityAndSetCode(ent, Translator.getEntityBulletType(this.getViewEntity(ent.getCode()))));
+        }
+        return entitiesRet;
+    }
 
     public List<EntitiesInfo> putEntitiesAndSetCodes(List<Pair<EntitiesInfo, Entities>> entities) {
         List<EntitiesInfo> ret = new LinkedList<>();

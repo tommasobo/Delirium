@@ -31,7 +31,7 @@
       "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": {
-          "minTime": 5,
+          "minTime": 50,
           "shootType": "HERO",
           "bulletDamage": 1,
           "movementType": "HORIZONTAL_LINEAR",
@@ -42,7 +42,7 @@
       "contactDamage": {
         "value": 55
       },
-      "entityType": "MAGNO"
+      "entityType": "JOY"
     },
     {
       "code": 0,

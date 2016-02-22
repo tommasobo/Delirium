@@ -7,7 +7,6 @@ import model.EntitiesInfo;
 import model.Model;
 import sun.awt.Mutex;
 import view.ViewController;
-import view.Entities;
 
 public class GameThreadImpl extends Thread implements GameThread {
 
@@ -43,12 +42,12 @@ public class GameThreadImpl extends Thread implements GameThread {
             
             List<EntitiesInfo> bullets = this.model.updateArena();
             
-            bullets = database.putEntitiesAndSetCodes(bullets, Entities.BULLET);
+            bullets = database.putBulletsAndSetCodes(bullets);
             this.model.putBullet(bullets);
             /*this.model.getState().stream().filter(t -> t.getCode() == 1).forEach(t -> {
                 System.out.println(t.getPosition() + " " + t.getMovementInfo().get().getActions());
             });*/
-            this.view.updateScene(Translator.mapFromModelToView(this.model.getState(), database));
+            this.view.updateScene(Translator.entitiesListFromModelToView(this.model.getState(), database));
             this.mutex.unlock();
             try {
                 Thread.sleep(28L);
