@@ -23,7 +23,7 @@ public class HeroMovementManager extends AbstractMovementManager{
             newPosition = applyGravity();
         }
 
-        System.out.println(super.getAction());
+        
         
         this.onPlatform = false;
         

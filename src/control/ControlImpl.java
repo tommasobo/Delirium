@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.geometry.Dimension2D;
 import model.Model;
 import model.ModelImpl;
+import view.Notifications;
 import view.SceneType;
 import view.ViewController;
 import view.ViewControllerImpl;
@@ -42,17 +43,17 @@ public class ControlImpl implements Control {
             System.exit(0);
             break;
         case LEVEL1:
-            gameLoop(ViewEvents.LEVEL1);
+            gameLoop(Levels.LEVEL1);
             break;
         case PAUSE:
             this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
             if(gameThread != null) {
                 if( this.gameThread.isPaused()) {
                     gameThread.reStart();
-                    this.view.resumeGame();
+                    this.view.notifySceneEvent(Notifications.PLAY);;
                 } else {
                     gameThread.pause();
-                    this.view.pauseGame();
+                    this.view.notifySceneEvent(Notifications.PAUSE);
                 }
             }
             break;
@@ -71,9 +72,9 @@ public class ControlImpl implements Control {
         return this.menuLoader.getButtonsList();
     }
 
-    private void gameLoop(ViewEvents level) {
+    private void gameLoop(Levels level) {
         
-        LevelLoaderImpl ll = new LevelLoaderImpl(Levels.LEVEL1);
+        LevelLoaderImpl ll = new LevelLoaderImpl(level);
         EntitiesDatabase database2 = ll.getDatabase();
         this.model.createArena(ll.getEntities());
         this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
