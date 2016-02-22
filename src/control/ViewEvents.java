@@ -11,6 +11,7 @@ public enum ViewEvents {
 	STOPMLEFT,
 	STOPJUMP,
 	STOPSHOOT,
-	PAUSE;
+	PAUSE,
+	BACKTOMAINMENU;
     
 }

@@ -29,13 +29,22 @@ public class ControlImpl implements Control {
 
     public void notifyEvent(ViewEvents event) {
         
-        if (event.equals(ViewEvents.LEVEL1)) {
-            gameLoop(ViewEvents.LEVEL1);
-            return;
-        } else if (event.equals(ViewEvents.EXIT)) {
+        switch(event) {
+        case BACKTOMAINMENU:
+            this.gameThread.stopGame();
+            if(this.gameThread.isPaused()) {
+                this.gameThread.reStart();
+            }
+            this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+            this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.MENU, new Dimension2D(1000, 300)));
+            break;
+        case EXIT:
             System.exit(0);
-            return;
-        } else if (event.equals(ViewEvents.PAUSE)) {
+            break;
+        case LEVEL1:
+            gameLoop(ViewEvents.LEVEL1);
+            break;
+        case PAUSE:
             this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
             if(gameThread != null) {
                 if( this.gameThread.isPaused()) {
@@ -46,9 +55,13 @@ public class ControlImpl implements Control {
                     this.view.pauseGame();
                 }
             }
-            return;
-        } 
-        inputManager.notifyViewInput(event);
+            break;
+        default:
+            inputManager.notifyViewInput(event);
+            break;
+         
+        }
+        
     }
 
     public List<Buttons> getButtons() {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import model.EntitiesInfo;
+import model.EntitiesInfoToControl;
 import model.Position;
 import view.ControlComunication;
 import view.ViewPhysicalProperties;
@@ -33,7 +34,7 @@ class Translator {
     }
     
  // eventualmente da sostare dentro controller impl
-    public static List<ControlComunication> entitiesListFromModelToView(List<EntitiesInfo> listInfo, EntitiesDatabase database) {
+    public static List<ControlComunication> entitiesListFromModelToView(List<EntitiesInfoToControl> listInfo, EntitiesDatabase database) {
         List<ControlComunication> viewList = new LinkedList<>();
         listInfo.stream().forEach(e -> {
             viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
@@ -42,12 +43,12 @@ class Translator {
         return viewList;
     }
 
-    public static ViewPhysicalProperties positionFromModeltoView(EntitiesInfo info, EntitiesDatabase database) {
+    public static ViewPhysicalProperties positionFromModeltoView(EntitiesInfoToControl info, EntitiesDatabase database) {
         // TODO mi serve una interfaccia position senza setter, anche un point
         Position p = info.getPosition();
         return new ViewPhysicalProperties(p.getPoint().getX(),
                 database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(),
-                p.getDimension().getWidth(), p.getDimension().getHeight(), info.getMovementInfo().isPresent() ? info.getMovementInfo().get().getSpeed() : 0,
+                p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed().isPresent() ? info.getSpeed().get() : 0,
                 directionFromModeltoView(p.getDirection()));
     }
 
@@ -84,11 +85,11 @@ class Translator {
         }
     }
     
-    private static view.Actions getViewActionsForEntities(EntitiesInfo entity) {
+    private static view.Actions getViewActionsForEntities(EntitiesInfoToControl entity) {
         if(entity.getLife() == 0) {
             return view.Actions.DEATH;
         } else {
-            return entity.getMovementInfo().isPresent() ? actionsFromModeltoView(entity.getMovementInfo().get().getActions()) : view.Actions.IDLE;
+            return actionsFromModeltoView(entity.getAction());
         }
     }
 

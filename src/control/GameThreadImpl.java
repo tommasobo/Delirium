@@ -56,6 +56,7 @@ public class GameThreadImpl extends Thread implements GameThread {
                 e.printStackTrace();
             }
         }
+        System.out.println("thread off");
     }
 
     public void pause() {
