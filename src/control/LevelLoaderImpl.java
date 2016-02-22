@@ -22,9 +22,9 @@ public class LevelLoaderImpl {
         this.database = new EntitiesDatabaseImpl();
         //TODO crea classe loader per ottenere gli input stream?
         //TODO mettere eccezioni per mancato file load
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/menu/" + level.getFilename() + ".json"));){
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/levels/" + level.getFilename() + ".json"));){
             Gson gson = new Gson();
-            this.levelInfo = gson.fromJson(br, EntitiesInfoStore.class);
+            this.levelInfo = gson.fromJson(br, LevelInfo.class);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -35,6 +35,7 @@ public class LevelLoaderImpl {
         for(EntitiesInfoStore ent : this.levelInfo.getEntities()) {
             this.entities.add(this.database.putEntityAndSetCode(ent, ent.getEntityType()));
         }
+        database.putArenaDimension(this.levelInfo.getLevelDimension());
     }
 
     public Levels getLevelType() {
