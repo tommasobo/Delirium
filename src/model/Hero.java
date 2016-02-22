@@ -15,7 +15,6 @@ public class Hero extends EntitiesImpl {
         if (action != Actions.SHOOT) {
             super.getMovementManager().get().setAction(action);
         } else {
-            super.getMovementManager().get().setAction(Actions.STOP);
             HeroShootManager heroShootManager = (HeroShootManager) getShootManager().get();
             heroShootManager.wannaShoot();
         }
