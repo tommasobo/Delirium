@@ -14,9 +14,10 @@ public class ModelImpl implements Model{
     
     private static final ModelImpl singleton = new ModelImpl();
     private Hero hero;
+    private Entities goal;
     private List<Entities> entities;
     private List<Bullet> bullets;
-    private final LastPositionsManager lastPositionsMan;
+    private LastPositionsManager lastPositionsMan;
     
     private ModelImpl() {
         this.entities = new LinkedList<>();
@@ -98,6 +99,10 @@ public class ModelImpl implements Model{
     @Override
     public void createArena(List<EntitiesInfo> entitiesInfo) {
         
+        this.entities = new LinkedList<>();
+        this.bullets = new LinkedList<>();
+        this.lastPositionsMan = new LastPositionsManager();
+        
         entitiesInfo.stream().forEach(t -> {
             
             Pair<Optional<Position>, Optional<MovementManager>> pair = MovementManagerFactory.getMovementManager(t.getPosition(), t.getMovementInfo());
@@ -112,7 +117,14 @@ public class ModelImpl implements Model{
                     .contactDamage(t.getContactDamage().isPresent() ? t.getContactDamage().get() : null)
                     .build());
         });
-        hero = (Hero) this.entities.get(0);
+        
+        this.entities.stream().filter(t -> t.getCode() == 0 || t.getCode() == -1).forEach(t -> {
+            if (t.getCode() == 0) {
+                this.hero = (Hero) t;
+            } else {
+                this.goal = t;
+            }
+        });
     }
 
     @Override
