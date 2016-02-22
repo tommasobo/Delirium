@@ -1,5 +1,0 @@
---- !!control.MenuInfo
-buttons:
-- !!control.Buttons 'NEWGAME'
-- !!control.Buttons 'EXIT'
-...
