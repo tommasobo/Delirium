@@ -1,5 +1,5 @@
 @font-face {
-    src: url("/Zombie_Holocaust.ttf");
+    src: url("Zombie_Holocaust.ttf");
 }
 #button {
     -fx-background-color: transparent;
@@ -17,7 +17,7 @@
 #title {
     -fx-font-family: 'Zombie Holocaust';
     -fx-fill: black;
-    -fx-font-size: 10em;
+    -fx-font-size: 15em;
 }
 #text1 {
     -fx-font-family: 'Zombie Holocaust';

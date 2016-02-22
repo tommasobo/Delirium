@@ -90,7 +90,8 @@ public class ModelImpl implements Model{
         final List<EntitiesInfoToControl> result = new LinkedList<>();
         
         Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
-            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty()));
+            Optional<Integer> speed = t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
+            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), speed));
         });
         
         return result;
@@ -118,6 +119,14 @@ public class ModelImpl implements Model{
                     .build());
         });
         
+        //controllare anche per le altre entities
+        /*long nHero = this.entities.stream().filter(t -> t.getCode() == 0).count();
+        long nGoal = this.entities.stream().filter(t -> t.getCode() == 0).count();
+        
+        if (nHero > 1 || nGoal > 1) {
+            throw new IllegalStateException();
+        }*/
+        
         this.entities.stream().filter(t -> t.getCode() == 0 || t.getCode() == -1).forEach(t -> {
             if (t.getCode() == 0) {
                 this.hero = (Hero) t;
@@ -125,6 +134,7 @@ public class ModelImpl implements Model{
                 this.goal = t;
             }
         });
+        
     }
 
     @Override
