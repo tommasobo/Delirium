@@ -2,30 +2,28 @@ package control;
 
 import java.util.List;
 
-import javafx.geometry.Dimension2D;
 import model.Model;
 import model.ModelImpl;
 import view.Notifications;
 import view.SceneType;
 import view.ViewController;
-import view.ViewControllerImpl;
 
 public class ControlImpl implements Control {
     private final Model model;
-    private ViewController view;
+    private ViewDecorator view;
     private final InputManager inputManager;
     private GameThread gameThread;
     private MenuLoader menuLoader;
 
-    public ControlImpl() {
+    public ControlImpl(ViewController view) {
         this.inputManager = new InputManagerImpl();
         this.model = ModelImpl.getModel();
-        this.view = ViewControllerImpl.getView();
-        this.view.setListener(this);
+        view.setListener(this);
+        this.view = new ViewDecoratorImpl(view);
     }
 
     public void startGame() {
-        this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.MENU, new Dimension2D(1000, 300)));
+        this.view.changeScene(SceneType.MENU);
     }
 
     public void notifyEvent(ViewEvents event) {
@@ -37,7 +35,7 @@ public class ControlImpl implements Control {
                 this.gameThread.reStart();
             }
             this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-            this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.MENU, new Dimension2D(1000, 300)));
+            this.view.changeScene(SceneType.MENU);
             break;
         case EXIT:
             System.exit(0);
@@ -50,7 +48,7 @@ public class ControlImpl implements Control {
             if(gameThread != null) {
                 if( this.gameThread.isPaused()) {
                     gameThread.reStart();
-                    this.view.notifySceneEvent(Notifications.PLAY);;
+                    this.view.notifySceneEvent(Notifications.PLAY);
                 } else {
                     gameThread.pause();
                     this.view.notifySceneEvent(Notifications.PAUSE);
@@ -77,7 +75,8 @@ public class ControlImpl implements Control {
         LevelLoaderImpl ll = new LevelLoaderImpl(level);
         EntitiesDatabase database2 = ll.getDatabase();
         this.model.createArena(ll.getEntities());
-        this.view.changeScene(new Pair<SceneType, Dimension2D>(SceneType.DRAWABLE, new Dimension2D(1000, 300)));
+        this.view.setLevelDimension(ll.getLevelInfo().getLevelDimension());
+        this.view.changeScene(SceneType.DRAWABLE);
 
         this.gameThread = new GameThreadImpl(this.model, this.view, database2, this.inputManager);
         gameThread.start();

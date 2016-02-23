@@ -11,14 +11,14 @@ import view.ViewController;
 public class GameThreadImpl extends Thread implements GameThread {
 
     private final Model model;
-    private final ViewController view;
+    private final ViewDecorator view;
     private final EntitiesDatabase database;
     private final InputManager inputManager;
     private final Mutex mutex;
     private boolean running;
     private boolean paused;
 
-    public GameThreadImpl(final Model model, final ViewController view, EntitiesDatabase database,
+    public GameThreadImpl(final Model model, final ViewDecorator view, EntitiesDatabase database,
             InputManager inputManager) {
         this.model = model;
         this.view = view;

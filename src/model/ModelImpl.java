@@ -213,7 +213,8 @@ public class ModelImpl implements Model{
             //TODO cambia eccezione
             throw new IllegalAccessError();
         }
-
+        
+        //TODO ricorsione a metà o alla fine?
         posToFix = collisionFixerTest(posToFix, entity, action, direction, modifyEntity);
         
         //TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare DOPO la ricorsione per evitare problemi
