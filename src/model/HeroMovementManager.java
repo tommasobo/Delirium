@@ -18,17 +18,24 @@ public class HeroMovementManager extends AbstractMovementManager{
     @Override
     public Position getNextMove() {
     	Position newPosition = this.getPosition();
-        //TODO eventualmente aumetare il salto ed applicare comunque la gravità, a livello astratto è forse più logico
-        if(!onJump && !onPlatform) {
+        
+    	if(UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump && onPlatform) {
+    	    time = 0;
+            this.onJump = true;
+    	}
+    	
+    	
+    	//TODO eventualmente aumetare il salto ed applicare comunque la gravità, a livello astratto è forse più logico
+        if(!onJump /*&& !onPlatform*/) {
             newPosition = applyGravity();
         }
         
         this.onPlatform = false;
         
-        if(!UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.FALL) && UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump) {
+        /*if(!UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.FALL) && UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump) {
             time = 0;
             this.onJump = true;
-        }
+        }*/
         
         if (onJump) {
             if(time < 15) {

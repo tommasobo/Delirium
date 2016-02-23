@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Rectangle;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -156,7 +157,14 @@ public class ModelImpl implements Model{
         boolean orizzontalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         Rectangle retToFix = getRectangle(posToFix);
-        Pair<Entities, Rectangle> collision = getFirstCollision(retToFix, entity, this.arena.getEntities(), this.arena.getBullets());
+        Pair<Entities, Rectangle> collision;
+        if(entity != this.arena.getHero()) {
+            collision = getFirstCollision(retToFix, entity, this.platformEntities.getRelativeEntities(entity.getCode()), this.arena.getEntities(), this.arena.getBullets());
+
+        } else {
+            collision = getFirstCollision(retToFix, entity, new HashSet<>(), this.arena.getEntities(), this.arena.getBullets());
+
+        }
         if (collision == null) {
             //elimino i proiettili quando toccano i bounds
             //TODO o metti qui, oppure nell'update arena
@@ -171,6 +179,25 @@ public class ModelImpl implements Model{
             //(ho qualcuno sopra, non posso salire se quello sopra è in 
             //collisione oppure se rischia di superare i bounds)
             //Lo metto nell'update arena?
+            
+            //TODO controllo brutto
+            if(entity != this.arena.getHero()) {
+                Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
+                if(!over.isEmpty()) {
+                    PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
+                    if(activeMovementOK(over, action, offset)) {
+                        //Li muovo tutti
+                        over.stream().sorted((x, y) -> (new Integer(x.getPosition().getPoint().getX()).compareTo(y.getPosition().getPoint().getX()))).forEach(t -> {
+                            Position post = t.getPosition();
+                            post = this.collisionFixerTest(new Position(new Point(post.getPoint().getX() + offset.getOffsetX(), post.getPoint().getY() + offset.getOffsetY()), pos.getDirection(), pos.getDimension()), t, action, direction, true);
+                            t.setPosition(post.getPoint(), post.getDirection());
+                        });
+                    } else {
+                        return this.lastPositionsMan.getLastPosition(entity);
+                    }
+                }
+            }
+            
             return pos;
         }
         modifyEntitiesInCollision(entity, collision.getX());
@@ -307,7 +334,7 @@ public class ModelImpl implements Model{
                 if(UtilityMovement.checkBounds(newPosition, t.getMovementManager().get().getBounds(), action, 0) != UtilityMovement.CheckResult.TRUE) {
                     ret = false;
                 }
-                if(getFirstCollision(getRectangle(newPosition), t, this.arena.getEntities()) != null) {
+                if(getFirstCollision(getRectangle(newPosition), t, this.platformEntities.getRelativeEntities(t.getCode()), this.arena.getEntities()) != null) {
                     ret = false;
                 }
                 if(!this.platformEntities.getRelativeEntities(t.getCode()).isEmpty()) {
@@ -318,14 +345,17 @@ public class ModelImpl implements Model{
         return ret;
     }
     
+    //TODO i varargs andrebbero messi negli static, metti static e aggiungi elementi di esclusione
     @SafeVarargs
-    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, List<? extends Entities>...lists) {
+    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, Set<Entities> exclusions, List<? extends Entities>...lists) {
         Stream<Entities> stream = Stream.empty();
         for(List<? extends Entities> ls : lists) {
             stream = Stream.concat(stream, ls.stream());
         }
         
         Optional<Entities> ret = stream.filter(entityToTest -> entityToTest.getCode() != entity.getCode())
+                //TODO da escludere sempre quelli che hai sopra?
+                .filter(t -> !exclusions.contains(t))
                 .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
 
         if (ret.isPresent()) {

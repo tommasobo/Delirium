@@ -22,7 +22,8 @@ public class ActiveMovementDatabase {
     }
     
     public Set<Entities> getRelativeEntities(int masterEntityCode) {
-        return this.dependences.get(masterEntityCode);
+        //TODO METTERE CONTROLLO PIU BELLO
+        return this.dependences.get(masterEntityCode) == null ? new HashSet<>() : this.dependences.get(masterEntityCode);
     }
     
     public void removeEntityFromAllDependences(Entities entity) {

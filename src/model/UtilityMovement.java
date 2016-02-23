@@ -83,8 +83,15 @@ public class UtilityMovement {
                     return checkUp;
                 case STOP:
                     return CheckResult.TRUE;
-                  default:
-                      throw new IllegalArgumentException();
+                    //TODO aggiunto perche uso checkbuonds nelle collisioni
+                /*case MOVEONFALL:
+                    break;
+                case MOVEONJUMP:
+                    break;
+                case SHOOT:
+                    break;*/
+                default:
+                    throw new IllegalArgumentException();
                     
                   }
     }
