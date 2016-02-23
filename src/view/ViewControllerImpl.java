@@ -24,13 +24,8 @@ public class ViewControllerImpl implements ViewController {
     public static void setStage(final Stage ps) {
         primaryStage = ps;
     }
-
-    @Override
-    public void updateScene(final List<ControlComunication> entities) {
-        final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
-        dv.updateScene(entities);
-    }
     
+    @Override
     public void changeScene(final Pair<SceneType, Dimension2D> settings) {
         final GenericView newScene = ViewFactory.createNewScene(primaryStage, this.listener, settings);
         newScene.initScene();
@@ -39,12 +34,13 @@ public class ViewControllerImpl implements ViewController {
         newScene.accept(visitor);
         this.drawableView = visitor.getView();
     }
-
+    
     @Override
-    public void setListener(final Control listener) {
-        this.listener = listener;
+    public void updateScene(final List<ControlComunication> entities) {
+        final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
+        dv.updateScene(entities);
     }
-
+    
     @Override
     public void notifySceneEvent(final Notifications notification) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
@@ -53,7 +49,11 @@ public class ViewControllerImpl implements ViewController {
         } else {
             dv.pauseScene(notification);
         }
-        
     }
     
+    @Override
+    public void setListener(final Control listener) {
+        this.listener = listener;
+    }
+
 }

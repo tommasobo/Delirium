@@ -63,10 +63,12 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
                     if (!status.isPresent()) {
                         this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
                         this.status.get().initOverlay();
-                    }/*
+                    }
                     if (AudioManager.getAudioManager().isAudioAvailable()) {
-                        AudioManager.getAudioManager().playClip(k.getEntity(), k.getAction());
-                    }*/
+                        if (k.getAction() == Actions.JUMP || k.getAction() == Actions.MOVE || k.getAction() == Actions.SHOOT) {
+                            AudioManager.getAudioManager().playClip(k.getAction());
+                        }    
+                    }
                     moveScene(k.getProperty());
                     status.get().updateLife(k.getLife());
                 }
@@ -90,14 +92,14 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
 
     @Override
     public void pauseScene(final Notifications notification) {
-        this.spriteManager.pauseAllSprites();
         this.status.orElseThrow(IllegalStateException::new).addPausePane(super.getListener(), notification);
+        this.spriteManager.pauseAllSprites();
     }
 
     @Override
     public void playScene() {
-        this.spriteManager.resumeAllSprites();
         this.status.orElseThrow(IllegalStateException::new).removePausePane();
+        this.spriteManager.resumeAllSprites();
     }
     
     public void accept(final Visitor visitor) {

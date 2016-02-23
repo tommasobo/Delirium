@@ -37,12 +37,13 @@ public class AudioManager {
         return this.audioState;
     }
 
-    public void playClip(final Entities entity, final Actions action) {
-        final String effectIdentifier = entity.getName() + action.getString();
-        if (!this.bufferedClip.containsKey(effectIdentifier)) {
-            this.bufferedClip.put(effectIdentifier, new AudioClip(effectIdentifier + ".wav"));
+    public void playClip(final Actions action) {
+        if (!this.bufferedClip.containsKey(action.getString())) {
+            this.bufferedClip.put(action.getString(), new AudioClip(getClass().getResource("../music/effects/" + action.getString() + ".wav").toExternalForm()));
         }
-        this.bufferedClip.get(effectIdentifier).play(this.effectsVolume);
+        if (!this.bufferedClip.get(action.getString()).isPlaying()) {
+            this.bufferedClip.get(action.getString()).play(this.effectsVolume);
+        } 
     }
    
     public void playTheme(final String id) {

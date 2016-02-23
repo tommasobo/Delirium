@@ -18,13 +18,15 @@ import javafx.scene.text.Text;
 public class OverlayPanel {
     
     private final Pane overlayPane;
-    private final double life;
+    private final double totalLife;
+    private double life;
     private final Image icon;
     private  ProgressBar pb;
     private Optional<StackPane> pausePane = Optional.empty();
 
     public OverlayPanel(Pane overlayPane, Entities entity, int life) {
         this.overlayPane = overlayPane;
+        this.totalLife = life;
         this.life = life;
         this.icon = new Image("images/" + entity.getName() + "/icon.png", overlayPane.getPrefHeight()/6, overlayPane.getPrefHeight()/6, true, true);
     }
@@ -45,10 +47,17 @@ public class OverlayPanel {
     }
     
     public void updateLife(final int newLife) {
-        this.pb.setProgress((double)newLife/this.life);
+        this.pb.setProgress((double)newLife/this.totalLife);
+        if (AudioManager.getAudioManager().isAudioAvailable() && this.life != newLife) {
+                AudioManager.getAudioManager().playClip(Actions.DEATH);
+        }
+        this.life = newLife;
     }
     
     public void addPausePane(final Control listener, final Notifications notification) {
+        if (this.pausePane.isPresent()) {
+            throw new IllegalStateException();
+        }
         final StackPane pausePane = new StackPane();
         pausePane.setPrefSize(this.overlayPane.getPrefWidth(), this.overlayPane.getPrefHeight());
         pausePane.setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY)));

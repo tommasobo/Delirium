@@ -4,13 +4,16 @@ import java.util.List;
 
 import control.Buttons;
 import control.Control;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.PopupWindow.AnchorLocation;
 
 public class ButtonsPane {
     
@@ -32,20 +35,22 @@ public class ButtonsPane {
             but.setOnAction(e -> this.listener.notifyEvent(b.getEvent()));
             box.getChildren().add(but);
         }
-        
+        //da rivedere
         if (AudioManager.getAudioManager().isAudioAvailable()) {
             final Button themeMusic = new Button("AUDIO SETTINGS");
             themeMusic.setId("button");
-            themeMusic.setOnAction(e -> this.getAudioContextMenu().show(themeMusic, Side.RIGHT, 0, 0));
+            themeMusic.setOnAction(e -> this.getAudioContextMenu(themeMusic).show(themeMusic, Side.RIGHT, 0, -13));
             box.getChildren().add(themeMusic);
         }
         
         return box;
     }
     
-    private ContextMenu getAudioContextMenu() {
+    private ContextMenu getAudioContextMenu(final Button themeMusic) {
         
         final ContextMenu cm = new ContextMenu();
+        cm.setOnShowing(e -> themeMusic.setDisable(true));
+        cm.setOnHidden(e -> themeMusic.setDisable(false));
         final Slider sliderTheme = new Slider(0.0, 1.0, AudioManager.getAudioManager().getMusicVolume());
         sliderTheme.valueProperty().addListener(e -> AudioManager.getAudioManager().setMusicVolume(sliderTheme.getValue()));
         final Slider sliderEffects = new Slider(0.0, 1.0, AudioManager.getAudioManager().getEffectsVolume());
