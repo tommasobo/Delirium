@@ -9,6 +9,8 @@ import control.Pair;
 
 public class ModelImpl implements Model{
     
+    private static final int DEFAULT_OFFSET_X = 500;
+    private static final int DEFAULT_OFFSET_Y = 100;
     private static final ModelImpl singleton = new ModelImpl();
     private Arena arena;
     private ArenaManager arenaManager;
@@ -59,9 +61,12 @@ public class ModelImpl implements Model{
         
         this.arena.getEntities().stream().forEach(t -> {
             Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
-            if(bullet.isPresent()) {
-                bullets.add(bullet.get());
+            if (t.getPosition().getPoint().getX() > this.arena.getHero().getPosition().getPoint().getX() - DEFAULT_OFFSET_X && t.getPosition().getPoint().getX() < this.arena.getHero().getPosition().getPoint().getX() + DEFAULT_OFFSET_X ) {
+                if(bullet.isPresent()) {
+                    bullets.add(bullet.get());
+                }
             }
+            
         });
         
         
