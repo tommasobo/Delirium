@@ -23,8 +23,8 @@ public class ViewDecoratorImpl implements ViewDecorator{
     
     public void changeScene(SceneType sceneType) {
         if(sceneType == SceneType.DRAWABLE) {
-            System.out.println(SCREENMOLTIPLICATORFACTOR + " " + resolution);
-            System.out.println(levelDimension);
+            //System.out.println(SCREENMOLTIPLICATORFACTOR + " " + resolution);
+            //System.out.println(levelDimension);
             this.view.changeScene(new Pair<SceneType, Dimension2D>(sceneType, new Dimension2D(this.levelDimension.getWidth() * SCREENMOLTIPLICATORFACTOR, levelDimension.getHeight() * SCREENMOLTIPLICATORFACTOR)));
         } else {
             this.view.changeScene(new Pair<SceneType, Dimension2D>(sceneType, new Dimension2D(this.resolution.getWidth()/2, this.resolution.getHeight()/2)));
