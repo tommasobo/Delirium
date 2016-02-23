@@ -31,9 +31,9 @@ public class HeroMovementManager extends AbstractMovementManager{
         }
         
         if (onJump) {
-            if(time < 60) {
+            if(time < 15) {
                 if(UtilityMovement.splitActions(this.getAction()).contains(Actions.FALL)) {
-                    time = 60;
+                    time = 15;
                 }
                 if(this.getAction() == Actions.MOVE) {
                     this.setAction(Actions.MOVEONJUMP);
@@ -52,7 +52,7 @@ public class HeroMovementManager extends AbstractMovementManager{
                 if(op.isPresent()) {
                     newPosition = op.get();
                 } else if(e == Actions.JUMP) {
-                    time = 60;
+                    time = 15;
                 }
             }
         }
