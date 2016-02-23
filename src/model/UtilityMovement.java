@@ -54,7 +54,7 @@ public class UtilityMovement {
     }
     
    
-    private static CheckResult checkBounds(Position position, Bounds bounds, Actions action, int speed) {
+    public static CheckResult checkBounds(Position position, Bounds bounds, Actions action, int speed) {
         Position newPosition = new Position(position.getPoint(), position.getDirection(), position.getDimension());
         newPosition.setPoint(action.apply(newPosition.getPoint(), speed, newPosition.getDirection()));
         CheckResult checkDown = newPosition.getPoint().getY() >= bounds.getMinY() ? CheckResult.TRUE : (newPosition.getPoint().getY() + speed > bounds.getMinY() ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
