@@ -158,6 +158,7 @@ public class ModelImpl implements Model{
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         Rectangle retToFix = getRectangle(posToFix);
         Pair<Entities, Rectangle> collision;
+        //l'hero non deve ignorare cio che ha sopra
         if(entity != this.arena.getHero()) {
             collision = getFirstCollision(retToFix, entity, this.platformEntities.getRelativeEntities(entity.getCode()), this.arena.getEntities(), this.arena.getBullets());
 
@@ -189,7 +190,7 @@ public class ModelImpl implements Model{
                         //Li muovo tutti
                         over.stream().sorted((x, y) -> (new Integer(x.getPosition().getPoint().getX()).compareTo(y.getPosition().getPoint().getX()))).forEach(t -> {
                             Position post = t.getPosition();
-                            post = this.collisionFixerTest(new Position(new Point(post.getPoint().getX() + offset.getOffsetX(), post.getPoint().getY() + offset.getOffsetY()), pos.getDirection(), pos.getDimension()), t, action, direction, true);
+                            post = this.collisionFixerTest(new Position(new Point(post.getPoint().getX() + offset.getOffsetX(), post.getPoint().getY() + offset.getOffsetY()), post.getDirection(), post.getDimension()), t, action, direction, true);
                             t.setPosition(post.getPoint(), post.getDirection());
                         });
                     } else {

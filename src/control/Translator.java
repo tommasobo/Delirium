@@ -46,9 +46,13 @@ class Translator {
     public static ViewPhysicalProperties positionFromModeltoView(EntitiesInfoToControl info, EntitiesDatabase database) {
         // TODO mi serve una interfaccia position senza setter, anche un point
         Position p = info.getPosition();
-        return new ViewPhysicalProperties(p.getPoint().getX() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR,
+        /*return new ViewPhysicalProperties(p.getPoint().getX() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR,
                 (database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight()) * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR,
                 p.getDimension().getWidth() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR, p.getDimension().getHeight() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR, info.getSpeed().isPresent() ? info.getSpeed().get() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR : 0,
+                directionFromModeltoView(p.getDirection()));*/
+        return new ViewPhysicalProperties(p.getPoint().getX(),
+                database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight(),
+                p.getDimension().getWidth(), p.getDimension().getHeight(), info.getSpeed().isPresent() ? info.getSpeed().get() : 0,
                 directionFromModeltoView(p.getDirection()));
     }
 
