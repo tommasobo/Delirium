@@ -5,6 +5,7 @@ import control.ControlImpl;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import view.ViewController;
 import view.ViewControllerImpl;
 
 public class Launcher extends Application {
@@ -17,8 +18,8 @@ public class Launcher extends Application {
         primaryStage.getIcons().add(new Image("images/gameicon.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.setTitle("Delirium");
-        ViewControllerImpl.setStage(primaryStage);
-        Control control = new ControlImpl();
+        final ViewController view = new ViewControllerImpl(primaryStage);
+        final Control control = new ControlImpl(view);
         control.startGame();
         primaryStage.show();
         

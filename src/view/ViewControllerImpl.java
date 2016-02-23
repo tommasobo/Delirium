@@ -10,24 +10,17 @@ import javafx.stage.Stage;
 
 public class ViewControllerImpl implements ViewController {
     
-    private final static ViewController singleton = new ViewControllerImpl();
-    private static Stage primaryStage;
+    private final Stage primaryStage;
     private Optional<DynamicView> drawableView = Optional.empty();
     private Control listener;
     
-    private ViewControllerImpl() {}
-    
-    public static ViewController getView() {
-        return singleton;
-    }
-    
-    public static void setStage(final Stage ps) {
-        primaryStage = ps;
+    public ViewControllerImpl(final Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
     
     @Override
     public void changeScene(final Pair<SceneType, Dimension2D> settings) {
-        final GenericView newScene = ViewFactory.createNewScene(primaryStage, this.listener, settings);
+        final GenericView newScene = ViewFactory.createNewScene(this.primaryStage, this.listener, settings);
         newScene.initScene();
         newScene.display();
         final VisitorImpl visitor = new VisitorImpl();

@@ -61,7 +61,7 @@ public class OverlayPanel {
         final StackPane pausePane = new StackPane();
         pausePane.setPrefSize(this.overlayPane.getPrefWidth(), this.overlayPane.getPrefHeight());
         pausePane.setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY)));
-        Text txt = new Text(notification.getToShow());
+        final Text txt = new Text(notification.getToShow());
         txt.setId("text1");
         pausePane.getChildren().addAll(txt, new ButtonsPane(listener).getButtonPane());
         this.overlayPane.getChildren().add(pausePane);
