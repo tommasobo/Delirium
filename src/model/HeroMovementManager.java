@@ -22,8 +22,6 @@ public class HeroMovementManager extends AbstractMovementManager{
         if(!onJump && !onPlatform) {
             newPosition = applyGravity();
         }
-
-        
         
         this.onPlatform = false;
         
