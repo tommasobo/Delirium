@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import control.Dimension;
@@ -155,7 +156,7 @@ public class ModelImpl implements Model{
         boolean orizzontalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         Rectangle retToFix = getRectangle(posToFix);
-        Pair<Entities, Rectangle> collision = getFirstCollision(retToFix, entity);
+        Pair<Entities, Rectangle> collision = getFirstCollision(retToFix, entity, this.arena.getEntities(), this.arena.getBullets());
         if (collision == null) {
             //elimino i proiettili quando toccano i bounds
             //TODO o metti qui, oppure nell'update arena
@@ -287,20 +288,6 @@ public class ModelImpl implements Model{
         }
     }
     
-    private Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity) {
-
-        Optional<Entities> ret = Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
-                .filter(entityToTest -> entityToTest.getCode() != entity.getCode())
-                .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
-
-        if (ret.isPresent()) {
-            Entities inCollision = ret.get();
-            return new Pair<>(inCollision, (Rectangle) rectangle.createIntersection(getRectangle(inCollision.getPosition())));
-        }
-
-        return null;
-    }
-    
     //TODO metodo breve, lo tolgo?
     private void modifyEntitiesInCollision(Entities entity1, Entities entity2) {
         entity1.getLifeManager().setLife(entity2.getContactDamage().orElseGet(() -> 0));
@@ -311,7 +298,7 @@ public class ModelImpl implements Model{
         return new Rectangle(p.getPoint().getX(), p.getPoint().getY(), p.getDimension().getWidth(), p.getDimension().getHeight());
     }
     
-    private boolean activeMovementOK(List<Entities> entities, Actions action, PointOffset offset) {
+    private boolean activeMovementOK(Set<Entities> entities, Actions action, PointOffset offset) {
         boolean ret = true;
         if(UtilityMovement.splitActions(action).stream().anyMatch(t -> t == Actions.JUMP)) {
             for(Entities t : entities) {
@@ -320,12 +307,33 @@ public class ModelImpl implements Model{
                 if(UtilityMovement.checkBounds(newPosition, t.getMovementManager().get().getBounds(), action, 0) != UtilityMovement.CheckResult.TRUE) {
                     ret = false;
                 }
-                if(getFirstCollision(getRectangle(newPosition), t) != null) {
+                if(getFirstCollision(getRectangle(newPosition), t, this.arena.getEntities()) != null) {
                     ret = false;
+                }
+                if(!this.platformEntities.getRelativeEntities(t.getCode()).isEmpty()) {
+                    ret = activeMovementOK(this.platformEntities.getRelativeEntities(t.getCode()), action, offset);
                 }
             }
         }
         return ret;
+    }
+    
+    @SafeVarargs
+    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, List<? extends Entities>...lists) {
+        Stream<Entities> stream = Stream.empty();
+        for(List<? extends Entities> ls : lists) {
+            stream = Stream.concat(stream, ls.stream());
+        }
+        
+        Optional<Entities> ret = stream.filter(entityToTest -> entityToTest.getCode() != entity.getCode())
+                .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
+
+        if (ret.isPresent()) {
+            Entities inCollision = ret.get();
+            return new Pair<>(inCollision, (Rectangle) rectangle.createIntersection(getRectangle(inCollision.getPosition())));
+        }
+
+        return null;
     }
 
 }
