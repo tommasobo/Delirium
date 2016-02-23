@@ -81,6 +81,8 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
         if (position.getPoint().getX() + position.getDimension().getWidth() >= this.overlayPane.getChildren().get(0).getBoundsInParent().getMinX() - this.spriteManager.getEntitiesPane().getTranslateX() - 300) {
             if (this.spriteManager.getEntitiesPane().getTranslateX() - position.getSpeed() >= -(this.worldDimension.getWidth() - super.getSceneDimension().getWidth() - 1)) {
                 this.spriteManager.getEntitiesPane().setTranslateX(this.spriteManager.getEntitiesPane().getTranslateX() - position.getSpeed());
+            } else if (this.spriteManager.getEntitiesPane().getTranslateX() >= -(this.worldDimension.getWidth() - super.getSceneDimension().getWidth() - 1)) {
+                this.spriteManager.getEntitiesPane().setTranslateX(this.spriteManager.getEntitiesPane().getTranslateX() + ((this.spriteManager.getEntitiesPane().getTranslateX() - position.getSpeed()) + (this.worldDimension.getWidth() - super.getSceneDimension().getWidth())));
             }
         }
         if (position.getPoint().getX() <= this.overlayPane.getChildren().get(1).getBoundsInParent().getMaxX() -this.spriteManager.getEntitiesPane().getTranslateX() + 300) {
