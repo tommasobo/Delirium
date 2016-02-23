@@ -23,9 +23,9 @@ public class ViewFactory {
     }
     
     private static Dimension2D calculateSceneDimension(final Dimension2D worldDimension) {
-        final double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-        if (worldDimension.getWidth() > screenWidth / 2) {
-            return new Dimension2D(screenWidth / 2, worldDimension.getHeight());
+        final int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
+        if (worldDimension.getWidth() > (screenWidth / 16)*10) {
+            return new Dimension2D((screenWidth / 16)*10 , worldDimension.getHeight());
         }
         return new Dimension2D(worldDimension.getWidth(), worldDimension.getHeight());
     }

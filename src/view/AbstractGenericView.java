@@ -32,6 +32,7 @@ public abstract class AbstractGenericView implements GenericView {
     @Override
     public void display() {
         stage.setScene(this.root.getScene());
+        stage.centerOnScreen();
     }
     
     protected Control getListener() {
