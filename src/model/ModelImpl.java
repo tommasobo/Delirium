@@ -13,16 +13,12 @@ import control.Point;
 public class ModelImpl implements Model{
     
     private static final ModelImpl singleton = new ModelImpl();
-    private Hero hero;
-    private Entities goal;
-    private List<Entities> entities;
-    private List<Bullet> bullets;
+    private Arena arena;
     private LastPositionsManager lastPositionsMan;
     private ActiveMovementDatabase platformEntities;
     
     private ModelImpl() {
-        this.entities = new LinkedList<>();
-        this.bullets = new LinkedList<>();
+        this.arena = new Arena();
         this.lastPositionsMan = new LastPositionsManager();
         this.platformEntities = new ActiveMovementDatabase();
     }
@@ -33,32 +29,32 @@ public class ModelImpl implements Model{
 
     @Override
     public void notifyEvent(Directions direction) {
-        if(hero.getMovementManager().isPresent()) {
-            hero.getMovementManager().get().setPosition(hero.getPosition().getPoint(), direction);
+        if(arena.getHero().getMovementManager().isPresent()) {
+            arena.getHero().getMovementManager().get().setPosition(arena.getHero().getPosition().getPoint(), direction);
         }
     }
     
     @Override
     public void notifyEvent(Actions action) {
-        hero.setAction(action);
+        arena.getHero().setAction(action);
     }
     
     public List<EntitiesInfo> updateArena() {
         
         //dovrebbe funzionare, ma la view non rimuove gli oggetti stampati
-        int size = entities.size();
+        int size = arena.getEntities().size();
         for(int i = 0; i < size; i++) {
-            if(entities.get(i).getLifeManager().getLife() == 0) {
-                entities.remove(i);
+            if(arena.getEntities().get(i).getLifeManager().getLife() == 0) {
+                arena.getEntities().remove(i);
                 i--;
                 size--;
             }
         }
         
-        size = bullets.size();
+        size = arena.getBullets().size();
         for(int i = 0; i < size; i++) {
-            if(bullets.get(i).getLifeManager().getLife() == 0) {
-                bullets.remove(i);
+            if(arena.getBullets().get(i).getLifeManager().getLife() == 0) {
+                arena.getBullets().remove(i);
                 i--;
                 size--;
             }
@@ -67,7 +63,7 @@ public class ModelImpl implements Model{
         List<EntitiesInfo> bullets = new LinkedList<>();
         //this.lastPositions = new HashMap<>();
         
-        Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
+        Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
             //lastPositions.put(t.getCode(), t.getPosition());
             this.lastPositionsMan.putPosition(t, t.getPosition());
             this.platformEntities.removeEntityFromAllDependences(t);
@@ -95,7 +91,7 @@ public class ModelImpl implements Model{
     public List<EntitiesInfoToControl> getState() {
         final List<EntitiesInfoToControl> result = new LinkedList<>();
         
-        Stream.concat(this.entities.stream(), this.bullets.stream()).forEach(t -> {
+        Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
             Optional<Integer> speed = t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
             result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), speed));
         });
@@ -106,8 +102,7 @@ public class ModelImpl implements Model{
     @Override
     public void createArena(List<EntitiesInfo> entitiesInfo) {
         
-        this.entities = new LinkedList<>();
-        this.bullets = new LinkedList<>();
+        this.arena = new Arena();
         this.lastPositionsMan = new LastPositionsManager();
         this.platformEntities = new ActiveMovementDatabase();
         
@@ -116,7 +111,7 @@ public class ModelImpl implements Model{
             Pair<Optional<Position>, Optional<MovementManager>> pair = MovementManagerFactory.getMovementManager(t.getPosition(), t.getMovementInfo());
             Optional<ShootManager> shootManager = ShootManagerFactory.getShootManager(t.getShootInfo());
             
-            this.entities.add(new Entities.Builder()
+            this.arena.add(new Entities.Builder()
                     .code(t.getCode())
                     .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
                     .position(pair.getX().isPresent() ? pair.getX().get() : null)
@@ -134,27 +129,20 @@ public class ModelImpl implements Model{
             throw new IllegalStateException();
         }*/
         
-        this.entities.stream().filter(t -> t.getCode() == 0 || t.getCode() == -1).forEach(t -> {
-            if (t.getCode() == 0) {
-                this.hero = (Hero) t;
-            } else {
-                this.goal = t;
-            }
-        });
+        
         
     }
 
     @Override
     public void putBullet(List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            this.bullets.add( (Bullet) new Entities.Builder()
+            this.arena.add(new Entities.Builder()
                     .code(t.getCode())
                     .movementManager(new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
                     .contactDamage(t.getContactDamage().get())
                     .build());
             
-            //this.entities.add(new Bullet(t.getCode(), new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()), t.getContactDamage().get()));
-        });
+          });
     }
     
     
@@ -171,7 +159,7 @@ public class ModelImpl implements Model{
         if (collision == null) {
             //elimino i proiettili quando toccano i bounds
             //TODO o metti qui, oppure nell'update arena
-            if(bullets.contains(entity)) {
+            if(arena.getBullets().contains(entity)) {
                 if(onBounds(posToFix, entity)) {
                     entity.getLifeManager().setLife(10);
                 }
@@ -230,14 +218,14 @@ public class ModelImpl implements Model{
         
         //TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare DOPO la ricorsione per evitare problemi
         //TODO metti questo in metodo separato? Non credo, lo uso una volta sola
-        if(entity.equals(this.hero)) {
+        if(entity.equals(this.arena.getHero())) {
             if(verticalLimit) {
                 if(realAction(entity) == Actions.FALL) {
-                    hero.setOnPlatform(true);
+                    arena.getHero().setOnPlatform(true);
                     entity.setAction(Actions.STOP);
                 } else if (entity.getAction() == Actions.MOVEONFALL) {
                     entity.setAction(Actions.MOVE);
-                    hero.setOnPlatform(true);
+                    arena.getHero().setOnPlatform(true);
                 } else {
                     //TODO stacosanonfunge, l'hero non cade
                     entity.setAction(Actions.FALL);
@@ -300,7 +288,7 @@ public class ModelImpl implements Model{
     
     private Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity) {
 
-        Optional<Entities> ret = Stream.concat(this.entities.stream(), this.bullets.stream())
+        Optional<Entities> ret = Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
                 .filter(entityToTest -> entityToTest.getCode() != entity.getCode())
                 .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
 

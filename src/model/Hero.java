@@ -24,5 +24,10 @@ public class Hero extends EntitiesImpl {
         HeroMovementManager move = (HeroMovementManager) this.getMovementManager().get();
         move.setOnPlatform(bool);
     }
+    
+    @Override
+    public void accept(EntitiesVisitor visitor) {
+        visitor.visit(this);
+    }
 
 }

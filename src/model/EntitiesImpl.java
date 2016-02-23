@@ -92,6 +92,11 @@ public class EntitiesImpl implements Entities {
             this.movementManager.get().setAction(action);
         }
     }
+
+    @Override
+    public void accept(EntitiesVisitor visitor) {
+        visitor.visit(this);
+    }
     
     
     

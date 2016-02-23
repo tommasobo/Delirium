@@ -24,6 +24,8 @@ public interface Entities {
     
     void setAction(Actions action);
     
+    void accept(EntitiesVisitor visitor);
+    
     
     
     public static class Builder {

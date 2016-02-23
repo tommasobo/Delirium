@@ -19,5 +19,10 @@ public class Bullet extends EntitiesImpl {
         }
         
     }
+    
+    @Override
+    public void accept(EntitiesVisitor visitor) {
+        visitor.visit(this);
+    }
 
 }
