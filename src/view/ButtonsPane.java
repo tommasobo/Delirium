@@ -9,6 +9,7 @@ import control.MenuCategory;
 import control.MenuCategoryEntries;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
@@ -20,7 +21,10 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import jdk.nashorn.internal.codegen.Label;
 
 public class ButtonsPane {
     
@@ -32,20 +36,10 @@ public class ButtonsPane {
         this.listener = listener;
     }
     
-    public VBox getButtonPane() {
-        /*
-        box.setAlignment(Pos.CENTER);
-        final List<Buttons> buttons = this.listener.getButtons();
-        for (final Buttons b : buttons) {          
-            final Button but = new Button(b.name());
-            but.setId("button");
-            but.setFocusTraversable(false);
-            but.setOnMouseClicked(e -> this.listener.notifyEvent(b.getEvent()));
-            box.getChildren().add(but);
-        }
-        */
+    public VBox getButtonPane(final double prefWidth) {
         
         this.box.setAlignment(Pos.CENTER);
+        this.box.setMaxWidth(prefWidth);
         final Map<MenuCategory, MenuCategoryEntries> buttons = this.listener.getButtons();
         buttons.keySet().forEach(category -> {
             if (category == MenuCategory.DEFAULT) {
@@ -55,6 +49,8 @@ public class ButtonsPane {
             } else {
                 final MenuButton menubut = new MenuButton(category.getName());
                 menubut.setPopupSide(Side.RIGHT);
+                menubut.setFocusTraversable(false);
+                menubut.setMaxWidth(Double.MAX_VALUE);
                 ToggleGroup toggleGroup = new ToggleGroup();
                 buttons.get(category).getEntries().forEach(menuitem -> {
                     final RadioMenuItem rmi = this.createMenuItem(menuitem);
@@ -67,46 +63,12 @@ public class ButtonsPane {
                 box.getChildren().add(menubut);
             }
         });
+        if (AudioManager.getAudioManager().isAudioAvailable() && buttons.keySet().stream().anyMatch(e -> e != MenuCategory.DEFAULT)) {
+            box.getChildren().add(this.getAudioButton());
+        }
         return this.box;
         
-        /*
-        final MenuButton menubut = new MenuButton("prova");
-        menubut.setId("button");
-        menubut.setPopupSide(Side.RIGHT);
-        ToggleGroup toggleGroup = new ToggleGroup();
-
-        RadioMenuItem radioItem1 = new RadioMenuItem("Option 1");
-        radioItem1.setSelected(true);
-        radioItem1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                System.out.println("radio toggled");
-            }
-        });
-        radioItem1.setToggleGroup(toggleGroup);
-        RadioMenuItem radioItem2 = new RadioMenuItem("Option 2");
-        radioItem2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                System.out.println("radio toggled");
-            }
-        });
-        radioItem2.setToggleGroup(toggleGroup);
-        menubut.getItems().addAll(radioItem1, radioItem2);
-        box.getChildren().add(menubut);
-        
-        //da rivedere
-        if (AudioManager.getAudioManager().isAudioAvailable()) {
-            final Button themeMusic = new Button("AUDIO SETTINGS");
-            themeMusic.setId("button");
-            themeMusic.setFocusTraversable(false);
-            themeMusic.setOnMouseClicked(e -> this.getAudioContextMenu(themeMusic).show(themeMusic, Side.RIGHT, 0, -13));
-            box.getChildren().add(themeMusic);
-        }
-        
-        return box;
-        */
     }
-    
-    
     
     private RadioMenuItem createMenuItem(final Buttons menuitem) {
         final RadioMenuItem radioItem = new RadioMenuItem(menuitem.getName());
@@ -117,25 +79,30 @@ public class ButtonsPane {
     private Node createButton(final Buttons button) {
         final Button but = new Button(button.getName());
         but.setId("button");
+        but.setMaxWidth(Double.MAX_VALUE);
         but.setFocusTraversable(false);
         but.setOnMouseClicked(e -> this.listener.notifyEvent(button.getEvent()));
         return but;
     }
-/*
-    private ContextMenu getAudioContextMenu(final Button themeMusic) {
-        
-        //final ContextMenu cm = new ContextMenu();
+
+    private MenuButton getAudioButton() {
         
         final MenuButton menubut = new MenuButton("AUDIO");
-        Menu m = new Menu();
         menubut.setPopupSide(Side.RIGHT);
+        menubut.setMaxWidth(Double.MAX_VALUE);
         final Slider sliderTheme = new Slider(0.0, 1.0, AudioManager.getAudioManager().getMusicVolume());
         sliderTheme.valueProperty().addListener(e -> AudioManager.getAudioManager().setMusicVolume(sliderTheme.getValue()));
-        
+        final Text txt1 = new Text("THEME");
+        txt1.setId("text2");
+        final VBox themeBox = new VBox(txt1, sliderTheme);
         final Slider sliderEffects = new Slider(0.0, 1.0, AudioManager.getAudioManager().getEffectsVolume());
         sliderEffects.valueProperty().addListener(e -> AudioManager.getAudioManager().setEffectsVolume(sliderEffects.getValue()));
-        menubut.getItems().addAll(new CustomMenuItem(sliderTheme, false), new CustomMenuItem(sliderEffects, false));
-        return cm;
+        final Text txt2 = new Text("EFFECTS");
+        txt2.setId("text2");
+        final VBox effectsBox = new VBox(txt2, sliderEffects);
+        menubut.getItems().addAll(new CustomMenuItem(themeBox, false), new CustomMenuItem(effectsBox, false));
+        return menubut;
+        
     }
- */   
+ 
 }

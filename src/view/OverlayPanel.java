@@ -3,6 +3,7 @@ package view;
 import java.util.Optional;
 
 import control.Control;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -63,7 +64,7 @@ public class OverlayPanel {
         pausePane.setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY)));
         final Text txt = new Text(notification.getToShow());
         txt.setId("text1");
-        pausePane.getChildren().addAll(txt, new ButtonsPane(listener).getButtonPane());
+        pausePane.getChildren().addAll(txt, new ButtonsPane(listener).getButtonPane(this.overlayPane.getPrefWidth()/5));
         this.overlayPane.getChildren().add(pausePane);
         this.pausePane = Optional.of(pausePane);
     }

@@ -33,7 +33,7 @@ public class StaticView extends AbstractGenericView {
         final Text  txt = new Text("DELIRIUM");
         txt.setId("title");
         top.getChildren().add(txt);
-        border.setCenter(new ButtonsPane(super.getListener()).getButtonPane());
+        border.setCenter(new ButtonsPane(super.getListener()).getButtonPane(super.getSceneDimension().getWidth()/5));
         border.setTop(top);
         super.getRoot().getChildren().add(border);
         
