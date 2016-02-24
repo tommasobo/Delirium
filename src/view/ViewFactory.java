@@ -3,7 +3,6 @@ package view;
 import control.Control;
 import control.Pair;
 import javafx.geometry.Dimension2D;
-import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 

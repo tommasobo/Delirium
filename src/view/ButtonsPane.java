@@ -4,16 +4,13 @@ import java.util.List;
 
 import control.Buttons;
 import control.Control;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.PopupWindow.AnchorLocation;
 
 public class ButtonsPane {
     

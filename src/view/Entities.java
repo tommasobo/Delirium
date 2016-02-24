@@ -18,7 +18,8 @@ public enum Entities {
     BULLET("bullet", true, 3, Actions.MOVE, Actions.DEATH),
     GROUND("ground", false, 3, Actions.IDLE),
     PLATFORM("platform", false, 3, Actions.MOVE, Actions.IDLE, Actions.JUMP, Actions.FALL),
-    GOAL("goal", false, 1, Actions.IDLE);
+    GOAL("goal", false, 1, Actions.IDLE),
+    TRAP("trap", false, 3, Actions.IDLE);
     
     private final String name;
     private final boolean animated;

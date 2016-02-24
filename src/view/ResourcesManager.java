@@ -28,7 +28,6 @@ public class ResourcesManager {
         if (this.buffer.containsKey(key)) {
             return this.buffer.get(key).stream().map(e -> new ImageView(e)).collect(Collectors.toList());
         }
-        System.out.println(key.getKey());
         final List<Image> temp = new LinkedList<>();
         IntStream.range(0, entity.getnAssets()).forEach(n -> {
             temp.add(new Image("images/" + key.getKey() + Integer.toString(n) + ".png", dimension.getWidth(), dimension.getHeight(), false, true));
