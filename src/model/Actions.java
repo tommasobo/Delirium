@@ -9,14 +9,13 @@ public enum Actions {
     STOP((point, speed, direction) -> (point)),
     SHOOT((point, speed, direction) -> (point));
 
-    //TODO rinominare funzione
     private final DeterminateNewPoint function;
-    
+
     Actions(final DeterminateNewPoint function) {
         this.function = function;
     }
-    
-    public Point apply(Point point, int speed, Directions direction) {
+
+    public Point apply(final Point point, final int speed, final Directions direction) {
         return this.function.determinateNewPoint(point, speed, direction);
     }
 }

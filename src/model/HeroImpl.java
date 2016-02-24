@@ -4,33 +4,29 @@ import java.util.Optional;
 
 public class HeroImpl extends EntitiesImpl implements Hero {
 
-    //TODO cambiare costruttore levando optional
-    public HeroImpl(int code, LifeManager lifeManager, MovementManager movementManager,
-            ShootManager shootManager, Integer contactDamage) {
+    public HeroImpl(final int code, final LifeManager lifeManager, final MovementManager movementManager,
+            final ShootManager shootManager, final Integer contactDamage) {
         super(code, lifeManager, movementManager, Optional.of(shootManager), Optional.of(contactDamage));
     }
 
     @Override
-    public void setAction(Actions action) {
+    public void setAction(final Actions action) {
         if (action != Actions.SHOOT) {
             super.getMovementManager().get().setAction(action);
         } else {
-            HeroShootManager heroShootManager = (HeroShootManager) getShootManager().get();
+            HeroShootManager heroShootManager = (HeroShootManager) super.getShootManager().get();
             heroShootManager.wannaShoot();
         }
     }
-    
-    /* (non-Javadoc)
-     * @see model.Hero#setOnPlatform(boolean)
-     */
+
     @Override
-    public void setOnPlatform(boolean bool) {
+    public void setOnPlatform(final boolean bool) {
         HeroMovementManager move = (HeroMovementManager) this.getMovementManager().get();
         move.setOnPlatform(bool);
     }
-    
+
     @Override
-    public void accept(EntitiesVisitor visitor) {
+    public void accept(final EntitiesVisitor visitor) {
         visitor.visit(this);
     }
 

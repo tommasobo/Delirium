@@ -2,10 +2,10 @@ package model;
 
 public interface EntitiesVisitor {
 
-    void visit(EntitiesImpl entitiesImpl);
-    
-    void visit(HeroImpl hero);
-    
-    void visit(Bullet bullet);
-    
+    void visit(final EntitiesImpl entitiesImpl);
+
+    void visit(final HeroImpl hero);
+
+    void visit(final Bullet bullet);
+
 }

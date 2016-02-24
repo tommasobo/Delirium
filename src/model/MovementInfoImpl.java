@@ -1,14 +1,15 @@
 package model;
 
 public class MovementInfoImpl implements MovementInfo {
-    
+
     private final int speed;
     private final Bounds bounds;
     private final Actions actions;
     private final boolean canFly;
     private final MovementTypes movementTypes;
-    
-    public MovementInfoImpl(int speed, Bounds bounds, Actions actions, boolean canFly, MovementTypes movementTypes) {
+
+    public MovementInfoImpl(final int speed, final Bounds bounds, final Actions actions, final boolean canFly,
+            final MovementTypes movementTypes) {
         this.speed = speed;
         this.bounds = bounds;
         this.actions = actions;
@@ -16,47 +17,29 @@ public class MovementInfoImpl implements MovementInfo {
         this.movementTypes = movementTypes;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getSpeed()
-     */
     @Override
     public int getSpeed() {
-        return speed;
+        return this.speed;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getBounds()
-     */
     @Override
     public Bounds getBounds() {
-        return bounds;
+        return this.bounds;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getActions()
-     */
     @Override
     public Actions getActions() {
-        return actions;
+        return this.actions;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#isCanFly()
-     */
     @Override
     public boolean isCanFly() {
-        return canFly;
+        return this.canFly;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getMovementTypes()
-     */
     @Override
     public MovementTypes getMovementTypes() {
-        return movementTypes;
+        return this.movementTypes;
     }
-    
-    
-    
 
 }

@@ -5,8 +5,8 @@ public class Bounds {
     private final int maxX;
     private final int minY;
     private final int maxY;
-    
-    public Bounds(int minX, int maxX, int minY, int maxY) {
+
+    public Bounds(final int minX, final int maxX, final int minY, final int maxY) {
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
@@ -14,19 +14,19 @@ public class Bounds {
     }
 
     public int getMinX() {
-        return minX;
+        return this.minX;
     }
 
     public int getMaxX() {
-        return maxX;
+        return this.maxX;
     }
 
     public int getMinY() {
-        return minY;
+        return this.minY;
     }
 
     public int getMaxY() {
-        return maxY;
+        return this.maxY;
     }
-    
+
 }

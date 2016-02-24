@@ -2,24 +2,24 @@ package model;
 
 public class EntitiesVisitorImpl implements EntitiesVisitor {
     private Arena arena;
-    
-    public EntitiesVisitorImpl(Arena arena) {
+
+    public EntitiesVisitorImpl(final Arena arena) {
         this.arena = arena;
     }
 
     @Override
-    public void visit(EntitiesImpl entitiesImpl) {
-        arena.add(entitiesImpl);
+    public void visit(final EntitiesImpl entitiesImpl) {
+        this.arena.add(entitiesImpl);
     }
 
     @Override
-    public void visit(HeroImpl hero) {
-        arena.add(hero);
+    public void visit(final HeroImpl hero) {
+        this.arena.add(hero);
     }
 
     @Override
-    public void visit(Bullet bullet) {
-        arena.add(bullet);
+    public void visit(final Bullet bullet) {
+        this.arena.add(bullet);
 
     }
 

@@ -1,17 +1,15 @@
 package model;
 
 public class ShootInfoImpl implements ShootInfo {
-    
-    
+
     private final int minTime;
     private final ShootTypes shootType;
     private final int bulletDamage;
     private final MovementTypes movementType;
     private final int range;
     private final int speed;
-    
-    
-    public ShootInfoImpl(final int minTime, final ShootTypes shootType, final int bulletDamage, 
+
+    public ShootInfoImpl(final int minTime, final ShootTypes shootType, final int bulletDamage,
             final MovementTypes movementType, final int range, final int speed) {
         this.minTime = minTime;
         this.shootType = shootType;
@@ -21,56 +19,34 @@ public class ShootInfoImpl implements ShootInfo {
         this.speed = speed;
     }
 
-
-    /* (non-Javadoc)
-     * @see model.ShootInfo#getMinTime()
-     */
     @Override
     public int getMinTime() {
-        return minTime;
+        return this.minTime;
     }
-    
-    /* (non-Javadoc)
-     * @see model.ShootInfo#getShootType()
-     */
+
     @Override
     public ShootTypes getShootType() {
-        return shootType;
+        return this.shootType;
     }
 
-
-    /* (non-Javadoc)
-     * @see model.ShootInfo#getBulletDamage()
-     */
     @Override
     public int getBulletDamage() {
-        return bulletDamage;
+        return this.bulletDamage;
     }
 
-
-    /* (non-Javadoc)
-     * @see model.ShootInfo#getMovementType()
-     */
     @Override
     public MovementTypes getMovementType() {
-        return movementType;
+        return this.movementType;
     }
 
-
-    /* (non-Javadoc)
-     * @see model.ShootInfo#getRange()
-     */
     @Override
     public int getRange() {
-        return range;
+        return this.range;
     }
-    
-    /* (non-Javadoc)
-     * @see model.ShootInfo#getSpeed()
-     */
+
     @Override
     public int getSpeed() {
-        return speed;
+        return this.speed;
     }
 
 }

@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface Arena {
 
-    void add(Entities entities);
+    void add(final Entities entities);
 
-    void add(EntitiesImpl entitiesImpl);
+    void add(final EntitiesImpl entitiesImpl);
 
-    void add(HeroImpl hero);
+    void add(final HeroImpl hero);
 
-    void add(Bullet bullet);
+    void add(final Bullet bullet);
 
     Hero getHero();
 

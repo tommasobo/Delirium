@@ -2,6 +2,6 @@ package model;
 
 public interface Hero extends Entities {
 
-    void setOnPlatform(boolean bool);
+    void setOnPlatform(final boolean bool);
 
 }

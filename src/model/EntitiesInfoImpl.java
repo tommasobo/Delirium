@@ -3,17 +3,18 @@ package model;
 import java.util.Optional;
 
 public class EntitiesInfoImpl implements EntitiesInfo {
-    
+
     private int code;
     private final Position position;
-    private Optional<MovementInfo> movementInfo; 
+    private final Optional<MovementInfo> movementInfo;
     private final int life;
     private final LifePattern lifePattern;
     private final Optional<ShootInfo> shootInfo;
     private final Optional<Integer> contactDamage;
-    
-    public EntitiesInfoImpl(int code, Position position, Optional<MovementInfo> movementInfo, int life,
-            LifePattern lifePattern, Optional<ShootInfo> shootInfo, Optional<Integer> contactDamage) {
+
+    public EntitiesInfoImpl(final int code, final Position position, final Optional<MovementInfo> movementInfo,
+            final int life, final LifePattern lifePattern, final Optional<ShootInfo> shootInfo,
+            final Optional<Integer> contactDamage) {
         this.code = code;
         this.position = position;
         this.movementInfo = movementInfo;
@@ -23,64 +24,39 @@ public class EntitiesInfoImpl implements EntitiesInfo {
         this.contactDamage = contactDamage;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getCode()
-     */
     @Override
     public int getCode() {
-        return code;
+        return this.code;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getMovementInfo()
-     */
     @Override
     public Optional<MovementInfo> getMovementInfo() {
-        return movementInfo;
+        return this.movementInfo;
     }
 
-
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getPosition()
-     */
     @Override
     public Position getPosition() {
-        return position;
+        return this.position;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getLife()
-     */
     @Override
     public int getLife() {
-        return life;
+        return this.life;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getLifePattern()
-     */
     @Override
     public LifePattern getLifePattern() {
-        return lifePattern;
+        return this.lifePattern;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getShootInfo()
-     */
     @Override
     public Optional<ShootInfo> getShootInfo() {
-        return shootInfo;
+        return this.shootInfo;
     }
 
-    /* (non-Javadoc)
-     * @see model.EntitiesInfo#getContactDamage()
-     */
     @Override
     public Optional<Integer> getContactDamage() {
-        return contactDamage;
+        return this.contactDamage;
     }
-    
-    
-    
 
 }

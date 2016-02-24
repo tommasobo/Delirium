@@ -1,10 +1,6 @@
 package model;
 
 public enum MovementTypes {
-    REACTIVE,
-    HORIZONTAL_LINEAR,
-    VERTICAL_LINEAR,
-    RANDOM,
-    HERO;
+    REACTIVE, HORIZONTAL_LINEAR, VERTICAL_LINEAR, RANDOM, HERO;
 
 }

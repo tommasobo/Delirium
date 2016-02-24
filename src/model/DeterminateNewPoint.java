@@ -1,8 +1,8 @@
 package model;
 
+@FunctionalInterface
 public interface DeterminateNewPoint {
-    
-    Point determinateNewPoint(Point point, int speed, Directions direction);
-    
+
+    Point determinateNewPoint(final Point point, final int speed, final Directions direction);
 
 }
