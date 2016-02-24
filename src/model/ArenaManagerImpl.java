@@ -17,6 +17,7 @@ public class ArenaManagerImpl implements ArenaManager {
     private Arena arena;
     private LastPositionsManager lastPositionsMan;
     private ActiveMovementDatabase platformEntities;
+    private boolean gameWon;
     
     public ArenaManagerImpl(Arena arena) {
         this.arena = arena;
@@ -36,6 +37,12 @@ public class ArenaManagerImpl implements ArenaManager {
                 t.setPosition(pos.getPoint(), pos.getDirection());
             }
         });
+        
+        this.gameWon = getRectangle(this.arena.getHero().getPosition()).intersects(getRectangle(this.arena.getGoal().getPosition()));
+    }
+    
+    public boolean isGameWon() {
+        return this.gameWon;
     }
     
     //TODO mettere conteggio temporale in database per evitare spostamenti istantanei delle entità?

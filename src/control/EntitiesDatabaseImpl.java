@@ -32,7 +32,7 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
     public EntitiesInfo putEntityAndSetCode(EntitiesInfo modelEnt, Entities entity) {
         // TODO come sotto, è più corretto e sicuro che il metodo non
         // restituisca nulla o che lavori su una copia protetta?
-        EntitiesInfo modelEntCopy = new EntitiesInfoImpl(this.codesIterator.next(), modelEnt.getPosition(),
+        EntitiesInfo modelEntCopy = new EntitiesInfoImpl(modelEnt.getCode() != -1 ? this.codesIterator.next() : -1, modelEnt.getPosition(),
                 modelEnt.getMovementInfo(), modelEnt.getLife(), modelEnt.getLifePattern(), modelEnt.getShootInfo(),
                 modelEnt.getContactDamage());
         this.putEntity(modelEntCopy, entity);

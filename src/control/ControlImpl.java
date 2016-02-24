@@ -44,7 +44,6 @@ public class ControlImpl implements Control {
             gameLoop(Levels.LEVEL1);
             break;
         case PAUSE:
-            this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
             if(gameThread != null) {
                 if( this.gameThread.isPaused()) {
                     gameThread.reStart();
@@ -64,7 +63,17 @@ public class ControlImpl implements Control {
     }
 
     public List<Buttons> getButtons() {
-        if(this.menuLoader == null) {
+        if(this.gameThread == null) {
+            this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+        } else
+        
+        if(this.gameThread.getGameState() == GameState.PAUSED) {
+            this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
+        } else if (this.gameThread.getGameState() == GameState.WON) {
+            this.menuLoader = new MenuLoaderImpl(Menu.WIN);
+        } else if (this.gameThread.getGameState() == GameState.LOSE) {
+            this.menuLoader = new MenuLoaderImpl(Menu.LOSE);
+        } else if(!this.gameThread.isRunning()) {
             this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
         }
         return this.menuLoader.getButtonsList();

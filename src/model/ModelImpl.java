@@ -73,10 +73,18 @@ public class ModelImpl implements Model{
     public List<EntitiesInfoToControl> getState() {
         final List<EntitiesInfoToControl> result = new LinkedList<>();
         
-        Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
-            Optional<Integer> speed = t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
-            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), speed));
-        });
+        if(this.arenaManager.isGameWon()) {
+            Entities t = this.arena.getGoal();
+            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), Optional.empty()));
+            
+        } else if(this.arena.getHero().getLifeManager().getLife() != 0) {
+            
+            Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
+                Optional<Integer> speed = t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
+                result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), speed));
+            });
+        }
+        
         
         return result;
     }

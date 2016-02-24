@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import model.EntitiesInfo;
+import model.EntitiesInfoToControl;
 import model.Model;
 import sun.awt.Mutex;
+import view.Notifications;
+import view.SceneType;
 import view.ViewController;
 
 public class GameThreadImpl extends Thread implements GameThread {
@@ -15,8 +18,9 @@ public class GameThreadImpl extends Thread implements GameThread {
     private final EntitiesDatabase database;
     private final InputManager inputManager;
     private final Mutex mutex;
-    private boolean running;
-    private boolean paused;
+    volatile private boolean running;
+    volatile private boolean paused;
+    volatile private GameState gameState;
 
     public GameThreadImpl(final Model model, final ViewDecorator view, EntitiesDatabase database,
             InputManager inputManager) {
@@ -26,6 +30,7 @@ public class GameThreadImpl extends Thread implements GameThread {
         this.inputManager = inputManager;
         this.mutex = new Mutex();
         this.running = true;
+        this.gameState = GameState.RUNNING;
     }
 
     public void run() {
@@ -44,10 +49,8 @@ public class GameThreadImpl extends Thread implements GameThread {
             
             bullets = database.putBulletsAndSetCodes(bullets);
             this.model.putBullet(bullets);
-            /*this.model.getState().stream().filter(t -> t.getCode() == 1).forEach(t -> {
-                System.out.println(t.getPosition() + " " + t.getMovementInfo().get().getActions());
-            });*/
-            this.view.updateScene(Translator.entitiesListFromModelToView(this.model.getState(), database));
+            
+            this.view.updateScene(Translator.entitiesListFromModelToView(controlGameState(this.model.getState()), database));
             this.mutex.unlock();
             try {
                 Thread.sleep(28L);
@@ -56,16 +59,23 @@ public class GameThreadImpl extends Thread implements GameThread {
                 e.printStackTrace();
             }
         }
-        System.out.println("thread off");
+        
+        //TODO aggiungi eccezione thread killato di cattiveria
+        if(this.gameState == GameState.WON) {
+            //TODO metti notifyEvent synchronized
+            this.view.notifySceneEvent(Notifications.WIN);
+        } else if (this.gameState == GameState.LOSE) {
+            this.view.notifySceneEvent(Notifications.LOSE);
+        }
     }
 
     public void pause() {
-        this.paused = true;
+        this.paused = true;;
         mutex.lock();
     }
 
     public void reStart() {
-        this.paused = false;
+        this.paused = false;;
         mutex.unlock();
     }
     
@@ -75,5 +85,29 @@ public class GameThreadImpl extends Thread implements GameThread {
 
     public void stopGame() {
         this.running = false;
+    }
+    
+    public GameState getGameState() {
+        return this.gameState;
+    }
+    
+    private List<EntitiesInfoToControl> controlGameState(List<EntitiesInfoToControl> list) {
+        if(list.isEmpty()) {
+            //TODO unifica variabili nell'enum mettendo il campo synchronzed
+            this.running = false;
+            this.gameState = GameState.LOSE;
+        }
+        //TODO -1 magic number
+        if(list.size() == 1 && list.get(0).getCode() == -1) {
+            this.running = false;
+            this.gameState = GameState.WON;
+        }
+        
+        return list;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return this.running;
     }
 }

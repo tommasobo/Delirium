@@ -12,6 +12,10 @@ public interface GameThread{
     
     void stopGame();
     
+    boolean isRunning();
+    
     boolean isPaused();
+    
+    GameState getGameState();
 
 }
