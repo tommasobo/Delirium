@@ -1,10 +1,11 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.HashSet;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import control.Dimension;
@@ -23,9 +24,6 @@ public class ArenaManagerImpl implements ArenaManager {
         this.platformEntities = new ActiveMovementDatabase();
     }
     
-    /* (non-Javadoc)
-     * @see model.ArenaManager#MoveEntities()
-     */
     @Override
     public void MoveEntities() {
         Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
@@ -35,129 +33,144 @@ public class ArenaManagerImpl implements ArenaManager {
             Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
             if (p.isPresent()) {
                 Position pos = collisionFixerTest(p.get(), t);
-                //TODO metto qui il movimento delle genti? Non conservo l'action effettiva!!!!!!!
                 t.setPosition(pos.getPoint(), pos.getDirection());
             }
         });
     }
     
+    //TODO mettere conteggio temporale in database per evitare spostamenti istantanei delle entità?
     
     private Position collisionFixerTest(Position pos, Entities entity) {
-        return collisionFixerTest(pos, entity, realAction(entity), pos.getDirection(), true);
+        return collisionFixerTest(pos, entity, realAction(entity), pos.getDirection());
     }
     
-    private Position collisionFixerTest(Position pos, Entities entity, Actions action, Directions direction, /*forse inutile, se fixo la position, anche se sono su piattaforma, cambio direction gente*/boolean modifyEntity) {
+    private Position collisionFixerTest(Position pos, Entities entity, Actions action, Directions direction) {
         boolean verticalLimit = false;
         boolean orizzontalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         Rectangle retToFix = getRectangle(posToFix);
         Pair<Entities, Rectangle> collision;
-        //l'hero non deve ignorare cio che ha sopra
-        if(entity != this.arena.getHero()) {
-            collision = getFirstCollision(retToFix, entity, this.platformEntities.getRelativeEntities(entity.getCode()), this.arena.getEntities(), this.arena.getBullets());
-
+        // l'hero non deve ignorare cio che ha sopra
+        if (entity != this.arena.getHero()) {
+            collision = getFirstCollision(retToFix, entity,
+                    Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
+                            .collect(Collectors.toList()),
+                    this.platformEntities.getRelativeEntities(entity.getCode()));
         } else {
-            collision = getFirstCollision(retToFix, entity, new HashSet<>(), this.arena.getEntities(), this.arena.getBullets());
-
+            collision = getFirstCollision(retToFix, entity,
+                    Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
+                            .collect(Collectors.toList()));
         }
         if (collision == null) {
-            //elimino i proiettili quando toccano i bounds
-            //TODO o metti qui, oppure nell'update arena
-            if(arena.getBullets().contains(entity)) {
-                if(onBounds(posToFix, entity)) {
+            // elimino i proiettili quando toccano i bounds
+            // TODO o metti qui, oppure nell'update arena
+            if (arena.getBullets().contains(entity)) {
+                if (onBounds(posToFix, entity)) {
                     entity.getLifeManager().setLife(10);
                 }
             }
-            
-            //TODO devo muovere tutti gli oggetti che ho sopra con un metodo,
-            //se questo ritorna false io non devo muovere la piattaforma
-            //(ho qualcuno sopra, non posso salire se quello sopra è in 
-            //collisione oppure se rischia di superare i bounds)
-            //Lo metto nell'update arena?
-            
-            //TODO controllo brutto
-            if(entity != this.arena.getHero()) {
+
+            // TODO devo muovere tutti gli oggetti che ho sopra con un metodo,
+            // se questo ritorna false io non devo muovere la piattaforma
+            // (ho qualcuno sopra, non posso salire se quello sopra è in
+            // collisione oppure se rischia di superare i bounds)
+            // Lo metto nell'update arena?
+
+            // TODO controllo brutto, posso disattivare l'aggiunta a livello di database? NO, quello deve conservare il funzionamento per estendibilità
+            if (entity != this.arena.getHero()) {
                 Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
-                if(!over.isEmpty()) {
+                if (!over.isEmpty()) {
                     PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
-                    if(activeMovementOK(over, action, offset)) {
-                        //Li muovo tutti
-                        over.stream().sorted((x, y) -> (new Integer(x.getPosition().getPoint().getX()).compareTo(y.getPosition().getPoint().getX()))).forEach(t -> {
-                            Position post = t.getPosition();
-                            post = this.collisionFixerTest(new Position(new Point(post.getPoint().getX() + offset.getOffsetX(), post.getPoint().getY() + offset.getOffsetY()), post.getDirection(), post.getDimension()), t, action, direction, true);
-                            t.setPosition(post.getPoint(), post.getDirection());
-                        });
+                    if (activeMovementOK(over, action, offset)) {
+                        //TODO il controllo di priorità è da testare ed in più varia a seconda della direzione che hanno le entità
+                        over.stream().sorted((x, y) -> (new Integer(x.getPosition().getPoint().getX())
+                                .compareTo(y.getPosition().getPoint().getX()))).forEach(t -> {
+                                    Position post = t.getPosition();
+                                    post = this.collisionFixerTest(
+                                            new Position(
+                                                    new Point(post.getPoint().getX() + offset.getOffsetX(),
+                                                            post.getPoint().getY() + offset.getOffsetY()),
+                                                    post.getDirection(), post.getDimension()),
+                                            t, action, direction);
+                                    t.setPosition(post.getPoint(), post.getDirection());
+                                });
                     } else {
                         return this.lastPositionsMan.getLastPosition(entity);
                     }
                 }
             }
-            
+
             return pos;
         }
         modifyEntitiesInCollision(entity, collision.getX());
-        Rectangle collisionRectangle = collision.getY();
-        switch (action) {
-        case JUMP:
-            posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y - posToFix.getDimension().getHeight()));
-            verticalLimit = true;
-            break;
-        case FALL:
-            posToFix.setPoint(new Point(posToFix.getPoint().getX(), collisionRectangle.y + collisionRectangle.height));
-            verticalLimit = true;
-            this.platformEntities.putEntity(collision.getX().getCode(), entity);
-            break;
-        case MOVE:
-            fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
-            orizzontalLimit = true;
-            break;
-        case MOVEONJUMP:
-            if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(), retToFix.width,
-                    retToFix.height).intersects(collisionRectangle)) {
-                posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y - retToFix.height));
+        if(!this.arena.getBullets().contains(collision.getX())) {
+            Rectangle collisionRectangle = collision.getY();
+            switch (action) {
+            case JUMP:
+                posToFix.setPoint(new Point(posToFix.getPoint().getX(),
+                        collisionRectangle.y - posToFix.getDimension().getHeight()));
                 verticalLimit = true;
-            } else {
-                fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
-                orizzontalLimit = true;
-            }
-            break;
-        case MOVEONFALL:
-            if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(), retToFix.width,
-                    retToFix.height).intersects(collisionRectangle)) {
-                posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y + collisionRectangle.height));
+                break;
+            case FALL:
+                posToFix.setPoint(
+                        new Point(posToFix.getPoint().getX(), collisionRectangle.y + collisionRectangle.height));
                 verticalLimit = true;
                 this.platformEntities.putEntity(collision.getX().getCode(), entity);
-            } else {
+                break;
+            case MOVE:
                 fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
                 orizzontalLimit = true;
+                break;
+            case MOVEONJUMP:
+                if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
+                        retToFix.width, retToFix.height).intersects(collisionRectangle)) {
+                    posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y - retToFix.height));
+                    verticalLimit = true;
+                } else {
+                    fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
+                    orizzontalLimit = true;
+                }
+                break;
+            case MOVEONFALL:
+                if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
+                        retToFix.width, retToFix.height).intersects(collisionRectangle)) {
+                    posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y + collisionRectangle.height));
+                    verticalLimit = true;
+                    this.platformEntities.putEntity(collision.getX().getCode(), entity);
+                } else {
+                    fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
+                    orizzontalLimit = true;
+                }
+                break;
+            default:
+                // TODO cambia eccezione
+                throw new IllegalAccessError();
             }
-            break;
-        default:
-            //TODO cambia eccezione
-            throw new IllegalAccessError();
         }
-        
-        //TODO ricorsione a metà o alla fine?
-        posToFix = collisionFixerTest(posToFix, entity, action, direction, modifyEntity);
-        
-        //TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare DOPO la ricorsione per evitare problemi
-        //TODO metti questo in metodo separato? Non credo, lo uso una volta sola
-        if(entity.equals(this.arena.getHero())) {
-            if(verticalLimit) {
-                if(realAction(entity) == Actions.FALL) {
+
+        // TODO ricorsione a metà o alla fine?
+        posToFix = collisionFixerTest(posToFix, entity, action, direction);
+
+        // TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare
+        // DOPO la ricorsione per evitare problemi
+        // TODO metti questo in metodo separato? Non credo, lo uso una volta
+        // sola
+        if (entity.equals(this.arena.getHero())) {
+            if (verticalLimit) {
+                if (realAction(entity) == Actions.FALL) {
                     arena.getHero().setOnPlatform(true);
                     entity.setAction(Actions.STOP);
                 } else if (entity.getAction() == Actions.MOVEONFALL) {
                     entity.setAction(Actions.MOVE);
                     arena.getHero().setOnPlatform(true);
                 } else {
-                    //TODO stacosanonfunge, l'hero non cade
+                    // TODO stacosanonfunge, l'hero non cade
                     entity.setAction(Actions.FALL);
                 }
             }
         } else {
-            if(verticalLimit) {
-                if(realAction(entity) == Actions.FALL) {
+            if (verticalLimit) {
+                if (realAction(entity) == Actions.FALL) {
                     entity.setAction(Actions.JUMP);
                 } else if (entity.getAction() == Actions.MOVEONFALL) {
                     entity.setAction(Actions.MOVE);
@@ -165,15 +178,15 @@ public class ArenaManagerImpl implements ArenaManager {
                     entity.setAction(Actions.FALL);
                 }
             }
-            if(orizzontalLimit) {
-                if(posToFix.getDirection() == Directions.LEFT) {
+            if (orizzontalLimit) {
+                if (posToFix.getDirection() == Directions.LEFT) {
                     posToFix.setDirection(Directions.RIGHT);
-                } else if(posToFix.getDirection() == Directions.RIGHT) {
+                } else if (posToFix.getDirection() == Directions.RIGHT) {
                     posToFix.setDirection(Directions.LEFT);
                 }
             }
         }
-        
+
         return posToFix;
     }
     
@@ -229,7 +242,7 @@ public class ArenaManagerImpl implements ArenaManager {
                 if(UtilityMovement.checkBounds(newPosition, t.getMovementManager().get().getBounds(), action, 0) != UtilityMovement.CheckResult.TRUE) {
                     ret = false;
                 }
-                if(getFirstCollision(getRectangle(newPosition), t, this.platformEntities.getRelativeEntities(t.getCode()), this.arena.getEntities()) != null) {
+                if(getFirstCollision(getRectangle(newPosition), t, this.arena.getEntities(), this.platformEntities.getRelativeEntities(t.getCode())) != null) {
                     ret = false;
                 }
                 if(!this.platformEntities.getRelativeEntities(t.getCode()).isEmpty()) {
@@ -240,17 +253,11 @@ public class ArenaManagerImpl implements ArenaManager {
         return ret;
     }
     
-    //TODO i varargs andrebbero messi negli static, metti static e aggiungi elementi di esclusione
-    @SafeVarargs
-    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, Set<Entities> exclusions, List<? extends Entities>...lists) {
-        Stream<Entities> stream = Stream.empty();
-        for(List<? extends Entities> ls : lists) {
-            stream = Stream.concat(stream, ls.stream());
-        }
+    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, Collection<? extends Entities> entities, Collection<? extends Entities> exclusions) {
         
-        Optional<Entities> ret = stream.filter(entityToTest -> entityToTest.getCode() != entity.getCode())
-                //TODO da escludere sempre quelli che hai sopra?
+        Optional<? extends Entities> ret = entities.stream().filter(entityToTest -> entityToTest.getCode() != entity.getCode())
                 .filter(t -> !exclusions.contains(t))
+                .filter(t -> t.getLifeManager().getLife() > 0)
                 .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
 
         if (ret.isPresent()) {
@@ -259,5 +266,9 @@ public class ArenaManagerImpl implements ArenaManager {
         }
 
         return null;
+    }
+    
+    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, Collection<? extends Entities> entities) {
+        return getFirstCollision(rectangle, entity, entities, new ArrayList<>());
     }
 }
