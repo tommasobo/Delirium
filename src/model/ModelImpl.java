@@ -10,7 +10,6 @@ import control.Pair;
 public class ModelImpl implements Model{
     
     private static final int DEFAULT_OFFSET_X = 500;
-    private static final int DEFAULT_OFFSET_Y = 100;
     private static final ModelImpl singleton = new ModelImpl();
     private Arena arena;
     private ArenaManager arenaManager;
@@ -24,9 +23,7 @@ public class ModelImpl implements Model{
 
     @Override
     public void notifyEvent(Directions direction) {
-        if(arena.getHero().getMovementManager().isPresent()) {
-            arena.getHero().getMovementManager().get().setPosition(arena.getHero().getPosition().getPoint(), direction);
-        }
+        arena.getHero().setPosition(arena.getHero().getPosition().getPoint(), direction);
     }
     
     @Override
@@ -36,7 +33,6 @@ public class ModelImpl implements Model{
     
     public List<EntitiesInfo> updateArena() {
         
-        //dovrebbe funzionare, ma la view non rimuove gli oggetti stampati
         int size = arena.getEntities().size();
         for(int i = 0; i < size; i++) {
             if(arena.getEntities().get(i).getLifeManager().getLife() == 0) {
@@ -69,13 +65,10 @@ public class ModelImpl implements Model{
             
         });
         
-        
         return bullets;
-        
     }
 
 
-    //TODO cambia oggetto comunicazione con controller
     @Override
     public List<EntitiesInfoToControl> getState() {
         final List<EntitiesInfoToControl> result = new LinkedList<>();
@@ -117,8 +110,6 @@ public class ModelImpl implements Model{
             throw new IllegalStateException();
         }*/
         
-        
-        
     }
 
     @Override
@@ -129,11 +120,8 @@ public class ModelImpl implements Model{
                     .movementManager(new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
                     .contactDamage(t.getContactDamage().get())
                     .build());
-            
           });
     }
-    
-    
-    
+      
 
 }
