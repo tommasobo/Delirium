@@ -6,8 +6,6 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -15,7 +13,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class MenuLoaderImpl implements MenuLoader {
 
-    private Map<MenuCategory, MenuCategoryEntries> menuStructure;
+    private Map<MenuCategory, MenuCategoryEntriesImpl> menuStructure;
     private final Menu menuType;
     
     public MenuLoaderImpl(Menu menu) {
@@ -33,6 +31,10 @@ public class MenuLoaderImpl implements MenuLoader {
     }
     
     public Map<MenuCategory, MenuCategoryEntries> getMenuStructure() {
+        return new HashMap<>(this.menuStructure);
+    }
+    
+    protected Map<MenuCategory, MenuCategoryEntriesImpl> getMenuStructurePrimitive() {
         return new HashMap<>(this.menuStructure);
     }
 

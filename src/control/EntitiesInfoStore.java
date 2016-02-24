@@ -5,24 +5,22 @@ import java.util.Optional;
 import model.EntitiesInfo;
 import model.LifePattern;
 import model.MovementInfo;
-import model.MovementInfoImpl;
 import model.Position;
 import model.ShootInfo;
-import model.ShootInfoImpl;
 
 public class EntitiesInfoStore implements EntitiesInfo{
 
     private int code;
-    private final Position position;
-    private final Optional<MovementInfoImpl> movementInfo; 
-    private final int life;
-    private final LifePattern lifePattern;
-    private final Optional<ShootInfoImpl> shootInfo;
-    private final Optional<Integer> contactDamage;
-    private final view.Entities entityType;
+    private Position position;
+    private Optional<MovementInfoStore> movementInfo; 
+    private int life;
+    private LifePattern lifePattern;
+    private Optional<ShootInfoStore> shootInfo;
+    private Optional<Integer> contactDamage;
+    private view.Entities entityType;
     
-    public EntitiesInfoStore(int code, Position position, Optional<MovementInfoImpl> movementInfo, int life,
-            LifePattern lifePattern, Optional<ShootInfoImpl> shootInfo, Optional<Integer> contactDamage, view.Entities entityType) {
+    public EntitiesInfoStore(int code, Position position, Optional<MovementInfoStore> movementInfo, int life,
+            LifePattern lifePattern, Optional<ShootInfoStore> shootInfo, Optional<Integer> contactDamage, view.Entities entityType) {
         this.code = code;
         this.position = position;
         this.movementInfo = movementInfo;
@@ -42,11 +40,15 @@ public class EntitiesInfoStore implements EntitiesInfo{
     }
 
     public Position getPosition() {
-        return position;
+        return new Position(this.position.getPoint(), this.position.getDirection(), this.position.getDimension());
     }
 
     public Optional<MovementInfo> getMovementInfo() {
-        return Optional.ofNullable(this.movementInfo.orElse(null));
+        return this.movementInfo.isPresent() ? Optional.of(this.movementInfo.get().getCopy()) : Optional.empty();
+    }
+    
+    public Optional<MovementInfoStore> getMovementInfoStore() {
+        return this.movementInfo;
     }
 
     public int getLife() {
@@ -58,7 +60,11 @@ public class EntitiesInfoStore implements EntitiesInfo{
     }
 
     public Optional<ShootInfo> getShootInfo() {
-        return Optional.ofNullable(this.shootInfo.orElse(null));
+        return this.shootInfo.isPresent() ? Optional.of(this.shootInfo.get().getCopy()) : Optional.empty();
+    }
+    
+    public Optional<ShootInfoStore> getShootInfoStore() {
+        return this.shootInfo;
     }
 
     public Optional<Integer> getContactDamage() {
@@ -67,5 +73,41 @@ public class EntitiesInfoStore implements EntitiesInfo{
 
     public view.Entities getEntityType() {
         return entityType;
+    }
+    
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setMovementInfo(Optional<MovementInfoStore> movementInfo) {
+        this.movementInfo = movementInfo;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public void setLifePattern(LifePattern lifePattern) {
+        this.lifePattern = lifePattern;
+    }
+
+    public void setShootInfo(Optional<ShootInfoStore> shootInfo) {
+        this.shootInfo = shootInfo;
+    }
+
+    public void setContactDamage(Optional<Integer> contactDamage) {
+        this.contactDamage = contactDamage;
+    }
+
+    public void setEntityType(view.Entities entityType) {
+        this.entityType = entityType;
+    }
+
+    public EntitiesInfoStore getCopy() {
+        return new EntitiesInfoStore(this.code, this.getPosition(),
+                this.movementInfo.isPresent() ? Optional.of(this.movementInfo.get().getCopy()) : Optional.empty(),
+                this.life, this.lifePattern,
+                this.shootInfo.isPresent() ? Optional.of(this.shootInfo.get().getCopy()) : Optional.empty(),
+                this.contactDamage, this.entityType);
     }
 }

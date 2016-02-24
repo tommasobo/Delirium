@@ -10,7 +10,9 @@
   "DIFFICULTY": {
     "entries": [
       "EASYMODE",
-      "HARDMODE"
+      "NORMALMODE",
+      "HARDMODE",
+      "DELIRIUMMODE"
     ],
     "focus": {
       "value": null

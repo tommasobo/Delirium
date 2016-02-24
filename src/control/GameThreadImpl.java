@@ -9,8 +9,6 @@ import model.Model;
 import sun.awt.Mutex;
 import utility.Pair;
 import view.Notifications;
-import view.SceneType;
-import view.ViewController;
 
 public class GameThreadImpl extends Thread implements GameThread {
 
@@ -20,8 +18,8 @@ public class GameThreadImpl extends Thread implements GameThread {
     private final InputManager inputManager;
     private final Mutex mutex;
     volatile private boolean running;
-    volatile private boolean paused;
-    volatile private GameState gameState;
+    //TODO metti in lock le parti di lettura/scrittura
+    private GameState gameState;
 
     public GameThreadImpl(final Model model, final ViewDecorator view, EntitiesDatabase database,
             InputManager inputManager) {
@@ -71,17 +69,17 @@ public class GameThreadImpl extends Thread implements GameThread {
     }
 
     public void pause() {
-        this.paused = true;;
         mutex.lock();
+        this.gameState = GameState.PAUSED;
     }
 
     public void reStart() {
-        this.paused = false;;
+        this.gameState = GameState.INGAME;
         mutex.unlock();
     }
     
     public boolean isPaused() {
-        return this.paused;
+        return this.gameState == GameState.PAUSED;
     }
 
     public void stopGame() {
@@ -89,17 +87,7 @@ public class GameThreadImpl extends Thread implements GameThread {
     }
     
     public GameState getGameState() {
-        switch(this.gameState){
-        /*case LOSE:
-            this.gameState = GameState.FINISH;
-            return GameState.LOSE;
-        case WON:
-            this.gameState = GameState.FINISH;
-            return GameState.WON;*/
-        default:
-            return this.gameState;
-        }
-        
+        return this.gameState;
     }
     
     private List<EntitiesInfoToControl> controlGameState(List<EntitiesInfoToControl> list) {
@@ -120,5 +108,11 @@ public class GameThreadImpl extends Thread implements GameThread {
     @Override
     public boolean isRunning() {
         return this.running;
+    }
+
+    @Override
+    public void setGameEnd() {
+        //TODO non permettere se è running
+        this.gameState = GameState.FINISH;
     }
 }

@@ -16,6 +16,8 @@ public enum ViewEvents {
 	NEXTLEVEL,
 	SETTINGS,
 	HARDMODE,
-	EASYMODE;
+	NORMALMODE,
+	EASYMODE,
+	DELIRIUMMODE;
     
 }

@@ -2,5 +2,6 @@
   "levels": [
     "LEVEL1",
     "LEVEL2"
-  ]
+  ],
+  "gameDifficulty": "NORMAL"
 }

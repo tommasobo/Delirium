@@ -7,7 +7,9 @@ public enum Buttons {
     NEXTLEVEL("NEXT LEVEL", ViewEvents.NEXTLEVEL),
     SETTINGS("SETTINGS", ViewEvents.SETTINGS), 
     EASYMODE("EASY", ViewEvents.EASYMODE),
-    HARDMODE("HARD", ViewEvents.HARDMODE);
+    NORMALMODE("NORMALMODE", ViewEvents.NORMALMODE),
+    HARDMODE("HARD", ViewEvents.HARDMODE),
+    DELIRIUMMODE("DELIRIUM", ViewEvents.DELIRIUMMODE);
     
     private final ViewEvents event;
     private final String name;

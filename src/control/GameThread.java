@@ -17,5 +17,7 @@ public interface GameThread{
     boolean isPaused();
     
     GameState getGameState();
+    
+    void setGameEnd();
 
 }
