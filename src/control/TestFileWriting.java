@@ -6,8 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale.Category;
+import java.util.Map;
 import java.util.Optional;
 
 import com.google.gson.Gson;
@@ -34,19 +37,36 @@ import view.Entities;
 public class TestFileWriting {
 
     public static void main(String[] args) throws  IOException{
+        /*Map<MenuCategory, MenuCategoryEntriesImpl> map = new HashMap<>();
+        List<Buttons> def = new LinkedList<>();
+        List<Buttons> difficulty = new LinkedList<>();
+        def.add(Buttons.NEWGAME);
+        def.add(Buttons.NEXTLEVEL);
+        difficulty.add(Buttons.MAINMENU);
+        difficulty.add(Buttons.EXIT);
+        map.put(MenuCategory.DEFAULT, new MenuCategoryEntriesImpl(def, Optional.empty()));
+        map.put(MenuCategory.DIFFICULTY, new MenuCategoryEntriesImpl(difficulty, Optional.empty()));
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get("src/ciao.json"));){
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting().serializeNulls();
+            Gson gson = builder.create();
+            gson.toJson(map, bw);
+            
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
         
-        GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting().serializeNulls();
-        Gson gson = builder.create();
-        List<Levels> levels = new LinkedList<>();
-        levels.add(Levels.LEVEL1);
-        levels.add(Levels.LEVEL2);
-        GameSettings gs = new GameSettings(levels);
-        
-        
-        BufferedWriter bw = new BufferedWriter(new FileWriter("src/ciao.json"));
-        gson.toJson(gs, bw);
-        bw.close();
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("src/ciao.json"));){
+            Gson gson = new Gson();
+            Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
+            Map<MenuCategory, MenuCategoryEntries> map = gson.fromJson(br, buttonsListType);
+            System.out.println(map.get(MenuCategory.DEFAULT).getEntries());
+            System.out.println(map.get(MenuCategory.DIFFICULTY).getFocus().isPresent());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         /*BufferedReader br = Files.newBufferedReader(Paths.get("src/ciao.json"));
         LevelInfo up = gson.fromJson(br, LevelInfo.class);
