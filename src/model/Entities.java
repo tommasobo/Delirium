@@ -29,7 +29,7 @@ public interface Entities {
     
     
     public static class Builder {
-        private int code;
+        private Optional<Integer> code = Optional.empty();
         private Optional<Position> position = Optional.empty();
         private LifeManager lifeManager;
         private Optional<MovementManager> movementManager = Optional.empty();
@@ -37,7 +37,7 @@ public interface Entities {
         private Optional<Integer> contactDamage = Optional.empty();
         
         public Builder code (final int code){
-            this.code = code;
+            this.code = Optional.of(code);
             return this ;
         }
         
@@ -69,28 +69,28 @@ public interface Entities {
         
         public Entities build() throws IllegalStateException {
             
-            if (this.code >= 0 && this.lifeManager == null && !this.position.isPresent() &&
+            if (this.code.isPresent() && this.lifeManager == null && !this.position.isPresent() &&
                     this.movementManager.isPresent() && !this.shootManager.isPresent() && 
                     this.contactDamage.isPresent()) {
-                return new Bullet(this.code, this.movementManager.get(), this.contactDamage.get());
+                return new Bullet(this.code.get(), this.movementManager.get(), this.contactDamage.get());
             }
             
-            if (this.code == 0 && this.lifeManager != null && !this.position.isPresent() &&
+            if ((this.code.isPresent() && this.code.get() == 0) && this.lifeManager != null && !this.position.isPresent() &&
                     this.movementManager.isPresent() && this.shootManager.isPresent() && 
                     this.contactDamage.isPresent()) {
-                return new Hero(this.code, this.lifeManager, this.movementManager.get(), this.shootManager.get(), this.contactDamage.get());
+                return new Hero(this.code.get(), this.lifeManager, this.movementManager.get(), this.shootManager.get(), this.contactDamage.get());
             }
             
-            if (this.code < 0 || this.lifeManager == null || 
+            if (!this.code.isPresent() || this.lifeManager == null || 
                     (!this.position.isPresent() && !this.movementManager.isPresent()) || 
                     (this.position.isPresent() && this.movementManager.isPresent())) {
                 throw new IllegalStateException();
             }
             
             if (this.position.isPresent()) {
-                return new EntitiesImpl(this.code, this.lifeManager, this.position.get(), this.shootManager, this.contactDamage);
+                return new EntitiesImpl(this.code.get(), this.lifeManager, this.position.get(), this.shootManager, this.contactDamage);
             } else {
-                return new EntitiesImpl(this.code, this.lifeManager, this.movementManager.get(), this.shootManager, this.contactDamage);
+                return new EntitiesImpl(this.code.get(), this.lifeManager, this.movementManager.get(), this.shootManager, this.contactDamage);
             }
             
         }

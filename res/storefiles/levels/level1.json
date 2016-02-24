@@ -4,7 +4,7 @@
       "code": 0,
       "position": {
         "point": {
-          "x": 0,
+          "x": 2500,
           "y": 40
         },
         "direction": "RIGHT",
@@ -138,7 +138,7 @@
       "contactDamage": {
         "value": 70
       },
-      "entityType": "GROUND"
+      "entityType": "TRAP"
     },
     {
       "code": 0,
@@ -667,7 +667,7 @@
       "contactDamage": {
         "value": 70
       },
-      "entityType": "GROUND"
+      "entityType": "TRAP"
     },
     {
       "code": 0,
@@ -719,7 +719,7 @@
       "contactDamage": {
         "value": 70
       },
-      "entityType": "GROUND"
+      "entityType": "TRAP"
     },
     {
       "code": 0,
@@ -771,7 +771,7 @@
       "contactDamage": {
         "value": 70
       },
-      "entityType": "GROUND"
+      "entityType": "TRAP"
     },
     {
       "code": 0,
@@ -823,7 +823,7 @@
       "contactDamage": {
         "value": 70
       },
-      "entityType": "GROUND"
+      "entityType": "TRAP"
     },
     {
       "code": 0,
@@ -1108,6 +1108,32 @@
         "value": null
       },
       "entityType": "VOLPE"
+    },
+    {
+      "code": -1,
+      "position": {
+        "point": {
+          "x": 2860,
+          "y": 320
+        },
+        "direction": "LEFT",
+        "dimension": {
+          "width": 40,
+          "height": 60
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 300,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": null
+      },
+      "entityType": "GOAL"
     }
     
     
