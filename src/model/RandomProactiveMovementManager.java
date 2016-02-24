@@ -3,11 +3,11 @@ package model;
 import java.util.Random;
 
 
-public class RandomDinamicMovementManager extends LinearDinamicMovementManager {
+public class RandomProactiveMovementManager extends LinearProactiveMovementManager {
     
     private int count = 0;
 
-    public RandomDinamicMovementManager(Position position, Bounds bounds, int speed, boolean canFly, MovementTypes movementTypes) {
+    public RandomProactiveMovementManager(Position position, Bounds bounds, int speed, boolean canFly, MovementTypes movementTypes) {
         super(position, bounds, speed, canFly, movementTypes);
     }
 

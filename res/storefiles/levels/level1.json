@@ -35,7 +35,7 @@
           "shootType": "HERO",
           "bulletDamage": 5,
           "movementType": "HORIZONTAL_LINEAR",
-          "range": 200,
+          "range": 400,
           "speed": 10
         }
       },
@@ -284,7 +284,7 @@
           "bounds": {
             "minX": 2600,
             "maxX": 2900,
-            "minY": 210,
+            "minY": 250,
             "maxY": 300
           },
           "actions": "JUMP",

@@ -78,7 +78,7 @@ public interface Entities {
             if ((this.code.isPresent() && this.code.get() == 0) && this.lifeManager != null && !this.position.isPresent() &&
                     this.movementManager.isPresent() && this.shootManager.isPresent() && 
                     this.contactDamage.isPresent()) {
-                return new Hero(this.code.get(), this.lifeManager, this.movementManager.get(), this.shootManager.get(), this.contactDamage.get());
+                return new HeroImpl(this.code.get(), this.lifeManager, this.movementManager.get(), this.shootManager.get(), this.contactDamage.get());
             }
             
             if (!this.code.isPresent() || this.lifeManager == null || 

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import control.Point;
 
-public abstract class AbstractMovementManager implements MovementManager {
+public abstract class DinamicMovementManager implements MovementManager {
     
     public static final int GRAVITY = 6;
 
@@ -14,7 +14,7 @@ public abstract class AbstractMovementManager implements MovementManager {
     private final Bounds bounds;
     private Actions action;
 
-    public AbstractMovementManager(final Position position, final Bounds bounds, final Actions action, 
+    public DinamicMovementManager(final Position position, final Bounds bounds, final Actions action, 
             final int speed, final boolean canFly) {
         this.position = position;
         this.canFly = canFly;
@@ -53,7 +53,7 @@ public abstract class AbstractMovementManager implements MovementManager {
      */
     protected Position applyGravity() {
         if(!canFly) {
-            Optional<Position> opPos = UtilityMovement.Move(this.getPosition(), this.getBounds(), Actions.FALL, AbstractMovementManager.GRAVITY);
+            Optional<Position> opPos = UtilityMovement.Move(this.getPosition(), this.getBounds(), Actions.FALL, DinamicMovementManager.GRAVITY);
             if(opPos.isPresent()) {
                 if(this.getAction() == Actions.MOVE || this.getAction() == Actions.MOVEONJUMP) {
                     this.setAction(Actions.MOVEONFALL);

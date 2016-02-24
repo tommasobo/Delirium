@@ -2,7 +2,7 @@ package model;
 
 import java.util.Optional;
 
-public class HeroMovementManager extends AbstractMovementManager{
+public class HeroMovementManager extends DinamicMovementManager{
     
     private boolean onJump = false;
     private int time = 0;

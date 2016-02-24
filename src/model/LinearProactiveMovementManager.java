@@ -1,10 +1,10 @@
 package model;
 
-public class LinearDinamicMovementManager extends AbstractMovementManager {
+public class LinearProactiveMovementManager extends DinamicMovementManager {
     
     private MovementTypes movementTypes;
     
-    public LinearDinamicMovementManager(Position position, Bounds bounds, int speed, boolean canFly, MovementTypes movementTypes) {
+    public LinearProactiveMovementManager(Position position, Bounds bounds, int speed, boolean canFly, MovementTypes movementTypes) {
         super(position, bounds, movementTypes == MovementTypes.HORIZONTAL_LINEAR ? Actions.MOVE : Actions.JUMP, speed, canFly);
         this.movementTypes = movementTypes;
     }

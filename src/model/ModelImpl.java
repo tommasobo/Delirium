@@ -103,7 +103,7 @@ public class ModelImpl implements Model{
     @Override
     public void createArena(List<EntitiesInfo> entitiesInfo) {
         
-        this.arena = new Arena();
+        this.arena = new ArenaImpl();
         this.arenaManager = new ArenaManagerImpl(this.arena);
         
         entitiesInfo.stream().forEach(t -> {
@@ -136,7 +136,7 @@ public class ModelImpl implements Model{
         entitiesInfo.stream().forEach(t -> {
             this.arena.add(new Entities.Builder()
                     .code(t.getCode())
-                    .movementManager(new LinearDinamicMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
+                    .movementManager(new LinearProactiveMovementManager(t.getPosition(), t.getMovementInfo().get().getBounds(), t.getMovementInfo().get().getSpeed(), t.getMovementInfo().get().isCanFly(), t.getMovementInfo().get().getMovementTypes()))
                     .contactDamage(t.getContactDamage().get())
                     .build());
           });

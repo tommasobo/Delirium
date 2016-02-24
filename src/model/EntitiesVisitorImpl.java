@@ -13,7 +13,7 @@ public class EntitiesVisitorImpl implements EntitiesVisitor {
     }
 
     @Override
-    public void visit(Hero hero) {
+    public void visit(HeroImpl hero) {
         arena.add(hero);
     }
 

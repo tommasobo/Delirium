@@ -1,62 +1,23 @@
 package model;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class Arena {
-    private Hero hero;
-    private Entities goal;
-    private List<Entities> entities;
-    private List<Bullet> bullets;
-    
-    private EntitiesVisitor addVisitor = new EntitiesVisitorImpl(this);
-    
-    
-    
-    public Arena() {
-        this.entities = new LinkedList<>();
-        this.bullets = new LinkedList<>();
-    }
+public interface Arena {
 
-    public void add(Entities entities) {
-        entities.accept(addVisitor);
-    }
-    
-    public void add(EntitiesImpl entitiesImpl) {
-        this.entities.add(entitiesImpl);
-        if (entitiesImpl.getCode() == -1) {
-            this.goal = entitiesImpl;
-        }
-    }
+    void add(Entities entities);
 
-    public void add(Hero hero) {
-        this.hero = hero;
-        this.entities.add(hero);
-    }
+    void add(EntitiesImpl entitiesImpl);
 
-    public void add(Bullet bullet) {
-        this.bullets.add(bullet);
-    }
+    void add(HeroImpl hero);
 
-    public Hero getHero() {
-        return hero;
-    }
+    void add(Bullet bullet);
 
-    public Entities getGoal() {
-        return goal;
-    }
+    Hero getHero();
 
-    public List<Entities> getEntities() {
-        return entities;
-    }
+    Entities getGoal();
 
-    public List<Bullet> getBullets() {
-        return bullets;
-    }
-    
-    
-    
-    
+    List<Entities> getEntities();
 
-    
+    List<Bullet> getBullets();
+
 }
