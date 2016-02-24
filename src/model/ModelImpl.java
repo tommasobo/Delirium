@@ -77,24 +77,23 @@ public class ModelImpl implements Model {
     public List<EntitiesInfoToControl> getState() {
         final List<EntitiesInfoToControl> result = new LinkedList<>();
 
+        Entities ent;
         if (this.arenaManager.isGameWon()) {
-            Entities t = this.arena.getGoal();
-            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(),
-                    t.getAction(), Optional.empty()));
-
-        } else if (this.arena.getHero().getLifeManager().getLife() != 0) {
-
+            ent = this.arena.getGoal();
+        } else if (this.arena.getHero().getLifeManager().getLife() == 0) {
+            ent = this.arena.getHero();
+        } else {
             Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
                 Optional<Integer> speed = t.getMovementManager().isPresent()
                         ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
                 result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(),
                         t.getAction(), speed));
             });
-        } else {
-            Entities t = this.arena.getHero();
-            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(),
-                    t.getAction(), Optional.of(t.getMovementManager().get().getSpeed())));
+            return result;
         }
+
+        result.add(new EntitiesInfoToControlImpl(ent.getCode(), ent.getLifeManager().getLife(), ent.getPosition(),
+                ent.getAction(), Optional.empty()));
 
         return result;
     }
