@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import control.Control;
-import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
@@ -54,26 +53,24 @@ public class DynamicViewImpl extends AbstractGenericView implements DynamicView 
     public void updateScene(final List<ControlComunication> entities) {
         
         entities.stream().forEach(k -> {
-            Platform.runLater(() -> {
-                if(!this.spriteManager.isTracked(k.getCode())) {
-                    this.spriteManager.addSprite(k);
+            if(!this.spriteManager.isTracked(k.getCode())) {
+                this.spriteManager.addSprite(k);
+            }
+            this.spriteManager.updateSpriteState(k.getCode(), k.getAction(), k.getProperty());
+            if (k.getCode() == 0) {
+                if (!status.isPresent()) {
+                    this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
+                    this.status.get().initOverlay();
                 }
-                this.spriteManager.updateSpriteState(k.getCode(), k.getAction(), k.getProperty());
-                if (k.getCode() == 0) {
-                    if (!status.isPresent()) {
-                        this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
-                        this.status.get().initOverlay();
-                    }
-                    if (AudioManager.getAudioManager().isAudioAvailable()) {
-                        if (k.getAction() == Actions.JUMP || k.getAction() == Actions.MOVE || k.getAction() == Actions.SHOOT) {
-                            AudioManager.getAudioManager().playClip(k.getAction());
-                        }    
-                    }
-                    moveScene(k.getProperty());
-                    status.get().updateLife(k.getLife());
+                if (AudioManager.getAudioManager().isAudioAvailable()) {
+                    if (k.getAction() == Actions.JUMP || k.getAction() == Actions.MOVE || k.getAction() == Actions.SHOOT) {
+                        AudioManager.getAudioManager().playClip(k.getAction());
+                    }    
                 }
-            }); 
-        });
+                moveScene(k.getProperty());
+                status.get().updateLife(k.getLife());
+            }
+        }); 
     }
 
     private void moveScene(final ViewPhysicalProperties position) {

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import control.Control;
 import control.Pair;
+import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
 import javafx.stage.Stage;
 
@@ -31,16 +32,16 @@ public class ViewControllerImpl implements ViewController {
     @Override
     public void updateScene(final List<ControlComunication> entities) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
-        dv.updateScene(entities);
+        Platform.runLater(() -> dv.updateScene(entities));
     }
     
     @Override
     public void notifySceneEvent(final Notifications notification) {
         final DynamicView dv = this.drawableView.orElseThrow(IllegalStateException::new);
         if (notification == Notifications.PLAY) {
-            dv.playScene();
+            Platform.runLater(() -> dv.playScene());
         } else {
-            dv.pauseScene(notification);
+            Platform.runLater(() -> dv.pauseScene(notification));
         }
     }
     
