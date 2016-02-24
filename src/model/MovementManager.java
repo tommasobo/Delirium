@@ -1,7 +1,5 @@
 package model;
 
-import control.Point;
-
 public interface MovementManager {
     
     Position getPosition();

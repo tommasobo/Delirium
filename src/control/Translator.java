@@ -7,6 +7,7 @@ import java.util.Optional;
 import model.EntitiesInfo;
 import model.EntitiesInfoToControl;
 import model.Position;
+import utility.Pair;
 import view.ControlComunication;
 import view.ViewPhysicalProperties;
 

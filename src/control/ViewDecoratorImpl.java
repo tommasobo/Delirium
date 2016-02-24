@@ -5,6 +5,8 @@ import java.util.List;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
+import utility.Dimension;
+import utility.Pair;
 import view.ControlComunication;
 import view.Notifications;
 import view.SceneType;

@@ -3,8 +3,6 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 
-import control.Point;
-
 public class LastPositionsManager {
     private final Map<Integer,Position> lastPositions;
     

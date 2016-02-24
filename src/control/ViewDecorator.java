@@ -3,6 +3,7 @@ package control;
 import java.util.List;
 
 import javafx.geometry.Dimension2D;
+import utility.Dimension;
 import view.ControlComunication;
 import view.Notifications;
 import view.SceneType;

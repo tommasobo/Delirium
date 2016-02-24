@@ -8,9 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import control.Dimension;
-import control.Pair;
-import control.Point;
+import utility.Dimension;
+import utility.Pair;
 
 public class ArenaManagerImpl implements ArenaManager {
 

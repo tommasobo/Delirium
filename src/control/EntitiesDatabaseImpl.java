@@ -7,6 +7,8 @@ import java.util.Map;
 
 import model.EntitiesInfo;
 import model.EntitiesInfoImpl;
+import utility.Dimension;
+import utility.Pair;
 import view.Entities;
 
 class EntitiesDatabaseImpl implements EntitiesDatabase {

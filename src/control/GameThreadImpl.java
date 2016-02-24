@@ -7,6 +7,7 @@ import model.EntitiesInfo;
 import model.EntitiesInfoToControl;
 import model.Model;
 import sun.awt.Mutex;
+import utility.Pair;
 import view.Notifications;
 import view.SceneType;
 import view.ViewController;

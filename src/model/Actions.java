@@ -1,8 +1,5 @@
 package model;
 
-
-import control.Point;
-
 public enum Actions {
     MOVE((point, speed, direction) -> (direction == Directions.RIGHT ? new Point(point.getX() + speed, point.getY()) : new Point(point.getX() - speed, point.getY()))),
     MOVEONJUMP((point, speed, direction) -> (direction == Directions.RIGHT ? new Point(point.getX() + speed, point.getY()) : new Point(point.getX() - speed, point.getY() + speed))),

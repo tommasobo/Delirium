@@ -2,8 +2,6 @@ package model;
 
 import java.util.Optional;
 
-import control.Point;
-
 public abstract class DinamicMovementManager implements MovementManager {
     
     public static final int GRAVITY = 6;

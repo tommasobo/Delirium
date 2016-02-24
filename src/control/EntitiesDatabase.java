@@ -3,6 +3,7 @@ package control;
 import java.util.List;
 
 import model.EntitiesInfo;
+import utility.Dimension;
 import view.Entities;
 
 interface EntitiesDatabase {

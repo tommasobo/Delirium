@@ -1,10 +1,10 @@
 package view;
 
 import control.Control;
-import control.Pair;
 import javafx.geometry.Dimension2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import utility.Pair;
 
 public class ViewFactory {
     

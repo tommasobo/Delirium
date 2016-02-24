@@ -1,8 +1,6 @@
 package model;
 
-import control.Dimension;
-import control.Dimension;
-import control.Point;
+import utility.Dimension;
 
 public class Position {
     

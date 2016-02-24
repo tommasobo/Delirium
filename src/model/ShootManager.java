@@ -2,8 +2,7 @@ package model;
 
 import java.util.Optional;
 
-import control.Dimension;
-import control.Dimension;
+import utility.Dimension;
 
 public interface ShootManager {
     

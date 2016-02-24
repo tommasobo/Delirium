@@ -2,8 +2,6 @@ package model;
 
 import java.util.Optional;
 
-import control.Point;
-
 public interface Entities {
     
     int getCode();

@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Queue;
 
 import model.Actions;
+import utility.Pair;
 
 public class InputManagerImpl implements InputManager {
 

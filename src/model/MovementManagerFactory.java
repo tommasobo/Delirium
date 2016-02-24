@@ -2,7 +2,7 @@ package model;
 
 import java.util.Optional;
 
-import control.Pair;
+import utility.Pair;
 
 public class MovementManagerFactory {
     

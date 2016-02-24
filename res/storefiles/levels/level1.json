@@ -414,7 +414,7 @@
       "code": 0,
       "position": {
         "point": {
-          "x": 2120,
+          "x": 2140,
           "y": 70
         },
         "direction": "RIGHT",
@@ -452,7 +452,7 @@
       "position": {
         "point": {
           "x": 2065,
-          "y": 40
+          "y": 50
         },
         "direction": "RIGHT",
         "dimension": {
@@ -534,7 +534,7 @@
       "position": {
         "point": {
           "x": 1900,
-          "y": 140
+          "y": 145
         },
         "direction": "RIGHT",
         "dimension": {
@@ -912,7 +912,7 @@
         "value": {
           "speed": 2,
           "bounds": {
-            "minX": 2600,
+            "minX": 0,
             "maxX": 2900,
             "minY": 100,
             "maxY": 150

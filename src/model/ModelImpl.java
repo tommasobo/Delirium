@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import control.Pair;
+import utility.Pair;
 
 public class ModelImpl implements Model{
     
@@ -56,12 +56,6 @@ public class ModelImpl implements Model{
         List<EntitiesInfo> bullets = new LinkedList<>();
         
         this.arena.getEntities().stream().forEach(t -> {
-            /*Optional<EntitiesInfo> bullet = !t.getShootManager().isPresent() ? Optional.empty() : t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
-            if (t.getPosition().getPoint().getX() > this.arena.getHero().getPosition().getPoint().getX() - DEFAULT_OFFSET_X && t.getPosition().getPoint().getX() < this.arena.getHero().getPosition().getPoint().getX() + DEFAULT_OFFSET_X ) {
-                if(bullet.isPresent()) {
-                    bullets.add(bullet.get());
-                }
-            }*/
             if (t.getShootManager().isPresent()) {
                 if (t.getPosition().getPoint().getX() > this.arena.getHero().getPosition().getPoint().getX() - DEFAULT_OFFSET_X && t.getPosition().getPoint().getX() < this.arena.getHero().getPosition().getPoint().getX() + DEFAULT_OFFSET_X ) {
                     Optional<EntitiesInfo> bullet = t.getShootManager().get().getBullet(t.getCode(), t.getPosition());

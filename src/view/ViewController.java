@@ -3,8 +3,8 @@ package view;
 import java.util.List;
 
 import control.Control;
-import control.Pair;
 import javafx.geometry.Dimension2D;
+import utility.Pair;
 
 public interface ViewController {
     

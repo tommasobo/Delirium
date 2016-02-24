@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import control.Control;
-import control.Pair;
 import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
 import javafx.stage.Stage;
+import utility.Pair;
 
 public class ViewControllerImpl implements ViewController {
     

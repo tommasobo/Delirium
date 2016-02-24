@@ -3,6 +3,8 @@ package control;
 import java.util.LinkedList;
 import java.util.List;
 
+import utility.Dimension;
+
 public class LevelInfo {
     private final List<EntitiesInfoStore> entities;
     private final Dimension levelDimension;
