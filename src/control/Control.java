@@ -1,10 +1,11 @@
 package control;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Control {
 	public void startGame();
 	public void notifyEvent(ViewEvents event);
-	public List<Buttons> getButtons();
+	public Map<MenuCategory, MenuCategoryEntries> getButtons();
 
 }

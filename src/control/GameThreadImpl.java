@@ -30,7 +30,7 @@ public class GameThreadImpl extends Thread implements GameThread {
         this.inputManager = inputManager;
         this.mutex = new Mutex();
         this.running = true;
-        this.gameState = GameState.RUNNING;
+        this.gameState = GameState.INGAME;
     }
 
     public void run() {
@@ -88,7 +88,17 @@ public class GameThreadImpl extends Thread implements GameThread {
     }
     
     public GameState getGameState() {
-        return this.gameState;
+        switch(this.gameState){
+        /*case LOSE:
+            this.gameState = GameState.FINISH;
+            return GameState.LOSE;
+        case WON:
+            this.gameState = GameState.FINISH;
+            return GameState.WON;*/
+        default:
+            return this.gameState;
+        }
+        
     }
     
     private List<EntitiesInfoToControl> controlGameState(List<EntitiesInfoToControl> list) {

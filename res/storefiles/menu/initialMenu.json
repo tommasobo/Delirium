@@ -1,4 +1,12 @@
-[
-  "NEWGAME",
-  "EXIT"
-]
+{
+  "DEFAULT": {
+    "entries": [
+      "NEWGAME",
+      "SETTINGS",
+      "EXIT"
+    ],
+    "focus": {
+      "value": null
+    }
+  }
+}

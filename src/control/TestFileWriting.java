@@ -37,16 +37,17 @@ import view.Entities;
 public class TestFileWriting {
 
     public static void main(String[] args) throws  IOException{
-        /*Map<MenuCategory, MenuCategoryEntriesImpl> map = new HashMap<>();
+        Map<MenuCategory, MenuCategoryEntriesImpl> map = new HashMap<>();
         List<Buttons> def = new LinkedList<>();
         List<Buttons> difficulty = new LinkedList<>();
-        def.add(Buttons.NEWGAME);
-        def.add(Buttons.NEXTLEVEL);
-        difficulty.add(Buttons.MAINMENU);
-        difficulty.add(Buttons.EXIT);
+        //def.add(Buttons.NEXTLEVEL);
+        def.add(Buttons.MAINMENU);
+        //def.add(Buttons.EXIT);
+        difficulty.add(Buttons.EASYMODE);
+        difficulty.add(Buttons.HARDMODE);
         map.put(MenuCategory.DEFAULT, new MenuCategoryEntriesImpl(def, Optional.empty()));
         map.put(MenuCategory.DIFFICULTY, new MenuCategoryEntriesImpl(difficulty, Optional.empty()));
-        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get("src/ciao.json"));){
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get("src/settingsMenu.json"));){
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting().serializeNulls();
             Gson gson = builder.create();
@@ -55,9 +56,9 @@ public class TestFileWriting {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }*/
+        }
         
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("src/ciao.json"));){
+        /*try (BufferedReader br = Files.newBufferedReader(Paths.get("src/ciao.json"));){
             Gson gson = new Gson();
             Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
             Map<MenuCategory, MenuCategoryEntries> map = gson.fromJson(br, buttonsListType);
@@ -66,7 +67,7 @@ public class TestFileWriting {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
         
         /*BufferedReader br = Files.newBufferedReader(Paths.get("src/ciao.json"));
         LevelInfo up = gson.fromJson(br, LevelInfo.class);

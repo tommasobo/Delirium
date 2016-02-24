@@ -1,9 +1,10 @@
 package control;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MenuLoader {
 
-    List<Buttons> getButtonsList();
+    Map<MenuCategory, MenuCategoryEntries> getMenuStructure();
 
 }

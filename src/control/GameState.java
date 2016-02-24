@@ -1,5 +1,5 @@
 package control;
 
 public enum GameState {
-    RUNNING, WON, LOSE, PAUSED;
+    INGAME, WON, LOSE, PAUSED, FINISH;
 }
