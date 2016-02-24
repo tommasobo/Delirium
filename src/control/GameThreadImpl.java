@@ -92,7 +92,7 @@ public class GameThreadImpl extends Thread implements GameThread {
     }
     
     private List<EntitiesInfoToControl> controlGameState(List<EntitiesInfoToControl> list) {
-        if(list.isEmpty()) {
+        if(list.size() == 1 && list.get(0).getCode() == 0) {
             //TODO unifica variabili nell'enum mettendo il campo synchronzed
             this.running = false;
             this.gameState = GameState.LOSE;

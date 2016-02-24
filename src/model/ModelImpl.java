@@ -83,6 +83,9 @@ public class ModelImpl implements Model{
                 Optional<Integer> speed = t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
                 result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), speed));
             });
+        } else {
+            Entities t = this.arena.getHero();
+            result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(), t.getAction(), Optional.of(t.getMovementManager().get().getSpeed())));
         }
         
         

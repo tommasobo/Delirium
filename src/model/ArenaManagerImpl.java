@@ -28,17 +28,19 @@ public class ArenaManagerImpl implements ArenaManager {
     @Override
     public void MoveEntities() {
         Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
-            //lastPositions.put(t.getCode(), t.getPosition());
             this.lastPositionsMan.putPosition(t, t.getPosition());
             this.platformEntities.removeEntityFromAllDependences(t);
-            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty() : Optional.of(t.getMovementManager().get().getNextMove());
+            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty()
+                    : Optional.of(t.getMovementManager().get().getNextMove());
             if (p.isPresent()) {
+                if (t == this.arena.getHero()) {
+                    this.gameWon = getRectangle(p.get())
+                            .intersects(getRectangle(this.arena.getGoal().getPosition()));
+                }
                 Position pos = collisionFixerTest(p.get(), t);
                 t.setPosition(pos.getPoint(), pos.getDirection());
             }
         });
-        
-        this.gameWon = getRectangle(this.arena.getHero().getPosition()).intersects(getRectangle(this.arena.getGoal().getPosition()));
     }
     
     public boolean isGameWon() {
