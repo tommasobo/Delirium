@@ -20,6 +20,7 @@ public class GameThreadImpl extends Thread implements GameThread {
     volatile private boolean running;
     //TODO metti in lock le parti di lettura/scrittura
     private GameState gameState;
+    private final Object stateLock;
 
     public GameThreadImpl(final Model model, final ViewDecorator view, EntitiesDatabase database,
             InputManager inputManager) {
@@ -30,6 +31,7 @@ public class GameThreadImpl extends Thread implements GameThread {
         this.mutex = new Mutex();
         this.running = true;
         this.gameState = GameState.INGAME;
+        this.stateLock = new Object();
     }
 
     public void run() {
@@ -59,27 +61,35 @@ public class GameThreadImpl extends Thread implements GameThread {
             }
         }
         
-        //TODO aggiungi eccezione thread killato di cattiveria
-        if(this.gameState == GameState.WON) {
-            //TODO metti notifyEvent synchronized
-            this.view.notifySceneEvent(Notifications.WIN);
-        } else if (this.gameState == GameState.LOSE) {
-            this.view.notifySceneEvent(Notifications.LOSE);
+        synchronized(this.stateLock) {
+            //TODO aggiungi eccezione thread killato di cattiveria
+            if(this.gameState == GameState.WON) {
+                //TODO metti notifyEvent synchronized
+                this.view.notifySceneEvent(Notifications.WIN);
+            } else if (this.gameState == GameState.LOSE) {
+                this.view.notifySceneEvent(Notifications.LOSE);
+            }
         }
     }
 
     public void pause() {
         mutex.lock();
-        this.gameState = GameState.PAUSED;
+        synchronized(this.stateLock) {
+            this.gameState = GameState.PAUSED;
+        }
     }
 
     public void reStart() {
-        this.gameState = GameState.INGAME;
-        mutex.unlock();
+        synchronized(this.stateLock) {
+            this.gameState = GameState.INGAME;
+        }
+            mutex.unlock();
     }
     
     public boolean isPaused() {
-        return this.gameState == GameState.PAUSED;
+        synchronized(this.stateLock) {
+            return this.gameState == GameState.PAUSED;
+        }
     }
 
     public void stopGame() {
@@ -87,19 +97,23 @@ public class GameThreadImpl extends Thread implements GameThread {
     }
     
     public GameState getGameState() {
-        return this.gameState;
+        synchronized(this.stateLock) {
+            return this.gameState;
+        }
     }
     
     private List<EntitiesInfoToControl> controlGameState(List<EntitiesInfoToControl> list) {
-        if(list.size() == 1 && list.get(0).getCode() == 0) {
-            //TODO unifica variabili nell'enum mettendo il campo synchronzed
-            this.running = false;
-            this.gameState = GameState.LOSE;
-        }
-        //TODO -1 magic number
-        if(list.size() == 1 && list.get(0).getCode() == -1) {
-            this.running = false;
-            this.gameState = GameState.WON;
+        synchronized(this.stateLock) {
+            if(list.size() == 1 && list.get(0).getCode() == 0) {
+                //TODO unifica variabili nell'enum mettendo il campo synchronzed
+                this.running = false;
+                this.gameState = GameState.LOSE;
+            }
+            //TODO -1 magic number
+            if(list.size() == 1 && list.get(0).getCode() == -1) {
+                this.running = false;
+                this.gameState = GameState.WON;
+            }
         }
         
         return list;
@@ -112,7 +126,9 @@ public class GameThreadImpl extends Thread implements GameThread {
 
     @Override
     public void setGameEnd() {
-        //TODO non permettere se è running
-        this.gameState = GameState.FINISH;
+        synchronized(this.stateLock) {
+            //TODO non permettere se è running
+            this.gameState = GameState.FINISH;
+        }
     }
 }

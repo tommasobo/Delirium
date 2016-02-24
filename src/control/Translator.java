@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import model.EntitiesInfo;
 import model.EntitiesInfoToControl;
 import model.Position;
 import utility.Pair;

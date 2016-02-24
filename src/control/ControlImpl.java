@@ -14,6 +14,7 @@ public class ControlImpl implements Control {
     private ViewDecorator view;
     private final InputManager inputManager;
     private GameThread gameThread;
+    //TODO o cavi oppure metti controllo se va bene
     private MenuLoader menuLoader;
     private final GameSettings gameSettings;
     private Iterator<Levels> levelsIterator;
@@ -93,7 +94,6 @@ public class ControlImpl implements Control {
     }
 
     public Map<MenuCategory, MenuCategoryEntries> getButtons() {
-        this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
         switch(this.menuToLoad) {
         case SETTINGS:
             this.menuLoader = new SettingsMenuLoaderImpl(Menu.SETTINGS, this.gameSettings);
@@ -110,6 +110,7 @@ public class ControlImpl implements Control {
                     throw new IllegalArgumentException();
                 case LOSE:
                     this.menuLoader = new MenuLoaderImpl(Menu.LOSE);
+                    this.gameThread.setGameEnd();
                     break;
                 case PAUSED:
                     this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
@@ -120,27 +121,13 @@ public class ControlImpl implements Control {
                     } else {
                         this.menuLoader = new MenuLoaderImpl(Menu.WINEND);
                     }
+                    this.gameThread.setGameEnd();
                     break;
                 default:
                     throw new IllegalArgumentException();
                 }
                     
             }
-            /*if(this.gameThread == null || this.gameThread.getGameState() == GameState.FINISH) {
-                this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-            } else if(this.gameThread.isPaused()) {
-                this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
-            } else if (this.gameThread.getGameState() == GameState.WON) {
-                if(this.levelsIterator.hasNext()){
-                    this.menuLoader = new MenuLoaderImpl(Menu.WIN);
-                } else {
-                    this.menuLoader = new MenuLoaderImpl(Menu.WINEND);
-                }
-                this.gameThread.setGameEnd();
-            } else if (this.gameThread.getGameState() == GameState.LOSE) {
-                this.menuLoader = new MenuLoaderImpl(Menu.LOSE);
-                this.gameThread.setGameEnd();
-            }*/
             break;
         }
         this.menuToLoad = Menu.NONE;
@@ -150,12 +137,12 @@ public class ControlImpl implements Control {
     private void gameLoop(Levels level) {
         
         LevelLoaderImpl ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
-        EntitiesDatabase database2 = ll.getDatabase();
+        EntitiesDatabase database = ll.getDatabase();
         this.model.createArena(ll.getEntities());
-        this.view.setLevelDimension(ll.getLevelInfo().getLevelDimension());
+        this.view.setLevelDimension(database.getArenaDimension());
         this.view.changeScene(SceneType.DRAWABLE);
 
-        this.gameThread = new GameThreadImpl(this.model, this.view, database2, this.inputManager);
+        this.gameThread = new GameThreadImpl(this.model, this.view, database, this.inputManager);
         gameThread.start();
     }
 

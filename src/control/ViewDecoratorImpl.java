@@ -34,7 +34,7 @@ public class ViewDecoratorImpl implements ViewDecorator{
     }
 
     @Override
-    public void notifySceneEvent(Notifications notification) {
+    synchronized public void notifySceneEvent(Notifications notification) {
         this.view.notifySceneEvent(notification);
     }
 
