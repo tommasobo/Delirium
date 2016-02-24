@@ -1,5 +1,6 @@
 package control;
 
+import java.util.Iterator;
 import java.util.List;
 
 import model.Model;
@@ -14,12 +15,15 @@ public class ControlImpl implements Control {
     private final InputManager inputManager;
     private GameThread gameThread;
     private MenuLoader menuLoader;
+    private final GameSettings gameSettings;
+    private Iterator<Levels> levelIterator;
 
     public ControlImpl(ViewController view) {
         this.inputManager = new InputManagerImpl();
         this.model = ModelImpl.getModel();
         view.setListener(this);
         this.view = new ViewDecoratorImpl(view);
+        this.gameSettings = new SettingsLoaderImpl().getGameSettings();
     }
 
     public void startGame() {
@@ -34,14 +38,14 @@ public class ControlImpl implements Control {
             if(this.gameThread.isPaused()) {
                 this.gameThread.reStart();
             }
-            this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
             this.view.changeScene(SceneType.MENU);
             break;
         case EXIT:
             System.exit(0);
             break;
         case LEVEL1:
-            gameLoop(Levels.LEVEL1);
+            this.levelIterator = this.gameSettings.getLevelIterator();
+            gameLoop(levelIterator.next());
             break;
         case PAUSE:
             if(gameThread != null) {
@@ -54,6 +58,12 @@ public class ControlImpl implements Control {
                 }
             }
             break;
+        case NEXTLEVEL: 
+            if(this.gameThread == null || this.gameThread.isRunning()) {
+                throw new IllegalStateException();
+            }
+            gameLoop(this.levelIterator.next());
+            break;
         default:
             inputManager.notifyViewInput(event);
             break;
@@ -63,14 +73,18 @@ public class ControlImpl implements Control {
     }
 
     public List<Buttons> getButtons() {
+        this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
         if(this.gameThread == null) {
             this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-        } else
-        
-        if(this.gameThread.getGameState() == GameState.PAUSED) {
+        } else if(this.gameThread.isPaused()) {
             this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
         } else if (this.gameThread.getGameState() == GameState.WON) {
-            this.menuLoader = new MenuLoaderImpl(Menu.WIN);
+            if(this.levelIterator.hasNext()){
+                this.menuLoader = new MenuLoaderImpl(Menu.WIN);
+            } else {
+                this.menuLoader = new MenuLoaderImpl(Menu.WINEND);
+            }
+            
         } else if (this.gameThread.getGameState() == GameState.LOSE) {
             this.menuLoader = new MenuLoaderImpl(Menu.LOSE);
         } else if(!this.gameThread.isRunning()) {

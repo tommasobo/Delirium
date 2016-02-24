@@ -38,40 +38,14 @@ public class TestFileWriting {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        
-        EntitiesInfoStore entity = new EntitiesInfoStore(0,
-                new Position(new Point(0, 200), Directions.RIGHT, new Dimension(40, 60)),
-                Optional.of(new MovementInfoImpl(10, new Bounds(0, 1000, 0, 300), Actions.STOP, false,
-                        MovementTypes.HERO)),
-                300, LifePattern.WITH_LIFE,
-                Optional.of(new ShootInfoImpl(5, ShootTypes.HERO, 1, MovementTypes.HORIZONTAL_LINEAR, 200, 10)), Optional.of(55), Entities.MAGNO);
-        
-        EntitiesInfoStore entity2 = new EntitiesInfoStore(0,
-                        new Position(new Point(300, 100), Directions.RIGHT, new Dimension(50, 70)),
-                        Optional.of(new MovementInfoImpl(3, new Bounds(0, 1000, 40, 300), Actions.JUMP, false,
-                                MovementTypes.VERTICAL_LINEAR)),
-                        10, LifePattern.WITH_LIFE,
-                        Optional.empty(), Optional.empty(), Entities.VOLPE);
-        
-        EntitiesInfoStore entity3 = new EntitiesInfoStore(0,
-                        new Position(new Point(0, 0), Directions.RIGHT, new Dimension(1000, 40)),
-                        Optional.empty(),
-                        300, LifePattern.WITHOUT_LIFE,
-                        Optional.empty(), Optional.empty(), Entities.GROUND);
-        
-        List<EntitiesInfoStore> ls = new LinkedList<>();
-        ls.add(entity);
-        ls.add(entity2);
-        ls.add(entity3);
-        LevelInfo li = new LevelInfo(ls, new Dimension(100, 300));
-        
-        List<Buttons> buttons = new LinkedList<>();
-        buttons.add(Buttons.NEWGAME);
-        buttons.add(Buttons.EXIT);
+        List<Levels> levels = new LinkedList<>();
+        levels.add(Levels.LEVEL1);
+        levels.add(Levels.LEVEL2);
+        GameSettings gs = new GameSettings(levels);
         
         
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/ciao.json"));
-        gson.toJson(li, bw);
+        gson.toJson(gs, bw);
         bw.close();
         
         /*BufferedReader br = Files.newBufferedReader(Paths.get("src/ciao.json"));

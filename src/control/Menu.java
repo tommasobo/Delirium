@@ -1,7 +1,7 @@
 package control;
 
 public enum Menu {
-    INITIAL("initialMenu"), PAUSE("pauseMenu"), LOSE("loseMenu"), WIN("winMenu");
+    INITIAL("initialMenu"), PAUSE("pauseMenu"), LOSE("loseMenu"), WIN("winMenu"), WINEND("winEndMenu");
     private final String filename;
     
     private Menu(String filename) {

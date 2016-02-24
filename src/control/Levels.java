@@ -1,7 +1,7 @@
 package control;
 
 public enum Levels {
-    LEVEL1("level1");
+    LEVEL1("level1"), LEVEL2("level2");
     
     private final String filename;
     private Levels(String filename) {
