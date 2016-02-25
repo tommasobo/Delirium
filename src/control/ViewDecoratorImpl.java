@@ -13,8 +13,7 @@ import view.SceneType;
 import view.ViewController;
 
 public class ViewDecoratorImpl implements ViewDecorator{
-    //TODO brutto
-    static int screenMoltiplicatorFactor = 1;
+    private int screenMoltiplicatorFactor = 1;
     private final ViewController view;
     private Dimension levelDimension;
     private final Rectangle2D resolution;
@@ -51,6 +50,10 @@ public class ViewDecoratorImpl implements ViewDecorator{
         if(this.levelDimension.getHeight() < this.resolution.getHeight()/2) {
             screenMoltiplicatorFactor = (int) ((this.resolution.getHeight()/2)/this.levelDimension.getHeight() + 1);
         }
+    }
+    
+    public int getScreenMoltiplicatorFactor() {
+        return this.screenMoltiplicatorFactor;
     }
     
 }

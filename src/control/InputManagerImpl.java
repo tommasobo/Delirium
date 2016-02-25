@@ -20,7 +20,6 @@ public class InputManagerImpl implements InputManager {
     }
     
     synchronized public void notifyViewInput(final ViewEvents event) {
-        //TODO rifattorizza if che non si possono vedere
         if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT || event == ViewEvents.SHOOT) {
             if (!this.actions.contains(Translator.tranViewEvents(event))) {
                 this.actions.add(Translator.tranViewEvents(event));
@@ -55,7 +54,6 @@ public class InputManagerImpl implements InputManager {
     synchronized public Pair<model.Actions, Optional<model.Directions>> getNextPGAction() {
         Pair<model.Actions, Optional<model.Directions>> action;
         if(noMoves || this.actions.isEmpty()) {
-            //TODO non so quanto è pulito questo controllo
             noMoves = false;
             action = new Pair<>(Actions.STOP, Optional.empty());
         } else {

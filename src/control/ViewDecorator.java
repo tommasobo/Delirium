@@ -12,4 +12,5 @@ public interface ViewDecorator {
     void notifySceneEvent(Notifications notification);
     void updateScene(final List<ControlComunication> entities);
     void setLevelDimension(Dimension levelDimension);
+    int getScreenMoltiplicatorFactor();
 }

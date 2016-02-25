@@ -16,10 +16,10 @@ public class GameThreadImpl extends Thread implements GameThread {
     private final Model model;
     private final ViewDecorator view;
     private final EntitiesDatabase database;
+    private final GameWorldTranslator translator;
     private final InputManager inputManager;
     private final Lock mutex;
     volatile private boolean running;
-    //TODO metti in lock le parti di lettura/scrittura
     private GameState gameState;
     private final Object stateLock;
 
@@ -28,16 +28,16 @@ public class GameThreadImpl extends Thread implements GameThread {
         this.model = model;
         this.view = view;
         this.database = database;
+        this.translator = new GameWorldTranslatorImpl(database, view.getScreenMoltiplicatorFactor());
         this.inputManager = inputManager;
         this.mutex = new ReentrantLock(true);
-        this.running = true;
-        this.gameState = GameState.INGAME;
         this.stateLock = new Object();
     }
 
     public void run() {
+        this.running = true;
+        this.gameState = GameState.INGAME;
         while (this.running) {
-            //notifico l'input al model
             final Pair<model.Actions, Optional<model.Directions>> action = inputManager.getNextPGAction();
             if (action.getY().isPresent()) {
                 this.model.notifyEvent(action.getY().get());
@@ -49,7 +49,7 @@ public class GameThreadImpl extends Thread implements GameThread {
             bullets = database.putBulletsAndSetCodes(bullets);
             this.model.putBullet(bullets);
             
-            this.view.updateScene(Translator.entitiesListFromModelToView(controlGameState(this.model.getState()), database));
+            this.view.updateScene(translator.entitiesListFromModelToView(controlGameState(this.model.getState())));
             
             try {
                 Thread.sleep(28L);
@@ -64,7 +64,6 @@ public class GameThreadImpl extends Thread implements GameThread {
         synchronized(this.stateLock) {
             //TODO aggiungi eccezione thread killato di cattiveria
             if(this.gameState == GameState.WON) {
-                //TODO metti notifyEvent synchronized
                 this.view.notifySceneEvent(Notifications.WIN);
             } else if (this.gameState == GameState.LOSE) {
                 this.view.notifySceneEvent(Notifications.LOSE);

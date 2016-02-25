@@ -33,7 +33,6 @@ public class LevelLoaderImpl {
             e.printStackTrace();
         }
         
-        //TODO aggiungi metodo per fare put di entity multiple con entità multiple
         this.entities = new LinkedList<>();
         int i = 0;
         this.database = new EntitiesDatabaseImpl(this.levelInfo.getLevelDimension());

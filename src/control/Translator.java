@@ -1,14 +1,9 @@
 package control;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 import model.EntitiesInfoToControl;
-import model.Position;
 import utility.Pair;
-import view.ControlComunication;
-import view.ViewPhysicalProperties;
 
 public final class Translator {
 
@@ -37,26 +32,9 @@ public final class Translator {
         }
     }
     
- // eventualmente da sostare dentro controller impl
-    public static List<ControlComunication> entitiesListFromModelToView(final List<EntitiesInfoToControl> listInfo, final EntitiesDatabase database) {
-        final List<ControlComunication> viewList = new LinkedList<>();
-        listInfo.stream().forEach(e -> {
-            viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
-                    positionFromModeltoView(e, database), getViewActionsForEntities(e)));
-        });
-        return viewList;
-    }
+    
 
-    public static ViewPhysicalProperties positionFromModeltoView(final EntitiesInfoToControl info, final EntitiesDatabase database) {
-        // TODO mi serve una interfaccia position senza setter, anche un point
-        final Position p = info.getPosition();
-        return new ViewPhysicalProperties(p.getPoint().getX() * ViewDecoratorImpl.screenMoltiplicatorFactor,
-                (database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight()) * ViewDecoratorImpl.screenMoltiplicatorFactor,
-                p.getDimension().getWidth() * ViewDecoratorImpl.screenMoltiplicatorFactor, p.getDimension().getHeight() * ViewDecoratorImpl.screenMoltiplicatorFactor, info.getSpeed().isPresent() ? info.getSpeed().get() * ViewDecoratorImpl.screenMoltiplicatorFactor : 0,
-                directionFromModeltoView(p.getDirection()));
-    }
-
-    private static view.Directions directionFromModeltoView(final model.Directions direction) {
+    public static view.Directions directionFromModeltoView(final model.Directions direction) {
         switch (direction) {
         case LEFT:
             return view.Directions.LEFT;
@@ -70,7 +48,7 @@ public final class Translator {
         }
     }
 
-    private static view.Actions actionsFromModeltoView(final model.Actions action) {
+    public static view.Actions actionsFromModeltoView(final model.Actions action) {
         switch (action) {
         case MOVEONFALL:
         case FALL:
@@ -89,7 +67,7 @@ public final class Translator {
         }
     }
     
-    private static view.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
+    public static view.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
         if(entity.getLife() == 0) {
             return view.Actions.DEATH;
         } else {

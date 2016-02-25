@@ -16,7 +16,7 @@ public class MenuLoaderImpl implements MenuLoader {
     private Map<MenuCategory, MenuCategoryEntriesImpl> menuStructure;
     private final Menu menuType;
     
-    public MenuLoaderImpl(Menu menu) {
+    public MenuLoaderImpl(final Menu menu) {
         this.menuType = menu;
         //TODO crea classe loader per ottenere gli input stream?
         //TODO mettere eccezioni per mancato file load

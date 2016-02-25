@@ -122,7 +122,7 @@ public class ControlImpl implements Control {
                     this.gameThread.setGameEnd();
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalStateException();
                 }
                     
             }

@@ -18,7 +18,6 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
     
     public EntitiesDatabaseImpl(final Dimension arenaDimension) {
         this.viewEntitiesCodes = new HashMap<>();
-        //TODO null brutto
         this.arenaDimension = arenaDimension;
         this.codesIterator = new CodesIteratorImpl();
     }
