@@ -14,52 +14,25 @@ public class LinearProactiveMovementManager extends DinamicMovementManager {
     @Override
     public Position getNextMove() {
         Position actualPosition = this.getPosition();
-        if (!UtilityMovement.Move(actualPosition, this.getBounds(), getVolontarAction(this.getAction()), this.getSpeed()).isPresent()) {
-            if (this.movementTypes == MovementTypes.HORIZONTAL_LINEAR) {
-                if (actualPosition.getDirection() == Directions.LEFT) {
-                    actualPosition.setDirection(Directions.RIGHT);
-                } else {
-                    actualPosition.setDirection(Directions.LEFT);
-                }
-            } else {
-                if (UtilityMovement.splitActions(this.getAction()).contains(Actions.JUMP)) {
-                    this.setAction(Actions.FALL);
-                } else {
-                    this.setAction(Actions.JUMP);
-                }
-            }
-        }
-        
-        actualPosition = UtilityMovement.Move(actualPosition, this.getBounds(), getVolontarAction(this.getAction()), this.getSpeed())
-                .orElseThrow(IllegalStateException::new);
-        
-        return super.applyGravity(actualPosition);
+        this.setAction(this.getAction() == Actions.MOVEONFALL ? Actions.MOVE : this.getAction());
 
-    }
-    
-    private Actions getVolontarAction(Actions action) {
-        switch (action) {
-        case MOVEONFALL:
-            switch(this.movementTypes) {
-            case HORIZONTAL_LINEAR:
-                return Actions.MOVE;
-            case VERTICAL_LINEAR:
-                return Actions.JUMP;
-            default:
-                throw new IllegalStateException();
+        if (!UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed()).isPresent()) {
+            if (this.movementTypes == MovementTypes.HORIZONTAL_LINEAR) {
+                actualPosition.setDirection(
+                        actualPosition.getDirection() == Directions.LEFT ? Directions.RIGHT : Directions.LEFT);
+
+            } else {
+                this.setAction(UtilityMovement.splitActions(this.getAction()).contains(Actions.JUMP) ? Actions.FALL
+                        : Actions.JUMP);
             }
-        case MOVEONJUMP:
-            switch(this.movementTypes) {
-            case HORIZONTAL_LINEAR:
-                return Actions.MOVE;
-            case VERTICAL_LINEAR:
-                return Actions.JUMP;
-            default:
-                throw new IllegalStateException();
-            }
-        default:
-            return action;
         }
+
+        actualPosition = UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed())
+                .orElseThrow(IllegalStateException::new);
+
+        return this.movementTypes == MovementTypes.HORIZONTAL_LINEAR ? super.applyGravity(actualPosition)
+                : actualPosition;
+
     }
 
     protected void setMovementTypes(final MovementTypes movementTypes) {
