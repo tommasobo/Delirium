@@ -11,7 +11,7 @@ public class UtilityMovement {
     }
 
     public static List<Actions> splitActions(final Actions action) {
-        List<Actions> ret = new LinkedList<>();
+        final List<Actions> ret = new LinkedList<>();
         switch (action) {
         case FALL:
         case JUMP:
@@ -34,7 +34,7 @@ public class UtilityMovement {
         return ret;
     }
 
-    public static Optional<Position> Move(final Position position, final Bounds bounds, final Actions action,
+    public static Optional<Position> move(final Position position, final Bounds bounds, final Actions action,
             final int speed) {
         Position newPosition = new Position(position.getPoint(), position.getDirection(), position.getDimension());
         switch (checkBounds(newPosition, bounds, action, speed)) {
@@ -46,18 +46,20 @@ public class UtilityMovement {
         case TRUEBUTFIX:
             newPosition = fixPositionBounds(newPosition, bounds, action);
             break;
+        default:
+            throw new IllegalStateException();
         }
         return Optional.of(newPosition);
     }
 
     public static CheckResult checkBounds(final Position position, final Bounds bounds, final Actions action,
             final int speed) {
-        Position newPosition = new Position(position.getPoint(), position.getDirection(), position.getDimension());
+        final Position newPosition = new Position(position.getPoint(), position.getDirection(), position.getDimension());
         newPosition.setPoint(action.apply(newPosition.getPoint(), speed, newPosition.getDirection()));
-        CheckResult checkDown = newPosition.getPoint().getY() >= bounds.getMinY() ? CheckResult.TRUE
+        final CheckResult checkDown = newPosition.getPoint().getY() >= bounds.getMinY() ? CheckResult.TRUE
                 : (newPosition.getPoint().getY() + speed > bounds.getMinY() ? CheckResult.TRUEBUTFIX
                         : CheckResult.FALSE);
-        CheckResult checkUp = newPosition.getPoint().getY() + newPosition.getDimension().getHeight() <= bounds.getMaxY()
+        final CheckResult checkUp = newPosition.getPoint().getY() + newPosition.getDimension().getHeight() <= bounds.getMaxY()
                 ? CheckResult.TRUE
                 : (newPosition.getPoint().getY() + newPosition.getDimension().getHeight() - speed < bounds.getMaxY()
                         ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
@@ -113,14 +115,17 @@ public class UtilityMovement {
             case NONE:
                 break;
             default:
-                break;
+                throw new IllegalArgumentException();
             }
             break;
         case JUMP:
             position.setPoint(
                     new Point(position.getPoint().getX(), bounds.getMaxY() - position.getDimension().getHeight()));
-        default:
+        case MOVEONFALL:
+        case MOVEONJUMP:
             break;
+        default:
+            throw new IllegalArgumentException();
         }
 
         return position;

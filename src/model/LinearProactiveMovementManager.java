@@ -1,6 +1,6 @@
 package model;
 
-public class LinearProactiveMovementManager extends DinamicMovementManager {
+public class LinearProactiveMovementManager extends AbstractDinamicMovementManager {
 
     private MovementTypes movementTypes;
 
@@ -16,7 +16,7 @@ public class LinearProactiveMovementManager extends DinamicMovementManager {
         Position actualPosition = this.getPosition();
         this.setAction(this.getAction() == Actions.MOVEONFALL ? Actions.MOVE : this.getAction());
 
-        if (!UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed()).isPresent()) {
+        if (!UtilityMovement.move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed()).isPresent()) {
             if (this.movementTypes == MovementTypes.HORIZONTAL_LINEAR) {
                 actualPosition.setDirection(
                         actualPosition.getDirection() == Directions.LEFT ? Directions.RIGHT : Directions.LEFT);
@@ -27,7 +27,7 @@ public class LinearProactiveMovementManager extends DinamicMovementManager {
             }
         }
 
-        actualPosition = UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed())
+        actualPosition = UtilityMovement.move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed())
                 .orElseThrow(IllegalStateException::new);
 
         return this.movementTypes == MovementTypes.HORIZONTAL_LINEAR ? super.applyGravity(actualPosition)

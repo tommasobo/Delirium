@@ -6,9 +6,7 @@ public class ShootManagerFactory {
 
     public static Optional<ShootManager> getShootManager(final Optional<ShootInfo> shootInfo) {
 
-        if (!shootInfo.isPresent()) {
-            return Optional.empty();
-        } else {
+        if (shootInfo.isPresent()) {
             ShootManager shootManager;
             switch (shootInfo.get().getShootType()) {
             case HERO:
@@ -23,6 +21,8 @@ public class ShootManagerFactory {
                 throw new IllegalArgumentException();
             }
             return Optional.of(shootManager);
+        } else {
+            return Optional.empty();
         }
     }
 

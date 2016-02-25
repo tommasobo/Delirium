@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class EntitiesInfoImpl implements EntitiesInfo {
 
-    private int code;
+    private final int code;
     private final Position position;
     private final Optional<MovementInfo> movementInfo;
     private final int life;

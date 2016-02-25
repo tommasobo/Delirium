@@ -11,17 +11,17 @@ public class HeroImpl extends EntitiesImpl implements Hero {
 
     @Override
     public void setAction(final Actions action) {
-        if (action != Actions.SHOOT) {
-            super.getMovementManager().get().setAction(action);
-        } else {
-            HeroShootManager heroShootManager = (HeroShootManager) super.getShootManager().get();
+        if (action == Actions.SHOOT) {
+            final HeroShootManager heroShootManager = (HeroShootManager) super.getShootManager().get();
             heroShootManager.wannaShoot();
+        } else {
+            super.getMovementManager().get().setAction(action);
         }
     }
 
     @Override
     public void setOnPlatform(final boolean bool) {
-        HeroMovementManager move = (HeroMovementManager) this.getMovementManager().get();
+        final HeroMovementManager move = (HeroMovementManager) this.getMovementManager().get();
         move.setOnPlatform(bool);
     }
 

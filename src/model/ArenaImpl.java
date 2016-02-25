@@ -6,8 +6,8 @@ import java.util.List;
 public class ArenaImpl implements Arena {
     private Hero hero;
     private Entities goal;
-    private List<Entities> entities;
-    private List<Bullet> bullets;
+    private final List<Entities> entities;
+    private final List<Bullet> bullets;
 
     private final EntitiesVisitor addVisitor = new EntitiesVisitorImpl(this);
 
@@ -17,7 +17,7 @@ public class ArenaImpl implements Arena {
     }
 
     @Override
-    public void add(Entities entities) {
+    public void add(final Entities entities) {
         entities.accept(addVisitor);
     }
 

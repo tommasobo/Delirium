@@ -2,7 +2,7 @@ package model;
 
 import java.util.Optional;
 
-public class HeroMovementManager extends DinamicMovementManager{
+public class HeroMovementManager extends AbstractDinamicMovementManager{
     
     private boolean onJump = false;
     private int time = 0;
@@ -49,7 +49,7 @@ public class HeroMovementManager extends DinamicMovementManager{
         
         for(Actions e : UtilityMovement.splitActions(this.getAction())) {
             if(e != Actions.FALL) {
-                Optional<Position> op = UtilityMovement.Move(newPosition, this.getBounds(), e, this.getSpeed());
+                Optional<Position> op = UtilityMovement.move(newPosition, this.getBounds(), e, this.getSpeed());
                 if(op.isPresent()) {
                     newPosition = op.get();
                 } else if(e == Actions.JUMP) {

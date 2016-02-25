@@ -2,7 +2,7 @@ package model;
 
 import java.util.Optional;
 
-public abstract class DinamicMovementManager implements MovementManager {
+public abstract class AbstractDinamicMovementManager implements MovementManager {
 
     public static final int GRAVITY = 6;
 
@@ -12,8 +12,8 @@ public abstract class DinamicMovementManager implements MovementManager {
     private final Bounds bounds;
     private Actions action;
 
-    public DinamicMovementManager(final Position position, final Bounds bounds, final Actions action, final int speed,
-            final boolean canFly) {
+    public AbstractDinamicMovementManager(final Position position, final Bounds bounds, final Actions action,
+            final int speed, final boolean canFly) {
         this.position = position;
         this.canFly = canFly;
         this.bounds = bounds;
@@ -28,13 +28,13 @@ public abstract class DinamicMovementManager implements MovementManager {
      * @param position
      * @return
      */
-    protected Position applyGravity(Position pos) {
+    protected Position applyGravity(final Position pos) {
         if (!canFly) {
-            Optional<Position> opPos = UtilityMovement.Move(pos, this.getBounds(), Actions.FALL,
-                    DinamicMovementManager.GRAVITY);
+            final Optional<Position> opPos = UtilityMovement.move(pos, this.getBounds(), Actions.FALL,
+                    AbstractDinamicMovementManager.GRAVITY);
             if (opPos.isPresent()) {
-                if (this.getAction() == Actions.MOVE
-                        || this.getAction() == Actions.MOVEONJUMP | this.getAction() == Actions.MOVEONFALL) {
+                if (this.getAction() == Actions.MOVE || this.getAction() == Actions.MOVEONJUMP
+                        || this.getAction() == Actions.MOVEONFALL) {
                     this.setAction(Actions.MOVEONFALL);
                 } else {
                     this.setAction(Actions.FALL);

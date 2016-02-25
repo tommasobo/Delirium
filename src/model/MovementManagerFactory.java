@@ -9,9 +9,7 @@ public class MovementManagerFactory {
     public static Pair<Optional<Position>, Optional<MovementManager>> getMovementManager(final Position position,
             final Optional<MovementInfo> movementInfo) {
 
-        if (!movementInfo.isPresent()) {
-            return new Pair<>(Optional.of(position), Optional.empty());
-        } else {
+        if (movementInfo.isPresent()) {
             MovementManager movementManager;
             switch (movementInfo.get().getMovementTypes()) {
             case HERO:
@@ -37,6 +35,9 @@ public class MovementManagerFactory {
                 throw new IllegalArgumentException();
             }
             return new Pair<>(Optional.empty(), Optional.of(movementManager));
+
+        } else {
+            return new Pair<>(Optional.of(position), Optional.empty());
         }
 
     }

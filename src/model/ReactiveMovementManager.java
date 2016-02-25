@@ -1,6 +1,6 @@
 package model;
 
-public class ReactiveMovementManager extends DinamicMovementManager {
+public class ReactiveMovementManager extends AbstractDinamicMovementManager {
 
     public ReactiveMovementManager(final Position position, final Bounds bounds, final Actions action, final int speed,
             final boolean canFly) {

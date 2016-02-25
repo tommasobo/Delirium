@@ -31,11 +31,7 @@ public class MonsterShootManager implements ShootManager {
     }
 
     public boolean haveShooted() {
-        if (this.count == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.count == 0;
     }
 
     @Override
@@ -47,12 +43,12 @@ public class MonsterShootManager implements ShootManager {
                 (int) position.getPoint().getY() + position.getDimension().getHeight() / 2));
         position.setDimension(ShootManager.BULLET_DIMENSION);
         count++;
-        return !this.isOnShoot() ? Optional.empty()
-                : Optional.of(new EntitiesInfoImpl(code, position, Optional.of(new MovementInfoImpl(this.speed,
+        return this.isOnShoot() ? Optional.of(new EntitiesInfoImpl(code, position,
+                Optional.of(new MovementInfoImpl(this.speed,
                         new Bounds(position.getPoint().getX() - this.range, position.getPoint().getX() + this.range,
                                 position.getPoint().getY() - this.range, position.getPoint().getY() + this.range),
-                        Actions.MOVE, true, this.movementType)), 1, LifePattern.WITH_LIFE, Optional.empty(),
-                        Optional.of(this.bulletDamage)));
+                        Actions.MOVE, true, this.movementType)),
+                1, LifePattern.WITH_LIFE, Optional.empty(), Optional.of(this.bulletDamage))) : Optional.empty();
     }
 
 }

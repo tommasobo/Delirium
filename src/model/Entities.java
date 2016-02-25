@@ -24,7 +24,7 @@ public interface Entities {
 
     void accept(final EntitiesVisitor visitor);
 
-    public static class Builder {
+    class Builder {
         private Optional<Integer> code = Optional.empty();
         private Optional<Position> position = Optional.empty();
         private LifeManager lifeManager;
@@ -70,8 +70,8 @@ public interface Entities {
                 return new Bullet(this.code.get(), this.movementManager.get(), this.contactDamage.get());
             }
 
-            if ((this.code.isPresent() && this.code.get() == 0) && this.lifeManager != null
-                    && !this.position.isPresent() && this.movementManager.isPresent() && this.shootManager.isPresent()
+            if (this.code.isPresent() && this.code.get() == 0 && this.lifeManager != null && !this.position.isPresent()
+                    && this.movementManager.isPresent() && this.shootManager.isPresent()
                     && this.contactDamage.isPresent()) {
                 return new HeroImpl(this.code.get(), this.lifeManager, this.movementManager.get(),
                         this.shootManager.get(), this.contactDamage.get());

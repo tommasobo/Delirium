@@ -7,10 +7,10 @@ import java.util.stream.Stream;
 
 import utility.Pair;
 
-public class ModelImpl implements Model {
+public final class ModelImpl implements Model {
 
     private static final int DEFAULT_OFFSET_X = 500;
-    private static final ModelImpl singleton = new ModelImpl();
+    private static final ModelImpl SINGLETON = new ModelImpl();
     private Arena arena;
     private ArenaManager arenaManager;
 
@@ -18,7 +18,7 @@ public class ModelImpl implements Model {
     }
 
     public static ModelImpl getModel() {
-        return singleton;
+        return SINGLETON;
     }
 
     @Override
@@ -53,18 +53,17 @@ public class ModelImpl implements Model {
 
         this.arenaManager.MoveEntities();
 
-        List<EntitiesInfo> bullets = new LinkedList<>();
+        final List<EntitiesInfo> bullets = new LinkedList<>();
 
         this.arena.getEntities().stream().forEach(t -> {
-            if (t.getShootManager().isPresent()) {
-                if (t.getPosition().getPoint().getX() > this.arena.getHero().getPosition().getPoint().getX()
-                        - DEFAULT_OFFSET_X
-                        && t.getPosition().getPoint().getX() < this.arena.getHero().getPosition().getPoint().getX()
-                                + DEFAULT_OFFSET_X) {
-                    Optional<EntitiesInfo> bullet = t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
-                    if (bullet.isPresent()) {
-                        bullets.add(bullet.get());
-                    }
+            if (t.getShootManager().isPresent()
+                    && t.getPosition().getPoint().getX() > this.arena.getHero().getPosition().getPoint().getX()
+                            - DEFAULT_OFFSET_X
+                    && t.getPosition().getPoint().getX() < this.arena.getHero().getPosition().getPoint().getX()
+                            + DEFAULT_OFFSET_X) {
+                final Optional<EntitiesInfo> bullet = t.getShootManager().get().getBullet(t.getCode(), t.getPosition());
+                if (bullet.isPresent()) {
+                    bullets.add(bullet.get());
                 }
             }
 
@@ -84,7 +83,7 @@ public class ModelImpl implements Model {
             ent = this.arena.getHero();
         } else {
             Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
-                Optional<Integer> speed = t.getMovementManager().isPresent()
+                final Optional<Integer> speed = t.getMovementManager().isPresent()
                         ? Optional.of(t.getMovementManager().get().getSpeed()) : Optional.empty();
                 result.add(new EntitiesInfoToControlImpl(t.getCode(), t.getLifeManager().getLife(), t.getPosition(),
                         t.getAction(), speed));
@@ -106,18 +105,16 @@ public class ModelImpl implements Model {
 
         entitiesInfo.stream().forEach(t -> {
 
-            Pair<Optional<Position>, Optional<MovementManager>> pair = MovementManagerFactory
+            final Pair<Optional<Position>, Optional<MovementManager>> pair = MovementManagerFactory
                     .getMovementManager(t.getPosition(), t.getMovementInfo());
-            Optional<ShootManager> shootManager = ShootManagerFactory.getShootManager(t.getShootInfo());
+            final Optional<ShootManager> shootManager = ShootManagerFactory.getShootManager(t.getShootInfo());
 
-            this.arena.add(new Entities.Builder()
-                                        .code(t.getCode())
-                                        .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
-                                        .position(pair.getX().isPresent() ? pair.getX().get() : null)
-                                        .movementManager(pair.getY().isPresent() ? pair.getY().get() : null)
-                                        .shootManager(shootManager.isPresent() ? shootManager.get() : null)
-                                        .contactDamage(t.getContactDamage().isPresent() ? t.getContactDamage().get() : null)
-                                        .build());
+            this.arena.add(new Entities.Builder().code(t.getCode())
+                    .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
+                    .position(pair.getX().isPresent() ? pair.getX().get() : null)
+                    .movementManager(pair.getY().isPresent() ? pair.getY().get() : null)
+                    .shootManager(shootManager.isPresent() ? shootManager.get() : null)
+                    .contactDamage(t.getContactDamage().isPresent() ? t.getContactDamage().get() : null).build());
         });
 
     }
@@ -125,13 +122,11 @@ public class ModelImpl implements Model {
     @Override
     public void putBullet(final List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            MovementInfo movementInfo = t.getMovementInfo().get();
-            this.arena.add(new Entities.Builder()
-                                        .code(t.getCode())
-                                        .movementManager(new LinearProactiveMovementManager(t.getPosition(), movementInfo.getBounds(),
-                                                           movementInfo.getSpeed(), movementInfo.isCanFly(), movementInfo.getMovementTypes()))
-                                         .contactDamage(t.getContactDamage().get())
-                                         .build());
+            final MovementInfo movementInfo = t.getMovementInfo().get();
+            this.arena.add(new Entities.Builder().code(t.getCode())
+                    .movementManager(new LinearProactiveMovementManager(t.getPosition(), movementInfo.getBounds(),
+                            movementInfo.getSpeed(), movementInfo.isCanFly(), movementInfo.getMovementTypes()))
+                    .contactDamage(t.getContactDamage().get()).build());
         });
     }
 

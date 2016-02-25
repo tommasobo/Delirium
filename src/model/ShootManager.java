@@ -6,8 +6,8 @@ import utility.Dimension;
 
 public interface ShootManager {
 
-    public static final int BULLET_OFFSET = 10;
-    public static final Dimension BULLET_DIMENSION = new Dimension(20, 20);
+    int BULLET_OFFSET = 10;
+    Dimension BULLET_DIMENSION = new Dimension(20, 20);
 
     boolean isOnShoot();
 

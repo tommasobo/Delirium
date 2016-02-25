@@ -4,11 +4,12 @@ import java.util.Random;
 
 public class RandomProactiveMovementManager extends LinearProactiveMovementManager {
 
-    private int count = 0;
+    private int count;
 
     public RandomProactiveMovementManager(final Position position, final Bounds bounds, final int speed,
             final boolean canFly, final MovementTypes movementTypes) {
         super(position, bounds, speed, canFly, movementTypes);
+        this.count = 0;
     }
 
     @Override
@@ -34,6 +35,8 @@ public class RandomProactiveMovementManager extends LinearProactiveMovementManag
                 this.setAction(Actions.FALL);
                 this.setMovementTypes(MovementTypes.VERTICAL_LINEAR);
                 break;
+            default:
+                throw new IllegalStateException();
             }
 
         }
