@@ -42,8 +42,8 @@ public class ControlImpl implements Control {
                 if(this.gameThread.isPaused()) {
                     this.gameThread.reStart();
                 }
+                this.gameThread.setGameEnd();
             }
-            this.gameThread.setGameEnd();
             this.view.changeScene(SceneType.MENU);
             break;
         case EXIT:
