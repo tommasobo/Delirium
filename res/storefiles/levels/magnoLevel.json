@@ -18,9 +18,9 @@
           "speed": 7,
           "bounds": {
             "minX": 0,
-            "maxX": 4000,
+            "maxX": 5000,
             "minY": 0,
-            "maxY": 500
+            "maxY": 600
           },
           "actions": "STOP",
           "canFly": false,
@@ -339,7 +339,7 @@
         }
       },
       "life": 35,
-      "lifePattern": "WITHOUT_LIFE",
+      "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": null
       },
@@ -377,7 +377,7 @@
         }
       },
       "life": 35,
-      "lifePattern": "WITHOUT_LIFE",
+      "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": null
       },
@@ -415,7 +415,7 @@
         }
       },
       "life": 35,
-      "lifePattern": "WITHOUT_LIFE",
+      "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": null
       },
@@ -453,7 +453,7 @@
           }
         },
         "life": 35,
-        "lifePattern": "WITHOUT_LIFE",
+        "lifePattern": "WITH_LIFE",
         "shootInfo": {
           "value": null
         },
@@ -491,7 +491,7 @@
         }
       },
       "life": 35,
-      "lifePattern": "WITHOUT_LIFE",
+      "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": null
       },
@@ -529,7 +529,7 @@
           }
         },
         "life": 35,
-        "lifePattern": "WITHOUT_LIFE",
+        "lifePattern": "WITH_LIFE",
         "shootInfo": {
           "value": null
         },
@@ -555,7 +555,7 @@
       "movementInfo": {
         "value": null
       },
-      "life": 40,
+      "life": 500,
       "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": {
@@ -574,37 +574,176 @@
     },
 
     {
-      "code": 0,
-      "position": {
-        "point": {
-          "x": 2760,
-          "y": 415
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 1850,
+            "y": 420
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
         },
-        "direction": "LEFT",
-        "dimension": {
-          "width": 40,
-          "height": 60
-        }
-      },
-      "movementInfo": {
-        "value": null
-      },
-      "life": 40,
-      "lifePattern": "WITH_LIFE",
-      "shootInfo": {
-        "value": {
-          "minTime": 50,
-          "shootType": "MONSTER",
-          "bulletDamage": 10,
-          "movementType": "HORIZONTAL_LINEAR",
-          "range": 300,
-          "speed": 10
-        }
-      },
-      "contactDamage": {
-        "value": null
-      },
-      "entityType": "DINO"
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 0,
+              "maxX": 2800,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": true,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITHOUT_LIFE",
+        "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
+        },
+        "contactDamage": {
+          "value": null
+        },
+        "entityType": "BUG"
+    },
+
+    {
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 2050,
+            "y": 420
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
+        },
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 0,
+              "maxX": 2800,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": true,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITHOUT_LIFE",
+        "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
+        },
+        "contactDamage": {
+          "value": null
+        },
+        "entityType": "BUG"
+    },
+
+    {
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 2250,
+            "y": 420
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
+        },
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 0,
+              "maxX": 2800,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": true,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITHOUT_LIFE",
+        "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
+        },
+        "contactDamage": {
+          "value": null
+        },
+        "entityType": "BUG"
+    },
+
+    {
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 2450,
+            "y": 420
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
+        },
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 0,
+              "maxX": 2800,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": true,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITHOUT_LIFE",
+        "shootInfo": {
+          "value": null
+        },
+        "contactDamage": {
+          "value": 2
+        },
+        "entityType": "BUG"
     },
 
 
@@ -640,6 +779,6 @@
   ],
   "levelDimension": {
     "width": 5000,
-    "height": 500
+    "height": 600
   }
 }

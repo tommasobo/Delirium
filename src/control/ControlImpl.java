@@ -37,13 +37,14 @@ public class ControlImpl implements Control {
         
         switch(event) {
         case BACKTOMAINMENU:
-            this.view.changeScene(SceneType.MENU);
             if(this.gameThread != null && this.gameThread.isRunning()){
                 this.gameThread.stopGame();
                 if(this.gameThread.isPaused()) {
                     this.gameThread.reStart();
                 }
             }
+            this.gameThread.setGameEnd();
+            this.view.changeScene(SceneType.MENU);
             break;
         case EXIT:
             System.exit(0);
