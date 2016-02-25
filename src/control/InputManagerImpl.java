@@ -21,32 +21,32 @@ public class InputManagerImpl implements InputManager {
     
     synchronized public void notifyViewInput(final ViewEvents event) {
         if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT || event == ViewEvents.SHOOT) {
-            if (!this.actions.contains(Translator.tranViewEvents(event))) {
-                this.actions.add(Translator.tranViewEvents(event));
+            if (!this.actions.contains(Translator.translateViewInput(event))) {
+                this.actions.add(Translator.translateViewInput(event));
             }
-            if (event == ViewEvents.MLEFT && actions.contains(Translator.tranViewEvents(ViewEvents.MRIGHT))) {
-                this.actions.remove(Translator.tranViewEvents(ViewEvents.MRIGHT));
-                keyDeactivated = true;
+            if (event == ViewEvents.MLEFT && actions.contains(Translator.translateViewInput(ViewEvents.MRIGHT))) {
+                this.actions.remove(Translator.translateViewInput(ViewEvents.MRIGHT));
+                this.keyDeactivated = true;
             }
-            if (event == ViewEvents.MRIGHT && actions.contains(Translator.tranViewEvents(ViewEvents.MLEFT))) {
-                this.actions.remove(Translator.tranViewEvents(ViewEvents.MLEFT));
-                keyDeactivated = true;
+            if (event == ViewEvents.MRIGHT && actions.contains(Translator.translateViewInput(ViewEvents.MLEFT))) {
+                this.actions.remove(Translator.translateViewInput(ViewEvents.MLEFT));
+                this.keyDeactivated = true;
             }
         } else {
-            if (this.actions.remove(Translator.tranViewEvents(event))) {
+            if (this.actions.remove(Translator.translateViewInput(event))) {
                 if(!actions.stream().map(t -> t.getX()).anyMatch(t -> t == model.Actions.MOVE)) {
-                    noMoves = true;
+                    this.noMoves = true;
                 }
             } else {
-                keyDeactivated = false;
+                this.keyDeactivated = false;
             }
             if(event == ViewEvents.STOPMLEFT && keyDeactivated) {
-                this.actions.add(Translator.tranViewEvents(ViewEvents.MRIGHT));
-                keyDeactivated = false;
+                this.actions.add(Translator.translateViewInput(ViewEvents.MRIGHT));
+                this.keyDeactivated = false;
             }
             if(event == ViewEvents.STOPMRIGHT && keyDeactivated) {
-                this.actions.add(Translator.tranViewEvents(ViewEvents.MLEFT));
-                keyDeactivated = false;
+                this.actions.add(Translator.translateViewInput(ViewEvents.MLEFT));
+                this.keyDeactivated = false;
             }
         }
     }
@@ -54,7 +54,7 @@ public class InputManagerImpl implements InputManager {
     synchronized public Pair<model.Actions, Optional<model.Directions>> getNextPGAction() {
         Pair<model.Actions, Optional<model.Directions>> action;
         if(noMoves || this.actions.isEmpty()) {
-            noMoves = false;
+            this.noMoves = false;
             action = new Pair<>(Actions.STOP, Optional.empty());
         } else {
             action = this.actions.peek();

@@ -1,6 +1,7 @@
 package control;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
 
     final private Map<Integer, Entities> viewEntitiesCodes;
     private Dimension arenaDimension;
-    private final CodesIterator codesIterator;
+    private final Iterator<Integer> codesIterator;
     
     public EntitiesDatabaseImpl(final Dimension arenaDimension) {
         this.viewEntitiesCodes = new HashMap<>();

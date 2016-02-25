@@ -4,12 +4,16 @@ import java.util.Optional;
 
 public class HeroMovementManager extends AbstractDinamicMovementManager{
     
-    private boolean onJump = false;
-    private int time = 0;
-    private boolean onPlatform = false;
+    private static final int JUMPTIME = 15;
+    private boolean onJump;
+    private int time;
+    private boolean onPlatform;
 
-    public HeroMovementManager(Position position, Bounds bounds, Actions action, int speed, boolean canFly) {
+    public HeroMovementManager(final Position position, final Bounds bounds, final Actions action, final int speed, final boolean canFly) {
         super(position, bounds, action, speed, canFly);
+        this.onJump = false;
+        this.time = 0;
+        this.onPlatform = false;
     }
 
     /**
@@ -24,7 +28,6 @@ public class HeroMovementManager extends AbstractDinamicMovementManager{
             this.onJump = true;
     	}
     	
-    	
         if(!onJump) {
             newPosition = applyGravity(newPosition);
         }
@@ -32,7 +35,7 @@ public class HeroMovementManager extends AbstractDinamicMovementManager{
         this.onPlatform = false;
         
         if (onJump) {
-            if(time < 15) {
+            if(time < JUMPTIME) {
                 if(UtilityMovement.splitActions(this.getAction()).contains(Actions.FALL)) {
                     time = 15;
                 }
@@ -47,13 +50,13 @@ public class HeroMovementManager extends AbstractDinamicMovementManager{
             }
         }
         
-        for(Actions e : UtilityMovement.splitActions(this.getAction())) {
+        for(final Actions e : UtilityMovement.splitActions(this.getAction())) {
             if(e != Actions.FALL) {
-                Optional<Position> op = UtilityMovement.move(newPosition, this.getBounds(), e, this.getSpeed());
+                final Optional<Position> op = UtilityMovement.move(newPosition, this.getBounds(), e, this.getSpeed());
                 if(op.isPresent()) {
                     newPosition = op.get();
                 } else if(e == Actions.JUMP) {
-                    time = 15;
+                    time = JUMPTIME;
                 }
             }
         }
@@ -61,7 +64,7 @@ public class HeroMovementManager extends AbstractDinamicMovementManager{
         return newPosition;
     }
     
-    public void setOnPlatform(boolean bool) {
+    public void setOnPlatform(final boolean bool) {
         this.onPlatform = bool;
     }
 

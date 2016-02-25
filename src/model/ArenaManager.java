@@ -2,7 +2,7 @@ package model;
 
 public interface ArenaManager {
 
-    void MoveEntities();
+    void moveEntities();
     boolean isGameWon();
 
 }

@@ -11,9 +11,7 @@ public final class Translator {
         
     }
     
-    //TODO eventualmente da spostare dentro controller impl
-    //TODO cambiare nome in translate key event
-    public static Pair<model.Actions, Optional<model.Directions>> tranViewEvents(final ViewEvents event) {
+    public static Pair<model.Actions, Optional<model.Directions>> translateViewInput(final ViewEvents event) {
         switch (event) {
         case STOPMLEFT:
         case MLEFT:
@@ -31,8 +29,6 @@ public final class Translator {
             throw new IllegalArgumentException();
         }
     }
-    
-    
 
     public static view.Directions directionFromModeltoView(final model.Directions direction) {
         switch (direction) {
@@ -43,7 +39,6 @@ public final class Translator {
         case NONE:
             return view.Directions.NONE;
         default:
-            // TODO cambia exception in IllegalEventException
             throw new IllegalArgumentException();
         }
     }

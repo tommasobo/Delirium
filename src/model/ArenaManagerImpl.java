@@ -3,6 +3,7 @@ package model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,30 +14,29 @@ import utility.Pair;
 
 public class ArenaManagerImpl implements ArenaManager {
 
-    private Arena arena;
-    private LastPositionsManager lastPositionsMan;
-    private ActiveMovementDatabase platformEntities;
+    private final Arena arena;
+    private final LastPositionsManager lastPositionsMan;
+    private final ActiveMovementDatabase platformEntities;
     private boolean gameWon;
     
-    public ArenaManagerImpl(Arena arena) {
+    public ArenaManagerImpl(final Arena arena) {
         this.arena = arena;
         this.lastPositionsMan = new LastPositionsManager();
         this.platformEntities = new ActiveMovementDatabase();
     }
     
     @Override
-    public void MoveEntities() {
+    public void moveEntities() {
         Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream()).forEach(t -> {
             this.lastPositionsMan.putPosition(t, t.getPosition());
             this.platformEntities.removeEntityFromAllDependences(t);
-            Optional<Position> p = !t.getMovementManager().isPresent() ? Optional.empty()
-                    : Optional.of(t.getMovementManager().get().getNextMove());
+            final Optional<Position> p = t.getMovementManager().isPresent() ? Optional.of(t.getMovementManager().get().getNextMove()) : Optional.empty();
             if (p.isPresent()) {
                 if (t == this.arena.getHero()) {
                     this.gameWon = getRectangle(p.get())
                             .intersects(getRectangle(this.arena.getGoal().getPosition()));
                 }
-                Position pos = collisionFixerTest(p.get(), t);
+                final Position pos = collisionFixerTest(p.get(), t);
                 t.setPosition(pos.getPoint(), pos.getDirection());
             }
         });
@@ -48,45 +48,48 @@ public class ArenaManagerImpl implements ArenaManager {
     
     //TODO mettere conteggio temporale in database per evitare spostamenti istantanei delle entità?
     
-    private Position collisionFixerTest(Position pos, Entities entity) {
+    private Position collisionFixerTest(final Position pos, final Entities entity) {
         return collisionFixerTest(pos, entity, realAction(entity), pos.getDirection());
     }
     
-    private Position collisionFixerTest(Position pos, Entities entity, Actions action, Directions direction) {
+    private Position collisionFixerTest(final Position pos, final Entities entity, final Actions action, final Directions direction) {
         boolean verticalLimit = false;
         boolean orizzontalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
-        Rectangle retToFix = getRectangle(posToFix);
+        final Rectangle retToFix = getRectangle(posToFix);
         Pair<Entities, Rectangle> collision;
         // l'hero non deve ignorare cio che ha sopra
-        if (entity != this.arena.getHero()) {
+        if (entity == this.arena.getHero()) {
+            collision = getFirstCollision(retToFix, entity,
+                    Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
+                            .collect(Collectors.toList()));
+        } else {
             collision = getFirstCollision(retToFix, entity,
                     Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
                             .collect(Collectors.toList()),
                     this.platformEntities.getRelativeEntities(entity.getCode()));
-        } else {
-            collision = getFirstCollision(retToFix, entity,
-                    Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
-                            .collect(Collectors.toList()));
         }
+        
         if (collision == null) {
-            // elimino i proiettili quando toccano i bounds
-            // TODO o metti qui, oppure nell'update arena
-            if (arena.getBullets().contains(entity)) {
-                if (onBounds(posToFix, entity)) {
-                    entity.getLifeManager().setLife(10);
-                }
+            if (arena.getBullets().contains(entity) && onBounds(posToFix, entity)) {
+                entity.getLifeManager().setLife(1);
             }
 
-            // TODO controllo brutto, posso disattivare l'aggiunta a livello di database? NO, quello deve conservare il funzionamento per estendibilità
             if (entity != this.arena.getHero()) {
-                Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
+                final Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
                 if (!over.isEmpty()) {
-                    PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
+                    final PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
                     if (activeMovementOK(over, action, offset)) {
                         //TODO il controllo di priorità è da testare ed in più varia a seconda della direzione che hanno le entità
-                        over.stream().sorted((x, y) -> (new Integer(x.getPosition().getPoint().getX())
-                                .compareTo(y.getPosition().getPoint().getX()))).forEach(t -> {
+                        Comparator<Entities> comparator = null;
+                        if(direction == Directions.RIGHT) {
+                            comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX()).compareTo(y.getPosition().getPoint().getX());
+                        }
+                        if(direction == Directions.LEFT) {
+                            comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX()).compareTo(y.getPosition().getPoint().getX());
+                        }
+                        over.stream().sorted(comparator)
+                                .forEach(t -> {
                                     Position post = t.getPosition();
                                     post = this.collisionFixerTest(
                                             new Position(
@@ -106,7 +109,7 @@ public class ArenaManagerImpl implements ArenaManager {
         }
         modifyEntitiesInCollision(entity, collision.getX());
         if(!this.arena.getBullets().contains(collision.getX())) {
-            Rectangle collisionRectangle = collision.getY();
+            final Rectangle collisionRectangle = collision.getY();
             switch (action) {
             case JUMP:
                 posToFix.setPoint(new Point(posToFix.getPoint().getX(),
@@ -124,24 +127,24 @@ public class ArenaManagerImpl implements ArenaManager {
                 orizzontalLimit = true;
                 break;
             case MOVEONJUMP:
-                if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
+                if (new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
                         retToFix.width, retToFix.height).intersects(collisionRectangle)) {
-                    posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y - retToFix.height));
-                    verticalLimit = true;
-                } else {
                     fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
                     orizzontalLimit = true;
+                } else {
+                    posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y - retToFix.height));
+                    verticalLimit = true;
                 }
                 break;
             case MOVEONFALL:
-                if (!new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
+                if (new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
                         retToFix.width, retToFix.height).intersects(collisionRectangle)) {
+                    fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
+                    orizzontalLimit = true;
+                } else {
                     posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y + collisionRectangle.height));
                     verticalLimit = true;
                     this.platformEntities.putEntity(collision.getX().getCode(), entity);
-                } else {
-                    fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
-                    orizzontalLimit = true;
                 }
                 break;
             default:
@@ -161,7 +164,6 @@ public class ArenaManagerImpl implements ArenaManager {
             if (verticalLimit) {
                 switch (action) {
                 case FALL:
-                    // TODO servirebbe controllo se puo volare
                     if (entity.getMovementManager().isPresent() && entity.getMovementManager().get().isCanFly()) {
                         entity.setAction(getOppositeAction(action));
                     } else {
@@ -175,7 +177,6 @@ public class ArenaManagerImpl implements ArenaManager {
                     entity.setAction(getOppositeAction(action));
                     break;
                 case MOVEONFALL:
-                    // TODO servirebbe controllo se puo volare
                     if (entity.getMovementManager().isPresent() && entity.getMovementManager().get().isCanFly()) {
                         entity.setAction(getOppositeAction(action));
                     } else {
@@ -211,7 +212,7 @@ public class ArenaManagerImpl implements ArenaManager {
         return posToFix;
     }
     
-    private static Directions getOppositeDirection(Directions direction) {
+    private static Directions getOppositeDirection(final Directions direction) {
         switch(direction) {
         case LEFT:
             return Directions.RIGHT;
@@ -223,7 +224,7 @@ public class ArenaManagerImpl implements ArenaManager {
         }
     }
     
-    private static Actions getOppositeAction(Actions action) {
+    private static Actions getOppositeAction(final Actions action) {
         switch(action) {
         case FALL:
             return Actions.JUMP;
@@ -238,25 +239,27 @@ public class ArenaManagerImpl implements ArenaManager {
         }
     }
     
-    private Actions realAction(Entities entity) {
+    private Actions realAction(final Entities entity) {
         return entity.getMovementManager().isPresent() ? entity.getMovementManager().get().getAction()
                 : Actions.STOP;
     }
     
     //TODO sposta in utilityMovement
-    private static boolean onBounds(Position pos, Entities entity) {
-        Point point = pos.getPoint();
-        Dimension dimension = pos.getDimension();
-        //TODO i proiettili hanno sempre il movement manager, ma per sicurezza controlla se c'è
-        Bounds bounds = entity.getMovementManager().get().getBounds();
-        if(point.getX() == bounds.getMinX() || point.getY() == bounds.getMinY() || point.getX() + dimension.getWidth() == bounds.getMaxX() || point.getY() + dimension.getHeight()== bounds.getMaxY()) {
+    private static boolean onBounds(final Position pos, final Entities entity) {
+        Bounds bounds;
+        if(entity.getMovementManager().isPresent()) {
+            bounds = entity.getMovementManager().get().getBounds();
+        } else {
             return true;
         }
-        return false;
+        final Point point = pos.getPoint();
+        final Dimension dimension = pos.getDimension();
+        
+        return point.getX() == bounds.getMinX() || point.getY() == bounds.getMinY() || point.getX() + dimension.getWidth() == bounds.getMaxX() || point.getY() + dimension.getHeight()== bounds.getMaxY();
         
     }
     
-    private void fixPositionInMoveSwitch(Position posToFix, Directions direction, Rectangle collisionRectangle) {
+    private void fixPositionInMoveSwitch(final Position posToFix, final Directions direction, final Rectangle collisionRectangle) {
         switch (direction) {
         case LEFT:
             posToFix.setPoint(new Point(collisionRectangle.x + collisionRectangle.width, posToFix.getPoint().getY()));
@@ -271,22 +274,21 @@ public class ArenaManagerImpl implements ArenaManager {
         }
     }
     
-    //TODO metodo breve, lo tolgo?
-    private void modifyEntitiesInCollision(Entities entity1, Entities entity2) {
+    private void modifyEntitiesInCollision(final Entities entity1, final Entities entity2) {
         entity1.getLifeManager().setLife(entity2.getContactDamage().orElseGet(() -> 0));
         entity2.getLifeManager().setLife(entity1.getContactDamage().orElseGet(() -> 0));
     }
     
-    private static Rectangle getRectangle(Position p) {
+    private static Rectangle getRectangle(final Position p) {
         return new Rectangle(p.getPoint().getX(), p.getPoint().getY(), p.getDimension().getWidth(), p.getDimension().getHeight());
     }
     
-    private boolean activeMovementOK(Set<Entities> entities, Actions action, PointOffset offset) {
+    private boolean activeMovementOK(final Set<Entities> entities, final Actions action, final PointOffset offset) {
         boolean ret = true;
         if(UtilityMovement.splitActions(action).stream().anyMatch(t -> t == Actions.JUMP)) {
-            for(Entities t : entities) {
-                Point oldPoint = t.getPosition().getPoint();
-                Position newPosition = new Position(new Point(oldPoint.getX() + offset.getOffsetX(), oldPoint.getY() + offset.getOffsetY()), t.getPosition().getDirection(), t.getPosition().getDimension());
+            for(final Entities t : entities) {
+                final Point oldPoint = t.getPosition().getPoint();
+                final Position newPosition = new Position(new Point(oldPoint.getX() + offset.getOffsetX(), oldPoint.getY() + offset.getOffsetY()), t.getPosition().getDirection(), t.getPosition().getDimension());
                 if(UtilityMovement.checkBounds(newPosition, t.getMovementManager().get().getBounds(), action, 0) != UtilityMovement.CheckResult.TRUE) {
                     ret = false;
                 }
@@ -301,22 +303,22 @@ public class ArenaManagerImpl implements ArenaManager {
         return ret;
     }
     
-    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, Collection<? extends Entities> entities, Collection<? extends Entities> exclusions) {
+    private static Pair<Entities, Rectangle> getFirstCollision(final Rectangle rectangle, final Entities entity, final Collection<? extends Entities> entities, final Collection<? extends Entities> exclusions) {
         
-        Optional<? extends Entities> ret = entities.stream().filter(entityToTest -> entityToTest.getCode() != entity.getCode())
+        final Optional<? extends Entities> ret = entities.stream().filter(entityToTest -> entityToTest.getCode() != entity.getCode())
                 .filter(t -> !exclusions.contains(t))
                 .filter(t -> t.getLifeManager().getLife() > 0)
                 .filter(entityToTest -> getRectangle(entityToTest.getPosition()).intersects(rectangle)).findFirst();
 
         if (ret.isPresent()) {
-            Entities inCollision = ret.get();
+            final Entities inCollision = ret.get();
             return new Pair<>(inCollision, (Rectangle) rectangle.createIntersection(getRectangle(inCollision.getPosition())));
         }
 
         return null;
     }
     
-    private static Pair<Entities, Rectangle> getFirstCollision(Rectangle rectangle, Entities entity, Collection<? extends Entities> entities) {
+    private static Pair<Entities, Rectangle> getFirstCollision(final Rectangle rectangle, final Entities entity, final Collection<? extends Entities> entities) {
         return getFirstCollision(rectangle, entity, entities, new ArrayList<>());
     }
 }

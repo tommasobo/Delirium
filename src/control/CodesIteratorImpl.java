@@ -1,6 +1,8 @@
 package control;
 
-public class CodesIteratorImpl implements CodesIterator {
+import java.util.Iterator;
+
+public class CodesIteratorImpl implements Iterator<Integer> {
 	
 	private Integer number = -1;
 

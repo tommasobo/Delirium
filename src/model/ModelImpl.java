@@ -51,7 +51,7 @@ public final class ModelImpl implements Model {
             }
         }
 
-        this.arenaManager.MoveEntities();
+        this.arenaManager.moveEntities();
 
         final List<EntitiesInfo> bullets = new LinkedList<>();
 
