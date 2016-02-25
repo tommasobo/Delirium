@@ -102,7 +102,8 @@ public class EntitiesInfoStore implements EntitiesInfo{
     public void setEntityType(view.Entities entityType) {
         this.entityType = entityType;
     }
-
+    
+    //TODO getCopy scorretto
     public EntitiesInfoStore getCopy() {
         return new EntitiesInfoStore(this.code, this.getPosition(),
                 this.movementInfo.isPresent() ? Optional.of(this.movementInfo.get().getCopy()) : Optional.empty(),

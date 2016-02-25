@@ -5,8 +5,6 @@ import java.util.List;
 
 public interface GameSettings {
 
-    List<Levels> getLevels();
-
     Iterator<Levels> getLevelIterator();
 
     GameDifficulty getGameDifficulty();

@@ -1,7 +1,7 @@
 package control;
 
 public interface EntityStatsModifier {
-    int getSpeedIncremented(int speed);
-    int getLifeIncremented(int life);
-    int getDamageIncremented(int damage);
+    Integer getSpeedIncremented(Integer speed);
+    Integer getLifeIncremented(Integer life);
+    Integer getDamageIncremented(Integer damage);
 }

@@ -11,19 +11,16 @@ public class MenuCategoryEntriesImpl implements MenuCategoryEntries {
         this.entries = entries;
         this.focus = focus;
     }
-    /* (non-Javadoc)
-     * @see control.MenuCategoryEntries#getFocus()
-     */
+    
     @Override
     public Optional<Buttons> getFocus() {
         return focus;
     }
+    
     public void setFocus(Optional<Buttons> focus) {
         this.focus = focus;
     }
-    /* (non-Javadoc)
-     * @see control.MenuCategoryEntries#getEntries()
-     */
+    
     @Override
     public List<Buttons> getEntries() {
         return entries;

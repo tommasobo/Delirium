@@ -11,13 +11,10 @@ public class GameSettingsImpl implements GameSettings{
         this.levels = levels;
         this.gameDifficulty = gameDifficulty;
     }
-
-    public List<Levels> getLevels() {
-        return levels;
-    }
     
     public Iterator<Levels> getLevelIterator() {
-        return this.getLevels().iterator();
+        //TODO metti iterator castrato senza remove
+        return this.levels.iterator();
     }
 
     public GameDifficulty getGameDifficulty() {

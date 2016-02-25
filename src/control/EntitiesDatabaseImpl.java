@@ -8,7 +8,6 @@ import java.util.Map;
 import model.EntitiesInfo;
 import model.EntitiesInfoImpl;
 import utility.Dimension;
-import utility.Pair;
 import view.Entities;
 
 class EntitiesDatabaseImpl implements EntitiesDatabase {
@@ -19,6 +18,7 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
 
     public EntitiesDatabaseImpl() {
         this.viewEntitiesCodes = new HashMap<>();
+        //TODO null brutto
         this.arenaDimension = null;
         this.codesIterator = new CodesIteratorImpl();
     }
@@ -44,13 +44,6 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
             this.putEntity(ent.getCode(), entity);
         }
     }
-
-    public void putEntities(List<Pair<EntitiesInfo, Entities>> entities) {
-        for (Pair<EntitiesInfo, Entities> ent : entities) {
-            this.putEntity(ent.getX().getCode(), ent.getY());
-        }
-    }
-
     
     public List<EntitiesInfo> putEntitiesAndSetCodes(List<EntitiesInfo> entities, Entities entity) {
         List<EntitiesInfo> entitiesRet = new LinkedList<>();
@@ -68,15 +61,6 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
         return entitiesRet;
     }
 
-    public List<EntitiesInfo> putEntitiesAndSetCodes(List<Pair<EntitiesInfo, Entities>> entities) {
-        List<EntitiesInfo> ret = new LinkedList<>();
-        for (Pair<EntitiesInfo, Entities> ent : entities) {
-            ret.add(this.putEntityAndSetCode(ent.getX(), ent.getY()));
-        }
-        return ret;
-    }
-
-    @Override
     public Entities getViewEntity(Integer code) {
         return this.viewEntitiesCodes.get(code);
     }
