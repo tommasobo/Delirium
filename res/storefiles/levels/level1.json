@@ -61,7 +61,7 @@
         "value": {
           "speed": 3,
           "bounds": {
-            "minX": 2400,
+            "minX": 2500,
             "maxX": 2900,
             "minY": 40,
             "maxY": 300
@@ -92,12 +92,12 @@
       "code": 0,
       "position": {
         "point": {
-          "x": 2400,
+          "x": 2500,
           "y": 0
         },
         "direction": "LEFT",
         "dimension": {
-          "width": 500,
+          "width": 400,
           "height": 40
         }
       },
@@ -123,7 +123,7 @@
         },
         "direction": "LEFT",
         "dimension": {
-          "width": 1000,
+          "width": 1100,
           "height": 40
         }
       },
