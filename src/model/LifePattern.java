@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 public enum LifePattern {
 
     WITH_LIFE((life, damage) -> (life - damage > 0 ? life - damage : 0)),
-    WITHOUT_LIFE((life, damage) -> (life));
+    WITHOUT_LIFE((life, damage) -> life);
 
     private final BiFunction<Integer, Integer, Integer> function;
 

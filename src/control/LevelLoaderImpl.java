@@ -27,7 +27,7 @@ public class LevelLoaderImpl {
         //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/levels/" + level.getFilename() + ".json"));){
             Gson gson = new Gson();
-            this.levelInfo = gson.fromJson(br, LevelInfo.class);
+            this.levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
