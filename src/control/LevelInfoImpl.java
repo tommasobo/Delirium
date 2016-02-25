@@ -9,22 +9,18 @@ public class LevelInfoImpl implements LevelInfo {
     private final List<EntitiesInfoStore> entities;
     private final Dimension levelDimension;
 
-    public LevelInfoImpl(List<EntitiesInfoStore> entities, Dimension levelDimension) {
+    public LevelInfoImpl(final List<EntitiesInfoStore> entities, final Dimension levelDimension) {
         this.entities = entities;
         this.levelDimension = levelDimension;
     }
 
-    /* (non-Javadoc)
-     * @see control.LevelInfo#getEntities()
-     */
+    
     @Override
     public List<EntitiesInfoStore> getEntities() {
         return new LinkedList<>(this.entities);
     }
 
-    /* (non-Javadoc)
-     * @see control.LevelInfo#getLevelDimension()
-     */
+    
     @Override
     public Dimension getLevelDimension() {
         return levelDimension;

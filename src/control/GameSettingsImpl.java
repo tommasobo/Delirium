@@ -7,7 +7,7 @@ public class GameSettingsImpl implements GameSettings{
     private final List<Levels> levels;
     private GameDifficulty gameDifficulty;
     
-    public GameSettingsImpl(List<Levels> levels, GameDifficulty gameDifficulty) {
+    public GameSettingsImpl(final List<Levels> levels, final GameDifficulty gameDifficulty) {
         this.levels = levels;
         this.gameDifficulty = gameDifficulty;
     }
@@ -22,7 +22,7 @@ public class GameSettingsImpl implements GameSettings{
     }
 
     
-    public void setGameDifficulty(GameDifficulty gameDifficulty) {
+    public void setGameDifficulty(final GameDifficulty gameDifficulty) {
         this.gameDifficulty = gameDifficulty;
     }
     

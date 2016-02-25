@@ -19,14 +19,14 @@ public class LevelLoaderImpl {
     private final EntitiesDatabase database;
     private final EntityStatsModifier statsModifier;
     
-    public LevelLoaderImpl(Levels level, EntityStatsModifier statsModifier) {
+    public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) {
         this.levelType = level;
         this.statsModifier = statsModifier;
-        this.database = new EntitiesDatabaseImpl();
+        
         //TODO crea classe loader per ottenere gli input stream?
         //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/levels/" + level.getFilename() + ".json"));){
-            Gson gson = new Gson();
+            final Gson gson = new Gson();
             this.levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -36,6 +36,7 @@ public class LevelLoaderImpl {
         //TODO aggiungi metodo per fare put di entity multiple con entità multiple
         this.entities = new LinkedList<>();
         int i = 0;
+        this.database = new EntitiesDatabaseImpl(this.levelInfo.getLevelDimension());
         for(final EntitiesInfoStore ent : this.levelInfo.getEntities()) {
             EntitiesInfoStore entity = ent;
             if( i!=0 ) {
@@ -44,23 +45,22 @@ public class LevelLoaderImpl {
             this.entities.add(this.database.putEntityAndSetCode(entity, entity.getEntityType()));
             i++;
         }
-        database.putArenaDimension(this.levelInfo.getLevelDimension());
     }
     
     private EntitiesInfoStore modifyEntityStats(final EntitiesInfoStore entity) {
-        EntitiesInfoStore ent = entity.getCopy();
+        final EntitiesInfoStore ent = new EntitiesInfoStore(entity);
         ent.setLife(this.statsModifier.getLifeIncremented(ent.getLife()));
         if(ent.getMovementInfoStore().isPresent()) {
-            MovementInfoStore mi = ent.getMovementInfoStore().get();
+            final MovementInfoStore mi = ent.getMovementInfoStore().get();
             mi.setSpeed(this.statsModifier.getSpeedIncremented(mi.getSpeed()));
         }
         if(ent.getShootInfoStore().isPresent()) {
-            ShootInfoStore si = ent.getShootInfoStore().get();
+            final ShootInfoStore si = ent.getShootInfoStore().get();
             si.setSpeed(this.statsModifier.getSpeedIncremented(si.getSpeed()));
             si.setBulletDamage(this.statsModifier.getDamageIncremented(si.getBulletDamage()));
         }
         if(ent.getShootInfoStore().isPresent()) {
-            ShootInfoStore si = ent.getShootInfoStore().get();
+            final ShootInfoStore si = ent.getShootInfoStore().get();
             si.setSpeed(this.statsModifier.getSpeedIncremented(si.getSpeed()));
             si.setBulletDamage(this.statsModifier.getDamageIncremented(si.getBulletDamage()));
         }

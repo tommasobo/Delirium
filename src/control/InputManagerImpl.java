@@ -10,14 +10,16 @@ import utility.Pair;
 public class InputManagerImpl implements InputManager {
 
     private final Queue<Pair<model.Actions, Optional<model.Directions>>> actions;
-    private boolean keyDeactivated = false;
-    private boolean noMoves = false;
+    private boolean keyDeactivated;
+    private boolean noMoves;
     
     public InputManagerImpl() {
-        actions = new LinkedList<>();
+        this.actions = new LinkedList<>();
+        this.keyDeactivated = false;
+        this.noMoves = false;
     }
     
-    synchronized public void notifyViewInput(ViewEvents event) {
+    synchronized public void notifyViewInput(final ViewEvents event) {
         //TODO rifattorizza if che non si possono vedere
         if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT || event == ViewEvents.SHOOT) {
             if (!this.actions.contains(Translator.tranViewEvents(event))) {
@@ -32,12 +34,12 @@ public class InputManagerImpl implements InputManager {
                 keyDeactivated = true;
             }
         } else {
-            if (this.actions.remove(Translator.tranViewEvents(event)) != true) {
-                keyDeactivated = false;
-            } else {
+            if (this.actions.remove(Translator.tranViewEvents(event))) {
                 if(!actions.stream().map(t -> t.getX()).anyMatch(t -> t == model.Actions.MOVE)) {
                     noMoves = true;
                 }
+            } else {
+                keyDeactivated = false;
             }
             if(event == ViewEvents.STOPMLEFT && keyDeactivated) {
                 this.actions.add(Translator.tranViewEvents(ViewEvents.MRIGHT));
@@ -60,7 +62,7 @@ public class InputManagerImpl implements InputManager {
             action = this.actions.peek();
             
             if(action.getX() == Actions.JUMP && actions.stream().anyMatch(t -> t.getX() == Actions.MOVE)) {
-                Optional<Pair<model.Actions, Optional<model.Directions>>> op = actions.stream().filter(t -> t.getX() == Actions.MOVE).findFirst();
+                final Optional<Pair<model.Actions, Optional<model.Directions>>> op = actions.stream().filter(t -> t.getX() == Actions.MOVE).findFirst();
                 action = new Pair<>(model.Actions.MOVEONJUMP, op.get().getY());
             } else if(action.getX() == Actions.MOVE && actions.stream().anyMatch(t -> t.getX() == Actions.JUMP)) {
                 action = new Pair<>(model.Actions.MOVEONJUMP, action.getY());

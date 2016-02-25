@@ -12,7 +12,7 @@ public class MovementInfoStore implements MovementInfo{
     private boolean canFly;
     private MovementTypes movementTypes;
     
-    public MovementInfoStore(int speed, Bounds bounds, Actions actions, boolean canFly, MovementTypes movementTypes) {
+    public MovementInfoStore(final int speed, final Bounds bounds, final Actions actions, final boolean canFly, final MovementTypes movementTypes) {
         this.speed = speed;
         this.bounds = bounds;
         this.actions = actions;
@@ -20,68 +20,62 @@ public class MovementInfoStore implements MovementInfo{
         this.movementTypes = movementTypes;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getSpeed()
-     */
+    public MovementInfoStore(final MovementInfoStore m) {
+        this.speed = m.getSpeed();
+        this.bounds = m.getBounds();
+        this.actions = m.getActions();
+        this.canFly = m.isCanFly();
+        this.movementTypes = m.getMovementTypes();
+    }
+    
     @Override
     public int getSpeed() {
         return speed;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getBounds()
-     */
+    
     @Override
     public Bounds getBounds() {
         return new Bounds(this.bounds.getMinX(), this.bounds.getMaxX(), this.bounds.getMinY(), this.bounds.getMaxY());
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getActions()
-     */
+    
     @Override
     public Actions getActions() {
         return actions;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#isCanFly()
-     */
+    
     @Override
     public boolean isCanFly() {
         return canFly;
     }
 
-    /* (non-Javadoc)
-     * @see model.MovementInfo#getMovementTypes()
-     */
+    
     @Override
     public MovementTypes getMovementTypes() {
         return movementTypes;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(final int speed) {
         this.speed = speed;
     }
 
-    public void setBounds(Bounds bounds) {
+    public void setBounds(final Bounds bounds) {
         this.bounds = bounds;
     }
 
-    public void setActions(Actions actions) {
+    public void setActions(final Actions actions) {
         this.actions = actions;
     }
 
-    public void setCanFly(boolean canFly) {
+    public void setCanFly(final boolean canFly) {
         this.canFly = canFly;
     }
 
-    public void setMovementTypes(MovementTypes movementTypes) {
+    public void setMovementTypes(final MovementTypes movementTypes) {
         this.movementTypes = movementTypes;
     }
     
-    public MovementInfoStore getCopy() {
-        return new MovementInfoStore(this.speed, this.getBounds(), this.actions, this.canFly, this.movementTypes);
-    }
     
 }

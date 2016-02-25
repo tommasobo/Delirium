@@ -10,11 +10,15 @@ import utility.Pair;
 import view.ControlComunication;
 import view.ViewPhysicalProperties;
 
-class Translator {
+public final class Translator {
 
+    private Translator() {
+        
+    }
+    
     //TODO eventualmente da spostare dentro controller impl
     //TODO cambiare nome in translate key event
-    public static Pair<model.Actions, Optional<model.Directions>> tranViewEvents(ViewEvents event) {
+    public static Pair<model.Actions, Optional<model.Directions>> tranViewEvents(final ViewEvents event) {
         switch (event) {
         case STOPMLEFT:
         case MLEFT:
@@ -29,13 +33,13 @@ class Translator {
         case STOPSHOOT:
             return new Pair<>(model.Actions.SHOOT, Optional.empty());
         default:
-            throw (new IllegalArgumentException());
+            throw new IllegalArgumentException();
         }
     }
     
  // eventualmente da sostare dentro controller impl
-    public static List<ControlComunication> entitiesListFromModelToView(List<EntitiesInfoToControl> listInfo, EntitiesDatabase database) {
-        List<ControlComunication> viewList = new LinkedList<>();
+    public static List<ControlComunication> entitiesListFromModelToView(final List<EntitiesInfoToControl> listInfo, final EntitiesDatabase database) {
+        final List<ControlComunication> viewList = new LinkedList<>();
         listInfo.stream().forEach(e -> {
             viewList.add(new ControlComunication(e.getCode(), database.getViewEntity(e.getCode()), e.getLife(),
                     positionFromModeltoView(e, database), getViewActionsForEntities(e)));
@@ -43,16 +47,16 @@ class Translator {
         return viewList;
     }
 
-    public static ViewPhysicalProperties positionFromModeltoView(EntitiesInfoToControl info, EntitiesDatabase database) {
+    public static ViewPhysicalProperties positionFromModeltoView(final EntitiesInfoToControl info, final EntitiesDatabase database) {
         // TODO mi serve una interfaccia position senza setter, anche un point
-        Position p = info.getPosition();
-        return new ViewPhysicalProperties(p.getPoint().getX() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR,
-                (database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight()) * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR,
-                p.getDimension().getWidth() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR, p.getDimension().getHeight() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR, info.getSpeed().isPresent() ? info.getSpeed().get() * ViewDecoratorImpl.SCREENMOLTIPLICATORFACTOR : 0,
+        final Position p = info.getPosition();
+        return new ViewPhysicalProperties(p.getPoint().getX() * ViewDecoratorImpl.screenMoltiplicatorFactor,
+                (database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight()) * ViewDecoratorImpl.screenMoltiplicatorFactor,
+                p.getDimension().getWidth() * ViewDecoratorImpl.screenMoltiplicatorFactor, p.getDimension().getHeight() * ViewDecoratorImpl.screenMoltiplicatorFactor, info.getSpeed().isPresent() ? info.getSpeed().get() * ViewDecoratorImpl.screenMoltiplicatorFactor : 0,
                 directionFromModeltoView(p.getDirection()));
     }
 
-    private static view.Directions directionFromModeltoView(model.Directions direction) {
+    private static view.Directions directionFromModeltoView(final model.Directions direction) {
         switch (direction) {
         case LEFT:
             return view.Directions.LEFT;
@@ -62,11 +66,11 @@ class Translator {
             return view.Directions.NONE;
         default:
             // TODO cambia exception in IllegalEventException
-            throw (new IllegalArgumentException());
+            throw new IllegalArgumentException();
         }
     }
 
-    private static view.Actions actionsFromModeltoView(model.Actions action) {
+    private static view.Actions actionsFromModeltoView(final model.Actions action) {
         switch (action) {
         case MOVEONFALL:
         case FALL:
@@ -81,11 +85,11 @@ class Translator {
         case STOP:
             return view.Actions.IDLE;
         default:
-            throw (new IllegalArgumentException());
+            throw new IllegalArgumentException();
         }
     }
     
-    private static view.Actions getViewActionsForEntities(EntitiesInfoToControl entity) {
+    private static view.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
         if(entity.getLife() == 0) {
             return view.Actions.DEATH;
         } else {
@@ -93,7 +97,7 @@ class Translator {
         }
     }
 
-    public static view.Entities getEntityBulletType(view.Entities entity) {
+    public static view.Entities getEntityBulletType(final view.Entities entity) {
         switch(entity) {
         case BOCC:
             return view.Entities.BOCCBULLET;

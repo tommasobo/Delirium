@@ -19,8 +19,8 @@ public class EntitiesInfoStore implements EntitiesInfo{
     private Optional<Integer> contactDamage;
     private view.Entities entityType;
     
-    public EntitiesInfoStore(int code, Position position, Optional<MovementInfoStore> movementInfo, int life,
-            LifePattern lifePattern, Optional<ShootInfoStore> shootInfo, Optional<Integer> contactDamage, view.Entities entityType) {
+    public EntitiesInfoStore(final int code, final Position position, final Optional<MovementInfoStore> movementInfo, final int life,
+            final LifePattern lifePattern, final Optional<ShootInfoStore> shootInfo, final Optional<Integer> contactDamage, final view.Entities entityType) {
         this.code = code;
         this.position = position;
         this.movementInfo = movementInfo;
@@ -30,12 +30,23 @@ public class EntitiesInfoStore implements EntitiesInfo{
         this.contactDamage = contactDamage;
         this.entityType = entityType;
     }
+    
+    public EntitiesInfoStore(final EntitiesInfoStore e) {
+        this.code = e.getCode();
+        this.position = e.getPosition();
+        this.movementInfo = e.getMovementInfoStore().isPresent() ? Optional.of(new MovementInfoStore(e.getMovementInfoStore().get())) : Optional.empty();
+        this.life = e.getLife();
+        this.lifePattern = e.getLifePattern();
+        this.shootInfo = e.getShootInfoStore().isPresent() ? Optional.of(new ShootInfoStore(e.getShootInfoStore().get())) : Optional.empty();
+        this.contactDamage = e.getContactDamage();
+        this.entityType = e.getEntityType();
+    }
 
     public int getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(final int code) {
         this.code = code;
     }
 
@@ -44,7 +55,7 @@ public class EntitiesInfoStore implements EntitiesInfo{
     }
 
     public Optional<MovementInfo> getMovementInfo() {
-        return this.movementInfo.isPresent() ? Optional.of(this.movementInfo.get().getCopy()) : Optional.empty();
+        return this.movementInfo.isPresent() ? Optional.of(new MovementInfoStore(this.movementInfo.get())) : Optional.empty();
     }
     
     public Optional<MovementInfoStore> getMovementInfoStore() {
@@ -60,7 +71,7 @@ public class EntitiesInfoStore implements EntitiesInfo{
     }
 
     public Optional<ShootInfo> getShootInfo() {
-        return this.shootInfo.isPresent() ? Optional.of(this.shootInfo.get().getCopy()) : Optional.empty();
+        return this.shootInfo.isPresent() ? Optional.of(new ShootInfoStore(this.shootInfo.get())) : Optional.empty();
     }
     
     public Optional<ShootInfoStore> getShootInfoStore() {
@@ -75,40 +86,32 @@ public class EntitiesInfoStore implements EntitiesInfo{
         return entityType;
     }
     
-    public void setPosition(Position position) {
+    public void setPosition(final Position position) {
         this.position = position;
     }
 
-    public void setMovementInfo(Optional<MovementInfoStore> movementInfo) {
+    public void setMovementInfo(final Optional<MovementInfoStore> movementInfo) {
         this.movementInfo = movementInfo;
     }
 
-    public void setLife(int life) {
+    public void setLife(final int life) {
         this.life = life;
     }
 
-    public void setLifePattern(LifePattern lifePattern) {
+    public void setLifePattern(final LifePattern lifePattern) {
         this.lifePattern = lifePattern;
     }
 
-    public void setShootInfo(Optional<ShootInfoStore> shootInfo) {
+    public void setShootInfo(final Optional<ShootInfoStore> shootInfo) {
         this.shootInfo = shootInfo;
     }
 
-    public void setContactDamage(Optional<Integer> contactDamage) {
+    public void setContactDamage(final Optional<Integer> contactDamage) {
         this.contactDamage = contactDamage;
     }
 
-    public void setEntityType(view.Entities entityType) {
+    public void setEntityType(final view.Entities entityType) {
         this.entityType = entityType;
     }
     
-    //TODO getCopy scorretto
-    public EntitiesInfoStore getCopy() {
-        return new EntitiesInfoStore(this.code, this.getPosition(),
-                this.movementInfo.isPresent() ? Optional.of(this.movementInfo.get().getCopy()) : Optional.empty(),
-                this.life, this.lifePattern,
-                this.shootInfo.isPresent() ? Optional.of(this.shootInfo.get().getCopy()) : Optional.empty(),
-                this.contactDamage, this.entityType);
-    }
 }

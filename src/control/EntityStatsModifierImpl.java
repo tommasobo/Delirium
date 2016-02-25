@@ -7,7 +7,7 @@ public class EntityStatsModifierImpl implements EntityStatsModifier{
         this.gameDifficulty = gameDifficulty;
     }
     
-    public Integer getSpeedIncremented(Integer speed) {
+    public int getSpeedIncremented(final int speed) {
         switch(this.gameDifficulty) {
         case EASY:
             return (int) (speed * 0.5);
@@ -23,7 +23,7 @@ public class EntityStatsModifierImpl implements EntityStatsModifier{
         }
     }
     
-    public Integer getLifeIncremented(Integer life) {
+    public int getLifeIncremented(final int life) {
         switch(this.gameDifficulty) {
         case EASY:
             return (int) (life * 0.5);
@@ -40,7 +40,7 @@ public class EntityStatsModifierImpl implements EntityStatsModifier{
     }
 
     //TODO tipo primitivo sopra int?
-    public Integer getDamageIncremented(Integer damage) {
+    public int getDamageIncremented(final int damage) {
         switch(this.gameDifficulty) {
         case EASY:
             return (int) (damage * 0.5);

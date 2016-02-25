@@ -21,8 +21,8 @@ public class MenuLoaderImpl implements MenuLoader {
         //TODO crea classe loader per ottenere gli input stream?
         //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/menu/" + menu.getFilename() + ".json"))){
-            Gson gson = new Gson();
-            Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
+            final Gson gson = new Gson();
+            final Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
             this.menuStructure = gson.fromJson(br, buttonsListType);
         } catch (IOException e) {
             // TODO Auto-generated catch block

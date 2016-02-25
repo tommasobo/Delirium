@@ -7,19 +7,20 @@ import java.util.Optional;
 public class SettingsMenuLoaderImpl extends MenuLoaderImpl {
     private final GameSettings gameSettings;
     
-    public SettingsMenuLoaderImpl(Menu menu, GameSettings gameSettings) {
+    public SettingsMenuLoaderImpl(final Menu menu, final GameSettings gameSettings) {
         super(menu);
         this.gameSettings = gameSettings;
     }
     
     @Override
     public Map<MenuCategory, MenuCategoryEntries> getMenuStructure() {
-        Map<MenuCategory, MenuCategoryEntriesImpl> menu = super.getMenuStructurePrimitive();
+        final Map<MenuCategory, MenuCategoryEntriesImpl> menu = super.getMenuStructurePrimitive();
         menu.get(MenuCategory.DIFFICULTY).setFocus(Optional.of(getDifficultyButton(this.gameSettings.getGameDifficulty())));
         return new HashMap<>(menu);
     }
     
-    private Buttons getDifficultyButton(GameDifficulty gameDifficulty) {
+    //TODO è un metodo statico
+    private Buttons getDifficultyButton(final GameDifficulty gameDifficulty) {
         switch (gameDifficulty) {
         case DELIRIUM:
             return Buttons.DELIRIUMMODE;

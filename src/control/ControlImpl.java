@@ -11,16 +11,16 @@ import view.ViewController;
 
 public class ControlImpl implements Control {
     private final Model model;
-    private ViewDecorator view;
+    final private ViewDecorator view;
     private final InputManager inputManager;
     private GameThread gameThread;
     //TODO o cavi oppure metti controllo se va bene
-    private MenuLoader menuLoader;
+    //private MenuLoader menuLoader;
     private final GameSettings gameSettings;
     private Iterator<Levels> levelsIterator;
     private Menu menuToLoad;
 
-    public ControlImpl(ViewController view) {
+    public ControlImpl(final ViewController view) {
         this.inputManager = new InputManagerImpl();
         this.model = ModelImpl.getModel();
         view.setListener(this);
@@ -33,7 +33,7 @@ public class ControlImpl implements Control {
         this.view.changeScene(SceneType.MENU);
     }
 
-    public void notifyEvent(ViewEvents event) {
+    public void notifyEvent(final ViewEvents event) {
         
         switch(event) {
         case BACKTOMAINMENU:
@@ -95,32 +95,29 @@ public class ControlImpl implements Control {
     }
 
     public Map<MenuCategory, MenuCategoryEntries> getButtons() {
-        switch(this.menuToLoad) {
-        case SETTINGS:
-            this.menuLoader = new SettingsMenuLoaderImpl(Menu.SETTINGS, this.gameSettings);
-            break;
-        default:
-            if(this.gameThread == null)
-                this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-            else {
+        MenuLoader menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+        if(this.menuToLoad == Menu.NONE) {
+            if(this.gameThread == null) {
+                menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+            } else {
                 switch(this.gameThread.getGameState()) {
                 case FINISH:
-                    this.menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+                    menuLoader = new MenuLoaderImpl(Menu.INITIAL);
                     break;
                 case INGAME:
                     throw new IllegalArgumentException();
                 case LOSE:
-                    this.menuLoader = new MenuLoaderImpl(Menu.LOSE);
+                    menuLoader = new MenuLoaderImpl(Menu.LOSE);
                     this.gameThread.setGameEnd();
                     break;
                 case PAUSED:
-                    this.menuLoader = new MenuLoaderImpl(Menu.PAUSE);
+                    menuLoader = new MenuLoaderImpl(Menu.PAUSE);
                     break;
                 case WON:
                     if(this.levelsIterator.hasNext()){
-                        this.menuLoader = new MenuLoaderImpl(Menu.WIN);
+                        menuLoader = new MenuLoaderImpl(Menu.WIN);
                     } else {
-                        this.menuLoader = new MenuLoaderImpl(Menu.WINEND);
+                        menuLoader = new MenuLoaderImpl(Menu.WINEND);
                     }
                     this.gameThread.setGameEnd();
                     break;
@@ -129,16 +126,18 @@ public class ControlImpl implements Control {
                 }
                     
             }
-            break;
+            
+        } else {
+            menuLoader = new SettingsMenuLoaderImpl(this.menuToLoad, this.gameSettings);
+            this.menuToLoad = Menu.NONE;
         }
-        this.menuToLoad = Menu.NONE;
-        return this.menuLoader.getMenuStructure();
+        return menuLoader.getMenuStructure();
     }
 
-    private void gameLoop(Levels level) {
+    private void gameLoop(final Levels level) {
         
-        LevelLoaderImpl ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
-        EntitiesDatabase database = ll.getDatabase();
+        final LevelLoaderImpl ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
+        final EntitiesDatabase database = ll.getDatabase();
         this.model.createArena(ll.getEntities());
         this.view.setLevelDimension(database.getArenaDimension());
         this.view.changeScene(SceneType.DRAWABLE);

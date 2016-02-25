@@ -13,6 +13,6 @@ interface EntitiesDatabase {
 	Dimension getArenaDimension();
 	void putArenaDimension(Dimension dimension);
 	List<EntitiesInfo> putEntitiesAndSetCodes(List<EntitiesInfo> entities, Entities entity);
-	public EntitiesInfo putEntityAndSetCode(EntitiesInfo modelEnt, Entities entity);
+	EntitiesInfo putEntityAndSetCode(EntitiesInfo modelEnt, Entities entity);
 	List<EntitiesInfo> putBulletsAndSetCodes(List<EntitiesInfo> entities);
 }

@@ -15,7 +15,7 @@ public class SettingsLoaderImpl implements SettingsLoader {
         //TODO crea classe loader per ottenere gli input stream?
         //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/gameSettings.json"));){
-            Gson gson = new Gson();
+            final Gson gson = new Gson();
             this.gameSettings = gson.fromJson(br, GameSettingsImpl.class);
         } catch (IOException e) {
             // TODO Auto-generated catch block

@@ -10,7 +10,7 @@ public enum Menu {
     NONE("");
     private final String filename;
     
-    private Menu(String filename) {
+    private Menu(final String filename) {
         this.filename = filename;
     }
 

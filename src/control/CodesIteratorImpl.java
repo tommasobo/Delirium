@@ -6,7 +6,7 @@ public class CodesIteratorImpl implements CodesIterator {
 
 	@Override
 	public boolean hasNext() {
-		return (number+1) != 0;
+		return number+1 != 0;
 	}
 
 	@Override

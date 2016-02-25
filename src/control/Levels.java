@@ -6,7 +6,7 @@ public enum Levels {
     LEVEL3("magnoLevel");
     
     private final String filename;
-    private Levels(String filename) {
+    private Levels(final String filename) {
         this.filename = filename;
     }
     

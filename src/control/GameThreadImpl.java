@@ -5,8 +5,9 @@ import java.util.Optional;
 
 import model.EntitiesInfo;
 import model.EntitiesInfoToControl;
-import model.Model;
-import sun.awt.Mutex;
+import model.Model;import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import utility.Pair;
 import view.Notifications;
 
@@ -16,19 +17,19 @@ public class GameThreadImpl extends Thread implements GameThread {
     private final ViewDecorator view;
     private final EntitiesDatabase database;
     private final InputManager inputManager;
-    private final Mutex mutex;
+    private final Lock mutex;
     volatile private boolean running;
     //TODO metti in lock le parti di lettura/scrittura
     private GameState gameState;
     private final Object stateLock;
 
-    public GameThreadImpl(final Model model, final ViewDecorator view, EntitiesDatabase database,
-            InputManager inputManager) {
+    public GameThreadImpl(final Model model, final ViewDecorator view, final EntitiesDatabase database,
+            final InputManager inputManager) {
         this.model = model;
         this.view = view;
         this.database = database;
         this.inputManager = inputManager;
-        this.mutex = new Mutex();
+        this.mutex = new ReentrantLock(true);
         this.running = true;
         this.gameState = GameState.INGAME;
         this.stateLock = new Object();
@@ -37,7 +38,7 @@ public class GameThreadImpl extends Thread implements GameThread {
     public void run() {
         while (this.running) {
             //notifico l'input al model
-            Pair<model.Actions, Optional<model.Directions>> action = inputManager.getNextPGAction();
+            final Pair<model.Actions, Optional<model.Directions>> action = inputManager.getNextPGAction();
             if (action.getY().isPresent()) {
                 this.model.notifyEvent(action.getY().get());
             }
@@ -101,7 +102,7 @@ public class GameThreadImpl extends Thread implements GameThread {
         }
     }
     
-    private List<EntitiesInfoToControl> controlGameState(List<EntitiesInfoToControl> list) {
+    private List<EntitiesInfoToControl> controlGameState(final List<EntitiesInfoToControl> list) {
         synchronized(this.stateLock) {
             if(list.size() == 1 && list.get(0).getCode() == 0) {
                 //TODO unifica variabili nell'enum mettendo il campo synchronzed
