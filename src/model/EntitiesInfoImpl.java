@@ -36,7 +36,7 @@ public class EntitiesInfoImpl implements EntitiesInfo {
 
     @Override
     public Position getPosition() {
-        return this.position;
+        return new Position(this.position.getPoint(), this.position.getDirection(), this.position.getDimension());
     }
 
     @Override

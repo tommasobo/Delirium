@@ -24,7 +24,7 @@ public class MovementInfoImpl implements MovementInfo {
 
     @Override
     public Bounds getBounds() {
-        return this.bounds;
+        return new Bounds(this.bounds.getMinX(), this.bounds.getMaxX(), this.bounds.getMinY(), this.bounds.getMaxY());
     }
 
     @Override

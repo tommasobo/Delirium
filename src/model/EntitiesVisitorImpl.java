@@ -1,7 +1,7 @@
 package model;
 
 public class EntitiesVisitorImpl implements EntitiesVisitor {
-    private Arena arena;
+    private final Arena arena;
 
     public EntitiesVisitorImpl(final Arena arena) {
         this.arena = arena;
