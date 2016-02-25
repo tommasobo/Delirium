@@ -14,7 +14,7 @@ public enum Entities {
     JOYBULLET("joybullet",true, 3, Actions.MOVE, Actions.DEATH),
     DINO("dino",true, 4, Actions.IDLE, Actions.SHOOT, Actions.DEATH),
     VOLPE("volpe", true, 3, Actions.values()),
-    BUG("bug", true, 3, Actions.MOVE, Actions.IDLE, Actions.SHOOT, Actions.DEATH),
+    BUG("bug", true, 3, Actions.MOVE, Actions.IDLE, Actions.SHOOT, Actions.DEATH, Actions.FALL),
     BULLET("bullet", true, 3, Actions.MOVE, Actions.DEATH),
     GROUND("ground", false, 3, Actions.IDLE),
     PLATFORM("platform", false, 3, Actions.MOVE, Actions.IDLE, Actions.JUMP, Actions.FALL),

@@ -25,17 +25,11 @@ public class HeroMovementManager extends DinamicMovementManager{
     	}
     	
     	
-    	//TODO eventualmente aumetare il salto ed applicare comunque la gravità, a livello astratto è forse più logico
-        if(!onJump /*&& !onPlatform*/) {
-            newPosition = applyGravity();
+        if(!onJump) {
+            newPosition = applyGravity(newPosition);
         }
         
         this.onPlatform = false;
-        
-        /*if(!UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.FALL) && UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump) {
-            time = 0;
-            this.onJump = true;
-        }*/
         
         if (onJump) {
             if(time < 15) {

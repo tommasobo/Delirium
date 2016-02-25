@@ -67,7 +67,7 @@
             "maxY": 300
           },
           "actions": "MOVE",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "HORIZONTAL_LINEAR"
         }
       },
@@ -216,7 +216,7 @@
             "maxY": 170
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -288,7 +288,7 @@
             "maxY": 300
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -351,7 +351,7 @@
             "maxY": 580
           },
           "actions": "MOVE",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "HORIZONTAL_LINEAR"
         }
       },
@@ -395,7 +395,7 @@
             "maxY": 300
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -433,7 +433,7 @@
             "maxY": 100
           },
           "actions": "FALL",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "RANDOM"
         }
       },
@@ -470,7 +470,7 @@
             "maxY": 400
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -514,7 +514,7 @@
             "maxY": 200
           },
           "actions": "FALL",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "RANDOM"
         }
       },
@@ -552,7 +552,7 @@
             "maxY": 400
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -596,7 +596,7 @@
             "maxY": 250
           },
           "actions": "MOVE",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "HORIZONTAL_LINEAR"
         }
       },
@@ -856,7 +856,7 @@
       "position": {
         "point": {
           "x": 245,
-          "y": 40
+          "y": 55
         },
         "direction": "LEFT",
         "dimension": {
@@ -870,7 +870,7 @@
           "bounds": {
             "minX": 0,
             "maxX": 365,
-            "minY": 40,
+            "minY": 0,
             "maxY": 580
           },
           "actions": "MOVE",
@@ -918,7 +918,7 @@
             "maxY": 150
           },
           "actions": "MOVE",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -981,7 +981,7 @@
             "maxY": 250
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -1044,7 +1044,7 @@
             "maxY": 300
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },
@@ -1088,7 +1088,7 @@
             "maxY": 400
           },
           "actions": "JUMP",
-          "canFly": false,
+          "canFly": true,
           "movementTypes": "VERTICAL_LINEAR"
         }
       },

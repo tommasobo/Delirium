@@ -78,12 +78,6 @@ public class ArenaManagerImpl implements ArenaManager {
                 }
             }
 
-            // TODO devo muovere tutti gli oggetti che ho sopra con un metodo,
-            // se questo ritorna false io non devo muovere la piattaforma
-            // (ho qualcuno sopra, non posso salire se quello sopra è in
-            // collisione oppure se rischia di superare i bounds)
-            // Lo metto nell'update arena?
-
             // TODO controllo brutto, posso disattivare l'aggiunta a livello di database? NO, quello deve conservare il funzionamento per estendibilità
             if (entity != this.arena.getHero()) {
                 Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
@@ -162,40 +156,86 @@ public class ArenaManagerImpl implements ArenaManager {
         // TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare
         // DOPO la ricorsione per evitare problemi
         // TODO metti questo in metodo separato? Non credo, lo uso una volta
-        // sola
-        if (entity.equals(this.arena.getHero())) {
+        // sola, NO da usare quando muovo gli altri (post controllo)
+        if (this.arena.getEntities().contains(entity)) {
             if (verticalLimit) {
-                if (realAction(entity) == Actions.FALL) {
-                    arena.getHero().setOnPlatform(true);
-                    entity.setAction(Actions.STOP);
-                } else if (entity.getAction() == Actions.MOVEONFALL) {
-                    entity.setAction(Actions.MOVE);
-                    arena.getHero().setOnPlatform(true);
-                } else {
-                    // TODO stacosanonfunge, l'hero non cade
-                    entity.setAction(Actions.FALL);
+                switch (action) {
+                case FALL:
+                    // TODO servirebbe controllo se puo volare
+                    if (entity.getMovementManager().isPresent() && entity.getMovementManager().get().isCanFly()) {
+                        entity.setAction(getOppositeAction(action));
+                    } else {
+                        entity.setAction(Actions.STOP);
+                        if (entity.equals(this.arena.getHero())) {
+                            arena.getHero().setOnPlatform(true);
+                        }
+                    }
+                    break;
+                case JUMP:
+                    entity.setAction(getOppositeAction(action));
+                    break;
+                case MOVEONFALL:
+                    // TODO servirebbe controllo se puo volare
+                    if (entity.getMovementManager().isPresent() && entity.getMovementManager().get().isCanFly()) {
+                        entity.setAction(getOppositeAction(action));
+                    } else {
+                        entity.setAction(Actions.MOVE);
+                        if (entity.equals(this.arena.getHero())) {
+                            arena.getHero().setOnPlatform(true);
+                        }
+                    }
+                    break;
+                case MOVEONJUMP:
+                    entity.setAction(Actions.MOVEONFALL);
+                    break;
+                default:
+                    break;
+
                 }
             }
-        } else {
-            if (verticalLimit) {
-                if (realAction(entity) == Actions.FALL) {
-                    entity.setAction(Actions.JUMP);
-                } else if (entity.getAction() == Actions.MOVEONFALL) {
-                    entity.setAction(Actions.MOVE);
-                } else {
-                    entity.setAction(Actions.FALL);
-                }
-            }
-            if (orizzontalLimit) {
-                if (posToFix.getDirection() == Directions.LEFT) {
-                    posToFix.setDirection(Directions.RIGHT);
-                } else if (posToFix.getDirection() == Directions.RIGHT) {
-                    posToFix.setDirection(Directions.LEFT);
+            if (orizzontalLimit && !entity.equals(this.arena.getHero())) {
+                switch(direction) {
+                case LEFT:
+                    posToFix.setDirection(getOppositeDirection(direction));
+                    break;
+                case RIGHT:
+                    posToFix.setDirection(getOppositeDirection(direction));
+                    break;
+                default:
+                    break;
+                
                 }
             }
         }
 
         return posToFix;
+    }
+    
+    private static Directions getOppositeDirection(Directions direction) {
+        switch(direction) {
+        case LEFT:
+            return Directions.RIGHT;
+        case RIGHT:
+            return Directions.LEFT;
+        default:
+            return direction;
+        
+        }
+    }
+    
+    private static Actions getOppositeAction(Actions action) {
+        switch(action) {
+        case FALL:
+            return Actions.JUMP;
+        case JUMP:
+            return Actions.FALL;
+        case MOVEONJUMP:
+            return Actions.MOVEONFALL;
+        case MOVEONFALL:
+            return Actions.MOVEONJUMP;
+        default:
+            return action;
+        }
     }
     
     private Actions realAction(Entities entity) {

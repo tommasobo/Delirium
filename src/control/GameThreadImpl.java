@@ -36,9 +36,6 @@ public class GameThreadImpl extends Thread implements GameThread {
 
     public void run() {
         while (this.running) {
-
-            this.mutex.lock();
-            
             //notifico l'input al model
             Pair<model.Actions, Optional<model.Directions>> action = inputManager.getNextPGAction();
             if (action.getY().isPresent()) {
@@ -52,13 +49,15 @@ public class GameThreadImpl extends Thread implements GameThread {
             this.model.putBullet(bullets);
             
             this.view.updateScene(Translator.entitiesListFromModelToView(controlGameState(this.model.getState()), database));
-            this.mutex.unlock();
+            
             try {
                 Thread.sleep(28L);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            this.mutex.lock();
+            this.mutex.unlock();
         }
         
         synchronized(this.stateLock) {
@@ -83,7 +82,7 @@ public class GameThreadImpl extends Thread implements GameThread {
         synchronized(this.stateLock) {
             this.gameState = GameState.INGAME;
         }
-            mutex.unlock();
+        mutex.unlock();
     }
     
     public boolean isPaused() {

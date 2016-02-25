@@ -9,7 +9,7 @@ public class ReactiveMovementManager extends DinamicMovementManager {
 
     @Override
     public Position getNextMove() {
-        return super.applyGravity();
+        return super.applyGravity(this.getPosition());
     }
 
 }

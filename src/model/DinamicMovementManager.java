@@ -28,22 +28,21 @@ public abstract class DinamicMovementManager implements MovementManager {
      * @param position
      * @return
      */
-    protected Position applyGravity() {
+    protected Position applyGravity(Position pos) {
         if (!canFly) {
-            Optional<Position> opPos = UtilityMovement.Move(this.getPosition(), this.getBounds(), Actions.FALL,
+            Optional<Position> opPos = UtilityMovement.Move(pos, this.getBounds(), Actions.FALL,
                     DinamicMovementManager.GRAVITY);
             if (opPos.isPresent()) {
-                if (this.getAction() == Actions.MOVE || this.getAction() == Actions.MOVEONJUMP) {
+                if (this.getAction() == Actions.MOVE
+                        || this.getAction() == Actions.MOVEONJUMP | this.getAction() == Actions.MOVEONFALL) {
                     this.setAction(Actions.MOVEONFALL);
                 } else {
                     this.setAction(Actions.FALL);
                 }
                 return opPos.get();
-            } else {
-                return this.getPosition();
             }
         }
-        return this.getPosition();
+        return pos;
     }
 
     public Position getPosition() {

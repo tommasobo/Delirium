@@ -14,7 +14,7 @@ public class LinearProactiveMovementManager extends DinamicMovementManager {
     @Override
     public Position getNextMove() {
         Position actualPosition = this.getPosition();
-        if (!UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed()).isPresent()) {
+        if (!UtilityMovement.Move(actualPosition, this.getBounds(), getVolontarAction(this.getAction()), this.getSpeed()).isPresent()) {
             if (this.movementTypes == MovementTypes.HORIZONTAL_LINEAR) {
                 if (actualPosition.getDirection() == Directions.LEFT) {
                     actualPosition.setDirection(Directions.RIGHT);
@@ -22,18 +22,44 @@ public class LinearProactiveMovementManager extends DinamicMovementManager {
                     actualPosition.setDirection(Directions.LEFT);
                 }
             } else {
-                if (this.getAction() == Actions.JUMP) {
+                if (UtilityMovement.splitActions(this.getAction()).contains(Actions.JUMP)) {
                     this.setAction(Actions.FALL);
                 } else {
                     this.setAction(Actions.JUMP);
                 }
             }
-
         }
-
-        return UtilityMovement.Move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed())
+        
+        actualPosition = UtilityMovement.Move(actualPosition, this.getBounds(), getVolontarAction(this.getAction()), this.getSpeed())
                 .orElseThrow(IllegalStateException::new);
+        
+        return super.applyGravity(actualPosition);
 
+    }
+    
+    private Actions getVolontarAction(Actions action) {
+        switch (action) {
+        case MOVEONFALL:
+            switch(this.movementTypes) {
+            case HORIZONTAL_LINEAR:
+                return Actions.MOVE;
+            case VERTICAL_LINEAR:
+                return Actions.JUMP;
+            default:
+                throw new IllegalStateException();
+            }
+        case MOVEONJUMP:
+            switch(this.movementTypes) {
+            case HORIZONTAL_LINEAR:
+                return Actions.MOVE;
+            case VERTICAL_LINEAR:
+                return Actions.JUMP;
+            default:
+                throw new IllegalStateException();
+            }
+        default:
+            return action;
+        }
     }
 
     protected void setMovementTypes(final MovementTypes movementTypes) {

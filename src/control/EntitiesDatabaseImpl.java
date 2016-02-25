@@ -32,8 +32,6 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
     }
 
     public EntitiesInfo putEntityAndSetCode(EntitiesInfo modelEnt, Entities entity) {
-        // TODO come sotto, è più corretto e sicuro che il metodo non
-        // restituisca nulla o che lavori su una copia protetta?
         EntitiesInfo modelEntCopy = new EntitiesInfoImpl(modelEnt.getCode() != -1 ? this.codesIterator.next() : -1, modelEnt.getPosition(),
                 modelEnt.getMovementInfo(), modelEnt.getLife(), modelEnt.getLifePattern(), modelEnt.getShootInfo(),
                 modelEnt.getContactDamage());
@@ -53,11 +51,8 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
         }
     }
 
-    // TODO per i due metodi sotto, dopo aver risolto il dubbio sul return,
-    // usare la put entity singola nel foreach
+    
     public List<EntitiesInfo> putEntitiesAndSetCodes(List<EntitiesInfo> entities, Entities entity) {
-        // il return è pseudo-inutile, infatti con il set modifico la lista che
-        // mi passa, potrei creare direttamente oggetti nuovi, CHIEDI A VIROLI
         List<EntitiesInfo> entitiesRet = new LinkedList<>();
         for (EntitiesInfo ent : entities) {
             entitiesRet.add(this.putEntityAndSetCode(ent, entity));
