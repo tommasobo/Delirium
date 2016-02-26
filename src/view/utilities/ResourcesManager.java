@@ -1,4 +1,4 @@
-package view;
+package view.utilities;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,6 +11,7 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Pair;
+import view.configs.Entities;
 
 public final class ResourcesManager {
 

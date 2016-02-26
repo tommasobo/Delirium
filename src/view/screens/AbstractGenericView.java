@@ -13,7 +13,7 @@ abstract class AbstractGenericView implements GenericView {
     private final Group root;
     private final Dimension2D sceneDimension;
 
-    public AbstractGenericView(final Stage stage, final Control listener, final Dimension2D sceneDimension) {
+    AbstractGenericView(final Stage stage, final Control listener, final Dimension2D sceneDimension) {
         this.stage = stage;
         this.listener = listener;
         this.root = new Group();

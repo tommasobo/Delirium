@@ -5,8 +5,8 @@ import java.util.List;
 
 import model.arena.entities.Position;
 import model.transfertentities.EntitiesInfoToControl;
-import view.ControlComunication;
-import view.ViewPhysicalProperties;
+import view.utilities.ControlComunication;
+import view.utilities.ViewPhysicalProperties;
 
 public class GameWorldTranslatorImpl implements GameWorldTranslator {
     private final EntitiesDatabase database;

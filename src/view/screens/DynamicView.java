@@ -2,8 +2,8 @@ package view.screens;
 
 import java.util.List;
 
-import view.ControlComunication;
-import view.Notifications;
+import view.configs.Notifications;
+import view.utilities.ControlComunication;
 
 public interface DynamicView {
 

@@ -1,9 +1,9 @@
 package view.screens.sprites;
 
 import javafx.scene.layout.Pane;
-import view.Actions;
-import view.ControlComunication;
-import view.ViewPhysicalProperties;
+import view.configs.Actions;
+import view.utilities.ControlComunication;
+import view.utilities.ViewPhysicalProperties;
 
 public interface SpriteManager {
 

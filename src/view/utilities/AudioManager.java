@@ -1,4 +1,4 @@
-package view;
+package view.utilities;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,6 +12,8 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Pair;
+import view.configs.Actions;
+import view.configs.Music;
 
 public final class AudioManager {
 

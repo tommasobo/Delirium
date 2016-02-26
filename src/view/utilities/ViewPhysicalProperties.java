@@ -1,7 +1,8 @@
-package view;
+package view.utilities;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
+import view.configs.Directions;
 
 public class ViewPhysicalProperties {
 

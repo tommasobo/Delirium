@@ -6,11 +6,11 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class InputFromUser implements EventHandler<KeyEvent> {
+class InputFromUser implements EventHandler<KeyEvent> {
 
     private final Control listener;
 
-    public InputFromUser(final Control listener) {
+    InputFromUser(final Control listener) {
         this.listener = listener;
     }
 

@@ -3,9 +3,9 @@ package control;
 import java.util.List;
 
 import utility.Dimension;
-import view.ControlComunication;
-import view.Notifications;
-import view.SceneType;
+import view.configs.Notifications;
+import view.configs.SceneType;
+import view.utilities.ControlComunication;
 
 public interface ViewDecorator {
     void changeScene(SceneType sceneType);

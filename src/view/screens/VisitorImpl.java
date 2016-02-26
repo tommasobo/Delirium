@@ -1,14 +1,13 @@
-package view;
+package view.screens;
 
 import java.util.Optional;
-
-import view.screens.DynamicView;
-import view.screens.StaticView;
 
 public class VisitorImpl implements Visitor {
 
     private Optional<DynamicView> view = Optional.empty();
-
+    
+    public VisitorImpl() { }
+    
     @Override
     public void visit(final StaticView view) {
         this.view = Optional.empty();

@@ -7,9 +7,9 @@ import java.util.Map;
 import control.exceptions.CriticIOExceptions;
 import model.Model;
 import model.ModelImpl;
-import view.Notifications;
-import view.SceneType;
 import view.ViewController;
+import view.configs.Notifications;
+import view.configs.SceneType;
 
 public class ControlImpl implements Control {
     private final Model model;

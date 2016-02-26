@@ -6,16 +6,16 @@ import java.util.List;
 import javafx.geometry.Dimension2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import view.Actions;
-import view.Directions;
-import view.Entities;
+import view.configs.Actions;
+import view.configs.Directions;
+import view.configs.Entities;
 
 class NonUpdatableSprite extends AbstractSprite {
 
     private static final int DEF_WIDTH = 60;
     private static final int DEF_COMPOSITION_UNITS = 3;
 
-    public NonUpdatableSprite(final Entities entity, final int code, final Dimension2D dimension) {
+    NonUpdatableSprite(final Entities entity, final int code, final Dimension2D dimension) {
         super(entity, code, dimension);
     }
 

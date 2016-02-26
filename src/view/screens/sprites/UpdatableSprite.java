@@ -1,7 +1,7 @@
 package view.screens.sprites;
 
-import view.Actions;
-import view.Directions;
+import view.configs.Actions;
+import view.configs.Directions;
 
 interface UpdatableSprite extends Sprite {
 

@@ -14,14 +14,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import view.AudioManager;
-import view.ControlComunication;
-import view.Music;
-import view.Notifications;
-import view.ViewPhysicalProperties;
-import view.Visitor;
+import view.configs.Music;
+import view.configs.Notifications;
 import view.screens.sprites.SpriteManager;
 import view.screens.sprites.SpriteManagerImpl;
+import view.utilities.AudioManager;
+import view.utilities.ControlComunication;
+import view.utilities.ViewPhysicalProperties;
 
 class DynamicViewImpl extends AbstractGenericView implements DynamicView {
 

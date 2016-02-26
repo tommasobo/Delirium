@@ -17,7 +17,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import view.AudioManager;
+import view.utilities.AudioManager;
 
 class ButtonsPane {
     
@@ -25,7 +25,7 @@ class ButtonsPane {
     private final VBox box;
     private final Control listener;
     
-    public ButtonsPane(final Control listener) {
+    ButtonsPane(final Control listener) {
         this.box = new VBox();
         this.listener = listener;
     }

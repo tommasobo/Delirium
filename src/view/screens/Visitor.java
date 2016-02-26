@@ -1,7 +1,4 @@
-package view;
-
-import view.screens.DynamicView;
-import view.screens.StaticView;
+package view.screens;
 
 public interface Visitor {
 

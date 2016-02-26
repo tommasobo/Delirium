@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.transfertentities.EntitiesInfo;
 import utility.Dimension;
-import view.Entities;
+import view.configs.Entities;
 
 interface EntitiesDatabase {
 	

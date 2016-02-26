@@ -1,8 +1,8 @@
 package view.screens.sprites;
 
 import javafx.scene.layout.Pane;
-import view.Actions;
-import view.Directions;
+import view.configs.Actions;
+import view.configs.Directions;
 
 interface Sprite {
 

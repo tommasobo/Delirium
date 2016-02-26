@@ -5,7 +5,7 @@ import javafx.geometry.Dimension2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import utility.Pair;
-import view.SceneType;
+import view.configs.SceneType;
 
 public final class ViewFactory {
     

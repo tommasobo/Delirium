@@ -3,7 +3,7 @@ package control;
 import java.util.List;
 
 import model.transfertentities.EntitiesInfoToControl;
-import view.ControlComunication;
+import view.utilities.ControlComunication;
 
 public interface GameWorldTranslator {
 

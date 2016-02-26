@@ -9,9 +9,13 @@ import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
 import javafx.stage.Stage;
 import utility.Pair;
+import view.configs.Notifications;
+import view.configs.SceneType;
 import view.screens.DynamicView;
 import view.screens.GenericView;
 import view.screens.ViewFactory;
+import view.screens.VisitorImpl;
+import view.utilities.ControlComunication;
 
 public class ViewControllerImpl implements ViewController {
 

@@ -14,12 +14,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import view.Actions;
-import view.AudioManager;
-import view.Entities;
-import view.Notifications;
+import view.configs.Actions;
+import view.configs.Entities;
+import view.configs.Notifications;
+import view.utilities.AudioManager;
 
-public class OverlayPanel {
+class OverlayPanel {
 
     private static final int LAYOUTFACTOR = 6;
     private final Pane overlayPane;
@@ -29,7 +29,7 @@ public class OverlayPanel {
     private Optional<ProgressBar> pb = Optional.empty();
     private Optional<StackPane> pausePane = Optional.empty();
 
-    public OverlayPanel(final Pane overlayPane, final Entities entity, final int life) {
+    OverlayPanel(final Pane overlayPane, final Entities entity, final int life) {
         this.overlayPane = overlayPane;
         this.totalLife = life;
         this.life = life;

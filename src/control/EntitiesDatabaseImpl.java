@@ -9,7 +9,7 @@ import java.util.Map;
 import model.transfertentities.EntitiesInfo;
 import model.transfertentities.EntitiesInfoImpl;
 import utility.Dimension;
-import view.Entities;
+import view.configs.Entities;
 
 class EntitiesDatabaseImpl implements EntitiesDatabase {
 

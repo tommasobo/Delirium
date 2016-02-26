@@ -1,4 +1,7 @@
-package view;
+package view.utilities;
+
+import view.configs.Actions;
+import view.configs.Entities;
 
 public class ControlComunication {
     private final int code;

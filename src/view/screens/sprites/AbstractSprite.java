@@ -2,10 +2,10 @@ package view.screens.sprites;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.layout.Pane;
-import view.Actions;
-import view.Directions;
-import view.Entities;
-import view.ResourcesManager;
+import view.configs.Actions;
+import view.configs.Directions;
+import view.configs.Entities;
+import view.utilities.ResourcesManager;
 
 abstract class AbstractSprite implements Sprite {
     
@@ -14,7 +14,7 @@ abstract class AbstractSprite implements Sprite {
     private final int code;
     private final ResourcesManager resources;
 
-    public AbstractSprite(final Entities entity, final int code, final Dimension2D dimension) {
+    AbstractSprite(final Entities entity, final int code, final Dimension2D dimension) {
         this.spritePane = new Pane();
         this.spritePane.setPrefWidth(dimension.getWidth());
         this.spritePane.setPrefHeight(dimension.getHeight());

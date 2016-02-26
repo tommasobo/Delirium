@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import utility.Pair;
-import view.Notifications;
+import view.configs.Notifications;
 
 public class GameThreadImpl extends Thread implements GameThread {
 

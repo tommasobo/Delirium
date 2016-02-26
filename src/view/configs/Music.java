@@ -1,4 +1,4 @@
-package view;
+package view.configs;
 
 public enum Music {
     
@@ -11,7 +11,7 @@ public enum Music {
         this.name = name;
     }
     
-    String getName() {
+    public String getName() {
         return this.name;
     }
 }

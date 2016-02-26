@@ -8,12 +8,12 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import view.Actions;
-import view.Directions;
-import view.Entities;
+import view.configs.Actions;
+import view.configs.Directions;
+import view.configs.Entities;
 
 class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
-    
+
     private static final int ANIMATION_SPEED = 125;
     private Pair<String, Timeline> currentAnimation;
     private final SpriteRemover remover;
@@ -88,7 +88,7 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
     private String composeAction(final Actions action, final Directions direction) {
         return action.getString() + "-" + direction.getName();
     }
-    
+
     private void checkInit() {
         if (this.currentAnimation == null) {
             throw new IllegalStateException("Init not been called");

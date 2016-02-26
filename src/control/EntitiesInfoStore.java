@@ -17,10 +17,10 @@ public class EntitiesInfoStore implements EntitiesInfo{
     private LifePattern lifePattern;
     private Optional<ShootInfoStore> shootInfo;
     private Optional<Integer> contactDamage;
-    private view.Entities entityType;
+    private view.configs.Entities entityType;
     
     public EntitiesInfoStore(final int code, final Position position, final Optional<MovementInfoStore> movementInfo, final int life,
-            final LifePattern lifePattern, final Optional<ShootInfoStore> shootInfo, final Optional<Integer> contactDamage, final view.Entities entityType) {
+            final LifePattern lifePattern, final Optional<ShootInfoStore> shootInfo, final Optional<Integer> contactDamage, final view.configs.Entities entityType) {
         this.code = code;
         this.position = position;
         this.movementInfo = movementInfo;
@@ -82,7 +82,7 @@ public class EntitiesInfoStore implements EntitiesInfo{
         return contactDamage;
     }
 
-    public view.Entities getEntityType() {
+    public view.configs.Entities getEntityType() {
         return entityType;
     }
     
@@ -110,7 +110,7 @@ public class EntitiesInfoStore implements EntitiesInfo{
         this.contactDamage = contactDamage;
     }
 
-    public void setEntityType(final view.Entities entityType) {
+    public void setEntityType(final view.configs.Entities entityType) {
         this.entityType = entityType;
     }
     

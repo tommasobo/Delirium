@@ -30,56 +30,56 @@ public final class Translator {
         }
     }
 
-    public static view.Directions directionFromModeltoView(final model.arena.utility.Directions direction) {
+    public static view.configs.Directions directionFromModeltoView(final model.arena.utility.Directions direction) {
         switch (direction) {
         case LEFT:
-            return view.Directions.LEFT;
+            return view.configs.Directions.LEFT;
         case RIGHT:
-            return view.Directions.RIGHT;
+            return view.configs.Directions.RIGHT;
         case NONE:
-            return view.Directions.NONE;
+            return view.configs.Directions.NONE;
         default:
             throw new IllegalArgumentException(direction.toString());
         }
     }
 
-    public static view.Actions actionsFromModeltoView(final model.arena.utility.Actions action) {
+    public static view.configs.Actions actionsFromModeltoView(final model.arena.utility.Actions action) {
         switch (action) {
         case MOVEONFALL:
         case FALL:
-            return view.Actions.FALL;
+            return view.configs.Actions.FALL;
         case MOVEONJUMP:
         case JUMP:
-            return view.Actions.JUMP;
+            return view.configs.Actions.JUMP;
         case MOVE:
-            return view.Actions.MOVE;
+            return view.configs.Actions.MOVE;
         case SHOOT:
-            return view.Actions.SHOOT;
+            return view.configs.Actions.SHOOT;
         case STOP:
-            return view.Actions.IDLE;
+            return view.configs.Actions.IDLE;
         default:
             throw new IllegalArgumentException(action.toString());
         }
     }
     
-    public static view.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
+    public static view.configs.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
         if(entity.getLife() == 0) {
-            return view.Actions.DEATH;
+            return view.configs.Actions.DEATH;
         } else {
             return actionsFromModeltoView(entity.getAction());
         }
     }
 
-    public static view.Entities getEntityBulletType(final view.Entities entity) {
+    public static view.configs.Entities getEntityBulletType(final view.configs.Entities entity) {
         switch(entity) {
         case BOCC:
-            return view.Entities.BOCCBULLET;
+            return view.configs.Entities.BOCCBULLET;
         case MAGNO:
-            return view.Entities.MAGNOBULLET;
+            return view.configs.Entities.MAGNOBULLET;
         case JOY:
-            return view.Entities.JOYBULLET;
+            return view.configs.Entities.JOYBULLET;
         default:
-            return view.Entities.BULLET;
+            return view.configs.Entities.BULLET;
         
         }
     }

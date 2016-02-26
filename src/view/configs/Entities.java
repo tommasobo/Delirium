@@ -1,4 +1,4 @@
-package view;
+package view.configs;
 
 import java.util.Arrays;
 import java.util.Collections;

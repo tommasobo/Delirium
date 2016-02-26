@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.layout.Pane;
-import view.Actions;
-import view.ControlComunication;
-import view.ViewPhysicalProperties;
+import view.configs.Actions;
+import view.utilities.ControlComunication;
+import view.utilities.ViewPhysicalProperties;
 
 public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
 

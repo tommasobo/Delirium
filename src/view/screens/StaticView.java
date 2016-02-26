@@ -12,13 +12,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import view.AudioManager;
-import view.Music;
-import view.Visitor;
+import view.configs.Music;
+import view.utilities.AudioManager;
 
-public class StaticView extends AbstractGenericView {
+class StaticView extends AbstractGenericView {
 
-    public StaticView(final Stage stage, final Control listener, final Dimension2D dimension) {
+    StaticView(final Stage stage, final Control listener, final Dimension2D dimension) {
         super(stage, listener, dimension);
     }
 
@@ -42,6 +41,7 @@ public class StaticView extends AbstractGenericView {
 
     }
 
+    @Override
     public void accept(final Visitor visitor) {
         visitor.visit(this);
     }

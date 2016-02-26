@@ -1,4 +1,4 @@
-package view;
+package view.configs;
 
 import javafx.animation.Timeline;
 

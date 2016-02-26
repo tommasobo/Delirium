@@ -7,10 +7,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import utility.Dimension;
 import utility.Pair;
-import view.ControlComunication;
-import view.Notifications;
-import view.SceneType;
 import view.ViewController;
+import view.configs.Notifications;
+import view.configs.SceneType;
+import view.utilities.ControlComunication;
 
 public class ViewDecoratorImpl implements ViewDecorator{
     private int screenMoltiplicatorFactor = 1;

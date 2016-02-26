@@ -1,7 +1,5 @@
 package view.screens;
 
-import view.Visitor;
-
 public interface GenericView {
 
     void display();

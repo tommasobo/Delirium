@@ -5,6 +5,9 @@ import java.util.List;
 import control.Control;
 import javafx.geometry.Dimension2D;
 import utility.Pair;
+import view.configs.Notifications;
+import view.configs.SceneType;
+import view.utilities.ControlComunication;
 
 public interface ViewController {
 
