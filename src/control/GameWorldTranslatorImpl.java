@@ -3,8 +3,8 @@ package control;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.EntitiesInfoToControl;
-import model.Position;
+import model.arena.entities.Position;
+import model.transfertentities.EntitiesInfoToControl;
 import view.ControlComunication;
 import view.ViewPhysicalProperties;
 

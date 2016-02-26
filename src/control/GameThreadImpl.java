@@ -3,9 +3,11 @@ package control;
 import java.util.List;
 import java.util.Optional;
 
-import model.EntitiesInfo;
-import model.EntitiesInfoToControl;
-import model.Model;import java.util.concurrent.locks.Lock;
+import model.Model;
+import model.transfertentities.EntitiesInfo;
+import model.transfertentities.EntitiesInfoToControl;
+
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import utility.Pair;
@@ -38,7 +40,7 @@ public class GameThreadImpl extends Thread implements GameThread {
         this.running = true;
         this.gameState = GameState.INGAME;
         while (this.running) {
-            final Pair<model.Actions, Optional<model.Directions>> action = inputManager.getNextPGAction();
+            final Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action = inputManager.getNextPGAction();
             if (action.getY().isPresent()) {
                 this.model.notifyEvent(action.getY().get());
             }

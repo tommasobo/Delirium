@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import com.google.gson.Gson;
 
-import model.EntitiesInfo;
+import model.transfertentities.EntitiesInfo;
 
 public class LevelLoaderImpl {
     private final List<EntitiesInfo> entities;

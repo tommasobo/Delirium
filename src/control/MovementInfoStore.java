@@ -1,9 +1,9 @@
 package control;
 
-import model.Actions;
-import model.Bounds;
-import model.MovementInfo;
-import model.MovementTypes;
+import model.arena.utility.Actions;
+import model.arena.utility.Bounds;
+import model.arena.utility.MovementTypes;
+import model.transfertentities.MovementInfo;
 
 public class MovementInfoStore implements MovementInfo{
     private int speed;

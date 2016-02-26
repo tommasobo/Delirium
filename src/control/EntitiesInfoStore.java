@@ -2,11 +2,11 @@ package control;
 
 import java.util.Optional;
 
-import model.EntitiesInfo;
-import model.LifePattern;
-import model.MovementInfo;
-import model.Position;
-import model.ShootInfo;
+import model.arena.entities.Position;
+import model.arena.entities.life.LifePattern;
+import model.transfertentities.EntitiesInfo;
+import model.transfertentities.MovementInfo;
+import model.transfertentities.ShootInfo;
 
 public class EntitiesInfoStore implements EntitiesInfo{
 

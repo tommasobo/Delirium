@@ -2,7 +2,7 @@ package control;
 
 import java.util.Optional;
 
-import model.EntitiesInfoToControl;
+import model.transfertentities.EntitiesInfoToControl;
 import utility.Pair;
 
 public final class Translator {
@@ -11,26 +11,26 @@ public final class Translator {
         
     }
     
-    public static Pair<model.Actions, Optional<model.Directions>> translateViewInput(final ViewEvents event) {
+    public static Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> translateViewInput(final ViewEvents event) {
         switch (event) {
         case STOPMLEFT:
         case MLEFT:
-            return new Pair<>(model.Actions.MOVE, Optional.of(model.Directions.LEFT));
+            return new Pair<>(model.arena.utility.Actions.MOVE, Optional.of(model.arena.utility.Directions.LEFT));
         case STOPMRIGHT:
         case MRIGHT:
-            return new Pair<>(model.Actions.MOVE, Optional.of(model.Directions.RIGHT));
+            return new Pair<>(model.arena.utility.Actions.MOVE, Optional.of(model.arena.utility.Directions.RIGHT));
         case STOPJUMP:
         case JUMP:
-            return new Pair<>(model.Actions.JUMP, Optional.empty());
+            return new Pair<>(model.arena.utility.Actions.JUMP, Optional.empty());
         case SHOOT:
         case STOPSHOOT:
-            return new Pair<>(model.Actions.SHOOT, Optional.empty());
+            return new Pair<>(model.arena.utility.Actions.SHOOT, Optional.empty());
         default:
             throw new IllegalArgumentException(event.toString());
         }
     }
 
-    public static view.Directions directionFromModeltoView(final model.Directions direction) {
+    public static view.Directions directionFromModeltoView(final model.arena.utility.Directions direction) {
         switch (direction) {
         case LEFT:
             return view.Directions.LEFT;
@@ -43,7 +43,7 @@ public final class Translator {
         }
     }
 
-    public static view.Actions actionsFromModeltoView(final model.Actions action) {
+    public static view.Actions actionsFromModeltoView(final model.arena.utility.Actions action) {
         switch (action) {
         case MOVEONFALL:
         case FALL:

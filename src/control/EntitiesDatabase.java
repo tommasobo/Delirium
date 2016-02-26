@@ -2,7 +2,7 @@ package control;
 
 import java.util.List;
 
-import model.EntitiesInfo;
+import model.transfertentities.EntitiesInfo;
 import utility.Dimension;
 import view.Entities;
 

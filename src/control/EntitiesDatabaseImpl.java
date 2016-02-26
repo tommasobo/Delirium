@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import model.EntitiesInfo;
-import model.EntitiesInfoImpl;
+import model.transfertentities.EntitiesInfo;
+import model.transfertentities.EntitiesInfoImpl;
 import utility.Dimension;
 import view.Entities;
 

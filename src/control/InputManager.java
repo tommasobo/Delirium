@@ -9,6 +9,6 @@ public interface InputManager {
 
     void notifyViewInput(ViewEvents event);
 
-    Pair<model.Actions, Optional<model.Directions>> getNextPGAction();
+    Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> getNextPGAction();
 
 }

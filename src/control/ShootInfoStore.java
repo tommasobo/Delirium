@@ -1,8 +1,8 @@
 package control;
 
-import model.MovementTypes;
-import model.ShootInfo;
-import model.ShootTypes;
+import model.arena.utility.MovementTypes;
+import model.transfertentities.ShootInfo;
+import model.transfertentities.ShootTypes;
 
 public class ShootInfoStore implements ShootInfo{
     private int minTime;

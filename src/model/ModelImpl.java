@@ -5,6 +5,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import model.arena.Arena;
+import model.arena.ArenaImpl;
+import model.arena.entities.Entities;
+import model.arena.entities.Position;
+import model.arena.entities.life.LifeManagerImpl;
+import model.arena.entities.movement.MovementManager;
+import model.arena.entities.movement.MovementManagerFactory;
+import model.arena.entities.shoot.ShootManager;
+import model.arena.entities.shoot.ShootManagerFactory;
+import model.arena.manager.ArenaManager;
+import model.arena.manager.ArenaManagerImpl;
+import model.arena.utility.Actions;
+import model.arena.utility.Directions;
+import model.transfertentities.EntitiesInfo;
+import model.transfertentities.EntitiesInfoToControl;
+import model.transfertentities.EntitiesInfoToControlImpl;
+import model.transfertentities.MovementInfo;
 import utility.Pair;
 
 public final class ModelImpl implements Model {
@@ -110,7 +127,7 @@ public final class ModelImpl implements Model {
             final Optional<ShootManager> shootManager = ShootManagerFactory.getShootManager(t.getShootInfo());
 
             this.arena.add(new Entities.Builder().code(t.getCode())
-                    .lifeManager(new LifeManager(t.getLife(), t.getLifePattern()))
+                    .lifeManager(new LifeManagerImpl(t.getLife(), t.getLifePattern()))
                     .position(pair.getX().isPresent() ? pair.getX().get() : null)
                     .movementManager(pair.getY().isPresent() ? pair.getY().get() : null)
                     .shootManager(shootManager.isPresent() ? shootManager.get() : null)
@@ -122,10 +139,10 @@ public final class ModelImpl implements Model {
     @Override
     public void putBullet(final List<EntitiesInfo> entitiesInfo) {
         entitiesInfo.stream().forEach(t -> {
-            final MovementInfo movementInfo = t.getMovementInfo().get();
+            final Pair<Optional<Position>, Optional<MovementManager>> pair = MovementManagerFactory
+                    .getMovementManager(t.getPosition(), t.getMovementInfo());
             this.arena.add(new Entities.Builder().code(t.getCode())
-                    .movementManager(new LinearProactiveMovementManager(t.getPosition(), movementInfo.getBounds(),
-                            movementInfo.getSpeed(), movementInfo.isCanFly(), movementInfo.getMovementTypes()))
+                    .movementManager(pair.getY().isPresent() ? pair.getY().get() : null)
                     .contactDamage(t.getContactDamage().get()).build());
         });
     }
