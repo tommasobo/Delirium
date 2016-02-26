@@ -21,7 +21,6 @@ import model.arena.utility.Directions;
 import model.transfertentities.EntitiesInfo;
 import model.transfertentities.EntitiesInfoToControl;
 import model.transfertentities.EntitiesInfoToControlImpl;
-import model.transfertentities.MovementInfo;
 import utility.Pair;
 
 public final class ModelImpl implements Model {

@@ -30,7 +30,7 @@ public interface Entities {
 
     void accept(final EntitiesVisitor visitor);
 
-    class Builder {
+    public class Builder {
         private Optional<Integer> code = Optional.empty();
         private Optional<Position> position = Optional.empty();
         private LifeManager lifeManager;
