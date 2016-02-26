@@ -1,5 +1,7 @@
 package control;
 
+import java.util.Optional;
+
 public class EntityStatsModifierImpl implements EntityStatsModifier{
     private final GameDifficulty gameDifficulty;
     
@@ -7,52 +9,26 @@ public class EntityStatsModifierImpl implements EntityStatsModifier{
         this.gameDifficulty = gameDifficulty;
     }
     
-    public int getSpeedIncremented(final int speed) {
-        switch(this.gameDifficulty) {
-        case EASY:
-            return (int) (speed * 0.5);
-        case HARD:
-            return (int) (speed * 1.5);
-        case NORMAL:
-            return (int) (speed * 1.0);
-        case DELIRIUM:
-            return (int) (speed * 3);
-        default:
-            //TODO eccezione opportuna
-            throw new IllegalArgumentException();
+    public EntitiesInfoStore modifyEntity(EntitiesInfoStore entity) {
+        final EntitiesInfoStore ent = new EntitiesInfoStore(entity);
+        ent.setLife(this.gameDifficulty.getLifeIncrementer().apply(ent.getLife()));
+        if(ent.getMovementInfoStore().isPresent()) {
+            final MovementInfoStore mi = ent.getMovementInfoStore().get();
+            mi.setSpeed(this.gameDifficulty.getSpeedIncrementer().apply(mi.getSpeed()));
         }
-    }
-    
-    public int getLifeIncremented(final int life) {
-        switch(this.gameDifficulty) {
-        case EASY:
-            return (int) (life * 0.5);
-        case HARD:
-            return (int) (life * 1.5);
-        case NORMAL:
-            return (int) (life * 1.0);
-        case DELIRIUM:
-            return (int) (life * 3);
-        default:
-            //TODO eccezione opportuna
-            throw new IllegalArgumentException();
+        if(ent.getShootInfoStore().isPresent()) {
+            final ShootInfoStore si = ent.getShootInfoStore().get();
+            si.setSpeed(this.gameDifficulty.getLifeIncrementer().apply(si.getSpeed()));
+            si.setBulletDamage(this.gameDifficulty.getDamageIncrementer().apply(si.getBulletDamage()));
         }
-    }
-
-    //TODO tipo primitivo sopra int?
-    public int getDamageIncremented(final int damage) {
-        switch(this.gameDifficulty) {
-        case EASY:
-            return (int) (damage * 0.5);
-        case HARD:
-            return (int) (damage * 1.5);
-        case NORMAL:
-            return (int) (damage * 1.0);
-        case DELIRIUM:
-            return (int) (damage * 3);
-        default:
-            //TODO eccezione opportuna
-            throw new IllegalArgumentException();
+        if(ent.getShootInfoStore().isPresent()) {
+            final ShootInfoStore si = ent.getShootInfoStore().get();
+            si.setSpeed(this.gameDifficulty.getSpeedIncrementer().apply(si.getSpeed()));
+            si.setBulletDamage(this.gameDifficulty.getDamageIncrementer().apply(si.getBulletDamage()));
         }
+        if(ent.getContactDamage().isPresent()) {
+            ent.setContactDamage(Optional.of(this.gameDifficulty.getLifeIncrementer().apply(ent.getContactDamage().get())));
+        }
+        return ent;
     }
 }

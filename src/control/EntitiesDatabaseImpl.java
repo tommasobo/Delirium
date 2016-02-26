@@ -62,6 +62,7 @@ class EntitiesDatabaseImpl implements EntitiesDatabase {
     }
 
     public Entities getViewEntity(final Integer code) {
+        //TODO exception se non è in database
         return this.viewEntitiesCodes.get(code);
     }
 

@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import com.google.gson.Gson;
 
@@ -17,7 +16,7 @@ public class LevelLoaderImpl {
     private final EntitiesDatabase database;
     private final EntityStatsModifier statsModifier;
     
-    public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) {
+    public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) throws IOException {
         this.statsModifier = statsModifier;
         
         LevelInfo levelInfo = null;
@@ -25,8 +24,7 @@ public class LevelLoaderImpl {
             final Gson gson = new Gson();
             levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         }
         this.entities = new LinkedList<>();
         int i = 0;
@@ -34,34 +32,11 @@ public class LevelLoaderImpl {
         for(final EntitiesInfoStore ent : levelInfo.getEntities()) {
             EntitiesInfoStore entity = ent;
             if( i!=0 ) {
-                entity = modifyEntityStats(entity); 
+                entity = this.statsModifier.modifyEntity(entity); 
             }
             this.entities.add(this.database.putEntityAndSetCode(entity, entity.getEntityType()));
             i++;
         }
-    }
-    
-    private EntitiesInfoStore modifyEntityStats(final EntitiesInfoStore entity) {
-        final EntitiesInfoStore ent = new EntitiesInfoStore(entity);
-        ent.setLife(this.statsModifier.getLifeIncremented(ent.getLife()));
-        if(ent.getMovementInfoStore().isPresent()) {
-            final MovementInfoStore mi = ent.getMovementInfoStore().get();
-            mi.setSpeed(this.statsModifier.getSpeedIncremented(mi.getSpeed()));
-        }
-        if(ent.getShootInfoStore().isPresent()) {
-            final ShootInfoStore si = ent.getShootInfoStore().get();
-            si.setSpeed(this.statsModifier.getSpeedIncremented(si.getSpeed()));
-            si.setBulletDamage(this.statsModifier.getDamageIncremented(si.getBulletDamage()));
-        }
-        if(ent.getShootInfoStore().isPresent()) {
-            final ShootInfoStore si = ent.getShootInfoStore().get();
-            si.setSpeed(this.statsModifier.getSpeedIncremented(si.getSpeed()));
-            si.setBulletDamage(this.statsModifier.getDamageIncremented(si.getBulletDamage()));
-        }
-        if(ent.getContactDamage().isPresent()) {
-            ent.setContactDamage(Optional.of(this.statsModifier.getDamageIncremented(ent.getContactDamage().get())));
-        }
-        return ent;
     }
 
     public List<EntitiesInfo> getEntities() {

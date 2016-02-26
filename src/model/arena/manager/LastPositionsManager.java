@@ -45,8 +45,4 @@ class LastPositionsManager {
         this.lastPositions.put(code, pos);
     }
     
-    private void clearLastPositions() {
-        
-    }
-    
 }

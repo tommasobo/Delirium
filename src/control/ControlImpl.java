@@ -1,8 +1,10 @@
 package control;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
+import control.exceptions.CriticIOExceptions;
 import model.Model;
 import model.ModelImpl;
 import view.Notifications;
@@ -23,7 +25,11 @@ public class ControlImpl implements Control {
         this.model = ModelImpl.getModel();
         view.setListener(this);
         this.view = new ViewDecoratorImpl(view);
-        this.gameSettings = new SettingsLoaderImpl().getGameSettings();
+        try {
+            this.gameSettings = new SettingsLoaderImpl().getGameSettings();
+        } catch (IOException e) {
+            throw new CriticIOExceptions(e);
+        }
         this.menuToLoad = Menu.NONE;
     }
 
@@ -93,48 +99,57 @@ public class ControlImpl implements Control {
     }
 
     public Map<MenuCategory, MenuCategoryEntries> getButtons() {
-        MenuLoader menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-        if(this.menuToLoad == Menu.NONE) {
-            if(this.gameThread == null) {
-                menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-            } else {
-                switch(this.gameThread.getGameState()) {
-                case FINISH:
+        MenuLoader menuLoader;
+        try {
+            menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+            if(this.menuToLoad == Menu.NONE) {
+                if(this.gameThread == null) {
                     menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-                    break;
-                case INGAME:
-                    throw new IllegalArgumentException();
-                case LOSE:
-                    menuLoader = new MenuLoaderImpl(Menu.LOSE);
-                    this.gameThread.setGameEnd();
-                    break;
-                case PAUSED:
-                    menuLoader = new MenuLoaderImpl(Menu.PAUSE);
-                    break;
-                case WON:
-                    if(this.levelsIterator.hasNext()){
-                        menuLoader = new MenuLoaderImpl(Menu.WIN);
-                    } else {
-                        menuLoader = new MenuLoaderImpl(Menu.WINEND);
-                    }
-                    this.gameThread.setGameEnd();
-                    break;
-                default:
-                    throw new IllegalStateException();
+                } else {
+                    switch(this.gameThread.getGameState()) {
+                    case FINISH:
+                        menuLoader = new MenuLoaderImpl(Menu.INITIAL);
+                        break;
+                    case INGAME:
+                        throw new IllegalArgumentException();
+                    case LOSE:
+                        menuLoader = new MenuLoaderImpl(Menu.LOSE);
+                        this.gameThread.setGameEnd();
+                        break;
+                    case PAUSED:
+                        menuLoader = new MenuLoaderImpl(Menu.PAUSE);
+                        break;
+                    case WON:
+                        if(this.levelsIterator.hasNext()){
+                            menuLoader = new MenuLoaderImpl(Menu.WIN);
+                        } else {
+                            menuLoader = new MenuLoaderImpl(Menu.WINEND);
+                        }
+                        this.gameThread.setGameEnd();
+                        break;
+                    default:
+                        throw new IllegalStateException("The thread is in state" + this.gameThread.getGameState().toString());
+                    }      
                 }
-                    
+                
+            } else {
+                menuLoader = new SettingsMenuLoaderImpl(this.menuToLoad, this.gameSettings);
+                this.menuToLoad = Menu.NONE;
             }
-            
-        } else {
-            menuLoader = new SettingsMenuLoaderImpl(this.menuToLoad, this.gameSettings);
-            this.menuToLoad = Menu.NONE;
+        }catch (IOException e) {
+            throw new CriticIOExceptions(e);
         }
         return menuLoader.getMenuStructure();
     }
 
     private void gameLoop(final Levels level) {
         
-        final LevelLoaderImpl ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
+        LevelLoaderImpl ll;
+        try {
+            ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
+        } catch (IOException e) {
+            throw new CriticIOExceptions(e);
+        }
         final EntitiesDatabase database = ll.getDatabase();
         this.model.createArena(ll.getEntities());
         this.view.setLevelDimension(database.getArenaDimension());

@@ -11,15 +11,14 @@ public class SettingsLoaderImpl implements SettingsLoader {
     
     private GameSettings gameSettings;
     
-    public SettingsLoaderImpl() {
+    public SettingsLoaderImpl() throws IOException {
         //TODO crea classe loader per ottenere gli input stream?
         //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/gameSettings.json"));){
             final Gson gson = new Gson();
             this.gameSettings = gson.fromJson(br, GameSettingsImpl.class);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         }
     }
 

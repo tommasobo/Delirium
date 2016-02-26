@@ -24,13 +24,11 @@ class ActiveMovementDatabase {
     }
     
     public Set<Entities> getRelativeEntities(int masterEntityCode) {
-        //TODO METTERE CONTROLLO PIU BELLO
         return this.dependences.get(masterEntityCode) == null ? new HashSet<>() : this.dependences.get(masterEntityCode);
     }
     
     public void removeEntityFromAllDependences(Entities entity) {
         this.dependences.entrySet().stream().map(t -> t.getValue()).forEach(t -> {
-            //TODO controllo inutile
             if(t.contains(entity)) {
                 t.remove(entity);
             }

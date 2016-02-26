@@ -1,5 +1,6 @@
 package control;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -7,7 +8,7 @@ import java.util.Optional;
 public class SettingsMenuLoaderImpl extends MenuLoaderImpl {
     private final GameSettings gameSettings;
     
-    public SettingsMenuLoaderImpl(final Menu menu, final GameSettings gameSettings) {
+    public SettingsMenuLoaderImpl(final Menu menu, final GameSettings gameSettings) throws IOException {
         super(menu);
         this.gameSettings = gameSettings;
     }
