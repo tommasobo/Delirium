@@ -78,15 +78,19 @@ public class Test {
                 .get();
 
         assertEquals(newHeroPosition.getPoint(), heroPoint);
+        System.out.println("The hero move right to: " + heroPoint);
         assertEquals(newMonsterPosition.getPoint(), monsterPoint);
+        System.out.println("The monster move right to: " + monsterPoint);
         this.modelTest.notifyEvent(Directions.LEFT);
         this.modelTest.notifyEvent(Actions.MOVE);
         this.modelTest.updateArena();
         newHeroPosition = this.modelTest.getState().stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition())
                 .findAny().get();
+        heroPoint = Actions.MOVE.apply(heroPoint, heroMovementInfo.getSpeed(), Directions.LEFT);
 
-        assertEquals(newHeroPosition.getPoint(),
-                Actions.MOVE.apply(heroPoint, heroMovementInfo.getSpeed(), Directions.LEFT));
+        assertEquals(newHeroPosition.getPoint(), heroPoint);
+
+        System.out.println("The hero move right to: " + heroPoint);
 
     }
 
