@@ -1,9 +1,13 @@
-package view;
+package view.screens.sprites;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.layout.Pane;
+import view.Actions;
+import view.Directions;
+import view.Entities;
+import view.ResourcesManager;
 
-public abstract class AbstractSprite implements Sprite {
+abstract class AbstractSprite implements Sprite {
     
     private final Pane spritePane;
     private final Entities entity;
@@ -20,7 +24,7 @@ public abstract class AbstractSprite implements Sprite {
     }
 
     @Override
-    abstract public void initSprite(final Actions action, final Directions direction);
+    public abstract void initSprite(final Actions action, final Directions direction);
 
     @Override
     public Pane getSpritePane() {
@@ -29,7 +33,7 @@ public abstract class AbstractSprite implements Sprite {
      
     protected void checkAction(final Actions action) {
         if (!this.entity.getAllowedActions().contains(action)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Action not allowed : " + entity.getName() + "-" + action.getString());
         }
     }
     

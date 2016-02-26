@@ -26,7 +26,7 @@ public enum Entities {
     private final int nAssets;
     private final Actions[] allowedActions;
     
-    private Entities(final String name, final boolean animated, final int nAssets, final Actions...actions) {
+    Entities(final String name, final boolean animated, final int nAssets, final Actions...actions) {
         this.name = name;
         this.animated = animated;
         this.nAssets = nAssets;

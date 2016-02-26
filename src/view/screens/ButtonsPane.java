@@ -1,33 +1,27 @@
-package view;
+package view.screens;
 
-import java.util.List;
 import java.util.Map;
 
 import control.Buttons;
 import control.Control;
 import control.MenuCategory;
 import control.MenuCategoryEntries;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import jdk.nashorn.internal.codegen.Label;
+import view.AudioManager;
 
-public class ButtonsPane {
+class ButtonsPane {
     
+    private static final int DEF_WIDTH_DIVISOR = 5;
     private final VBox box;
     private final Control listener;
     
@@ -36,10 +30,10 @@ public class ButtonsPane {
         this.listener = listener;
     }
     
-    public VBox getButtonPane(final double prefWidth) {
+    public VBox getButtonPane(final double sceneWidth) {
         
         this.box.setAlignment(Pos.CENTER);
-        this.box.setMaxWidth(prefWidth);
+        this.box.setMaxWidth(sceneWidth / DEF_WIDTH_DIVISOR);
         final Map<MenuCategory, MenuCategoryEntries> buttons = this.listener.getButtons();
         buttons.keySet().forEach(category -> {
             if (category == MenuCategory.DEFAULT) {
@@ -51,7 +45,7 @@ public class ButtonsPane {
                 menubut.setPopupSide(Side.RIGHT);
                 menubut.setFocusTraversable(false);
                 menubut.setMaxWidth(Double.MAX_VALUE);
-                ToggleGroup toggleGroup = new ToggleGroup();
+                final ToggleGroup toggleGroup = new ToggleGroup();
                 buttons.get(category).getEntries().forEach(menuitem -> {
                     final RadioMenuItem rmi = this.createMenuItem(menuitem);
                     if (buttons.get(category).getFocus().isPresent() && buttons.get(category).getFocus().get() == menuitem) {

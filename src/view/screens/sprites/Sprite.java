@@ -1,10 +1,13 @@
-package view;
+package view.screens.sprites;
 
 import javafx.scene.layout.Pane;
+import view.Actions;
+import view.Directions;
 
-public interface Sprite {
-    
+interface Sprite {
+
     void initSprite(final Actions action, final Directions direction);
+
     Pane getSpritePane();
-    
+
 }

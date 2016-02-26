@@ -9,11 +9,11 @@ public enum Notifications {
     
     private final String toShow;
     
-    private Notifications(final String toShow) {
+    Notifications(final String toShow) {
         this.toShow = toShow;
     }
     
-    String getToShow() {
+    public String getToShow() {
         return this.toShow;
     }
 

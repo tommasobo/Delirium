@@ -10,10 +10,8 @@ import view.ViewControllerImpl;
 
 public class Launcher extends Application {
 
-	
-
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) {
         
         primaryStage.getIcons().add(new Image("images/gameicon.png"));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
@@ -25,7 +23,7 @@ public class Launcher extends Application {
         
     }
     
-    public static void main(String...args) {
+    public static void main(final String...args) {
         launch();
     }
 
