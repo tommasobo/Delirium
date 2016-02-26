@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,8 @@ import model.arena.manager.ArenaManager;
 import model.arena.manager.ArenaManagerImpl;
 import model.arena.utility.Actions;
 import model.arena.utility.Directions;
+import model.exception.IllegalMonsterBoundsException;
+import model.exception.NotUniqueCodeException;
 import model.transfertentities.EntitiesInfo;
 import model.transfertentities.EntitiesInfoToControl;
 import model.transfertentities.EntitiesInfoToControlImpl;
@@ -49,23 +52,8 @@ public final class ModelImpl implements Model {
 
     public List<EntitiesInfo> updateArena() {
 
-        int size = this.arena.getEntities().size();
-        for (int i = 0; i < size; i++) {
-            if (this.arena.getEntities().get(i).getLifeManager().getLife() == 0) {
-                this.arena.getEntities().remove(i);
-                i--;
-                size--;
-            }
-        }
-
-        size = this.arena.getBullets().size();
-        for (int i = 0; i < size; i++) {
-            if (this.arena.getBullets().get(i).getLifeManager().getLife() == 0) {
-                this.arena.getBullets().remove(i);
-                i--;
-                size--;
-            }
-        }
+        this.removeEntities(this.arena.getEntities());
+        this.removeEntities(this.arena.getBullets());
 
         this.arenaManager.moveEntities();
 
@@ -114,10 +102,14 @@ public final class ModelImpl implements Model {
     }
 
     @Override
-    public void createArena(final List<EntitiesInfo> entitiesInfo) {
+    public void createArena(final List<EntitiesInfo> entitiesInfo)
+            throws NotUniqueCodeException, IllegalMonsterBoundsException {
 
         this.arena = new ArenaImpl();
         this.arenaManager = new ArenaManagerImpl(this.arena);
+
+        this.checkCodes(entitiesInfo);
+        this.checkMonsterBounds(entitiesInfo);
 
         entitiesInfo.stream().forEach(t -> {
 
@@ -136,7 +128,12 @@ public final class ModelImpl implements Model {
     }
 
     @Override
-    public void putBullet(final List<EntitiesInfo> entitiesInfo) {
+    public void putBullet(final List<EntitiesInfo> entitiesInfo)
+            throws NotUniqueCodeException, IllegalMonsterBoundsException {
+
+        this.checkCodes(entitiesInfo);
+        this.checkMonsterBounds(entitiesInfo);
+
         entitiesInfo.stream().forEach(t -> {
             final Pair<Optional<Position>, Optional<MovementManager>> pair = MovementManagerFactory
                     .getMovementManager(t.getPosition(), t.getMovementInfo());
@@ -144,6 +141,35 @@ public final class ModelImpl implements Model {
                     .movementManager(pair.getY().isPresent() ? pair.getY().get() : null)
                     .contactDamage(t.getContactDamage().get()).build());
         });
+    }
+
+    private void checkCodes(final List<EntitiesInfo> entitiesInfo) throws NotUniqueCodeException {
+        if (!entitiesInfo.stream().map(t -> t.getCode()).allMatch(new HashSet<>()::add)) {
+            throw new NotUniqueCodeException();
+        }
+    }
+
+    private void checkMonsterBounds(final List<EntitiesInfo> entitiesInfo) throws IllegalMonsterBoundsException {
+        for (final EntitiesInfo t : entitiesInfo) {
+            if (t.getMovementInfo().isPresent()
+                    && (t.getPosition().getPoint().getX() > t.getMovementInfo().get().getBounds().getMaxX()
+                            || t.getPosition().getPoint().getX() < t.getMovementInfo().get().getBounds().getMinX()
+                            || t.getPosition().getPoint().getY() > t.getMovementInfo().get().getBounds().getMaxY()
+                            || t.getPosition().getPoint().getY() < t.getMovementInfo().get().getBounds().getMinY())) {
+                throw new IllegalMonsterBoundsException();
+            }
+        }
+    }
+
+    private void removeEntities(final List<? extends Entities> entities) {
+        int size = entities.size();
+        for (int i = 0; i < size; i++) {
+            if (entities.get(i).getLifeManager().getLife() == 0) {
+                entities.remove(i);
+                i--;
+                size--;
+            }
+        }
     }
 
 }

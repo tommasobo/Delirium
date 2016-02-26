@@ -34,7 +34,7 @@ public class MovementManagerFactory {
                         movementInfo.get().getMovementTypes());
                 break;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Entities cannot have null movementTypes");
             }
             return new Pair<>(Optional.empty(), Optional.of(movementManager));
 

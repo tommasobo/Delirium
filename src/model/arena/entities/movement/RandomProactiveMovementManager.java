@@ -42,7 +42,7 @@ class RandomProactiveMovementManager extends LinearProactiveMovementManager {
                 this.setMovementTypes(MovementTypes.VERTICAL_LINEAR);
                 break;
             default:
-                throw new IllegalStateException();
+                throw new IllegalStateException("Random number cannot be null");
             }
 
         }

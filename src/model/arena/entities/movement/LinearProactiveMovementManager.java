@@ -35,7 +35,7 @@ class LinearProactiveMovementManager extends AbstractDinamicMovementManager {
         }
 
         actualPosition = UtilityMovement.move(actualPosition, this.getBounds(), this.getAction(), this.getSpeed())
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new IllegalStateException("Bound's incorrect"));
 
         return this.movementTypes == MovementTypes.HORIZONTAL_LINEAR ? super.applyGravity(actualPosition)
                 : actualPosition;

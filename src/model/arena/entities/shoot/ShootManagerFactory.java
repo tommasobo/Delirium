@@ -20,7 +20,7 @@ public class ShootManagerFactory {
                         shootInfo.get().getMovementType(), shootInfo.get().getRange(), shootInfo.get().getSpeed());
                 break;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Entities cannot have null shootTypes");
             }
             return Optional.of(shootManager);
         } else {

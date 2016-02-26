@@ -31,7 +31,7 @@ public class UtilityMovement {
             ret.add(Actions.JUMP);
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Actions cannot be null");
         }
 
         return ret;
@@ -50,7 +50,7 @@ public class UtilityMovement {
             newPosition = fixPositionBounds(newPosition, bounds, action);
             break;
         default:
-            throw new IllegalStateException();
+            throw new IllegalStateException("CheckResult cannot be null");
         }
         return Optional.of(newPosition);
     }
@@ -83,7 +83,7 @@ public class UtilityMovement {
             checkMove = CheckResult.TRUE;
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Directions cannot be null");
         }
         switch (action) {
         case FALL:
@@ -95,7 +95,7 @@ public class UtilityMovement {
         case STOP:
             return CheckResult.TRUE;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Actions cannot be composed here");
 
         }
     }
@@ -118,7 +118,7 @@ public class UtilityMovement {
             case NONE:
                 break;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Direction cannot be null");
             }
             break;
         case JUMP:
@@ -128,7 +128,7 @@ public class UtilityMovement {
         case MOVEONJUMP:
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Direction have to be composed here");
         }
 
         return position;
