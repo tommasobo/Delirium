@@ -44,8 +44,6 @@ public class ArenaManagerImpl implements ArenaManager {
         return this.gameWon;
     }
 
-    // TODO mettere conteggio temporale in database per evitare spostamenti
-    // istantanei delle entità?
     private Position collisionFixerTest(final Position pos, final Entities entity) {
         return collisionFixerTest(pos, entity, UtilityCollisionsDetection.realAction(entity), pos.getDirection());
     }

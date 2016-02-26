@@ -11,13 +11,13 @@ import view.ViewPhysicalProperties;
 public class GameWorldTranslatorImpl implements GameWorldTranslator {
     private final EntitiesDatabase database;
     private final int screenMoltiplicatorFactor;
+
     public GameWorldTranslatorImpl(final EntitiesDatabase database, final int screenMoltiplicatorFactor) {
         super();
         this.database = database;
         this.screenMoltiplicatorFactor = screenMoltiplicatorFactor;
     }
-    
-    //eventualmente da sostare dentro controller impl
+
     @Override
     public List<ControlComunication> entitiesListFromModelToView(final List<EntitiesInfoToControl> listInfo) {
         final List<ControlComunication> viewList = new LinkedList<>();
@@ -28,14 +28,14 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
         return viewList;
     }
 
-    
-    @Override
-    public ViewPhysicalProperties positionFromModeltoView(final EntitiesInfoToControl info) {
-        // TODO mi serve una interfaccia position senza setter, anche un point
+    private ViewPhysicalProperties positionFromModeltoView(final EntitiesInfoToControl info) {
         final Position p = info.getPosition();
         return new ViewPhysicalProperties(p.getPoint().getX() * this.screenMoltiplicatorFactor,
-                (this.database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight()) * this.screenMoltiplicatorFactor,
-                p.getDimension().getWidth() * this.screenMoltiplicatorFactor, p.getDimension().getHeight() * this.screenMoltiplicatorFactor, info.getSpeed().isPresent() ? info.getSpeed().get() * this.screenMoltiplicatorFactor : 0,
+                (this.database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight())
+                        * this.screenMoltiplicatorFactor,
+                p.getDimension().getWidth() * this.screenMoltiplicatorFactor,
+                p.getDimension().getHeight() * this.screenMoltiplicatorFactor,
+                info.getSpeed().isPresent() ? info.getSpeed().get() * this.screenMoltiplicatorFactor : 0,
                 Translator.directionFromModeltoView(p.getDirection()));
     }
 }

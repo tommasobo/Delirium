@@ -26,7 +26,7 @@ public final class Translator {
         case STOPSHOOT:
             return new Pair<>(model.Actions.SHOOT, Optional.empty());
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(event.toString());
         }
     }
 
@@ -39,7 +39,7 @@ public final class Translator {
         case NONE:
             return view.Directions.NONE;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(direction.toString());
         }
     }
 
@@ -58,7 +58,7 @@ public final class Translator {
         case STOP:
             return view.Actions.IDLE;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(action.toString());
         }
     }
     

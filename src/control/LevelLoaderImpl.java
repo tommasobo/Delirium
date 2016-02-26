@@ -13,30 +13,25 @@ import com.google.gson.Gson;
 import model.EntitiesInfo;
 
 public class LevelLoaderImpl {
-    private final Levels levelType;
     private final List<EntitiesInfo> entities;
-    private LevelInfo levelInfo;
     private final EntitiesDatabase database;
     private final EntityStatsModifier statsModifier;
     
     public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) {
-        this.levelType = level;
         this.statsModifier = statsModifier;
         
-        //TODO crea classe loader per ottenere gli input stream?
-        //TODO mettere eccezioni per mancato file load
+        LevelInfo levelInfo = null;
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/levels/" + level.getFilename() + ".json"));){
             final Gson gson = new Gson();
-            this.levelInfo = gson.fromJson(br, LevelInfoImpl.class);
+            levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
         this.entities = new LinkedList<>();
         int i = 0;
-        this.database = new EntitiesDatabaseImpl(this.levelInfo.getLevelDimension());
-        for(final EntitiesInfoStore ent : this.levelInfo.getEntities()) {
+        this.database = new EntitiesDatabaseImpl(levelInfo.getLevelDimension());
+        for(final EntitiesInfoStore ent : levelInfo.getEntities()) {
             EntitiesInfoStore entity = ent;
             if( i!=0 ) {
                 entity = modifyEntityStats(entity); 
@@ -69,16 +64,8 @@ public class LevelLoaderImpl {
         return ent;
     }
 
-    public Levels getLevelType() {
-        return levelType;
-    }
-
     public List<EntitiesInfo> getEntities() {
         return entities;
-    }
-
-    public LevelInfo getLevelInfo() {
-        return levelInfo;
     }
 
     public EntitiesDatabase getDatabase() {

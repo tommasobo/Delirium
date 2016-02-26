@@ -14,8 +14,6 @@ public class ControlImpl implements Control {
     final private ViewDecorator view;
     private final InputManager inputManager;
     private GameThread gameThread;
-    //TODO o cavi oppure metti controllo se va bene
-    //private MenuLoader menuLoader;
     private final GameSettings gameSettings;
     private Iterator<Levels> levelsIterator;
     private Menu menuToLoad;

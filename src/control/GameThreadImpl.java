@@ -62,7 +62,6 @@ public class GameThreadImpl extends Thread implements GameThread {
         }
         
         synchronized(this.stateLock) {
-            //TODO aggiungi eccezione thread killato di cattiveria
             if(this.gameState == GameState.WON) {
                 this.view.notifySceneEvent(Notifications.WIN);
             } else if (this.gameState == GameState.LOSE) {
@@ -126,8 +125,11 @@ public class GameThreadImpl extends Thread implements GameThread {
     @Override
     public void setGameEnd() {
         synchronized(this.stateLock) {
-            //TODO non permettere se è running
-            this.gameState = GameState.FINISH;
+            if(!this.running) {
+                this.gameState = GameState.FINISH;
+            } else {
+                throw new IllegalStateException();
+            }
         }
     }
 }
