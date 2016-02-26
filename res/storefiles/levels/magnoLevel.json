@@ -18,7 +18,7 @@
           "speed": 7,
           "bounds": {
             "minX": 0,
-            "maxX": 5000,
+            "maxX": 5200,
             "minY": 0,
             "maxY": 600
           },
@@ -105,7 +105,59 @@
         },
         "direction": "LEFT",
         "dimension": {
-          "width": 1100,
+          "width": 200,
+          "height": 40
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 300,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": null
+      },
+      "entityType": "GROUND"
+    },
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4100,
+          "y": 0
+        },
+        "direction": "RIGHT",
+        "dimension": {
+          "width": 900,
+          "height": 40
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 300,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": 70
+      },
+      "entityType": "TRAP"
+    },
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 5000,
+          "y": 0
+        },
+        "direction": "LEFT",
+        "dimension": {
+          "width": 200,
           "height": 40
         }
       },
@@ -125,17 +177,16 @@
 
 
 
-
     {
       "code": 0,
       "position": {
         "point": {
-          "x": 450,
+          "x": 300,
           "y": 100
         },
         "direction": "NONE",
         "dimension": {
-          "width": 400,
+          "width": 550,
           "height": 15
         }
       },
@@ -308,6 +359,116 @@
       },
       "entityType": "PLATFORM"
     },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4100,
+          "y": 100
+        },
+        "direction": "NONE",
+        "dimension": {
+          "width": 100,
+          "height": 15
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": null
+      },
+      "entityType": "PLATFORM"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4300,
+          "y": 200
+        },
+        "direction": "NONE",
+        "dimension": {
+          "width": 100,
+          "height": 15
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": null
+      },
+      "entityType": "PLATFORM"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4600,
+          "y": 200
+        },
+        "direction": "NONE",
+        "dimension": {
+          "width": 50,
+          "height": 15
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": null
+      },
+      "entityType": "PLATFORM"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4850,
+          "y": 200
+        },
+        "direction": "NONE",
+        "dimension": {
+          "width": 50,
+          "height": 15
+        }
+      },
+      "movementInfo": {
+        "value": null
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": null
+      },
+      "contactDamage": {
+        "value": null
+      },
+      "entityType": "PLATFORM"
+    },
+
+
 
 
 
@@ -555,7 +716,7 @@
       "movementInfo": {
         "value": null
       },
-      "life": 500,
+      "life": 50,
       "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": {
@@ -596,7 +757,7 @@
               "maxY": 600
             },
             "actions": "MOVE",
-            "canFly": true,
+            "canFly": false,
             "movementTypes": "HORIZONTAL_LINEAR"
           }
         },
@@ -641,7 +802,7 @@
               "maxY": 600
             },
             "actions": "MOVE",
-            "canFly": true,
+            "canFly": false,
             "movementTypes": "HORIZONTAL_LINEAR"
           }
         },
@@ -686,7 +847,7 @@
               "maxY": 600
             },
             "actions": "MOVE",
-            "canFly": true,
+            "canFly": false,
             "movementTypes": "HORIZONTAL_LINEAR"
           }
         },
@@ -731,14 +892,66 @@
               "maxY": 600
             },
             "actions": "MOVE",
-            "canFly": true,
+            "canFly": false,
             "movementTypes": "HORIZONTAL_LINEAR"
           }
         },
         "life": 35,
         "lifePattern": "WITHOUT_LIFE",
         "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
+        },
+        "contactDamage": {
           "value": null
+        },
+        "entityType": "BUG"
+    },
+
+    {
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 2900,
+            "y": 320
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
+        },
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 2900,
+              "maxX": 3100,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": false,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITH_LIFE",
+        "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
         },
         "contactDamage": {
           "value": 2
@@ -746,16 +959,285 @@
         "entityType": "BUG"
     },
 
+    {
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 3200,
+            "y": 220
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
+        },
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 3200,
+              "maxX": 3400,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": false,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITH_LIFE",
+        "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
+        },
+        "contactDamage": {
+          "value": 2
+        },
+        "entityType": "BUG"
+    },
+
+    {
+        "code": 0,
+        "position": {
+          "point": {
+            "x": 3500,
+            "y": 120
+          },
+          "direction": "RIGHT",
+          "dimension": {
+            "width": 55,
+            "height": 35
+          }
+        },
+        "movementInfo": {
+          "value": {
+            "speed": 1,
+            "bounds": {
+              "minX": 3500,
+              "maxX": 3700,
+              "minY": 0,
+              "maxY": 600
+            },
+            "actions": "MOVE",
+            "canFly": false,
+            "movementTypes": "HORIZONTAL_LINEAR"
+          }
+        },
+        "life": 35,
+        "lifePattern": "WITH_LIFE",
+        "shootInfo": {
+          "value": {
+            "minTime": 50,
+            "shootType": "MONSTER",
+            "bulletDamage": 10,
+            "movementType": "HORIZONTAL_LINEAR",
+            "range": 300,
+            "speed": 10
+          }
+        },
+        "contactDamage": {
+          "value": 2
+        },
+        "entityType": "BUG"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4483,
+          "y": 545
+        },
+        "direction": "LEFT",
+        "dimension": {
+          "width": 35,
+          "height": 55
+        }
+      },
+      "movementInfo": {
+        "value": {
+          "speed": 3,
+          "bounds": {
+            "minX": 0,
+            "maxX": 6000,
+            "minY": 0,
+            "maxY": 600
+          },
+          "actions": "FALL",
+          "canFly": true,
+          "movementTypes": "VERTICAL_LINEAR"
+        }
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": {
+          "minTime": 25,
+          "shootType": "MONSTER",
+          "bulletDamage": 10,
+          "movementType": "HORIZONTAL_LINEAR",
+          "range": 300,
+          "speed": 15
+        }
+      },
+      "contactDamage": {
+        "value": 10
+      },
+      "entityType": "VOLPE"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4483,
+          "y": 40
+        },
+        "direction": "LEFT",
+        "dimension": {
+          "width": 35,
+          "height": 55
+        }
+      },
+      "movementInfo": {
+        "value": {
+          "speed": 3,
+          "bounds": {
+            "minX": 0,
+            "maxX": 6000,
+            "minY": 0,
+            "maxY": 600
+          },
+          "actions": "JUMP",
+          "canFly": true,
+          "movementTypes": "VERTICAL_LINEAR"
+        }
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": {
+          "minTime": 25,
+          "shootType": "MONSTER",
+          "bulletDamage": 10,
+          "movementType": "HORIZONTAL_LINEAR",
+          "range": 300,
+          "speed": 10
+        }
+      },
+      "contactDamage": {
+        "value": 15
+      },
+      "entityType": "VOLPE"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4783,
+          "y": 545
+        },
+        "direction": "LEFT",
+        "dimension": {
+          "width": 35,
+          "height": 55
+        }
+      },
+      "movementInfo": {
+        "value": {
+          "speed": 3,
+          "bounds": {
+            "minX": 0,
+            "maxX": 6000,
+            "minY": 0,
+            "maxY": 600
+          },
+          "actions": "FALL",
+          "canFly": true,
+          "movementTypes": "VERTICAL_LINEAR"
+        }
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": {
+          "minTime": 25,
+          "shootType": "MONSTER",
+          "bulletDamage": 10,
+          "movementType": "HORIZONTAL_LINEAR",
+          "range": 300,
+          "speed": 10
+        }
+      },
+      "contactDamage": {
+        "value": 15
+      },
+      "entityType": "VOLPE"
+    },
+
+    {
+      "code": 0,
+      "position": {
+        "point": {
+          "x": 4783,
+          "y": 40
+        },
+        "direction": "LEFT",
+        "dimension": {
+          "width": 35,
+          "height": 55
+        }
+      },
+      "movementInfo": {
+        "value": {
+          "speed": 3,
+          "bounds": {
+            "minX": 0,
+            "maxX": 6000,
+            "minY": 0,
+            "maxY": 600
+          },
+          "actions": "JUMP",
+          "canFly": true,
+          "movementTypes": "VERTICAL_LINEAR"
+        }
+      },
+      "life": 35,
+      "lifePattern": "WITHOUT_LIFE",
+      "shootInfo": {
+        "value": {
+          "minTime": 25,
+          "shootType": "MONSTER",
+          "bulletDamage": 10,
+          "movementType": "HORIZONTAL_LINEAR",
+          "range": 300,
+          "speed": 15
+        }
+      },
+      "contactDamage": {
+        "value": 10
+      },
+      "entityType": "VOLPE"
+    },
 
 
     {
       "code": -1,
       "position": {
         "point": {
-          "x": 100,
-          "y": 320
+          "x": 5160,
+          "y": 40
         },
-        "direction": "RIGHT",
+        "direction": "LEFT",
         "dimension": {
           "width": 40,
           "height": 60
@@ -776,9 +1258,11 @@
     }
 
 
+
+
   ],
   "levelDimension": {
-    "width": 5000,
+    "width": 5200,
     "height": 600
   }
 }

@@ -118,7 +118,9 @@ public class ArenaManagerImpl implements ArenaManager {
                 posToFix.setPoint(
                         new Point(posToFix.getPoint().getX(), collisionRectangle.y + collisionRectangle.height));
                 verticalLimit = true;
-                this.platformEntities.putEntity(collision.getX().getCode(), entity);
+                if(!collision.getX().getContactDamage().isPresent()) {
+                    this.platformEntities.putEntity(collision.getX().getCode(), entity);
+                }
                 break;
             case MOVE:
                 fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
@@ -142,7 +144,9 @@ public class ArenaManagerImpl implements ArenaManager {
                 } else {
                     posToFix.setPoint(new Point(retToFix.x, collisionRectangle.y + collisionRectangle.height));
                     verticalLimit = true;
-                    this.platformEntities.putEntity(collision.getX().getCode(), entity);
+                    if(!collision.getX().getContactDamage().isPresent()) {
+                        this.platformEntities.putEntity(collision.getX().getCode(), entity);
+                    }
                 }
                 break;
             default:
