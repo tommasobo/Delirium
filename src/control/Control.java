@@ -2,6 +2,10 @@ package control;
 
 import java.util.Map;
 
+import control.viewcomunication.MenuCategory;
+import control.viewcomunication.MenuCategoryEntries;
+import control.viewcomunication.ViewEvents;
+
 /**
  * The interface control declare all methods for the comunication to view
  * @author Matteo Magnani

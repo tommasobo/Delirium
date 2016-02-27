@@ -1,7 +1,7 @@
 package view.screens;
 
 import control.Control;
-import control.ViewEvents;
+import control.viewcomunication.ViewEvents;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

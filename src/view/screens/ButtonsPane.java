@@ -2,10 +2,10 @@ package view.screens;
 
 import java.util.Map;
 
-import control.Buttons;
 import control.Control;
-import control.MenuCategory;
-import control.MenuCategoryEntries;
+import control.viewcomunication.Buttons;
+import control.viewcomunication.MenuCategory;
+import control.viewcomunication.MenuCategoryEntries;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
