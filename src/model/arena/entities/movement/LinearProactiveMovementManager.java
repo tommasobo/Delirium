@@ -7,12 +7,20 @@ import model.arena.utility.Directions;
 import model.arena.utility.MovementTypes;
 import model.arena.utility.UtilityMovement;
 
+/**
+ * This implementation specified the linear movement. But the entities has a
+ * bounds so, if they cannot go on, they return back. The movementTypes is an
+ * enum that specified the pattern of the linear (horizontal, vertical).
+ * 
+ * @author josephgiovanelli
+ *
+ */
 class LinearProactiveMovementManager extends AbstractDinamicMovementManager {
 
     private MovementTypes movementTypes;
 
-    public LinearProactiveMovementManager(final Position position, final Bounds bounds, final int speed,
-            final boolean canFly, final MovementTypes movementTypes) {
+    LinearProactiveMovementManager(final Position position, final Bounds bounds, final int speed, final boolean canFly,
+            final MovementTypes movementTypes) {
         super(position, bounds, movementTypes == MovementTypes.HORIZONTAL_LINEAR ? Actions.MOVE : Actions.JUMP, speed,
                 canFly);
         this.movementTypes = movementTypes;

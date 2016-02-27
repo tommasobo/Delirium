@@ -9,8 +9,24 @@ import model.arena.entities.shoot.HeroShootManager;
 import model.arena.entities.shoot.ShootManager;
 import model.arena.utility.Actions;
 
+/**
+ * This is the instance of the hero and has a particular features that the
+ * others haven't.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class HeroImpl extends EntitiesImpl implements Hero {
 
+    /**
+     * This constructor has any field mandatory.
+     * 
+     * @param code : the unique code of the hero.
+     * @param lifeManager : the manager of the life.
+     * @param movementManager : manager of the movement.
+     * @param shootManager : the manager of the shoot.
+     * @param contactDamage : how much he hurts at the contact.
+     */
     public HeroImpl(final int code, final LifeManager lifeManager, final MovementManager movementManager,
             final ShootManager shootManager, final Integer contactDamage) {
         super(code, lifeManager, movementManager, Optional.of(shootManager), Optional.of(contactDamage));

@@ -8,6 +8,13 @@ import model.arena.entities.shoot.ShootManager;
 import model.arena.utility.Actions;
 import model.arena.utility.Directions;
 
+/**
+ * This is the primitive implementation of the Entities interface because is the
+ * most generic entity.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class EntitiesImpl implements Entities {
 
     private final int code;
@@ -17,6 +24,21 @@ public class EntitiesImpl implements Entities {
     private final Optional<ShootManager> shootManager;
     private final Optional<Integer> contactDamage;
 
+    /**
+     * This constructor define the entity that is dynamic and the position is
+     * encapsulate in the @MovementManager.
+     * 
+     * @param code
+     *            : the code of the entity.
+     * @param lifeManager
+     *            : the manager of the life.
+     * @param movementManager
+     *            : the manager of the movement.
+     * @param shootManager
+     *            : the manager of the shoot.
+     * @param contactDamage
+     *            : the value of the contact damage.
+     */
     public EntitiesImpl(final int code, final LifeManager lifeManager, final MovementManager movementManager,
             final Optional<ShootManager> shootManager, final Optional<Integer> contactDamage) {
         this.code = code;
@@ -27,6 +49,22 @@ public class EntitiesImpl implements Entities {
         this.shootManager = shootManager;
     }
 
+    /**
+     * 
+     * This constructor define the entity that is static and @MovementManager is
+     * empty.
+     * 
+     * @param code
+     *            : the code of the entity.
+     * @param lifeManager
+     *            : the manager of the life.
+     * @param position
+     *            : the position of the entity.
+     * @param shootManager
+     *            : the manager of the shoot.
+     * @param contactDamage
+     *            : the value of the contact damage.
+     */
     public EntitiesImpl(final int code, final LifeManager lifeManager, final Position position,
             final Optional<ShootManager> shootManager, final Optional<Integer> contactDamage) {
         this.code = code;

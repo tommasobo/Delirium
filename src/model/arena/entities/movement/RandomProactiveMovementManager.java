@@ -8,11 +8,17 @@ import model.arena.utility.Bounds;
 import model.arena.utility.Directions;
 import model.arena.utility.MovementTypes;
 
+/**
+ * This implementation is very similar at the linear because isn't pure random but pseudo-random.
+ * This features is added instead the movement was ugly.
+ * @author josephgiovanelli
+ *
+ */
 class RandomProactiveMovementManager extends LinearProactiveMovementManager {
 
     private int count;
 
-    public RandomProactiveMovementManager(final Position position, final Bounds bounds, final int speed,
+    RandomProactiveMovementManager(final Position position, final Bounds bounds, final int speed,
             final boolean canFly, final MovementTypes movementTypes) {
         super(position, bounds, speed, canFly, movementTypes);
         this.count = 0;

@@ -4,8 +4,21 @@ import java.util.Optional;
 
 import model.transfertentities.ShootInfo;
 
+/**
+ * This module is an example of Factory Pattern.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class ShootManagerFactory {
 
+    /**
+     * This method based on a filter return the right shoot manager.
+     * 
+     * @param shootInfo
+     *            : the information of the firing entity.
+     * @return : the right shoot manager.
+     */
     public static Optional<ShootManager> getShootManager(final Optional<ShootInfo> shootInfo) {
 
         if (shootInfo.isPresent()) {

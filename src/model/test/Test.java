@@ -29,14 +29,20 @@ import model.transfertentities.ShootInfoImpl;
 import model.transfertentities.ShootTypes;
 import utility.Dimension;
 
+/**
+ * This test check the basic and fundamental behaviour of the model.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class Test {
 
-    Model modelTest = ModelImpl.getModel();
-    EntitiesInfo hero, goal, monster;
-    Position heroPosition, monsterPosition;
-    MovementInfo heroMovementInfo, monsterMovementInfo;
-    ShootInfo heroShootInfo;
-    List<EntitiesInfo> entities;
+    private Model modelTest = ModelImpl.getModel();
+    private EntitiesInfo hero, goal, monster;
+    private Position heroPosition, monsterPosition;
+    private MovementInfo heroMovementInfo, monsterMovementInfo;
+    private ShootInfo heroShootInfo;
+    private List<EntitiesInfo> entities;
 
     private void istanceEntities() {
         this.heroPosition = new Position(new Point(0, 0), Directions.RIGHT, new Dimension(40, 60));
@@ -58,6 +64,9 @@ public class Test {
 
     }
 
+    /**
+     * This test test movement of the entities.
+     */
     @org.junit.Test
     public void testOK1() {
 
@@ -94,7 +103,9 @@ public class Test {
 
     }
 
-    // Test di eccezioni
+    /**
+     * This test check the exception of the model.
+     */
     @org.junit.Test
     public void testEXC() {
 
@@ -117,6 +128,23 @@ public class Test {
             fail("The control of the unique code is wrong");
         } catch (NotUniqueCodeException e) {
             System.out.println("The control of the unique code is right");
+        }
+        
+        this.entities.remove(this.hero);
+        try {
+            this.modelTest.createArena(this.entities);
+            fail("Hero have to be present");
+        } catch (IllegalStateException | NotUniqueCodeException e) {
+            System.out.println("The control of Hero present is right");
+        }
+        
+        this.entities.add(this.hero);
+        this.entities.remove(this.goal);
+        try {
+            this.modelTest.createArena(this.entities);
+            fail("Goal have to be present");
+        } catch (IllegalStateException | NotUniqueCodeException e) {
+            System.out.println("The control of Goal present is right");
         }
     }
 

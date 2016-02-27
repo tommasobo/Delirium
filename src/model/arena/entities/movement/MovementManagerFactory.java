@@ -6,8 +6,24 @@ import model.arena.entities.Position;
 import model.transfertentities.MovementInfo;
 import utility.Pair;
 
+/**
+ * This module is an example of Factory Pattern.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class MovementManagerFactory {
 
+    /**
+     * This method based on a filter return the right movement manager.
+     * 
+     * @param position
+     *            : the position of the entity.
+     * @param movementInfo
+     *            : the information of the entity movement.
+     * @return : is a pair because the entity can be static or dynamic so has
+     *         only position or only movementManager
+     */
     public static Pair<Optional<Position>, Optional<MovementManager>> getMovementManager(final Position position,
             final Optional<MovementInfo> movementInfo) {
 

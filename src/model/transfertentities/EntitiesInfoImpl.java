@@ -5,6 +5,12 @@ import java.util.Optional;
 import model.arena.entities.Position;
 import model.arena.entities.life.LifePattern;
 
+/**
+ * This class is the implementation of the the @EntitiesInfo.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class EntitiesInfoImpl implements EntitiesInfo {
 
     private final int code;
@@ -15,6 +21,16 @@ public class EntitiesInfoImpl implements EntitiesInfo {
     private final Optional<ShootInfo> shootInfo;
     private final Optional<Integer> contactDamage;
 
+    /**
+     * This constructor initialize each field of the object.
+     * @param code : the code of the entity.
+     * @param position : the position of the entity.
+     * @param movementInfo : the information of the movement of the entity.
+     * @param life : the life of the entity.
+     * @param lifePattern : the pattern of life of the entity.
+     * @param shootInfo : the shoot information of the entity.
+     * @param contactDamage : how much hurt the entity at the contact.
+     */
     public EntitiesInfoImpl(final int code, final Position position, final Optional<MovementInfo> movementInfo,
             final int life, final LifePattern lifePattern, final Optional<ShootInfo> shootInfo,
             final Optional<Integer> contactDamage) {

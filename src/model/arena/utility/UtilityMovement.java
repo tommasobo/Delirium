@@ -7,12 +7,44 @@ import java.util.Optional;
 import model.arena.entities.Point;
 import model.arena.entities.Position;
 
+/**
+ * This class is used every time that you want move an entity and you have to do
+ * some controls.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class UtilityMovement {
 
+    /**
+     * This enum specified if the result is okay or not.
+     * 
+     * @author josephgiovanelli
+     *
+     */
     public enum CheckResult {
-        TRUE, TRUEBUTFIX, FALSE;
+        /**
+         * Right position.
+         */
+        TRUE,
+        /**
+         * Right but others operation have to do.
+         */
+        TRUEBUTFIX,
+        /**
+         * False position.
+         */
+        FALSE;
     }
 
+    /**
+     * This method take like input an composed operation and split it in two or
+     * more that are more simple.
+     * 
+     * @param action
+     *            : composed operation.
+     * @return : the simply operations.
+     */
     public static List<Actions> splitActions(final Actions action) {
         final List<Actions> ret = new LinkedList<>();
         switch (action) {
@@ -37,6 +69,16 @@ public class UtilityMovement {
         return ret;
     }
 
+    /**
+     * This method try to move the entity based on the param and the if is right
+     * return it, otherwise can fix it.
+     * 
+     * @param position : actual position of entity.
+     * @param bounds : the limits of the entity.
+     * @param action : the action that the entity have to do.
+     * @param speed : the speed of the entity.
+     * @return : the new position of the entity.
+     */
     public static Optional<Position> move(final Position position, final Bounds bounds, final Actions action,
             final int speed) {
         Position newPosition = new Position(position.getPoint(), position.getDirection(), position.getDimension());
@@ -57,15 +99,20 @@ public class UtilityMovement {
 
     public static CheckResult checkBounds(final Position position, final Bounds bounds, final Actions action,
             final int speed) {
-        final Position newPosition = new Position(position.getPoint(), position.getDirection(), position.getDimension());
+        final Position newPosition = new Position(position.getPoint(), position.getDirection(),
+                position.getDimension());
         newPosition.setPoint(action.apply(newPosition.getPoint(), speed, newPosition.getDirection()));
         final CheckResult checkDown = newPosition.getPoint().getY() >= bounds.getMinY() ? CheckResult.TRUE
                 : (newPosition.getPoint().getY() + speed > bounds.getMinY() ? CheckResult.TRUEBUTFIX
                         : CheckResult.FALSE);
-        final CheckResult checkUp = newPosition.getPoint().getY() + newPosition.getDimension().getHeight() <= bounds.getMaxY()
-                ? CheckResult.TRUE
-                : (newPosition.getPoint().getY() + newPosition.getDimension().getHeight() - speed < bounds.getMaxY()
-                        ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
+        final CheckResult checkUp = newPosition.getPoint().getY()
+                + newPosition.getDimension()
+                        .getHeight() <= bounds
+                                .getMaxY()
+                                        ? CheckResult.TRUE
+                                        : (newPosition.getPoint().getY() + newPosition.getDimension().getHeight()
+                                                - speed < bounds.getMaxY() ? CheckResult.TRUEBUTFIX
+                                                        : CheckResult.FALSE);
         CheckResult checkMove;
         switch (newPosition.getDirection()) {
         case LEFT:

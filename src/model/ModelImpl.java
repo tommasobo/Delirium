@@ -26,6 +26,13 @@ import model.transfertentities.EntitiesInfoToControl;
 import model.transfertentities.EntitiesInfoToControlImpl;
 import utility.Pair;
 
+/**
+ * This is the implementation of the interface model. This class use the
+ * Singleton pattern because the control have to generate only one model.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public final class ModelImpl implements Model {
 
     private static final int DEFAULT_OFFSET_X = 500;
@@ -36,6 +43,11 @@ public final class ModelImpl implements Model {
     private ModelImpl() {
     }
 
+    /**
+     * This method return the singleton, the instance of model.
+     * 
+     * @return : the Model that can used by the control.
+     */
     public static ModelImpl getModel() {
         return SINGLETON;
     }
@@ -50,6 +62,7 @@ public final class ModelImpl implements Model {
         this.arena.getHero().setAction(action);
     }
 
+    @Override
     public List<EntitiesInfo> updateArena() {
 
         this.removeEntities(this.arena.getEntities());
@@ -124,6 +137,13 @@ public final class ModelImpl implements Model {
                     .shootManager(shootManager.isPresent() ? shootManager.get() : null)
                     .contactDamage(t.getContactDamage().isPresent() ? t.getContactDamage().get() : null).build());
         });
+        
+        long nHero = this.arena.getEntities().stream().filter(t -> t.getCode() == 0).count();
+        long nGoal = this.arena.getEntities().stream().filter(t -> t.getCode() == 0).count();
+        
+        if (nHero > 1 || nGoal > 1) {
+            throw new IllegalStateException("Hero or Goal not present");
+        }
 
     }
 

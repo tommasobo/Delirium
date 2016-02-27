@@ -11,6 +11,12 @@ import model.arena.entities.EntitiesVisitorImpl;
 import model.arena.entities.Hero;
 import model.arena.entities.HeroImpl;
 
+/**
+ * This is the implementation of the interface @Arena and stores any entities.
+ * 
+ * @author josephgiovanelli
+ *
+ */
 public class ArenaImpl implements Arena {
     private Hero hero;
     private Entities goal;
@@ -19,6 +25,9 @@ public class ArenaImpl implements Arena {
 
     private final EntitiesVisitor addVisitor = new EntitiesVisitorImpl(this);
 
+    /**
+     * This constructor initializes the list of the entities and the bullets.
+     */
     public ArenaImpl() {
         this.entities = new LinkedList<>();
         this.bullets = new LinkedList<>();

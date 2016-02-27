@@ -13,6 +13,11 @@ import model.transfertentities.EntitiesInfo;
 import model.transfertentities.EntitiesInfoImpl;
 import model.transfertentities.MovementInfoImpl;
 
+/**
+ * This implementation shoot always shoot every minTime quantum of time.
+ * @author josephgiovanelli
+ *
+ */
 class MonsterShootManager implements ShootManager {
 
     private final int minTime;
@@ -22,7 +27,7 @@ class MonsterShootManager implements ShootManager {
     private final int range;
     private final int speed;
 
-    public MonsterShootManager(final int minTime, final int bulletDamage, final MovementTypes movementType,
+    MonsterShootManager(final int minTime, final int bulletDamage, final MovementTypes movementType,
             final int range, final int speed) {
         this.minTime = minTime;
         this.bulletDamage = bulletDamage;

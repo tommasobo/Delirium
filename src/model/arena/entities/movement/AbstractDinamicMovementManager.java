@@ -19,7 +19,21 @@ abstract class AbstractDinamicMovementManager implements MovementManager {
     private final Bounds bounds;
     private Actions action;
 
-    public AbstractDinamicMovementManager(final Position position, final Bounds bounds, final Actions action,
+    /**
+     * This is the basic features that a dynamic entity have to have.
+     * 
+     * @param position
+     *            : where is and the own properties.
+     * @param bounds
+     *            : the limits of his movement.
+     * @param action
+     *            : the first action.
+     * @param speed
+     *            : how much time do an action.
+     * @param canFly
+     *            : if he can fly.
+     */
+    AbstractDinamicMovementManager(final Position position, final Bounds bounds, final Actions action,
             final int speed, final boolean canFly) {
         this.position = position;
         this.canFly = canFly;
@@ -28,7 +42,10 @@ abstract class AbstractDinamicMovementManager implements MovementManager {
         this.action = action;
     }
 
-    abstract public Position getNextMove();
+    /**
+     * This method is not implemented because is the base of any one.
+     */
+    public abstract Position getNextMove();
 
     /**
      * @author Matteo Magnani
