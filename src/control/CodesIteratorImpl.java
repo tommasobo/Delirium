@@ -13,6 +13,7 @@ public class CodesIteratorImpl implements Iterator<Integer> {
 
 	@Override
 	public Integer next() {
+	    //TODO lancia eccezioni dopo un po
 		return ++number;
 	}
 

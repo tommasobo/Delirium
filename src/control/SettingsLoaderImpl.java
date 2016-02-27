@@ -7,13 +7,21 @@ import java.nio.file.Paths;
 
 import com.google.gson.Gson;
 
+/**
+ * Class that load game settings from the file on object creation and save them
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public class SettingsLoaderImpl implements SettingsLoader {
     
     private GameSettings gameSettings;
     
+    /**
+     * The constructor load settings from default file
+     * @throws IOException
+     */
     public SettingsLoaderImpl() throws IOException {
-        //TODO crea classe loader per ottenere gli input stream?
-        //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/gameSettings.json"));){
             final Gson gson = new Gson();
             this.gameSettings = gson.fromJson(br, GameSettingsImpl.class);
@@ -22,6 +30,7 @@ public class SettingsLoaderImpl implements SettingsLoader {
         }
     }
 
+    @Override
     public GameSettings getGameSettings() {
         return gameSettings;
     }

@@ -62,12 +62,13 @@ public class ArenaManagerImpl implements ArenaManager {
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         final Rectangle retToFix = UtilityCollisionsDetection.getRectangle(posToFix);
         Pair<Entities, Rectangle> collision;
-        // l'hero non deve ignorare cio che ha sopra
+        // l'hero non deve ignorare gli oggetti che ha sopra a livello di collisioni
         if (entity == this.arena.getHero()) {
             collision = UtilityCollisionsDetection.getFirstCollision(retToFix, entity,
                     Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
                             .collect(Collectors.toList()));
         } else {
+            //le altre entità invece andranno a muovere chi hanno sopra
             collision = UtilityCollisionsDetection
                     .getFirstCollision(retToFix,
                             entity, Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
@@ -75,19 +76,23 @@ public class ArenaManagerImpl implements ArenaManager {
                             this.platformEntities.getRelativeEntities(entity.getCode()));
         }
 
+        //questo punto raprresenta sia l'assenza di collisioni, sia la fine dell'eventuale ricorsione
         if (collision == null) {
+            //se un proiettile raggiunge i buounds perde vita in modo che muoia
             if (arena.getBullets().contains(entity) && UtilityCollisionsDetection.onBounds(posToFix, entity)) {
                 entity.getLifeManager().setLife(1);
             }
 
+            //l'hero non muove le entità che ha sopra
             if (entity != this.arena.getHero()) {
                 final Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
                 if (!over.isEmpty()) {
                     final PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
                     if (activeMovementOK(over, action, offset)) {
-                        // TODO il controllo di priorità è da testare ed in più
-                        // varia a seconda della direzione che hanno le entità
                         Comparator<Entities> comparator = null;
+                        // per evitare bug con più entità sulla medesima
+                        // piattaforma muovo prima quella nella direzione di
+                        // movimento dell'oggetto
                         if (direction == Directions.RIGHT) {
                             comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX())
                                     .compareTo(y.getPosition().getPoint().getX());
@@ -96,14 +101,16 @@ public class ArenaManagerImpl implements ArenaManager {
                             comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX())
                                     .compareTo(y.getPosition().getPoint().getX());
                         }
-                        over.stream().sorted(comparator).forEach(t -> {
-                            Position post = t.getPosition();
-                            post = this.collisionFixerTest(new Position(
-                                    new Point(post.getPoint().getX() + offset.getOffsetX(),
-                                            post.getPoint().getY() + offset.getOffsetY()),
-                                    post.getDirection(), post.getDimension()), t, action, direction);
-                            t.setPosition(post.getPoint(), post.getDirection());
-                        });
+                        if(comparator != null) {
+                            over.stream().sorted(comparator).forEach(t -> {
+                                Position post = t.getPosition();
+                                post = this.collisionFixerTest(new Position(
+                                        new Point(post.getPoint().getX() + offset.getOffsetX(),
+                                                post.getPoint().getY() + offset.getOffsetY()),
+                                        post.getDirection(), post.getDimension()), t, action, direction);
+                                t.setPosition(post.getPoint(), post.getDirection());
+                            });
+                        }
                     } else {
                         return this.lastPositionsMan.getLastPosition(entity);
                     }
@@ -112,7 +119,11 @@ public class ArenaManagerImpl implements ArenaManager {
 
             return pos;
         }
+        //in caso di collisione modifico coerentemente le due entità
         modifyEntitiesInCollision(entity, collision.getX());
+        
+        // i proiettili in caso di collisione muoiono istantaneamente, quindi
+        // non sono da considerare a livello di collisioni
         if (!this.arena.getBullets().contains(collision.getX())) {
             final Rectangle collisionRectangle = collision.getY();
             switch (action) {
@@ -134,6 +145,10 @@ public class ArenaManagerImpl implements ArenaManager {
                 orizzontalLimit = true;
                 break;
             case MOVEONJUMP:
+                // in caso di collisione dovuta ad un movimento doppio controllo
+                // se la passata y provoca ancora la collisione, se non la
+                // provoca la utilizzo per la risoluzione, altrimenti la fixo
+                // secondo il movimento orizzontale che compie l'entità
                 if (new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
                         retToFix.width, retToFix.height).intersects(collisionRectangle)) {
                     fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
@@ -144,6 +159,10 @@ public class ArenaManagerImpl implements ArenaManager {
                 }
                 break;
             case MOVEONFALL:
+                // in caso di collisione dovuta ad un movimento doppio controllo
+                // se la passata y provoca ancora la collisione, se non la
+                // provoca la utilizzo per la risoluzione, altrimenti la fixo
+                // secondo il movimento orizzontale che compie l'entità
                 if (new Rectangle(retToFix.x, lastPositionsMan.getLastPosition(entity.getCode()).getPoint().getY(),
                         retToFix.width, retToFix.height).intersects(collisionRectangle)) {
                     fixPositionInMoveSwitch(posToFix, direction, collisionRectangle);
@@ -157,18 +176,20 @@ public class ArenaManagerImpl implements ArenaManager {
                 }
                 break;
             default:
-                // TODO cambia eccezione
-                throw new IllegalAccessError();
+                //Se l'entità è in stop non può aver dato luogo a collisioni
+                throw new IllegalStateException();
             }
         }
 
-        // TODO ricorsione a metà o alla fine?
+        // dopo chw ho fixato la posizione in base alla prima collisione
+        // identificata, verifico nuovamente la presenza di collisioni in modo
+        // ricorsivo sulla nuova posizione ottenuta
         posToFix = collisionFixerTest(posToFix, entity, action, direction);
 
-        // TODO qui fai cambio direzioni a seconda dei buleani sopra, da fare
-        // DOPO la ricorsione per evitare problemi
-        // TODO metti questo in metodo separato? Non credo, lo uso una volta
-        // sola, NO da usare quando muovo gli altri (post controllo)
+        // Se l'entità è presente nella lista, e quindi non è un proiettile
+        // (contenuti in una lista separata), modifico azione e direzione
+        // dell'entità in modo da simularne un'intelligenza. Le entità quando
+        // collidono contro qualcosa cambiano la loro direzione
         if (this.arena.getEntities().contains(entity)) {
             if (verticalLimit) {
                 switch (action) {
@@ -203,6 +224,9 @@ public class ArenaManagerImpl implements ArenaManager {
 
                 }
             }
+            // l'hero non va modificato in caso di collisione orizzontale, se
+            // l'utente vuole può continuare ad andare nella direzione che
+            // preferisce
             if (orizzontalLimit && !entity.equals(this.arena.getHero())) {
                 switch (direction) {
                 case LEFT:
@@ -221,7 +245,6 @@ public class ArenaManagerImpl implements ArenaManager {
         return posToFix;
     }
 
-    // TODO statico?
     private void fixPositionInMoveSwitch(final Position posToFix, final Directions direction,
             final Rectangle collisionRectangle) {
         switch (direction) {
@@ -239,12 +262,24 @@ public class ArenaManagerImpl implements ArenaManager {
         }
     }
 
-    // TODO statico?
     private void modifyEntitiesInCollision(final Entities entity1, final Entities entity2) {
         entity1.getLifeManager().setLife(entity2.getContactDamage().orElseGet(() -> 0));
         entity2.getLifeManager().setLife(entity1.getContactDamage().orElseGet(() -> 0));
     }
 
+    /**
+     * This method check if an entity can move on new position or not. Checks
+     * collisions and entity's bounds
+     * 
+     * @param entities
+     *            the entity to check
+     * @param action
+     *            the action that entity do
+     * @param offset
+     *            the position offset, the difference between actual position
+     *            and the next position that the entity have to assume
+     * @return
+     */
     private boolean activeMovementOK(final Set<Entities> entities, final Actions action, final PointOffset offset) {
         boolean ret = true;
         if (UtilityMovement.splitActions(action).stream().anyMatch(t -> t == Actions.JUMP)) {

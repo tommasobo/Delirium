@@ -1,5 +1,11 @@
 package control;
 
+/**
+ * Enumeration that contains all possible game menus with relative file names
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public enum Menu {
     INITIAL("initialMenu"),
     PAUSE("pauseMenu"),

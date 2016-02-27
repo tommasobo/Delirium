@@ -1,5 +1,10 @@
 package control;
 
+/**
+ * Enumeration that contains all game levels with relative store file name
+ * @author Matteo Magnani
+ *
+ */
 public enum Levels {
     LEVEL1("level1"),
     LEVEL2("level2"),

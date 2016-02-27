@@ -7,6 +7,14 @@ import java.util.Queue;
 import model.arena.utility.Actions;
 import utility.Pair;
 
+/**
+ * This class take all view keys events and save their translation to model
+ * actions in a circle queue. This implementation allows an efficient manage of
+ * multiple keys pressed at the same time
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public class InputManagerImpl implements InputManager {
 
     private final Queue<Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>>> actions;
@@ -19,6 +27,15 @@ public class InputManagerImpl implements InputManager {
         this.noMoves = false;
     }
     
+    /**
+     * The method take a view event that represent a key pressed. If it is a
+     * "start key press" put it in the circular queue, if it is a
+     * "stop key press" remove it from the queue. The method also adopt
+     * strategies to eliminate opposite direction keys from the queue and re-add
+     * a key removed after his opposite is removed from the queue. The queue
+     * contains key pressed already translated in PG actions.The method is
+     * synchronized in order to make it usable to view and game thread.
+     */
     synchronized public void notifyViewInput(final ViewEvents event) {
         if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT || event == ViewEvents.SHOOT) {
             if (!this.actions.contains(Translator.translateViewInput(event))) {
@@ -51,6 +68,12 @@ public class InputManagerImpl implements InputManager {
         }
     }
     
+    /**
+     * The method take the next PG action in the circular queue. The method
+     * adopt strategies to take "move and jump" combo action and to stop PG
+     * movement if there are actions to perform but there aren't any move
+     * actions in the queue
+     */
     synchronized public Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> getNextPGAction() {
         Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action;
         if(noMoves || this.actions.isEmpty()) {

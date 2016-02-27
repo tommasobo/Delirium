@@ -12,13 +12,23 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
+/**
+ * Class that load menu structure from the file on object creation and save them
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public class MenuLoaderImpl implements MenuLoader {
 
-    private Map<MenuCategory, MenuCategoryEntriesImpl> menuStructure;
+    protected Map<MenuCategory, MenuCategoryEntriesImpl> menuStructure;
     
+    /**
+     * 
+     * @param menu The menu to load
+     * @throws IOException
+     */
     public MenuLoaderImpl(final Menu menu) throws IOException {
-        //TODO crea classe loader per ottenere gli input stream?
-        //TODO mettere eccezioni per mancato file load
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/menu/" + menu.getFilename() + ".json"))){
             final Gson gson = new Gson();
             final Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
@@ -28,11 +38,8 @@ public class MenuLoaderImpl implements MenuLoader {
         }
     }
     
+    @Override
     public Map<MenuCategory, MenuCategoryEntries> getMenuStructure() {
-        return new HashMap<>(this.menuStructure);
-    }
-    
-    protected Map<MenuCategory, MenuCategoryEntriesImpl> getMenuStructurePrimitive() {
         return new HashMap<>(this.menuStructure);
     }
 }

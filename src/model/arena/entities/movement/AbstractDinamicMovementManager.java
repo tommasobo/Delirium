@@ -48,9 +48,11 @@ abstract class AbstractDinamicMovementManager implements MovementManager {
     public abstract Position getNextMove();
 
     /**
+     * The method, if the entity cannot fly, apply the gravity and eventually modify the entity action
+     * 
      * @author Matteo Magnani
-     * @param position
-     * @return
+     * @param position The actual position of the entity
+     * @return The position after the gravity is applied
      */
     protected Position applyGravity(final Position pos) {
         if (!canFly) {

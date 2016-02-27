@@ -11,6 +11,14 @@ import view.ViewController;
 import view.configs.Notifications;
 import view.configs.SceneType;
 
+/**
+ * The class contains all methods for the view communication (according to
+ * control interface) ad private methods to convert view inputs to game events
+ * and view changes
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public class ControlImpl implements Control {
     private final Model model;
     final private ViewDecorator view;
@@ -33,10 +41,12 @@ public class ControlImpl implements Control {
         this.menuToLoad = Menu.NONE;
     }
 
+    @Override
     public void startGame() {
         this.view.changeScene(SceneType.MENU);
     }
 
+    @Override
     public void notifyEvent(final ViewEvents event) {
         
         switch(event) {
@@ -98,6 +108,7 @@ public class ControlImpl implements Control {
         
     }
 
+    @Override
     public Map<MenuCategory, MenuCategoryEntries> getButtons() {
         MenuLoader menuLoader;
         try {
@@ -142,9 +153,14 @@ public class ControlImpl implements Control {
         return menuLoader.getMenuStructure();
     }
 
+    //TODO non sono sicuro sia corretto
+    /**
+     * The method load the input level and launch Game thread to start it
+     * @param level The level to load
+     */
     private void gameLoop(final Levels level) {
         
-        LevelLoaderImpl ll;
+        LevelLoader ll;
         try {
             ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
         } catch (IOException e) {

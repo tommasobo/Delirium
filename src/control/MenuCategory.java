@@ -1,5 +1,11 @@
 package control;
 
+/**
+ * Enumeration that contains all possible menu categories with their names
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public enum MenuCategory {
     DEFAULT("DEFAULT"),
     DIFFICULTY("DIFFICULTY");

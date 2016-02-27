@@ -1,5 +1,12 @@
 package control;
 
+/**
+ * An enum that contains all buttons of game menus, each button contains a
+ * string to be printed and a view event to to control that the button is pushed
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public enum Buttons {
     NEWGAME("NEW GAME", ViewEvents.LEVEL1),
     MAINMENU("MAIN MENU", ViewEvents.BACKTOMAINMENU),
@@ -19,10 +26,18 @@ public enum Buttons {
         this.name = name;
     }
 
+    /**
+     * 
+     * @return The view event associated to button
+     */
     public ViewEvents getEvent() {
         return event;
     }
 
+    /**
+     * 
+     * @return The string to print on the button
+     */
     public String getName() {
         return name;
     }

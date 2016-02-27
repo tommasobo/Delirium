@@ -5,12 +5,28 @@ import java.util.Optional;
 import model.transfertentities.EntitiesInfoToControl;
 import utility.Pair;
 
+/**
+ * Utility class that contains static methods to translate elements between view
+ * and model
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public final class Translator {
 
     private Translator() {
         
     }
     
+    /**
+     * The method take a view input and translate in a pair that represent the
+     * PG action in model environment. Both stop and start key press are
+     * translated in same way, the method is for the functions of input manager
+     * 
+     * @param event
+     *            The view key event
+     * @return pair that represent the PG action in model environment
+     */
     public static Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> translateViewInput(final ViewEvents event) {
         switch (event) {
         case STOPMLEFT:
@@ -30,6 +46,13 @@ public final class Translator {
         }
     }
 
+    /**
+     * The method translate directions from model to view environment
+     * 
+     * @param direction
+     *            the model direction
+     * @return the view direction
+     */
     public static view.configs.Directions directionFromModeltoView(final model.arena.utility.Directions direction) {
         switch (direction) {
         case LEFT:
@@ -43,6 +66,14 @@ public final class Translator {
         }
     }
 
+    /**
+     * The method translate actions from model to view environment, fall and
+     * jump have priority over move for animations's necessities
+     * 
+     * @param action
+     *            the model direction
+     * @return the view action
+     */
     public static view.configs.Actions actionsFromModeltoView(final model.arena.utility.Actions action) {
         switch (action) {
         case MOVEONFALL:
@@ -62,6 +93,11 @@ public final class Translator {
         }
     }
     
+    /**
+     * The method return the view's action of an entity. 
+     * @param entity Model's entity
+     * @return Entity's action in view environment
+     */
     public static view.configs.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
         if(entity.getLife() == 0) {
             return view.configs.Actions.DEATH;
@@ -70,6 +106,11 @@ public final class Translator {
         }
     }
 
+    /**
+     * The method return the appropriate bullet's rapresentation 
+     * @param entity View's entity representation
+     * @return View's representation of entity bullet
+     */
     public static view.configs.Entities getEntityBulletType(final view.configs.Entities entity) {
         switch(entity) {
         case BOCC:

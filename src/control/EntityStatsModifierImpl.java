@@ -2,15 +2,26 @@ package control;
 
 import java.util.Optional;
 
+import control.EntitiesInfoStore;
+
+/**
+ * The class modify entities according to the game difficulty passed on the constructor
+ * @author magna
+ *
+ */
 public class EntityStatsModifierImpl implements EntityStatsModifier{
     private final GameDifficulty gameDifficulty;
     
+    /**
+     * 
+     * @param gameDifficulty The game difficulty
+     */
     public EntityStatsModifierImpl(final GameDifficulty gameDifficulty) {
         this.gameDifficulty = gameDifficulty;
     }
     
     public EntitiesInfoStore modifyEntity(EntitiesInfoStore entity) {
-        final EntitiesInfoStore ent = new EntitiesInfoStore(entity);
+        final EntitiesInfoStore ent = new EntitiesInfoStoreImpl(entity);
         ent.setLife(this.gameDifficulty.getLifeIncrementer().apply(ent.getLife()));
         if(ent.getMovementInfoStore().isPresent()) {
             final MovementInfoStore mi = ent.getMovementInfoStore().get();

@@ -1,5 +1,11 @@
 package control;
 
+/**
+ * Enumeration that contains all possibles view messages to control
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public enum ViewEvents {
 	LEVEL1, 
 	EXIT, 

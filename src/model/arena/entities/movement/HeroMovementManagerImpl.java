@@ -28,6 +28,7 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
     public Position getNextMove() {
     	Position newPosition = this.getPosition();
         
+    	//If hero is on a platform, isn't already on jump ad is on platform (isn't falling) can start to jump
     	if(UtilityMovement.splitActions(this.getAction()).stream().anyMatch(e -> e == Actions.JUMP) && !onJump && onPlatform) {
     	    time = 0;
             this.onJump = true;
@@ -41,9 +42,7 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
         
         if (onJump) {
             if(time < JUMPTIME) {
-                if(UtilityMovement.splitActions(this.getAction()).contains(Actions.FALL)) {
-                    time = 15;
-                }
+                
                 if(this.getAction() == Actions.MOVE) {
                     this.setAction(Actions.MOVEONJUMP);
                 } else if(this.getAction() != Actions.MOVEONJUMP){
@@ -56,11 +55,13 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
         }
         
         for(final Actions e : UtilityMovement.splitActions(this.getAction())) {
+            //applico ogni azione diversa dal fall(gia applicata dall'applyGravity)
             if(e != Actions.FALL) {
                 final Optional<Position> op = UtilityMovement.move(newPosition, this.getBounds(), e, this.getSpeed());
                 if(op.isPresent()) {
                     newPosition = op.get();
                 } else if(e == Actions.JUMP) {
+                    //Se l'hero ha raggiunto i bounds e sta saltando faccio terminare il salto
                     time = JUMPTIME;
                 }
             }
@@ -69,9 +70,6 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
         return newPosition;
     }
     
-    /* (non-Javadoc)
-     * @see model.arena.entities.movement.HeroMovementManager#setOnPlatform(boolean)
-     */
     @Override
     public void setOnPlatform(final boolean bool) {
         this.onPlatform = bool;

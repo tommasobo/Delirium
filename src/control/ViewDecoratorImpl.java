@@ -12,17 +12,29 @@ import view.configs.Notifications;
 import view.configs.SceneType;
 import view.utilities.ControlComunication;
 
+/**
+ * A decorator for view that make thread safe methods and calculate scenes
+ * dimension starting to screen resolution
+ * 
+ * @author magna
+ *
+ */
 public class ViewDecoratorImpl implements ViewDecorator{
     private int screenMoltiplicatorFactor = 1;
     private final ViewController view;
     private Dimension levelDimension;
     private final Rectangle2D resolution;
     
+    /**
+     * 
+     * @param view The view to decorate
+     */
     public ViewDecoratorImpl(final ViewController view) {
         this.resolution = Screen.getPrimary().getVisualBounds();
         this.view = view;
     }
     
+    @Override
     public void changeScene(final SceneType sceneType) {
         if(sceneType == SceneType.DRAWABLE) {
             this.view.changeScene(new Pair<SceneType, Dimension2D>(sceneType, new Dimension2D(this.levelDimension.getWidth() * screenMoltiplicatorFactor, levelDimension.getHeight() * screenMoltiplicatorFactor)));
@@ -41,18 +53,24 @@ public class ViewDecoratorImpl implements ViewDecorator{
         this.view.updateScene(entities);
     }
     
+    @Override
     public void setLevelDimension(final Dimension levelDimension) {
         this.levelDimension = levelDimension;
-        calculateMoltiplicatorFactor();
+        calculateMultiplierFactor();
     }
 
-    private void calculateMoltiplicatorFactor() {
+    //TODO fattore moltiplicativo double
+    /**
+     * 
+     */
+    private void calculateMultiplierFactor() {
         if(this.levelDimension.getHeight() < this.resolution.getHeight()/2) {
             screenMoltiplicatorFactor = (int) ((this.resolution.getHeight()/2)/this.levelDimension.getHeight() + 1);
         }
     }
     
-    public int getScreenMoltiplicatorFactor() {
+    @Override
+    public int getScreenMultiplierFactor() {
         return this.screenMoltiplicatorFactor;
     }
     
