@@ -19,6 +19,9 @@ import view.configs.Entities;
 import view.configs.Notifications;
 import view.utilities.AudioManager;
 
+/**
+ * This class handle the overlay elements present during the game.
+ */
 class OverlayPanel {
 
     private static final int LAYOUTFACTOR = 6;
@@ -29,6 +32,16 @@ class OverlayPanel {
     private Optional<ProgressBar> pb = Optional.empty();
     private Optional<StackPane> pausePane = Optional.empty();
 
+    /**
+     * OverlyPane Constructor
+     * 
+     * @param overlayPane
+     *            The pane where to draw overlay elements.
+     * @param entity
+     *            The main character in the game.
+     * @param life
+     *            The main character life.
+     */
     OverlayPanel(final Pane overlayPane, final Entities entity, final int life) {
         this.overlayPane = overlayPane;
         this.totalLife = life;
@@ -37,6 +50,13 @@ class OverlayPanel {
                 overlayPane.getPrefHeight() / LAYOUTFACTOR, true, true);
     }
 
+    /**
+     * This method initialize the panel, drawing main character icon and life
+     * bar. This method can only be called once.
+     * 
+     * @throws IllegalStateException
+     *             If the panel was already initialized.
+     */
     public void initOverlay() {
         if (this.pb.isPresent()) {
             throw new IllegalStateException("Init already been called");
@@ -54,14 +74,33 @@ class OverlayPanel {
         overlayPane.getChildren().addAll(iv, pb.get());
     }
 
+    /**
+     * Update life progress bar.
+     * 
+     * @param newLife
+     *            Life new value.
+     * @throws IllegalStateException
+     *             If called before initialization.
+     */
     public void updateLife(final int newLife) {
-        this.pb.orElseThrow(() -> new IllegalStateException("You have to call init first")).setProgress((double) newLife / this.totalLife);
+        this.pb.orElseThrow(() -> new IllegalStateException("You have to call init first"))
+                .setProgress((double) newLife / this.totalLife);
         if (AudioManager.getAudioManager().isAudioAvailable() && this.life != newLife) {
             AudioManager.getAudioManager().playClip(Actions.DEATH);
         }
         this.life = newLife;
     }
 
+    /**
+     * Put a ButtonPane on the overlay Pane printing a message on the screen.
+     * 
+     * @param listener
+     *            The control listener used to create a new ButtonsPane
+     * @param notification
+     *            The state that define the message on the screen
+     * @throws IllegalStateException
+     *             If called when a PausePane is already present.
+     */
     public void addPausePane(final Control listener, final Notifications notification) {
         if (this.pausePane.isPresent()) {
             throw new IllegalStateException("Pause pane already present");
@@ -77,8 +116,15 @@ class OverlayPanel {
         this.pausePane = Optional.of(vpausePane);
     }
 
+    /**
+     * Remove the pause pane.
+     * 
+     * @throws IllegalStateException
+     *             If no pausePane is present.
+     */
     public void removePausePane() {
-        this.overlayPane.getChildren().remove(this.pausePane.orElseThrow(() -> new IllegalStateException("No pause pane to remove")));
+        this.overlayPane.getChildren()
+                .remove(this.pausePane.orElseThrow(() -> new IllegalStateException("No pause pane to remove")));
         this.pausePane = Optional.empty();
     }
 

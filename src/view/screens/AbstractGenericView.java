@@ -6,6 +6,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Class that implements GenericView interface and contains common
+ * implementation elements of all types of scene.
+ */
 abstract class AbstractGenericView implements GenericView {
 
     private final Stage stage;
@@ -31,6 +35,9 @@ abstract class AbstractGenericView implements GenericView {
         this.completeInitialization();
     }
 
+    /**
+     * Complete the initialization dependently on the scene to draw.
+     */
     protected abstract void completeInitialization();
 
     @Override
@@ -42,14 +49,29 @@ abstract class AbstractGenericView implements GenericView {
         stage.centerOnScreen();
     }
 
+    /**
+     * Get the controller listener.
+     * 
+     * @return Controller listener
+     */
     protected Control getListener() {
         return this.listener;
     }
 
+    /**
+     * Get the main group of this scene.
+     * 
+     * @return The main group of this scene.
+     */
     protected Group getRoot() {
         return this.root;
     }
 
+    /**
+     * Get the dimension of the scene.
+     * 
+     * @return The dimension of the scene
+     */
     protected Dimension2D getSceneDimension() {
         return this.sceneDimension;
     }

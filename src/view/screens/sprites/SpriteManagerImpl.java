@@ -8,12 +8,21 @@ import view.configs.Actions;
 import view.utilities.ControlComunication;
 import view.utilities.ViewPhysicalProperties;
 
+/**
+ * This class implements SpriteManager and SpriteRemover interfaces.
+ */
 public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
 
     private final Pane entitiesPane;
     private final Map<Integer, Sprite> nonUpdatableSprite = new HashMap<>();
     private final Map<Integer, UpdatableSprite> updatableSprite = new HashMap<>();
 
+    /**
+     * SpriteManagerImpl Constructor.
+     * 
+     * @param entitiesPane
+     *            The pane where entities are represented
+     */
     public SpriteManagerImpl(final Pane entitiesPane) {
         this.entitiesPane = entitiesPane;
     }
@@ -73,13 +82,20 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
         this.updatableSprite.remove(toRemove);
     }
 
+    /**
+     * Get a Sprite from Updatable or NonUpdatable map.
+     * 
+     * @param code
+     *            Entity ID
+     * @return Sprite element associated with ID
+     */
     private Sprite getFromMaps(final int code) {
         if (updatableSprite.containsKey(code)) {
             return updatableSprite.get(code);
         }
         return nonUpdatableSprite.get(code);
     }
-    
+
     private void checkTracking(final int code) {
         if (!this.isTracked(code)) {
             throw new IllegalArgumentException("First add the entity to tracking. Code: " + code);

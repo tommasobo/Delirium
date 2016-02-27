@@ -10,11 +10,25 @@ import view.configs.Actions;
 import view.configs.Directions;
 import view.configs.Entities;
 
+/**
+ * Extension of the abstract sprite in order to manage no animated and no
+ * updatable sprites.
+ */
 class NonUpdatableSprite extends AbstractSprite {
 
     private static final int DEF_WIDTH = 60;
     private static final int DEF_COMPOSITION_UNITS = 3;
 
+    /**
+     * NonUpdatableSprite Constructor.
+     * 
+     * @param entity
+     *            The entity that this sprite must represent
+     * @param code
+     *            The entity ID
+     * @param dimension
+     *            The sprite dimension
+     */
     NonUpdatableSprite(final Entities entity, final int code, final Dimension2D dimension) {
         super(entity, code, dimension);
     }
@@ -48,6 +62,18 @@ class NonUpdatableSprite extends AbstractSprite {
         }
     }
 
+    /**
+     * Method used to compose horizontal images using a variable number of
+     * pieces.
+     * 
+     * @param images
+     *            The list of ImageView to use
+     * @param unit
+     *            The width that every ImageView should have
+     * @param offset
+     *            The additional width that the central ImageView should have.
+     * @return The result of composition
+     */
     private HBox getHorizontalComposedImage(final List<ImageView> images, final int unit, final int offset) {
         final HBox box = new HBox();
         ImageView im;

@@ -6,10 +6,19 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The handler used to handle user inputs.
+ */
 class InputFromUser implements EventHandler<KeyEvent> {
 
     private final Control listener;
 
+    /**
+     * InputFromUser Constructor
+     * 
+     * @param listener
+     *            Listener to which notify user actions.
+     */
     InputFromUser(final Control listener) {
         this.listener = listener;
     }

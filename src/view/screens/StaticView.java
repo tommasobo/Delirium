@@ -15,8 +15,21 @@ import javafx.stage.Stage;
 import view.configs.Music;
 import view.utilities.AudioManager;
 
+/**
+ * Static implementation of GenericView. Used for menus.
+ */
 class StaticView extends AbstractGenericView {
 
+    /**
+     * StaticView constructor.
+     * 
+     * @param stage
+     *            Main stage of JavaFX application
+     * @param listener
+     *            Controller listener
+     * @param dimension
+     *            Scene request dimension
+     */
     StaticView(final Stage stage, final Control listener, final Dimension2D dimension) {
         super(stage, listener, dimension);
     }

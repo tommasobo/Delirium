@@ -17,12 +17,21 @@ import view.screens.ViewFactory;
 import view.screens.VisitorImpl;
 import view.utilities.ControlComunication;
 
+/**
+ * The implementation of view controller interface.
+ */
 public class ViewControllerImpl implements ViewController {
 
     private final Stage primaryStage;
     private Optional<DynamicView> drawableView = Optional.empty();
     private Optional<Control> listener = Optional.empty();
 
+    /**
+     * Create an instance of this class.
+     * 
+     * @param primaryStage
+     *            The JavaFX primary stage
+     */
     public ViewControllerImpl(final Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -32,7 +41,8 @@ public class ViewControllerImpl implements ViewController {
         if (settings == null) {
             throw new IllegalArgumentException();
         }
-        final GenericView newScene = ViewFactory.createNewScene(this.primaryStage, this.listener.orElseThrow(() -> new IllegalStateException("Listener not present")), settings);
+        final GenericView newScene = ViewFactory.createNewScene(this.primaryStage,
+                this.listener.orElseThrow(() -> new IllegalStateException("Listener not present")), settings);
         newScene.initScene();
         newScene.display();
         final VisitorImpl visitor = new VisitorImpl();
@@ -45,7 +55,8 @@ public class ViewControllerImpl implements ViewController {
         if (entities == null || !entities.stream().map(e -> e.getCode()).allMatch(new HashSet<>()::add)) {
             throw new IllegalArgumentException("Duplicate code in entities list");
         }
-        final DynamicView dv = this.drawableView.orElseThrow(() -> new IllegalStateException("Updatable screen not initialized"));
+        final DynamicView dv = this.drawableView
+                .orElseThrow(() -> new IllegalStateException("Updatable screen not initialized"));
         Platform.runLater(() -> dv.updateScene(entities));
     }
 
@@ -54,7 +65,8 @@ public class ViewControllerImpl implements ViewController {
         if (notification == null) {
             throw new IllegalArgumentException("Illegal notification argument");
         }
-        final DynamicView dv = this.drawableView.orElseThrow(() -> new IllegalStateException("Updatable screen not initialized"));
+        final DynamicView dv = this.drawableView
+                .orElseThrow(() -> new IllegalStateException("Updatable screen not initialized"));
         if (notification == Notifications.PLAY) {
             Platform.runLater(() -> dv.playScene());
         } else {

@@ -22,6 +22,10 @@ import view.utilities.AudioManager;
 import view.utilities.ControlComunication;
 import view.utilities.ViewPhysicalProperties;
 
+/**
+ * GenericView that implements DynamicView interface and so it offers update
+ * functionalities.
+ */
 class DynamicViewImpl extends AbstractGenericView implements DynamicView {
 
     private final Pane overlayPane = new Pane();
@@ -29,6 +33,18 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     private Optional<SpriteManager> spriteManager = Optional.empty();
     private Optional<OverlayPanel> status = Optional.empty();
 
+    /**
+     * DynamicViewImpl Constructor
+     * 
+     * @param stage
+     *            Main stage of JavaFX application
+     * @param listener
+     *            Controller listener
+     * @param sceneDimension
+     *            Scene request dimension
+     * @param worldDimension
+     *            Drawn world request dimension
+     */
     DynamicViewImpl(final Stage stage, final Control listener, final Dimension2D sceneDimension,
             final Dimension2D worldDimension) {
         super(stage, listener, sceneDimension);
@@ -73,7 +89,8 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
                     this.status = Optional.of(new OverlayPanel(this.overlayPane, k.getEntity(), k.getLife()));
                     this.status.get().initOverlay();
                 }
-                if (AudioManager.getAudioManager().isAudioAvailable() && AudioManager.getAudioManager().getAllowedActions().contains(k.getAction())) {
+                if (AudioManager.getAudioManager().isAudioAvailable()
+                        && AudioManager.getAudioManager().getAllowedActions().contains(k.getAction())) {
                     AudioManager.getAudioManager().playClip(k.getAction());
                 }
                 moveScene(k.getProperty());
@@ -82,6 +99,13 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
         });
     }
 
+    /**
+     * Change the current visualized part of game world according to a given
+     * position.
+     * 
+     * @param position
+     *            The position to consider updating the camera point of view
+     */
     private void moveScene(final ViewPhysicalProperties position) {
         this.spriteManager.orElseThrow(() -> new IllegalStateException("You must call init first"));
         final double maxTranslation = this.worldDimension.getWidth() - super.getSceneDimension().getWidth();
@@ -89,7 +113,8 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
         if (position.getPoint().getX()
                 + position.getDimension().getWidth() >= this.overlayPane.getChildren().get(0).getBoundsInParent()
                         .getMinX() - this.spriteManager.get().getEntitiesPane().getTranslateX() - translationOffset
-                && this.spriteManager.get().getEntitiesPane().getTranslateX() - position.getSpeed() >= -maxTranslation) {
+                && this.spriteManager.get().getEntitiesPane().getTranslateX()
+                        - position.getSpeed() >= -maxTranslation) {
             this.spriteManager.get().getEntitiesPane()
                     .setTranslateX(this.spriteManager.get().getEntitiesPane().getTranslateX() - position.getSpeed());
             if ((maxTranslation + this.spriteManager.get().getEntitiesPane().getTranslateX()) <= position.getSpeed()) {
@@ -109,14 +134,18 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
 
     @Override
     public void pauseScene(final Notifications notification) {
-        this.status.orElseThrow(() -> new IllegalStateException("You have to update the view at least once first")).addPausePane(super.getListener(), notification);
-        this.spriteManager.orElseThrow(() -> new IllegalStateException("You have to call init first")).pauseAllSprites();
+        this.status.orElseThrow(() -> new IllegalStateException("You have to update the view at least once first"))
+                .addPausePane(super.getListener(), notification);
+        this.spriteManager.orElseThrow(() -> new IllegalStateException("You have to call init first"))
+                .pauseAllSprites();
     }
 
     @Override
     public void playScene() {
-        this.status.orElseThrow(() -> new IllegalStateException("You have to update the view at least once first")).removePausePane();
-        this.spriteManager.orElseThrow(() -> new IllegalStateException("You have to call init first")).resumeAllSprites();
+        this.status.orElseThrow(() -> new IllegalStateException("You have to update the view at least once first"))
+                .removePausePane();
+        this.spriteManager.orElseThrow(() -> new IllegalStateException("You have to call init first"))
+                .resumeAllSprites();
     }
 
     @Override

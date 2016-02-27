@@ -13,6 +13,11 @@ import javafx.scene.image.ImageView;
 import javafx.util.Pair;
 import view.configs.Entities;
 
+/**
+ * This class, created using singleton pattern, manages access to resources. To
+ * improve performances it stores all loaded resources in a buffered structure
+ * to avoid unnecessary readings from disk.
+ */
 public final class ResourcesManager {
 
     private static final ResourcesManager SINGLETON = new ResourcesManager();
@@ -21,10 +26,28 @@ public final class ResourcesManager {
     private ResourcesManager() {
     }
 
+    /**
+     * Static method that returns the only permitted instance of this class.
+     * 
+     * @return A ResourceManager instance
+     */
     public static ResourcesManager getResourceManager() {
         return SINGLETON;
     }
 
+    /**
+     * This method, if requested res are not present in the buffer, load them
+     * from disk and returns them to the inquirer. Otherwise it returns them
+     * directly.
+     * 
+     * @param entity
+     *            The entity to which res are necessaries
+     * @param composedAction
+     *            The string that identifies res needed
+     * @param dimension
+     *            The required dimension of the images
+     * @return A list of ImageView containing required res
+     */
     public List<ImageView> getResources(final Entities entity, final String composedAction,
             final Dimension2D dimension) {
         final Pair<String, Dimension2D> key = new Pair<String, Dimension2D>(entity.getName() + "/" + composedAction,

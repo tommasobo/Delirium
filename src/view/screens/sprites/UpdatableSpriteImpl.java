@@ -12,12 +12,29 @@ import view.configs.Actions;
 import view.configs.Directions;
 import view.configs.Entities;
 
+/**
+ * This class extends the abstract sprite class and implements the
+ * UpdatableSprite interface in order to manage animated and updatable sprites.
+ */
 class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
 
     private static final int ANIMATION_SPEED = 125;
     private Pair<String, Timeline> currentAnimation;
     private final SpriteRemover remover;
 
+    /**
+     * UpdatableSpriteImpl Constructor.
+     * 
+     * @param entity
+     *            The entity that this sprite must represent
+     * @param code
+     *            The entity ID
+     * @param dimension
+     *            The sprite dimension
+     * @param remover
+     *            The SpriteRemover instance to notify when this sprite will
+     *            finish death action.
+     */
     UpdatableSpriteImpl(final Entities entity, final int code, final Dimension2D dimension,
             final SpriteRemover remover) {
         super(entity, code, dimension);
@@ -63,6 +80,17 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
         this.currentAnimation.getValue().play();
     }
 
+    /**
+     * Start a new animation for this sprite using images taken from resource
+     * manager.
+     * 
+     * @param composedAction
+     *            The string that identifies the resources that the manager will
+     *            return
+     * @param duration
+     *            The duration of this animation
+     * @return The Timeline animation generated
+     */
     private Timeline animate(final String composedAction, final int duration) {
 
         final Timeline timeline = new Timeline();
@@ -85,6 +113,15 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
         return timeline;
     }
 
+    /**
+     * Compose action and direction into a string accepted by resource manager.
+     * 
+     * @param action
+     *            The entity action
+     * @param direction
+     *            The entity direction
+     * @return The composed String
+     */
     private String composeAction(final Actions action, final Directions direction) {
         return action.getString() + "-" + direction.getName();
     }

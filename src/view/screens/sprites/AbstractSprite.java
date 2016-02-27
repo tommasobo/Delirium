@@ -7,8 +7,11 @@ import view.configs.Directions;
 import view.configs.Entities;
 import view.utilities.ResourcesManager;
 
+/**
+ * Abstract implementation of Sprite interface.
+ */
 abstract class AbstractSprite implements Sprite {
-    
+
     private final Pane spritePane;
     private final Entities entity;
     private final int code;
@@ -30,21 +33,44 @@ abstract class AbstractSprite implements Sprite {
     public Pane getSpritePane() {
         return this.spritePane;
     }
-     
+
+    /**
+     * Check if an action passed in input is between entity's allowed ones.
+     * 
+     * @param action
+     *            The input action
+     * @throws IllegalStateException
+     *             If the action is not supported for this entity.
+     */
     protected void checkAction(final Actions action) {
         if (!this.entity.getAllowedActions().contains(action)) {
             throw new IllegalArgumentException("Action not allowed : " + entity.getName() + "-" + action.getString());
         }
     }
-    
+
+    /**
+     * Get the resource manager.
+     * 
+     * @return The resource manager
+     */
     protected ResourcesManager getResourcesManager() {
         return this.resources;
     }
-    
+
+    /**
+     * Get the entity ID
+     * 
+     * @return The ID
+     */
     protected int getCode() {
         return this.code;
     }
-    
+
+    /**
+     * Get the entity represented by this sprite.
+     * 
+     * @return The entity
+     */
     protected Entities getEntity() {
         return this.entity;
     }
