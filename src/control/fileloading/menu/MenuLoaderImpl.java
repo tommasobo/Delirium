@@ -3,9 +3,8 @@ package control.fileloading.menu;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class MenuLoaderImpl implements MenuLoader {
      * @throws IOException
      */
     public MenuLoaderImpl(final Menu menu) throws IOException {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/menu/" + menu.getFilename() + ".json"))){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/menu/" + menu.getFilename() + ".json")))){
             final Gson gson = new Gson();
             final Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
             this.menuStructure = gson.fromJson(br, buttonsListType);

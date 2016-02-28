@@ -2,8 +2,7 @@ package control.fileloading.levels;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class LevelLoaderImpl implements LevelLoader {
     public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) throws IOException {
         
         this.statsModifier = statsModifier;
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/levels/" + level.getFilename() + ".json"));){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/levels/" + level.getFilename() + ".json")))){
             final Gson gson = new Gson();
             this.levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {

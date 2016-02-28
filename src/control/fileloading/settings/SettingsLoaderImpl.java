@@ -2,8 +2,7 @@ package control.fileloading.settings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
 
 import com.google.gson.Gson;
 
@@ -25,7 +24,7 @@ public class SettingsLoaderImpl implements SettingsLoader {
      * @throws IOException
      */
     public SettingsLoaderImpl() throws IOException {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/gameSettings.json"));){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/gameSettings.json")))){
             final Gson gson = new Gson();
             this.gameSettings = gson.fromJson(br, GameSettingsImpl.class);
         } catch (IOException e) {
