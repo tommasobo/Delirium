@@ -37,7 +37,7 @@ public final class AudioManager {
         boolean temp = true;
         try {
             final MediaPlayer mp = new MediaPlayer(new Media(
-                    getClass().getResource("../music/" + Music.MENUTHEME.getName() + ".mp3").toExternalForm()));
+                    getClass().getResource("/music/" + Music.MENUTHEME.getName() + ".mp3").toExternalForm()));
             mp.setVolume(0);
             mp.stop();
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public final class AudioManager {
         }
         if (!this.bufferedClip.containsKey(action.getString())) {
             this.bufferedClip.put(action.getString(), new AudioClip(
-                    getClass().getResource("../music/effects/" + action.getString() + ".wav").toExternalForm()));
+                    getClass().getResource("/music/effects/" + action.getString() + ".wav").toExternalForm()));
         }
         if (!this.bufferedClip.get(action.getString()).isPlaying()) {
             this.bufferedClip.get(action.getString()).play(this.effectsVolume);
@@ -96,7 +96,7 @@ public final class AudioManager {
     public void playTheme(final Music theme) {
         if (!this.theme.isPresent() || this.theme.get().getKey() != theme) {
             final MediaPlayer mp = new MediaPlayer(
-                    new Media(getClass().getResource("../music/" + theme.getName() + ".mp3").toExternalForm()));
+                    new Media(getClass().getResource("/music/" + theme.getName() + ".mp3").toExternalForm()));
             mp.setCycleCount(Integer.MAX_VALUE);
             if (this.theme.isPresent()) {
                 mp.setVolume(this.theme.get().getValue().getVolume());
