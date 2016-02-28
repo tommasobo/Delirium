@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import control.exceptions.CriticIOExceptions;
@@ -27,6 +28,8 @@ import control.viewcomunication.translation.InputManager;
 import control.viewcomunication.translation.InputManagerImpl;
 import model.Model;
 import model.ModelImpl;
+import model.transfertentities.EntitiesInfo;
+import utility.Pair;
 import view.ViewController;
 import view.configs.Notifications;
 import view.configs.SceneType;
@@ -179,15 +182,17 @@ public class ControlImpl implements Control {
      * @param level The level to load
      */
     private void gameLoop(final Levels level) {
-        
+
         LevelLoader ll;
         try {
             ll = new LevelLoaderImpl(level, this.gameSettings.getEntityStatsModifier());
         } catch (IOException e) {
             throw new CriticIOExceptions(e);
         }
-        final EntitiesDatabase database = ll.getDatabase();
-        this.model.createArena(ll.getEntities());
+        Pair<List<EntitiesInfo>, EntitiesDatabase> levelStructure = ll.getLevelStructure();
+        
+        final EntitiesDatabase database = levelStructure.getY();
+        this.model.createArena(levelStructure.getX());
         this.view.setLevelDimension(database.getArenaDimension());
         this.view.changeScene(SceneType.DRAWABLE);
 

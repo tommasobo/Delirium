@@ -7,7 +7,7 @@ package control.fileloading.levels;
  */
 public enum Levels {
     LEVEL1("level1"),
-    LEVEL2("level2"),
+    LEVEL2("boccLevel"),
     LEVEL3("magnoLevel");
     
     private final String filename;

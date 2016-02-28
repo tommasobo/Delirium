@@ -25,8 +25,8 @@ public class ArenaManagerImpl implements ArenaManager {
 
     public ArenaManagerImpl(final Arena arena) {
         this.arena = arena;
-        this.lastPositionsMan = new LastPositionsManager();
-        this.platformEntities = new ActiveMovementDatabase();
+        this.lastPositionsMan = new LastPositionsManagerImpl();
+        this.platformEntities = new ActiveMovementDatabaseImpl();
     }
 
     @Override
@@ -41,21 +41,36 @@ public class ArenaManagerImpl implements ArenaManager {
                     this.gameWon = UtilityCollisionsDetection.getRectangle(p.get())
                             .intersects(UtilityCollisionsDetection.getRectangle(this.arena.getGoal().getPosition()));
                 }
-                final Position pos = collisionFixerTest(p.get(), t);
+                final Position pos = collisionFixer(p.get(), t);
                 t.setPosition(pos.getPoint(), pos.getDirection());
             }
         });
     }
 
+   @Override
     public boolean isGameWon() {
         return this.gameWon;
     }
-
-    private Position collisionFixerTest(final Position pos, final Entities entity) {
-        return collisionFixerTest(pos, entity, UtilityCollisionsDetection.realAction(entity), pos.getDirection());
+    
+    /**
+     * The method check if there are collisions and eventually fix position
+     * @param pos Entity's position
+     * @param entity the entity
+     * @return the position fixed
+     */
+    private Position collisionFixer(final Position pos, final Entities entity) {
+        return collisionFixer(pos, entity, UtilityCollisionsDetection.realAction(entity), pos.getDirection());
     }
-
-    private Position collisionFixerTest(final Position pos, final Entities entity, final Actions action,
+    
+    /**
+     * The method check if there are collisions and eventually fix position
+     * @param pos Entity's position
+     * @param entity the entity
+     * @param action Entity's action
+     * @param direction Entity's action
+     * @return the position fixed
+     */
+    private Position collisionFixer(final Position pos, final Entities entity, final Actions action,
             final Directions direction) {
         boolean verticalLimit = false;
         boolean orizzontalLimit = false;
@@ -83,41 +98,7 @@ public class ArenaManagerImpl implements ArenaManager {
                 entity.getLifeManager().setLife(1);
             }
 
-            //l'hero non muove le entità che ha sopra
-            if (entity != this.arena.getHero()) {
-                final Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
-                if (!over.isEmpty()) {
-                    final PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
-                    if (activeMovementOK(over, action, offset)) {
-                        Comparator<Entities> comparator = null;
-                        // per evitare bug con più entità sulla medesima
-                        // piattaforma muovo prima quella nella direzione di
-                        // movimento dell'oggetto
-                        if (direction == Directions.RIGHT) {
-                            comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX())
-                                    .compareTo(y.getPosition().getPoint().getX());
-                        }
-                        if (direction == Directions.LEFT) {
-                            comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX())
-                                    .compareTo(y.getPosition().getPoint().getX());
-                        }
-                        if(comparator != null) {
-                            over.stream().sorted(comparator).forEach(t -> {
-                                Position post = t.getPosition();
-                                post = this.collisionFixerTest(new Position(
-                                        new Point(post.getPoint().getX() + offset.getOffsetX(),
-                                                post.getPoint().getY() + offset.getOffsetY()),
-                                        post.getDirection(), post.getDimension()), t, action, direction);
-                                t.setPosition(post.getPoint(), post.getDirection());
-                            });
-                        }
-                    } else {
-                        return this.lastPositionsMan.getLastPosition(entity);
-                    }
-                }
-            }
-
-            return pos;
+            return moveDependentsEntities(entity, posToFix, action, direction);
         }
         //in caso di collisione modifico coerentemente le due entità
         modifyEntitiesInCollision(entity, collision.getX());
@@ -181,10 +162,10 @@ public class ArenaManagerImpl implements ArenaManager {
             }
         }
 
-        // dopo chw ho fixato la posizione in base alla prima collisione
+        // dopo che ho fixato la posizione in base alla prima collisione
         // identificata, verifico nuovamente la presenza di collisioni in modo
         // ricorsivo sulla nuova posizione ottenuta
-        posToFix = collisionFixerTest(posToFix, entity, action, direction);
+        posToFix = collisionFixer(posToFix, entity, action, direction);
 
         // Se l'entità è presente nella lista, e quindi non è un proiettile
         // (contenuti in una lista separata), modifico azione e direzione
@@ -244,7 +225,59 @@ public class ArenaManagerImpl implements ArenaManager {
 
         return posToFix;
     }
-
+    
+    /**
+     * The method moves the entities that are on the moving entity
+     * @param entity the entity is moving
+     * @param pos entity's position
+     * @param action entity's action
+     * @param direction entity's direction 
+     * @return the eventually new position of the entity
+     */
+    private Position moveDependentsEntities(final Entities entity, final Position pos, final Actions action, final Directions direction) {
+      //l'hero non muove le entità che ha sopra
+        if (entity != this.arena.getHero()) {
+            final Set<Entities> over = this.platformEntities.getRelativeEntities(entity.getCode());
+            if (!over.isEmpty()) {
+                final PointOffset offset = this.lastPositionsMan.getOffsetFromLastPosition(entity, pos);
+                if (activeMovementOK(over, action, offset)) {
+                    Comparator<Entities> comparator = null;
+                    // per evitare bug con più entità sulla medesima
+                    // piattaforma muovo prima quella nella direzione di
+                    // movimento dell'oggetto
+                    if (direction == Directions.RIGHT) {
+                        comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX())
+                                .compareTo(y.getPosition().getPoint().getX());
+                    }
+                    if (direction == Directions.LEFT) {
+                        comparator = (x, y) -> Integer.valueOf(x.getPosition().getPoint().getX())
+                                .compareTo(y.getPosition().getPoint().getX());
+                    }
+                    if(comparator != null) {
+                        over.stream().sorted(comparator).forEach(t -> {
+                            Position post = t.getPosition();
+                            post = this.collisionFixer(new Position(
+                                    new Point(post.getPoint().getX() + offset.getOffsetX(),
+                                            post.getPoint().getY() + offset.getOffsetY()),
+                                    post.getDirection(), post.getDimension()), t, action, direction);
+                            t.setPosition(post.getPoint(), post.getDirection());
+                        });
+                    }
+                } else {
+                    //se l'entità non si può muovere ritono la posizione precedente
+                    return this.lastPositionsMan.getLastPosition(entity);
+                }
+            }
+        }
+        return pos;
+    }
+    
+    /**
+     * The method fix the input position changing it's x
+     * @param posToFix position to fix
+     * @param direction direction of the entity
+     * @param collisionRectangle
+     */
     private void fixPositionInMoveSwitch(final Position posToFix, final Directions direction,
             final Rectangle collisionRectangle) {
         switch (direction) {
@@ -278,7 +311,7 @@ public class ArenaManagerImpl implements ArenaManager {
      * @param offset
      *            the position offset, the difference between actual position
      *            and the next position that the entity have to assume
-     * @return
+     * @return boolean, if the entity can move
      */
     private boolean activeMovementOK(final Set<Entities> entities, final Actions action, final PointOffset offset) {
         boolean ret = true;

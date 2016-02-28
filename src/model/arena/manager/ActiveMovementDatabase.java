@@ -1,37 +1,30 @@
 package model.arena.manager;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import model.arena.entities.Entities;
 
-class ActiveMovementDatabase {
-    private final Map<Integer, Set<Entities>> dependences;
-    
-    public ActiveMovementDatabase() {
-        this.dependences = new HashMap<>();
-    }
-    
-    public void putEntity(int masterEntityCode, Entities passiveEntity) {
-        Set<Entities> add = new HashSet<>();
-        add.add(passiveEntity);
-        this.dependences.merge(masterEntityCode, add, (toAdd, old) -> {
-            toAdd.addAll(old);
-            return toAdd;
-        });
-    }
-    
-    public Set<Entities> getRelativeEntities(int masterEntityCode) {
-        return this.dependences.get(masterEntityCode) == null ? new HashSet<>() : this.dependences.get(masterEntityCode);
-    }
-    
-    public void removeEntityFromAllDependences(Entities entity) {
-        this.dependences.entrySet().stream().map(t -> t.getValue()).forEach(t -> {
-            if(t.contains(entity)) {
-                t.remove(entity);
-            }
-        });
-    }
+interface ActiveMovementDatabase {
+
+    /**
+     * Set an entity as dependent to other
+     * @param masterEntityCode the "under entity"
+     * @param passiveEntity the "up" entity
+     */
+    void putEntity(int masterEntityCode, Entities passiveEntity);
+
+    /**
+     * 
+     * @param masterEntityCode Code of entity
+     * @return the set contains the entities that are on the input entity
+     */
+    Set<Entities> getRelativeEntities(int masterEntityCode);
+
+    /**
+     * 
+     * @param masterEntityCode The entity
+     * @return the set contains the entities that are on the input entity
+     */
+    void removeEntityFromAllDependences(Entities entity);
+
 }

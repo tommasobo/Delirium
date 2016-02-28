@@ -1,48 +1,58 @@
 package model.arena.manager;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import model.arena.entities.Entities;
-import model.arena.entities.Point;
 import model.arena.entities.Position;
 
-class LastPositionsManager {
-    private final Map<Integer,Position> lastPositions;
-    
-    public LastPositionsManager() {
-        this.lastPositions = new HashMap<>();
-    }
-    
-    public Position getLastPosition(Entities entity) {
-        return getLastPosition(entity.getCode());
-    }
-    
-    public Position getLastPosition(int code) {
-        Position pos = this.lastPositions.get(code);
-        return new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
-    }
-    
-    public PointOffset getOffsetFromLastPosition(Entities entity, Position position) {
-        return getOffsetFromLastPosition(entity.getCode(), position);
-    }
-    
-    public PointOffset getOffsetFromLastPosition(int code, Position position) {
-        Point point = getLastPosition(code).getPoint();
-        return new PointOffset(position.getPoint().getX() - point.getX(), position.getPoint().getY() - point.getY());
-    }
-    
-    public void putPosition(Entities entity) {
-        this.lastPositions.put(entity.getCode(), entity.getPosition());
-    }
-    
-    public void putPosition(Entities entity, Position position) {
-        putPosition(entity.getCode(), position);
-    }
-    
-    public void putPosition(int code, Position position) {
-        Position pos = new Position(position.getPoint(), position.getDirection(), position.getDimension());
-        this.lastPositions.put(code, pos);
-    }
-    
+interface LastPositionsManager {
+
+    /**
+     * 
+     * @param entity
+     * @return the last position of the entity
+     */
+    Position getLastPosition(Entities entity);
+
+    /**
+     * 
+     * @param code Entity's code
+     * @return the last position of the entity
+     */
+    Position getLastPosition(int code);
+
+    /**
+     * 
+     * @param entity The entity
+     * @param position The new position
+     * @return The difference between last position and the new position
+     */
+    PointOffset getOffsetFromLastPosition(Entities entity, Position position);
+
+    /**
+     * 
+     * @param entity Entity's code
+     * @param position The new position
+     * @return The difference between last position and the new position
+     */
+    PointOffset getOffsetFromLastPosition(int code, Position position);
+
+    /**
+     * Put in database the entity with its actual position
+     * @param entity the entity
+     */
+    void putPosition(Entities entity);
+
+    /**
+     * Put in database the entity with the input position
+     * @param entity The entity
+     * @param position Position of the entity
+     */
+    void putPosition(Entities entity, Position position);
+
+    /**
+     * Put in database the entity with the input position
+     * @param entity Entity's code
+     * @param position Position of the entity
+     */
+    void putPosition(int code, Position position);
+
 }

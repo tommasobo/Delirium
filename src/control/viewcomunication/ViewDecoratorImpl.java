@@ -20,7 +20,7 @@ import view.utilities.ControlComunication;
  *
  */
 public class ViewDecoratorImpl implements ViewDecorator{
-    private int screenMoltiplicatorFactor = 1;
+    private Double screenMoltiplicatorFactor;
     private final ViewController view;
     private Dimension levelDimension;
     private final Rectangle2D resolution;
@@ -64,13 +64,16 @@ public class ViewDecoratorImpl implements ViewDecorator{
      * 
      */
     private void calculateMultiplierFactor() {
-        if(this.levelDimension.getHeight() < this.resolution.getHeight()/2) {
-            screenMoltiplicatorFactor = (int) ((this.resolution.getHeight()/2)/this.levelDimension.getHeight() + 1);
-        }
+        /*if(this.levelDimension.getHeight() < this.resolution.getHeight()/2) {
+            this.screenMoltiplicatorFactor = (int) ((this.resolution.getHeight()/2)/this.levelDimension.getHeight() + 1);
+        } else {
+            this.screenMoltiplicatorFactor = 1;
+        }*/
+        this.screenMoltiplicatorFactor = this.resolution.getHeight()/2 /this.levelDimension.getHeight();
     }
     
     @Override
-    public int getScreenMultiplierFactor() {
+    public Double getScreenMultiplierFactor() {
         return this.screenMoltiplicatorFactor;
     }
     

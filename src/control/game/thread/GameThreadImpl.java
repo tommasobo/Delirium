@@ -27,6 +27,7 @@ import view.configs.Notifications;
  */
 public class GameThreadImpl extends Thread implements GameThread {
 
+    private final static int FRAMERATE = 35;
     private final Model model;
     private final ViewDecorator view;
     private final EntitiesDatabase database;
@@ -79,7 +80,7 @@ public class GameThreadImpl extends Thread implements GameThread {
             this.view.updateScene(translator.entitiesListFromModelToView(controlGameState(this.model.getState())));
             
             try {
-                Thread.sleep(28L);
+                Thread.sleep(1000/GameThreadImpl.FRAMERATE);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

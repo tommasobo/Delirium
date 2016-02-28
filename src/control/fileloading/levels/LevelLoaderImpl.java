@@ -16,6 +16,7 @@ import control.game.settings.EntityStatsModifier;
 import control.viewcomunication.translation.EntitiesDatabase;
 import control.viewcomunication.translation.EntitiesDatabaseImpl;
 import model.transfertentities.EntitiesInfo;
+import utility.Pair;
 
 /**
  * Class that can load levels from file and modify entities statistics using the
@@ -26,8 +27,8 @@ import model.transfertentities.EntitiesInfo;
  */
 public class LevelLoaderImpl implements LevelLoader {
     
-    private final List<EntitiesInfo> entities;
-    private final EntitiesDatabase database;
+    private final LevelInfo levelInfo;
+    private final EntityStatsModifier statsModifier;
     
     /**
      * The constructor load the level from the file witch name is stored in Levels' enumeration element
@@ -37,41 +38,35 @@ public class LevelLoaderImpl implements LevelLoader {
      */
     public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) throws IOException {
         
-        LevelInfo levelInfo = null;
+        this.statsModifier = statsModifier;
         try (BufferedReader br = Files.newBufferedReader(Paths.get("res/storefiles/levels/" + level.getFilename() + ".json"));){
             final Gson gson = new Gson();
-            levelInfo = gson.fromJson(br, LevelInfoImpl.class);
-            this.entities = new LinkedList<>();
-            int i = 0;
-            this.database = new EntitiesDatabaseImpl(levelInfo.getLevelDimension());
-            for(final EntitiesInfoStore ent : levelInfo.getEntities()) {
-                EntitiesInfoStore entity = ent;
-                if( i!=0 ) {
-                    entity = statsModifier.modifyEntity(entity); 
-                }
-                //L'entità di codice -1 è il goal (obbietivo del gioco) e quindi ha già il codice correttamente settato
-                if(entity.getCode() == -1) {
-                    this.database.putEntity(entity, entity.getEntityType());
-                    this.entities.add(entity);
-                } else {
-                    this.entities.add(this.database.putEntityAndSetCode(entity, entity.getEntityType()));
-                }
-                
-                i++;
-            }
+            this.levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {
             throw e;
         }
     }
 
     
-    @Override
-    public List<EntitiesInfo> getEntities() {
-        return entities;
-    }
-
-    @Override
-    public EntitiesDatabase getDatabase() {
-        return database;
+    public Pair<List<EntitiesInfo>, EntitiesDatabase> getLevelStructure() {
+        List<EntitiesInfo> entities = new LinkedList<>();
+        EntitiesDatabase database = new EntitiesDatabaseImpl(this.levelInfo.getLevelDimension());
+        int i = 0;
+        for(final EntitiesInfoStore ent : levelInfo.getEntities()) {
+            EntitiesInfoStore entity = ent;
+            if( i!=0 ) {
+                entity = this.statsModifier.modifyEntity(entity); 
+            }
+            //L'entità di codice -1 è il goal (obbietivo del gioco) e quindi ha già il codice correttamente settato
+            if(entity.getCode() == -1) {
+                database.putEntity(entity, entity.getEntityType());
+                entities.add(entity);
+            } else {
+                entities.add(database.putEntityAndSetCode(entity, entity.getEntityType()));
+            }
+            
+            i++;
+        }
+        return new Pair<>(entities, database);
     }
 }

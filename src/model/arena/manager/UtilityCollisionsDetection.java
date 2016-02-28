@@ -17,8 +17,12 @@ import utility.Pair;
 final class UtilityCollisionsDetection {
     
     private UtilityCollisionsDetection() {
-        
     }
+    /**
+     * 
+     * @param direction A direction
+     * @return the opposite direction
+     */
     public static Directions getOppositeDirection(final Directions direction) {
         switch(direction) {
         case LEFT:
@@ -31,6 +35,11 @@ final class UtilityCollisionsDetection {
         }
     }
     
+    /**
+     * 
+     * @param direction An action
+     * @return the opposite action
+     */
     public static Actions getOppositeAction(final Actions action) {
         switch(action) {
         case FALL:

@@ -1,5 +1,10 @@
 package model.arena.manager;
 
+/**
+ * Difference between two points
+ * @author Matteo Magnani
+ *
+ */
 class PointOffset {
     private final int offsetX;
     private final int offsetY;

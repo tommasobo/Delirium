@@ -34,5 +34,5 @@ public interface ViewDecorator {
      * 
      * @return The multiplier factor of model's dimensions to make better the visualization on different screens
      */
-    int getScreenMultiplierFactor();
+    Double getScreenMultiplierFactor();
 }

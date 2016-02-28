@@ -17,14 +17,14 @@ import view.utilities.ViewPhysicalProperties;
  */
 public class GameWorldTranslatorImpl implements GameWorldTranslator {
     private final EntitiesDatabase database;
-    private final int screenMultiplierFactor;
+    private final Double screenMultiplierFactor;
 
     /**
      * 
      * @param database The database that contains the view representation for each model entity
      * @param screenMoltiplicatorFactor The necessary multiplier factor to visualize the game world on screen
      */
-    public GameWorldTranslatorImpl(final EntitiesDatabase database, final int screenMultiplierFactor) {
+    public GameWorldTranslatorImpl(final EntitiesDatabase database, final Double screenMultiplierFactor) {
         super();
         this.database = database;
         this.screenMultiplierFactor = screenMultiplierFactor;
@@ -51,12 +51,12 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
      */
     private ViewPhysicalProperties positionFromModeltoView(final EntitiesInfoToControl info) {
         final Position p = info.getPosition();
-        return new ViewPhysicalProperties(p.getPoint().getX() * this.screenMultiplierFactor,
-                (this.database.getArenaDimension().getHeight() - p.getPoint().getY() - p.getDimension().getHeight())
-                        * this.screenMultiplierFactor,
-                p.getDimension().getWidth() * this.screenMultiplierFactor,
-                p.getDimension().getHeight() * this.screenMultiplierFactor,
-                info.getSpeed().isPresent() ? info.getSpeed().get() * this.screenMultiplierFactor : 0,
+        return new ViewPhysicalProperties((int) Math.round(p.getPoint().getX() * this.screenMultiplierFactor),
+                (int) Math.round((this.database.getArenaDimension().getHeight() - p.getPoint().getY()
+                        - p.getDimension().getHeight()) * this.screenMultiplierFactor),
+                (int) Math.round(p.getDimension().getWidth() * this.screenMultiplierFactor),
+                (int) Math.round(p.getDimension().getHeight() * this.screenMultiplierFactor),
+                info.getSpeed().isPresent() ? (int) Math.round(info.getSpeed().get() * this.screenMultiplierFactor) : 0,
                 Translator.directionFromModeltoView(p.getDirection()));
     }
 }
