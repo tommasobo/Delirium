@@ -516,8 +516,8 @@
           "bounds": {
             "minX": 1250,
             "maxX": 1450,
-            "minY": 310,
-            "maxY": 340
+            "minY": 260,
+            "maxY": 290
           },
           "actions": "MOVE",
           "canFly": true,

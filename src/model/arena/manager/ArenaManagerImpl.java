@@ -41,8 +41,14 @@ public class ArenaManagerImpl implements ArenaManager {
                     this.gameWon = UtilityCollisionsDetection.getRectangle(p.get())
                             .intersects(UtilityCollisionsDetection.getRectangle(this.arena.getGoal().getPosition()));
                 }
-                final Position pos = collisionFixer(p.get(), t);
+                Actions action = UtilityCollisionsDetection.realAction(t);
+                Directions direction = t.getPosition().getDirection();
+                Position pos = collisionFixer(p.get(), t);
                 t.setPosition(pos.getPoint(), pos.getDirection());
+                if(!pos.getPoint().equals(this.lastPositionsMan.getLastPosition(t))) {
+                    pos = this.moveDependentsEntities(t, pos, action, direction);
+                    t.setPosition(pos.getPoint(), pos.getDirection());
+                }
             }
         });
     }
@@ -98,7 +104,7 @@ public class ArenaManagerImpl implements ArenaManager {
                 entity.getLifeManager().setLife(1);
             }
 
-            return moveDependentsEntities(entity, posToFix, action, direction);
+            return pos;
         }
         //in caso di collisione modifico coerentemente le due entità
         modifyEntitiesInCollision(entity, collision.getX());
