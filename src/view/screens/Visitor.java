@@ -5,7 +5,7 @@ package view.screens;
  */
 public interface Visitor {
     /**
-     * This method take a StaticView as parameter.
+     * This method takes a StaticView as parameter.
      * 
      * @param view
      *            The StaticView.
@@ -13,7 +13,7 @@ public interface Visitor {
     void visit(StaticView view);
 
     /**
-     * This method take a DynamicView as parameter.
+     * This method takes a DynamicView as parameter.
      * 
      * @param view
      *            The StaticView.

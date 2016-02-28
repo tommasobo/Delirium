@@ -5,7 +5,7 @@ import java.util.List;
 import utility.Dimension;
 import view.configs.Notifications;
 import view.configs.SceneType;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 
 public interface ViewDecorator {
     //TODO brutto
@@ -23,7 +23,7 @@ public interface ViewDecorator {
      * Update the view game scene
      * @param entities List of entities in game
      */
-    void updateScene(final List<ControlComunication> entities);
+    void updateScene(final List<ControlCommunication> entities);
     /**
      * Set the level dimension ad calculate the appropriate screen multiplier factor
      * @param levelDimension

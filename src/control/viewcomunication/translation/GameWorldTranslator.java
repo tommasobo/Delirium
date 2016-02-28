@@ -3,7 +3,7 @@ package control.viewcomunication.translation;
 import java.util.List;
 
 import model.transfertentities.EntitiesInfoToControl;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 
 /**
  * Interface that declare methods to translate model's entities to elements that
@@ -22,6 +22,6 @@ public interface GameWorldTranslator {
      *            The list of model's entities
      * @return The list of view's entities
      */
-    List<ControlComunication> entitiesListFromModelToView(List<EntitiesInfoToControl> listInfo);
+    List<ControlCommunication> entitiesListFromModelToView(List<EntitiesInfoToControl> listInfo);
 
 }

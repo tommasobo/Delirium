@@ -3,8 +3,8 @@ package view.screens;
 import java.util.Optional;
 
 /**
- * The implementation of Visitor interface. This class distinguish between
- * Static and Dynamic views declared as Generic ones and make a specific action
+ * The implementation of Visitor's interface. This class distinguishes between
+ * Static and Dynamic views declared as Generic ones and makes a specific action
  * based on the scene type.
  */
 public class VisitorImpl implements Visitor {
@@ -28,8 +28,8 @@ public class VisitorImpl implements Visitor {
     }
 
     /**
-     * Get an optional containing a DynamicView if the visit method was called
-     * using this type of scene as parameter. Otherwise returns an
+     * This method returns an optional containing a DynamicView if the visit method was called
+     * using this type of scene as parameter. Otherwise it returns an
      * Optional.empty().
      * 
      * @return Optional<DynamicView>

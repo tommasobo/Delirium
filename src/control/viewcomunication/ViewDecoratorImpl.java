@@ -10,7 +10,7 @@ import utility.Pair;
 import view.ViewController;
 import view.configs.Notifications;
 import view.configs.SceneType;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 
 /**
  * A decorator for view that make thread safe methods and calculate scenes
@@ -49,7 +49,7 @@ public class ViewDecoratorImpl implements ViewDecorator{
     }
 
     @Override
-    public void updateScene(final List<ControlComunication> entities) {
+    public void updateScene(final List<ControlCommunication> entities) {
         this.view.updateScene(entities);
     }
     

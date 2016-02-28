@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.arena.entities.Position;
 import model.transfertentities.EntitiesInfoToControl;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 import view.utilities.ViewPhysicalProperties;
 
 /**
@@ -31,10 +31,10 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
     }
 
     @Override
-    public List<ControlComunication> entitiesListFromModelToView(final List<EntitiesInfoToControl> listInfo) {
-        final List<ControlComunication> viewList = new LinkedList<>();
+    public List<ControlCommunication> entitiesListFromModelToView(final List<EntitiesInfoToControl> listInfo) {
+        final List<ControlCommunication> viewList = new LinkedList<>();
         listInfo.stream().forEach(e -> {
-            viewList.add(new ControlComunication(e.getCode(), this.database.getViewEntity(e.getCode()), e.getLife(),
+            viewList.add(new ControlCommunication(e.getCode(), this.database.getViewEntity(e.getCode()), e.getLife(),
                     positionFromModeltoView(e), Translator.getViewActionsForEntities(e)));
         });
         return viewList;

@@ -17,7 +17,7 @@ class InputFromUser implements EventHandler<KeyEvent> {
      * InputFromUser Constructor
      * 
      * @param listener
-     *            Listener to which notify user actions.
+     *            Listener to which notify user's actions.
      */
     InputFromUser(final Control listener) {
         this.listener = listener;

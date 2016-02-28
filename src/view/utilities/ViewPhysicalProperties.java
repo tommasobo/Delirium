@@ -5,7 +5,7 @@ import javafx.geometry.Point2D;
 import view.configs.Directions;
 
 /**
- * Object that represent physical properties of an entity as speed or direction.
+ * Object that represents physical properties of an entity as speed or direction.
  */
 public class ViewPhysicalProperties {
 
@@ -39,7 +39,7 @@ public class ViewPhysicalProperties {
     }
 
     /**
-     * Get entity's coordinates.
+     * This method returns entity's coordinates.
      * 
      * @return JavaFX Point2D
      */
@@ -48,7 +48,7 @@ public class ViewPhysicalProperties {
     }
 
     /**
-     * Get entity's dimension.
+     * This method returns entity's dimension.
      * 
      * @return JavaFX Dimension2D
      */
@@ -57,18 +57,18 @@ public class ViewPhysicalProperties {
     }
 
     /**
-     * Get entity's speed.
+     * This method returns entity's speed.
      * 
-     * @return The entity's speed
+     * @return Entity's speed
      */
     public int getSpeed() {
         return this.speed;
     }
 
     /**
-     * Get entity's direction.
+     * This method returns entity's direction.
      * 
-     * @return The entity's direction
+     * @return Entity's direction
      */
     public Directions getDirection() {
         return this.direction;

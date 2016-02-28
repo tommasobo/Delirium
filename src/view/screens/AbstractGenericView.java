@@ -36,7 +36,7 @@ abstract class AbstractGenericView implements GenericView {
     }
 
     /**
-     * Complete the initialization dependently on the scene to draw.
+     * This method completes the initialization dependently on the scene to draw.
      */
     protected abstract void completeInitialization();
 
@@ -50,7 +50,7 @@ abstract class AbstractGenericView implements GenericView {
     }
 
     /**
-     * Get the controller listener.
+     * This method returns the controller listener.
      * 
      * @return Controller listener
      */
@@ -59,7 +59,7 @@ abstract class AbstractGenericView implements GenericView {
     }
 
     /**
-     * Get the main group of this scene.
+     * This method returns the main group of this scene.
      * 
      * @return The main group of this scene.
      */
@@ -68,7 +68,7 @@ abstract class AbstractGenericView implements GenericView {
     }
 
     /**
-     * Get the dimension of the scene.
+     * This method returns the dimension of the scene.
      * 
      * @return The dimension of the scene
      */

@@ -20,7 +20,7 @@ import view.configs.Notifications;
 import view.utilities.AudioManager;
 
 /**
- * This class handle the overlay elements present during the game.
+ * This class handles the overlay elements present during the game.
  */
 class OverlayPanel {
 
@@ -51,7 +51,7 @@ class OverlayPanel {
     }
 
     /**
-     * This method initialize the panel, drawing main character icon and life
+     * This method initializes the panel, drawing the main character icon and the life
      * bar. This method can only be called once.
      * 
      * @throws IllegalStateException
@@ -75,10 +75,10 @@ class OverlayPanel {
     }
 
     /**
-     * Update life progress bar.
+     * This method updates life progress bar.
      * 
      * @param newLife
-     *            Life new value.
+     *            Life's new value.
      * @throws IllegalStateException
      *             If called before initialization.
      */
@@ -92,12 +92,12 @@ class OverlayPanel {
     }
 
     /**
-     * Put a ButtonPane on the overlay Pane printing a message on the screen.
+     * This method shows a ButtonPane on the overlay Pane by printing a message on the screen.
      * 
      * @param listener
      *            The control listener used to create a new ButtonsPane
      * @param notification
-     *            The state that define the message on the screen
+     *            The state that defines the message on the screen
      * @throws IllegalStateException
      *             If called when a PausePane is already present.
      */
@@ -117,7 +117,7 @@ class OverlayPanel {
     }
 
     /**
-     * Remove the pause pane.
+     * This method removes the pause pane.
      * 
      * @throws IllegalStateException
      *             If no pausePane is present.

@@ -1,6 +1,6 @@
 package view.configs;
 /**
- *Entities supported directions.
+ *Entities' supported directions.
  */
 public enum Directions {
     /**
@@ -22,7 +22,7 @@ public enum Directions {
         this.name = name;
     }
     /**
-     * Returns the string associated with every element.
+     * This method returns the string associated with every element.
      * @return The string associated with this element.
      */
     public String getName() {

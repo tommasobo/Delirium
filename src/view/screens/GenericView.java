@@ -7,7 +7,7 @@ package view.screens;
  */
 public interface GenericView {
     /**
-     * Make the scene visible.
+     * This method makes the scene visible.
      * 
      * @throws IllegalStateException
      *             If it is called before the initialization.
@@ -15,7 +15,7 @@ public interface GenericView {
     void display();
 
     /**
-     * Configure the scene to draw and initialize it. This method can only be
+     * This method configures the scene to draw and initialize it. This method can only be
      * called once.
      * 
      * @throws IllegalStateException

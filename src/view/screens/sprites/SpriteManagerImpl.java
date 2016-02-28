@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javafx.scene.layout.Pane;
 import view.configs.Actions;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 import view.utilities.ViewPhysicalProperties;
 
 /**
- * This class implements SpriteManager and SpriteRemover interfaces.
+ * This class implements SpriteManager's and SpriteRemover's interfaces.
  */
 public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
 
@@ -18,7 +18,7 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
     private final Map<Integer, UpdatableSprite> updatableSprite = new HashMap<>();
 
     /**
-     * SpriteManagerImpl Constructor.
+     * SpriteManagerImpl's Constructor.
      * 
      * @param entitiesPane
      *            The pane where entities are represented
@@ -28,7 +28,7 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
     }
 
     @Override
-    public void addSprite(final ControlComunication addedEntity) {
+    public void addSprite(final ControlCommunication addedEntity) {
         if (this.isTracked(addedEntity.getCode())) {
             throw new IllegalArgumentException("Entity already added to track. Code: " + addedEntity.getCode());
         }
@@ -83,11 +83,11 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
     }
 
     /**
-     * Get a Sprite from Updatable or NonUpdatable map.
+     * This method returns a Sprite from Updatable or NonUpdatable map.
      * 
      * @param code
-     *            Entity ID
-     * @return Sprite element associated with ID
+     *            Entity's ID
+     * @return Sprite's element associated with ID
      */
     private Sprite getFromMaps(final int code) {
         if (updatableSprite.containsKey(code)) {

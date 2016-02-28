@@ -19,11 +19,11 @@ import view.configs.Notifications;
 import view.screens.sprites.SpriteManager;
 import view.screens.sprites.SpriteManagerImpl;
 import view.utilities.AudioManager;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 import view.utilities.ViewPhysicalProperties;
 
 /**
- * GenericView that implements DynamicView interface and so it offers update
+ * GenericView that implements DynamicView interface and in this way it offers update
  * functionalities.
  */
 class DynamicViewImpl extends AbstractGenericView implements DynamicView {
@@ -77,7 +77,7 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     }
 
     @Override
-    public void updateScene(final List<ControlComunication> entities) {
+    public void updateScene(final List<ControlCommunication> entities) {
         this.spriteManager.orElseThrow(() -> new IllegalStateException("You must call init first"));
         entities.stream().forEach(k -> {
             if (!this.spriteManager.get().isTracked(k.getCode())) {
@@ -100,7 +100,7 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     }
 
     /**
-     * Change the current visualized part of game world according to a given
+     * This method changes the current visualized part of game world according to a given
      * position.
      * 
      * @param position

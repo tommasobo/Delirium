@@ -1,12 +1,12 @@
 package view.screens.sprites;
 
 /**
- * This method adds the possibility of removing an entity from screen and from
+ * This interface adds the possibility of removing an entity from the screen and from
  * tracking.
  */
 interface SpriteRemover {
     /**
-     * Remove an entity from tracking and delete it from the screen.
+     * This method removes an entity from tracking and deletes it from the screen.
      * 
      * @param toRemove
      *            The Entity to remove

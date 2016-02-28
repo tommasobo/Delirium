@@ -16,7 +16,7 @@ import view.configs.Actions;
 import view.configs.Music;
 
 /**
- * This class, created using singleton pattern, manages access to audio.
+ * This class, created using a singleton pattern, manages access to audio.
  */
 public final class AudioManager {
 
@@ -29,19 +29,18 @@ public final class AudioManager {
     private double effectsVolume = 1.0;
 
     /**
-     * The constructor check if there are malfunctions in audio player and using this
-     * test as a base set a boolean flag that indicates the availability of this
+     * The constructor checks if there are malfunctions in audio player and using this
+     * test as a base it sets a boolean flag that indicates the availability of this
      * AudioManager.
      */
     private AudioManager() {
         boolean temp = true;
         try {
             final MediaPlayer mp = new MediaPlayer(new Media(
-                    getClass().getResource("/music/" + Music.MENUTHEME.getName() + ".mp3").toExternalForm()));
+                    getClass().getResource("../music/" + Music.MENUTHEME.getName() + ".mp3").toExternalForm()));
             mp.setVolume(0);
             mp.stop();
         } catch (Exception e) {
-            //e.printStackTrace();
             temp = false;
         }
         this.audioState = temp && AudioSystem.getMixerInfo().length > 0;
@@ -57,7 +56,7 @@ public final class AudioManager {
     }
 
     /**
-     * Indicates if the manager is capable or not of reproducing audio on the
+     * This method indicates if the manager is capable or not of reproducing audio on the
      * requiring system.
      * 
      * @return True if AudioManager is running correctly, false otherwise
@@ -67,12 +66,12 @@ public final class AudioManager {
     }
 
     /**
-     * Play an audio clip.
+     * This method play an audio clip.
      * 
      * @param action
      *            The action that shows which clip has to be played
      * @throws IllegalArgumentException
-     *             If the required clip is not in the allowed ones list
+     *             If the required clip is not in the list of the allowed ones
      */
     public void playClip(final Actions action) {
         if (!this.allowedActions.contains(action)) {
@@ -80,7 +79,7 @@ public final class AudioManager {
         }
         if (!this.bufferedClip.containsKey(action.getString())) {
             this.bufferedClip.put(action.getString(), new AudioClip(
-                    getClass().getResource("/music/effects/" + action.getString() + ".wav").toExternalForm()));
+                    getClass().getResource("../music/effects/" + action.getString() + ".wav").toExternalForm()));
         }
         if (!this.bufferedClip.get(action.getString()).isPlaying()) {
             this.bufferedClip.get(action.getString()).play(this.effectsVolume);
@@ -88,8 +87,8 @@ public final class AudioManager {
     }
 
     /**
-     * Instantiate a media player to play game main themes. If the required
-     * theme is already playing does nothing.
+     * This method instantiates a media player to play game's main themes. If the required
+     * theme is already playing it does nothing.
      * 
      * @param theme
      *            The theme to be played
@@ -97,7 +96,7 @@ public final class AudioManager {
     public void playTheme(final Music theme) {
         if (!this.theme.isPresent() || this.theme.get().getKey() != theme) {
             final MediaPlayer mp = new MediaPlayer(
-                    new Media(getClass().getResource("/music/" + theme.getName() + ".mp3").toExternalForm()));
+                    new Media(getClass().getResource("../music/" + theme.getName() + ".mp3").toExternalForm()));
             mp.setCycleCount(Integer.MAX_VALUE);
             if (this.theme.isPresent()) {
                 mp.setVolume(this.theme.get().getValue().getVolume());
@@ -109,7 +108,7 @@ public final class AudioManager {
     }
 
     /**
-     * Get the volume of the theme currently playing.
+     * This method returns the volume of the theme currently playing.
      * 
      * @return The volume of the theme
      * @throws IllegalStateException
@@ -120,7 +119,7 @@ public final class AudioManager {
     }
 
     /**
-     * Set the volume of the theme currently playing.
+     * This method sets the volume of the theme currently playing.
      * 
      * @param volume
      *            The new volume of the theme
@@ -132,7 +131,7 @@ public final class AudioManager {
     }
 
     /**
-     * Get the audio clip's volume.
+     * This method returns the audio clip's volume.
      * 
      * @return Effects volume
      */
@@ -141,7 +140,7 @@ public final class AudioManager {
     }
 
     /**
-     * Set the audio clip's volume.
+     * This method sets the audio clip's volume.
      * 
      * @param volume
      *            New effects volume
@@ -151,7 +150,7 @@ public final class AudioManager {
     }
 
     /**
-     * Get the list of actions supported by this manager.
+     * This method returns the list of actions supported by this manager.
      * 
      * @return A list of actions
      */

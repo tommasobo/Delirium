@@ -75,11 +75,11 @@ public enum Entities {
      * @param name
      *            The string associated to an element
      * @param animated
-     *            Define if the entity is animated or not
+     *            Defines if the entity is animated or not
      * @param nAssets
      *            The number of images available for every allowed action
      * @param actions
-     *            Entity allowed actions
+     *            Entity's allowed actions
      */
     Entities(final String name, final boolean animated, final int nAssets, final Actions...actions) {
         this.name = name;

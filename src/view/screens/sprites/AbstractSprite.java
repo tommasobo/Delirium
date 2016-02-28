@@ -8,7 +8,7 @@ import view.configs.Entities;
 import view.utilities.ResourcesManager;
 
 /**
- * Abstract implementation of Sprite interface.
+ * Abstract implementation of Sprite's interface.
  */
 abstract class AbstractSprite implements Sprite {
 
@@ -35,10 +35,10 @@ abstract class AbstractSprite implements Sprite {
     }
 
     /**
-     * Check if an action passed in input is between entity's allowed ones.
+     * This method checks if an action passed in input is between entity's allowed ones.
      * 
      * @param action
-     *            The input action
+     *            Input's action
      * @throws IllegalStateException
      *             If the action is not supported for this entity.
      */
@@ -49,16 +49,16 @@ abstract class AbstractSprite implements Sprite {
     }
 
     /**
-     * Get the resource manager.
+     * This method returns the resource's manager.
      * 
-     * @return The resource manager
+     * @return The resource's manager
      */
     protected ResourcesManager getResourcesManager() {
         return this.resources;
     }
 
     /**
-     * Get the entity ID
+     * This method returns the entity's ID
      * 
      * @return The ID
      */
@@ -67,7 +67,7 @@ abstract class AbstractSprite implements Sprite {
     }
 
     /**
-     * Get the entity represented by this sprite.
+     * This method returns the entity represented by this sprite.
      * 
      * @return The entity
      */

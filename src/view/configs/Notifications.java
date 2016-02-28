@@ -1,15 +1,15 @@
 package view.configs;
 
 /**
- * Dynamic scene special states.
+ * Dynamic scene's special states.
  */
 public enum Notifications {
     /**
-     * Pause game.
+     * Pauses game.
      */
     PAUSE("PAUSE"),
     /**
-     * Play game.
+     * Plays game.
      */
     PLAY(""),
     /**

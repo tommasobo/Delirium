@@ -9,23 +9,23 @@ import view.configs.Directions;
  */
 interface Sprite {
     /**
-     * Initialize the sprite searching for necessaries res and creating needed
+     * This method initializes the sprite searching for necessaries res and creating needed
      * structure in order to support animated sprites and composed ones. This
      * method can only be called once.
      * 
      * @param action
-     *            The initial action of the entity.
+     *            Entity's initial action.
      * @param direction
-     *            The initial direction of the entity.
+     *            Entity's initial direction.
      * @throws IllegalStateException
      *             If initialization was already called.
      */
     void initSprite(final Actions action, final Directions direction);
 
     /**
-     * Get the pane used to represent the sprite.
+     * This method returns the pane used to represent the sprite.
      * 
-     * @return JavaFX Sprite pane.
+     * @return JavaFX Sprite's pane.
      */
     Pane getSpritePane();
 

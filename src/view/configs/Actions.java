@@ -3,7 +3,7 @@ package view.configs;
 import javafx.animation.Timeline;
 
 /**
- * Entities actions supported by this game.
+ * Entities' actions supported by this game.
  */
 public enum Actions {
     /**

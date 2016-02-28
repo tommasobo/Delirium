@@ -13,7 +13,7 @@ import view.configs.Directions;
 import view.configs.Entities;
 
 /**
- * This class extends the abstract sprite class and implements the
+ * This class extends the abstract sprite's class and implements the
  * UpdatableSprite interface in order to manage animated and updatable sprites.
  */
 class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
@@ -28,11 +28,11 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
      * @param entity
      *            The entity that this sprite must represent
      * @param code
-     *            The entity ID
+     *            Entity's ID
      * @param dimension
-     *            The sprite dimension
+     *            Sprite's dimension
      * @param remover
-     *            The SpriteRemover instance to notify when this sprite will
+     *            The SpriteRemover's instance to notify when this sprite will
      *            finish death action.
      */
     UpdatableSpriteImpl(final Entities entity, final int code, final Dimension2D dimension,
@@ -81,7 +81,7 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
     }
 
     /**
-     * Start a new animation for this sprite using images taken from resource
+     * This method starts a new animation for this sprite using images taken from resource's
      * manager.
      * 
      * @param composedAction
@@ -114,13 +114,13 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
     }
 
     /**
-     * Compose action and direction into a string accepted by resource manager.
+     * This method composes action and direction into a string accepted by resource manager.
      * 
      * @param action
-     *            The entity action
+     *            Entity's action
      * @param direction
-     *            The entity direction
-     * @return The composed String
+     *            Entity's direction
+     * @return Composed String
      */
     private String composeAction(final Actions action, final Directions direction) {
         return action.getString() + "-" + direction.getName();

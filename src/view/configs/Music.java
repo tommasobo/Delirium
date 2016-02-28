@@ -9,7 +9,7 @@ public enum Music {
      */
     MENUTHEME("menu"),
     /**
-     * The default track in game.
+     * The default track inside the game.
      */
     GAMETHEME("game");
 

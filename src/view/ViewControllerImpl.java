@@ -15,10 +15,10 @@ import view.screens.DynamicView;
 import view.screens.GenericView;
 import view.screens.ViewFactory;
 import view.screens.VisitorImpl;
-import view.utilities.ControlComunication;
+import view.utilities.ControlCommunication;
 
 /**
- * The implementation of view controller interface.
+ * The implementation of view's controller interface.
  */
 public class ViewControllerImpl implements ViewController {
 
@@ -27,10 +27,10 @@ public class ViewControllerImpl implements ViewController {
     private Optional<Control> listener = Optional.empty();
 
     /**
-     * Create an instance of this class.
+     * This method creates an instance of this class.
      * 
      * @param primaryStage
-     *            The JavaFX primary stage
+     *            JavaFX's primary stage
      */
     public ViewControllerImpl(final Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -51,7 +51,7 @@ public class ViewControllerImpl implements ViewController {
     }
 
     @Override
-    public void updateScene(final List<ControlComunication> entities) {
+    public void updateScene(final List<ControlCommunication> entities) {
         if (entities == null || !entities.stream().map(e -> e.getCode()).allMatch(new HashSet<>()::add)) {
             throw new IllegalArgumentException("Duplicate code in entities list");
         }

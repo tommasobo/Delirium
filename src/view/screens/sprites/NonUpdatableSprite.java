@@ -25,9 +25,9 @@ class NonUpdatableSprite extends AbstractSprite {
      * @param entity
      *            The entity that this sprite must represent
      * @param code
-     *            The entity ID
+     *            Entity's ID
      * @param dimension
-     *            The sprite dimension
+     *            Sprite's dimension
      */
     NonUpdatableSprite(final Entities entity, final int code, final Dimension2D dimension) {
         super(entity, code, dimension);
@@ -67,7 +67,7 @@ class NonUpdatableSprite extends AbstractSprite {
      * pieces.
      * 
      * @param images
-     *            The list of ImageView to use
+     *            List of ImageView to use
      * @param unit
      *            The width that every ImageView should have
      * @param offset

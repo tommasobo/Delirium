@@ -33,7 +33,7 @@ class ButtonsPane {
      * ButtonsPane Constructor.
      * 
      * @param listener
-     *            The controller listener to which ask what buttons should be
+     *            The controller listener to which to ask what buttons should be
      *            represented,
      */
     ButtonsPane(final Control listener) {
@@ -42,12 +42,12 @@ class ButtonsPane {
     }
 
     /**
-     * This methods build the vertical pane containing buttons using
+     * This methods builds the vertical pane containing buttons using
      * informations requested to the controller using the listener and returns
      * it.
      * 
      * @param sceneWidth
-     *            The width of the scene in which the pane will be draw
+     *            The width of the scene in which the pane will be drawn
      * @return The vertical box containing buttons
      */
     public VBox getButtonPane(final double sceneWidth) {
@@ -87,11 +87,11 @@ class ButtonsPane {
     }
 
     /**
-     * Create a Radio Menu item.
+     * This method creates a Radio Menu's item.
      * 
      * @param menuitem
      *            The informations about this item.
-     * @return The Radio Menu Item
+     * @return The Radio Menu's Item
      */
     private RadioMenuItem createMenuItem(final Buttons menuitem) {
         final RadioMenuItem radioItem = new RadioMenuItem(menuitem.getName());
@@ -100,7 +100,7 @@ class ButtonsPane {
     }
 
     /**
-     * Create a single Button.
+     * This method creates a single Button.
      * 
      * @param button
      *            The informations about this item.
@@ -116,9 +116,9 @@ class ButtonsPane {
     }
 
     /**
-     * Build the menu button used to control audio in the game.
+     * This method builds the menu button used to control audio in the game.
      * 
-     * @return The button created
+     * @return The created button
      */
     private MenuButton getAudioButton() {
 

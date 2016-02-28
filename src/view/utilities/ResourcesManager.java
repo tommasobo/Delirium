@@ -15,7 +15,7 @@ import view.configs.Entities;
 
 /**
  * This class, created using singleton pattern, manages access to resources. To
- * improve performances it stores all loaded resources in a buffered structure
+ * improve performances it stores all the loaded resources in a buffered structure
  * to avoid unnecessary readings from disk.
  */
 public final class ResourcesManager {
@@ -36,7 +36,7 @@ public final class ResourcesManager {
     }
 
     /**
-     * This method, if requested res are not present in the buffer, load them
+     * This method, if requested res are not present in the buffer, loads them
      * from disk and returns them to the inquirer. Otherwise it returns them
      * directly.
      * 

@@ -17,7 +17,7 @@ public final class ViewFactory {
     }
 
     /**
-     * Instantiates a new scene.
+     * This method instantiates a new scene.
      * 
      * @param stage
      *            The main JavaFX container.
@@ -45,7 +45,7 @@ public final class ViewFactory {
     }
 
     /**
-     * Calculate scene dimension using game world dimension
+     * This method calculates scene dimension using game world dimension
      * 
      * @param worldDimension
      *            Dimension of the game world

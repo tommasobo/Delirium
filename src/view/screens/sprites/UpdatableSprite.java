@@ -4,16 +4,16 @@ import view.configs.Actions;
 import view.configs.Directions;
 
 /**
- * Add to Sprite interface the capabilities to update the sprite animation.
+ * This interface adds to Sprite interface the capabilities to update sprite's animation.
  */
 interface UpdatableSprite extends Sprite {
     /**
-     * Change the running animation of this sprite.
+     * This method changes this sprite's runnig animation.
      * 
      * @param action
      *            The new action to represent
      * @param direction
-     *            The entity new direction
+     *            Entity's new direction
      * @throws IllegalStateException
      *             If called before initialization
      * @throws IllegalArgumentException
@@ -22,7 +22,7 @@ interface UpdatableSprite extends Sprite {
     void updateSprite(final Actions action, final Directions direction);
 
     /**
-     * Pause the sprite animation if running.
+     * This method pauses sprite's animation if running.
      * 
      * @throws IllegalStateException
      *             If called before initialization
@@ -30,7 +30,7 @@ interface UpdatableSprite extends Sprite {
     void pauseSpriteAnimation();
 
     /**
-     * Play the sprite animation if paused.
+     * This method plays sprite's animation if paused.
      * 
      * @throws IllegalStateException
      *             If called before initialization
