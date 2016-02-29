@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import control.fileloading.levels.storestructures.EntitiesInfoStore;
 import control.fileloading.levels.storestructures.EntitiesInfoStoreImpl;
-import control.fileloading.levels.storestructures.MovementInfoStore;
 import control.fileloading.levels.storestructures.ShootInfoStore;
 
 /**
