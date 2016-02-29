@@ -70,7 +70,6 @@ public class ViewDecoratorImpl implements ViewDecorator {
     private void calculateMultiplierFactor() {
         this.screenMoltiplicatorFactor = (double) Math
                 .round(this.resolution.getHeight() / 4 * 3 / this.levelDimension.getHeight() * 100) / 100;
-        System.out.println(this.screenMoltiplicatorFactor);
     }
 
     @Override

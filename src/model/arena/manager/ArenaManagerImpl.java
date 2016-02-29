@@ -99,7 +99,7 @@ public class ArenaManagerImpl implements ArenaManager {
         boolean orizzontalLimit = false;
         Position posToFix = new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
         final Rectangle retToFix = UtilityCollisionsDetection.getRectangle(posToFix);
-        Pair<Entities, Rectangle> collision;
+        Pair<Entities, Rectangle> collision = null;
         // l'hero non deve ignorare gli oggetti che ha sopra a livello di
         // collisioni
         if (entity == this.arena.getHero()) {

@@ -30,19 +30,10 @@ public class EntityStatsModifierImpl implements EntityStatsModifier {
     public EntitiesInfoStore modifyEntity(final EntitiesInfoStore entity) {
         final EntitiesInfoStore ent = new EntitiesInfoStoreImpl(entity);
         ent.setLife(this.gameDifficulty.getLifeIncrementer().apply(ent.getLife()));
-        if (ent.getMovementInfoStore().isPresent()) {
-            final MovementInfoStore mi = ent.getMovementInfoStore().get();
-            mi.setSpeed(this.gameDifficulty.getSpeedIncrementer().apply(mi.getSpeed()));
-        }
         if (ent.getShootInfoStore().isPresent()) {
             final ShootInfoStore si = ent.getShootInfoStore().get();
-            si.setSpeed(this.gameDifficulty.getLifeIncrementer().apply(si.getSpeed()));
             si.setBulletDamage(this.gameDifficulty.getDamageIncrementer().apply(si.getBulletDamage()));
-        }
-        if (ent.getShootInfoStore().isPresent()) {
-            final ShootInfoStore si = ent.getShootInfoStore().get();
-            si.setSpeed(this.gameDifficulty.getSpeedIncrementer().apply(si.getSpeed()));
-            si.setBulletDamage(this.gameDifficulty.getDamageIncrementer().apply(si.getBulletDamage()));
+            si.setMinTime(this.gameDifficulty.getFireRatioIncrementer().apply(si.getMinTime()));
         }
         if (ent.getContactDamage().isPresent()) {
             ent.setContactDamage(
