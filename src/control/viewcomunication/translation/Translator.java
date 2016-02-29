@@ -16,19 +16,20 @@ import utility.Pair;
 final class Translator {
 
     private Translator() {
-        
+
     }
-    
+
     /**
-     * The method take a view input and translate in a pair that represent the
-     * PG action in model environment. Both stop and start key press are
+     * The method takes a view input and translates it in a pair that represents
+     * the PG action in model environment. Both stop and start key's press are
      * translated in same way, the method is for the functions of input manager
      * 
      * @param event
      *            The view key event
      * @return pair that represent the PG action in model environment
      */
-    public static Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> translateViewInput(final ViewEvents event) {
+    public static Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> translateViewInput(
+            final ViewEvents event) {
         switch (event) {
         case STOPMLEFT:
         case MLEFT:
@@ -48,7 +49,7 @@ final class Translator {
     }
 
     /**
-     * The method translate directions from model to view environment
+     * The method translates directions from model to view environment
      * 
      * @param direction
      *            the model direction
@@ -68,7 +69,7 @@ final class Translator {
     }
 
     /**
-     * The method translate actions from model to view environment, fall and
+     * The method translates actions from model to view environment, fall and
      * jump have priority over move for animations's necessities
      * 
      * @param action
@@ -93,14 +94,16 @@ final class Translator {
             throw new IllegalArgumentException(action.toString());
         }
     }
-    
+
     /**
-     * The method return the view's action of an entity. 
-     * @param entity Model's entity
+     * The method returns the view's action of an entity.
+     * 
+     * @param entity
+     *            Model's entity
      * @return Entity's action in view environment
      */
     public static view.configs.Actions getViewActionsForEntities(final EntitiesInfoToControl entity) {
-        if(entity.getLife() == 0) {
+        if (entity.getLife() == 0) {
             return view.configs.Actions.DEATH;
         } else {
             return actionsFromModeltoView(entity.getAction());
@@ -108,12 +111,14 @@ final class Translator {
     }
 
     /**
-     * The method return the appropriate bullet's rapresentation 
-     * @param entity View's entity representation
+     * The method returns the appropriate bullet's rapresentation
+     * 
+     * @param entity
+     *            View's entity representation
      * @return View's representation of entity bullet
      */
     public static view.configs.Entities getEntityBulletType(final view.configs.Entities entity) {
-        switch(entity) {
+        switch (entity) {
         case BOCC:
             return view.configs.Entities.BOCCBULLET;
         case MAGNO:
@@ -122,7 +127,7 @@ final class Translator {
             return view.configs.Entities.JOYBULLET;
         default:
             return view.configs.Entities.BULLET;
-        
+
         }
     }
 

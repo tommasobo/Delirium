@@ -5,28 +5,35 @@ import model.transfertentities.ShootInfo;
 import model.transfertentities.ShootTypes;
 
 /**
- * Class that contains entities shoot traits
+ * Class that contains entities' shoot traits with setters
+ * 
  * @author Matteo Magnani
  *
  */
-public class ShootInfoStore implements ShootInfo{
+public class ShootInfoStore implements ShootInfo {
     private int minTime;
     private ShootTypes shootType;
     private int bulletDamage;
     private MovementTypes movementType;
     private int range;
     private int speed;
-    
+
     /**
      * 
-     * @param minTime Entity's min time between two shoots
-     * @param shootType Entity's shoot type
-     * @param bulletDamage Entity's bullets damage
-     * @param movementType Movement type of Entity's bullets
-     * @param range Entity's bullets range
-     * @param speed Entity's bullets speed
+     * @param minTime
+     *            Entity's min time between two shoots
+     * @param shootType
+     *            Entity's shoot type
+     * @param bulletDamage
+     *            Entity's bullets damage
+     * @param movementType
+     *            Movement type of Entity's bullets
+     * @param range
+     *            Entity's bullets range
+     * @param speed
+     *            Entity's bullets speed
      */
-    public ShootInfoStore(final int minTime, final ShootTypes shootType, final int bulletDamage, 
+    public ShootInfoStore(final int minTime, final ShootTypes shootType, final int bulletDamage,
             final MovementTypes movementType, final int range, final int speed) {
         this.minTime = minTime;
         this.shootType = shootType;
@@ -44,40 +51,32 @@ public class ShootInfoStore implements ShootInfo{
         this.range = s.getRange();
         this.speed = s.getSpeed();
     }
-    
+
     @Override
     public int getMinTime() {
         return minTime;
     }
-    
-    
+
     @Override
     public ShootTypes getShootType() {
         return shootType;
     }
 
-
-    
     @Override
     public int getBulletDamage() {
         return bulletDamage;
     }
 
-
-    
     @Override
     public MovementTypes getMovementType() {
         return movementType;
     }
 
-
-    
     @Override
     public int getRange() {
         return range;
     }
-    
-    
+
     @Override
     public int getSpeed() {
         return speed;
@@ -85,7 +84,8 @@ public class ShootInfoStore implements ShootInfo{
 
     /**
      * 
-     * @param minTime Entity's min time between two shoots
+     * @param minTime
+     *            Entity's min time between two shoots
      */
     public void setMinTime(final int minTime) {
         this.minTime = minTime;
@@ -93,7 +93,8 @@ public class ShootInfoStore implements ShootInfo{
 
     /**
      * 
-     * @param shootType Entity's shoot type
+     * @param shootType
+     *            Entity's shoot type
      */
     public void setShootType(final ShootTypes shootType) {
         this.shootType = shootType;
@@ -101,7 +102,8 @@ public class ShootInfoStore implements ShootInfo{
 
     /**
      * 
-     * @param bulletDamage Entity's bullets damage
+     * @param bulletDamage
+     *            Entity's bullets damage
      */
     public void setBulletDamage(final int bulletDamage) {
         this.bulletDamage = bulletDamage;
@@ -109,7 +111,8 @@ public class ShootInfoStore implements ShootInfo{
 
     /**
      * 
-     * @param movementType Movement type of Entity's bullets
+     * @param movementType
+     *            Movement type of Entity's bullets
      */
     public void setMovementType(final MovementTypes movementType) {
         this.movementType = movementType;
@@ -117,7 +120,8 @@ public class ShootInfoStore implements ShootInfo{
 
     /**
      * 
-     * @param range Entity's bullets range
+     * @param range
+     *            Entity's bullets range
      */
     public void setRange(final int range) {
         this.range = range;
@@ -125,11 +129,11 @@ public class ShootInfoStore implements ShootInfo{
 
     /**
      * 
-     * @param speed Entity's bullets speed
+     * @param speed
+     *            Entity's bullets speed
      */
     public void setSpeed(final int speed) {
         this.speed = speed;
     }
-    
-    
+
 }

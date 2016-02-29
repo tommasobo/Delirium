@@ -16,15 +16,17 @@ import control.game.settings.GameSettingsImpl;
  *
  */
 public class SettingsLoaderImpl implements SettingsLoader {
-    
+
     private GameSettings gameSettings;
-    
+
     /**
      * The constructor load settings from default file
+     * 
      * @throws IOException
      */
     public SettingsLoaderImpl() throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/gameSettings.json")))){
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/gameSettings.json")))) {
             final Gson gson = new Gson();
             this.gameSettings = gson.fromJson(br, GameSettingsImpl.class);
         } catch (IOException e) {
@@ -36,6 +38,5 @@ public class SettingsLoaderImpl implements SettingsLoader {
     public GameSettings getGameSettings() {
         return gameSettings;
     }
-    
-    
+
 }

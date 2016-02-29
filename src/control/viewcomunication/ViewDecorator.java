@@ -8,31 +8,40 @@ import view.configs.SceneType;
 import view.utilities.ControlCommunication;
 
 public interface ViewDecorator {
-    //TODO brutto
     /**
-     * The method change the view scene with a suitable dimension
+     * The method changes the view scene with a suitable dimension
+     * 
      * @param sceneType
      */
     void changeScene(SceneType sceneType);
+
     /**
      * Notify event to view
+     * 
      * @param notification
      */
     void notifySceneEvent(Notifications notification);
+
     /**
      * Update the view game scene
-     * @param entities List of entities in game
+     * 
+     * @param entities
+     *            List of entities in game
      */
     void updateScene(final List<ControlCommunication> entities);
+
     /**
-     * Set the level dimension ad calculate the appropriate screen multiplier factor
+     * Set the level's dimension ad calculate the appropriate screen multiplier
+     * factor
+     * 
      * @param levelDimension
      */
     void setLevelDimension(Dimension levelDimension);
-    
+
     /**
      * 
-     * @return The multiplier factor of model's dimensions to make better the visualization on different screens
+     * @return The multiplier factor of model's dimensions to make better the
+     *         visualization on different screens
      */
     Double getScreenMultiplierFactor();
 }

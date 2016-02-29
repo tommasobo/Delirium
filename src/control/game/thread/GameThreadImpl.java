@@ -40,10 +40,14 @@ public class GameThreadImpl extends Thread implements GameThread {
 
     /**
      * 
-     * @param model The model
-     * @param view The view
-     * @param database The database of view entities
-     * @param inputManager The input manager in order to receive view inputs 
+     * @param model
+     *            The model
+     * @param view
+     *            The view
+     * @param database
+     *            The database of view entities
+     * @param inputManager
+     *            The input manager in order to receive view inputs
      */
     public GameThreadImpl(final Model model, final ViewDecorator view, final EntitiesDatabase database,
             final InputManager inputManager) {
@@ -66,30 +70,31 @@ public class GameThreadImpl extends Thread implements GameThread {
         this.running = true;
         this.gameState = GameState.INGAME;
         while (this.running) {
-            final Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action = inputManager.getNextPGAction();
+            final Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action = inputManager
+                    .getNextPGAction();
             if (action.getY().isPresent()) {
                 this.model.notifyEvent(action.getY().get());
             }
             this.model.notifyEvent(action.getX());
-            
+
             List<EntitiesInfo> bullets = this.model.updateArena();
-            
+
             bullets = database.putBulletsAndSetCodes(bullets);
             this.model.putBullet(bullets);
-            
+
             this.view.updateScene(translator.entitiesListFromModelToView(controlGameState(this.model.getState())));
-            
+
             try {
-                Thread.sleep(1000/GameThreadImpl.FRAMERATE);
+                Thread.sleep(1000 / GameThreadImpl.FRAMERATE);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             this.mutex.lock();
             this.mutex.unlock();
         }
-        
-        synchronized(this.stateLock) {
-            if(this.gameState == GameState.WON) {
+
+        synchronized (this.stateLock) {
+            if (this.gameState == GameState.WON) {
                 this.view.notifySceneEvent(Notifications.WIN);
             } else if (this.gameState == GameState.LOSE) {
                 this.view.notifySceneEvent(Notifications.LOSE);
@@ -100,22 +105,22 @@ public class GameThreadImpl extends Thread implements GameThread {
     @Override
     public void pause() {
         mutex.lock();
-        synchronized(this.stateLock) {
+        synchronized (this.stateLock) {
             this.gameState = GameState.PAUSED;
         }
     }
 
     @Override
     public void reStart() {
-        synchronized(this.stateLock) {
+        synchronized (this.stateLock) {
             this.gameState = GameState.INGAME;
         }
         mutex.unlock();
     }
-    
+
     @Override
     public boolean isPaused() {
-        synchronized(this.stateLock) {
+        synchronized (this.stateLock) {
             return this.gameState == GameState.PAUSED;
         }
     }
@@ -124,31 +129,34 @@ public class GameThreadImpl extends Thread implements GameThread {
     public void stopGame() {
         this.running = false;
     }
-    
+
     @Override
     public GameState getGameState() {
-        synchronized(this.stateLock) {
+        synchronized (this.stateLock) {
             return this.gameState;
         }
     }
-    
+
     /**
-     * The method check the game state and eventually stop it and set the state of WON or LOSE
-     * @param list The list of entities in game
+     * The method check the game state and eventually stop it and set the state
+     * of WON or LOSE
+     * 
+     * @param list
+     *            The list of entities in game
      * @return The list of entities in game
      */
     private List<EntitiesInfoToControl> controlGameState(final List<EntitiesInfoToControl> list) {
-        synchronized(this.stateLock) {
-            if(list.size() == 1 && list.get(0).getCode() == 0) {
+        synchronized (this.stateLock) {
+            if (list.size() == 1 && list.get(0).getCode() == 0) {
                 this.running = false;
                 this.gameState = GameState.LOSE;
             }
-            if(list.size() == 1 && list.get(0).getCode() == -1) {
+            if (list.size() == 1 && list.get(0).getCode() == -1) {
                 this.running = false;
                 this.gameState = GameState.WON;
             }
         }
-        
+
         return list;
     }
 
@@ -159,8 +167,8 @@ public class GameThreadImpl extends Thread implements GameThread {
 
     @Override
     public void setGameEnd() {
-        synchronized(this.stateLock) {
-            if(!this.running) {
+        synchronized (this.stateLock) {
+            if (!this.running) {
                 this.gameState = GameState.FINISH;
             } else {
                 throw new IllegalStateException();

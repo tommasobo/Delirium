@@ -3,8 +3,8 @@ package control.game.settings;
 import java.util.function.Function;
 
 /**
- * Enumeration that contains all game difficulties. Its elements contains
- * functions to elaborate some entities statistics
+ * Enumeration that contains all game's difficulties. Its elements contain
+ * functions to elaborate some entities' statistics
  * 
  * @author Matteo Magnani
  *
@@ -36,7 +36,7 @@ public enum GameDifficulty {
 
     /**
      * 
-     * @return The function that increments entities' speed
+     * @return The function that increments entity's speed
      */
     public Function<Integer, Integer> getSpeedIncrementer() {
         return speedIncrementer;
@@ -44,7 +44,7 @@ public enum GameDifficulty {
 
     /**
      * 
-     * @return The function that increments entities' damage
+     * @return The function that increments entity's damage
      */
     public Function<Integer, Integer> getDamageIncrementer() {
         return damageIncrementer;
@@ -52,7 +52,7 @@ public enum GameDifficulty {
 
     /**
      * 
-     * @return The function that increments entities' life
+     * @return The function that increments entity's life
      */
     public Function<Integer, Integer> getLifeIncrementer() {
         return lifeIncrementer;

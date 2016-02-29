@@ -21,8 +21,12 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
 
     /**
      * 
-     * @param database The database that contains the view representation for each model entity
-     * @param screenMoltiplicatorFactor The necessary multiplier factor to visualize the game world on screen
+     * @param database
+     *            The database that contains the view representation for each
+     *            model entity
+     * @param screenMoltiplicatorFactor
+     *            The necessary multiplier factor to visualize the game world on
+     *            screen
      */
     public GameWorldTranslatorImpl(final EntitiesDatabase database, final Double screenMultiplierFactor) {
         super();
@@ -41,8 +45,8 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
     }
 
     /**
-     * The method translate the model's entity to view's entity. It take the
-     * view representation to database and translate the entity position
+     * The method translates the model's entity to view's entity. It takes the
+     * view representation from database and translate the entity position
      * according to view needs and screen multiplier factor
      * 
      * @param info

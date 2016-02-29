@@ -25,20 +25,25 @@ import utility.Pair;
  *
  */
 public class LevelLoaderImpl implements LevelLoader {
-    
+
     private final LevelInfo levelInfo;
     private final EntityStatsModifier statsModifier;
-    
+
     /**
-     * The constructor load the level from the file witch name is stored in Levels' enumeration element
-     * @param level The level to load
-     * @param statsModifier The modifier for the loaded entities' statistics 
+     * The constructor load the level from the file witch name is stored in
+     * Levels' enumeration element
+     * 
+     * @param level
+     *            The level to load
+     * @param statsModifier
+     *            The modifier for the loaded entities' statistics
      * @throws IOException
      */
     public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) throws IOException {
-        
+
         this.statsModifier = statsModifier;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/levels/" + level.getFilename() + ".json")))){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                this.getClass().getResourceAsStream("/storefiles/levels/" + level.getFilename() + ".json")))) {
             final Gson gson = new Gson();
             this.levelInfo = gson.fromJson(br, LevelInfoImpl.class);
         } catch (IOException e) {
@@ -46,24 +51,24 @@ public class LevelLoaderImpl implements LevelLoader {
         }
     }
 
-    
     public Pair<List<EntitiesInfo>, EntitiesDatabase> getLevelStructure() {
         List<EntitiesInfo> entities = new LinkedList<>();
         EntitiesDatabase database = new EntitiesDatabaseImpl(this.levelInfo.getLevelDimension());
         int i = 0;
-        for(final EntitiesInfoStore ent : levelInfo.getEntities()) {
+        for (final EntitiesInfoStore ent : levelInfo.getEntities()) {
             EntitiesInfoStore entity = ent;
-            if( i!=0 ) {
-                entity = this.statsModifier.modifyEntity(entity); 
+            if (i != 0) {
+                entity = this.statsModifier.modifyEntity(entity);
             }
-            //L'entità di codice -1 è il goal (obbietivo del gioco) e quindi ha già il codice correttamente settato
-            if(entity.getCode() == -1) {
+            // L'entità di codice -1 è il goal (obbietivo del gioco) e quindi ha
+            // già il codice correttamente settato
+            if (entity.getCode() == -1) {
                 database.putEntity(entity, entity.getEntityType());
                 entities.add(entity);
             } else {
                 entities.add(database.putEntityAndSetCode(entity, entity.getEntityType()));
             }
-            
+
             i++;
         }
         return new Pair<>(entities, database);

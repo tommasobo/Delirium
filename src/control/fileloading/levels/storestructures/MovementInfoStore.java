@@ -6,26 +6,33 @@ import model.arena.utility.MovementTypes;
 import model.transfertentities.MovementInfo;
 
 /**
- * Class that contains entities movement traits
+ * Class that contains entities' movement traits vith setters
+ * 
  * @author Matteo Magnani
  *
  */
-public class MovementInfoStore implements MovementInfo{
+public class MovementInfoStore implements MovementInfo {
     private int speed;
     private Bounds bounds;
     private Actions actions;
     private boolean canFly;
     private MovementTypes movementTypes;
-    
+
     /**
      * 
-     * @param speed Entity's speed
-     * @param bounds Entity's bounds
-     * @param actions Entity's action
-     * @param canFly Boolean that represents entity ability of fly 
-     * @param movementTypes Entity's movement type
+     * @param speed
+     *            Entity's speed
+     * @param bounds
+     *            Entity's bounds
+     * @param actions
+     *            Entity's action
+     * @param canFly
+     *            Boolean that represents entity ability of fly
+     * @param movementTypes
+     *            Entity's movement type
      */
-    public MovementInfoStore(final int speed, final Bounds bounds, final Actions actions, final boolean canFly, final MovementTypes movementTypes) {
+    public MovementInfoStore(final int speed, final Bounds bounds, final Actions actions, final boolean canFly,
+            final MovementTypes movementTypes) {
         this.speed = speed;
         this.bounds = bounds;
         this.actions = actions;
@@ -40,44 +47,40 @@ public class MovementInfoStore implements MovementInfo{
         this.canFly = m.isCanFly();
         this.movementTypes = m.getMovementTypes();
     }
-    
+
     @Override
     public int getSpeed() {
         return speed;
     }
 
-    
     @Override
     public Bounds getBounds() {
         return new Bounds(this.bounds.getMinX(), this.bounds.getMaxX(), this.bounds.getMinY(), this.bounds.getMaxY());
     }
 
-    
     @Override
     public Actions getActions() {
         return actions;
     }
 
-    
     @Override
     public boolean isCanFly() {
         return canFly;
     }
 
-    
     @Override
     public MovementTypes getMovementTypes() {
         return movementTypes;
     }
 
-    
     public void setSpeed(final int speed) {
         this.speed = speed;
     }
 
     /**
      * 
-     * @param bounds Entity's bounds
+     * @param bounds
+     *            Entity's bounds
      */
     public void setBounds(final Bounds bounds) {
         this.bounds = bounds;
@@ -85,7 +88,8 @@ public class MovementInfoStore implements MovementInfo{
 
     /**
      * 
-     * @param actions Entity's action
+     * @param actions
+     *            Entity's action
      */
     public void setActions(final Actions actions) {
         this.actions = actions;
@@ -93,7 +97,8 @@ public class MovementInfoStore implements MovementInfo{
 
     /**
      * 
-     * @param canFly Can entity fly?
+     * @param canFly
+     *            Can entity fly?
      */
     public void setCanFly(final boolean canFly) {
         this.canFly = canFly;
@@ -101,11 +106,11 @@ public class MovementInfoStore implements MovementInfo{
 
     /**
      * 
-     * @param movementTypes Entity's movement type
+     * @param movementTypes
+     *            Entity's movement type
      */
     public void setMovementTypes(final MovementTypes movementTypes) {
         this.movementTypes = movementTypes;
     }
-    
-    
+
 }

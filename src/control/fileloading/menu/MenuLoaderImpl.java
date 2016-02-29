@@ -15,9 +15,8 @@ import control.viewcomunication.MenuCategory;
 import control.viewcomunication.MenuCategoryEntries;
 import control.viewcomunication.MenuCategoryEntriesImpl;
 
-
 /**
- * Class that load menu structure from the file on object creation and save them
+ * Class that load menu structure from file on object creation and save them
  * 
  * @author Matteo Magnani
  *
@@ -25,22 +24,25 @@ import control.viewcomunication.MenuCategoryEntriesImpl;
 public class MenuLoaderImpl implements MenuLoader {
 
     protected Map<MenuCategory, MenuCategoryEntriesImpl> menuStructure;
-    
+
     /**
      * 
-     * @param menu The menu to load
+     * @param menu
+     *            The menu to load
      * @throws IOException
      */
     public MenuLoaderImpl(final Menu menu) throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/storefiles/menu/" + menu.getFilename() + ".json")))){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                this.getClass().getResourceAsStream("/storefiles/menu/" + menu.getFilename() + ".json")))) {
             final Gson gson = new Gson();
-            final Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {}.getType();
+            final Type buttonsListType = new TypeToken<Map<MenuCategory, MenuCategoryEntriesImpl>>() {
+            }.getType();
             this.menuStructure = gson.fromJson(br, buttonsListType);
         } catch (FileNotFoundException e) {
             throw e;
         }
     }
-    
+
     @Override
     public Map<MenuCategory, MenuCategoryEntries> getMenuStructure() {
         return new HashMap<>(this.menuStructure);

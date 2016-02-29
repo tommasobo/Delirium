@@ -18,7 +18,7 @@ abstract public class AbstractDinamicMovementManager implements MovementManager 
     private int speed;
     private final Bounds bounds;
     private Actions action;
-
+    
     /**
      * This is the basic features that a dynamic entity have to have.
      * 

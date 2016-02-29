@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Interface that declare methods for object that represent menu's category structure
+ * Interface that declare methods for object that represent menu's category
+ * structure
+ * 
  * @author Matteo Magnani
  *
  */

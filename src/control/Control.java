@@ -17,15 +17,14 @@ public interface Control {
      */
     void startGame();
 
-    //TODO brutta
     /**
-     * The method take an event that come from view and translates it into game event 
+     * The method takes an event that come from view and translates it into game event 
      * @param event The view event that happened
      */
     void notifyEvent(ViewEvents event);
 
     /**
-     * The method get the appropriate menu structure according to game state and last view event translated
+     * The method gets the appropriate menu structure according to game state and last view event translated
      * @return A map that represents the appropriate menu structure
      */
     Map<MenuCategory, MenuCategoryEntries> getButtons();

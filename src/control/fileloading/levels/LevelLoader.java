@@ -7,11 +7,16 @@ import model.transfertentities.EntitiesInfo;
 import utility.Pair;
 
 /**
- * Interface that declare methods for a working level loader
+ * Interface that declares methods for a working level loader
+ * 
  * @author Matteo Magnani
  *
  */
 public interface LevelLoader {
 
+    /**
+     * 
+     * @return the level structure
+     */
     public Pair<List<EntitiesInfo>, EntitiesDatabase> getLevelStructure();
 }

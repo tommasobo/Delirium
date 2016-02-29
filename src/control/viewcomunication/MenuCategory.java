@@ -7,14 +7,16 @@ package control.viewcomunication;
  *
  */
 public enum MenuCategory {
-    DEFAULT("DEFAULT"),
+    DEFAULT("DEFAULT"), 
     DIFFICULTY("DIFFICULTY");
     private final String name;
+
     private MenuCategory(final String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
-    
+
 }

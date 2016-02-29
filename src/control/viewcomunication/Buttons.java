@@ -17,7 +17,7 @@ public enum Buttons {
     NORMALMODE("NORMALMODE", ViewEvents.NORMALMODE),
     HARDMODE("HARD", ViewEvents.HARDMODE),
     DELIRIUMMODE("DELIRIUM", ViewEvents.DELIRIUMMODE);
-    
+
     private final ViewEvents event;
     private final String name;
 

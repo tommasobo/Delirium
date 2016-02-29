@@ -9,7 +9,7 @@ import model.arena.utility.Actions;
 import utility.Pair;
 
 /**
- * This class take all view keys events and save their translation to model
+ * This class takes all view key's events and save their translation to model
  * actions in a circle queue. This implementation allows an efficient manage of
  * multiple keys pressed at the same time
  * 
@@ -21,13 +21,13 @@ public class InputManagerImpl implements InputManager {
     private final Queue<Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>>> actions;
     private boolean keyDeactivated;
     private boolean noMoves;
-    
+
     public InputManagerImpl() {
         this.actions = new LinkedList<>();
         this.keyDeactivated = false;
         this.noMoves = false;
     }
-    
+
     /**
      * The method take a view event that represent a key pressed. If it is a
      * "start key press" put it in the circular queue, if it is a
@@ -38,7 +38,8 @@ public class InputManagerImpl implements InputManager {
      * synchronized in order to make it usable to view and game thread.
      */
     synchronized public void notifyViewInput(final ViewEvents event) {
-        if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT || event == ViewEvents.SHOOT) {
+        if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT
+                || event == ViewEvents.SHOOT) {
             if (!this.actions.contains(Translator.translateViewInput(event))) {
                 this.actions.add(Translator.translateViewInput(event));
             }
@@ -52,23 +53,23 @@ public class InputManagerImpl implements InputManager {
             }
         } else {
             if (this.actions.remove(Translator.translateViewInput(event))) {
-                if(!actions.stream().map(t -> t.getX()).anyMatch(t -> t == model.arena.utility.Actions.MOVE)) {
+                if (!actions.stream().map(t -> t.getX()).anyMatch(t -> t == model.arena.utility.Actions.MOVE)) {
                     this.noMoves = true;
                 }
             } else {
                 this.keyDeactivated = false;
             }
-            if(event == ViewEvents.STOPMLEFT && keyDeactivated) {
+            if (event == ViewEvents.STOPMLEFT && keyDeactivated) {
                 this.actions.add(Translator.translateViewInput(ViewEvents.MRIGHT));
                 this.keyDeactivated = false;
             }
-            if(event == ViewEvents.STOPMRIGHT && keyDeactivated) {
+            if (event == ViewEvents.STOPMRIGHT && keyDeactivated) {
                 this.actions.add(Translator.translateViewInput(ViewEvents.MLEFT));
                 this.keyDeactivated = false;
             }
         }
     }
-    
+
     /**
      * The method take the next PG action in the circular queue. The method
      * adopt strategies to take "move and jump" combo action and to stop PG
@@ -77,21 +78,22 @@ public class InputManagerImpl implements InputManager {
      */
     synchronized public Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> getNextPGAction() {
         Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action;
-        if(noMoves || this.actions.isEmpty()) {
+        if (noMoves || this.actions.isEmpty()) {
             this.noMoves = false;
             action = new Pair<>(Actions.STOP, Optional.empty());
         } else {
             action = this.actions.peek();
-            
-            if(action.getX() == Actions.JUMP && actions.stream().anyMatch(t -> t.getX() == Actions.MOVE)) {
-                final Optional<Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>>> op = actions.stream().filter(t -> t.getX() == Actions.MOVE).findFirst();
+
+            if (action.getX() == Actions.JUMP && actions.stream().anyMatch(t -> t.getX() == Actions.MOVE)) {
+                final Optional<Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>>> op = actions
+                        .stream().filter(t -> t.getX() == Actions.MOVE).findFirst();
                 action = new Pair<>(model.arena.utility.Actions.MOVEONJUMP, op.get().getY());
-            } else if(action.getX() == Actions.MOVE && actions.stream().anyMatch(t -> t.getX() == Actions.JUMP)) {
+            } else if (action.getX() == Actions.MOVE && actions.stream().anyMatch(t -> t.getX() == Actions.JUMP)) {
                 action = new Pair<>(model.arena.utility.Actions.MOVEONJUMP, action.getY());
             }
             this.actions.add(this.actions.poll());
         }
-        
+
         return action;
     }
 }

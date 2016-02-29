@@ -4,7 +4,8 @@ import java.io.IOException;
 
 /**
  * Custom runtime exception to notify insolvable IO exception
- * @author magna
+ * 
+ * @author Matteo Magnani
  *
  */
 public class CriticIOExceptions extends RuntimeException {
@@ -16,7 +17,7 @@ public class CriticIOExceptions extends RuntimeException {
         super();
         this.exception = exception;
     }
-    
+
     @Override
     public void printStackTrace() {
         super.printStackTrace();

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import control.fileloading.levels.Levels;
 
 /**
- * Interface that declare methods for a full implementation of game settings
+ * Interface that declares methods for a full implementation of game's settings
  * 
  * @author Matteo Magnani
  *
@@ -14,7 +14,7 @@ public interface GameSettings {
 
     /**
      * 
-     * @return The iterator that represents the order of game levels
+     * @return Iterator that represents the order of game levels
      */
     Iterator<Levels> getLevelIterator();
 
@@ -26,13 +26,15 @@ public interface GameSettings {
 
     /**
      * 
-     * @param gameDifficulty The game difficulty
+     * @param gameDifficulty
+     *            The game difficulty
      */
     void setGameDifficulty(GameDifficulty gameDifficulty);
 
     /**
      * 
-     * @return The entities' statistics modifier according to actual game difficulty
+     * @return The entities' statistics modifier according to actual game
+     *         difficulty
      */
     EntityStatsModifier getEntityStatsModifier();
 

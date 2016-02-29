@@ -7,7 +7,8 @@ import java.util.List;
 import utility.Dimension;
 
 /**
- * Class that can contain all informations about a playable level
+ * Class that contains all informations about a playable level
+ * 
  * @author Matteo Magnani
  *
  */

@@ -176,9 +176,8 @@ public class ControlImpl implements Control {
         return menuLoader.getMenuStructure();
     }
 
-    //TODO non sono sicuro sia corretto
     /**
-     * The method load the input level and launch Game thread to start it
+     * The method loads the input level and launches Game thread to start it
      * @param level The level to load
      */
     private void gameLoop(final Levels level) {

@@ -21,19 +21,20 @@ import control.viewcomunication.MenuCategoryEntriesImpl;
  */
 public class SettingsMenuLoaderImpl extends MenuLoaderImpl {
     private final GameSettings gameSettings;
-    
+
     public SettingsMenuLoaderImpl(final Menu menu, final GameSettings gameSettings) throws IOException {
         super(menu);
         this.gameSettings = gameSettings;
     }
-    
+
     @Override
     public Map<MenuCategory, MenuCategoryEntries> getMenuStructure() {
         final Map<MenuCategory, MenuCategoryEntriesImpl> menu = super.menuStructure;
-        menu.get(MenuCategory.DIFFICULTY).setFocus(Optional.of(getDifficultyButton(this.gameSettings.getGameDifficulty())));
+        menu.get(MenuCategory.DIFFICULTY)
+                .setFocus(Optional.of(getDifficultyButton(this.gameSettings.getGameDifficulty())));
         return new HashMap<>(menu);
     }
-    
+
     /**
      * 
      * @param gameDifficulty
@@ -51,7 +52,7 @@ public class SettingsMenuLoaderImpl extends MenuLoaderImpl {
             return Buttons.NORMALMODE;
         default:
             throw new IllegalArgumentException();
-        
+
         }
     }
 }
