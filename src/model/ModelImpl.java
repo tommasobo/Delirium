@@ -181,7 +181,7 @@ public final class ModelImpl implements Model {
         }
     }
 
-    private void removeEntities(final List<? extends Entities> entities) {
+    private void removeEntities(final List< ? extends Entities> entities) {
         int size = entities.size();
         for (int i = 0; i < size; i++) {
             if (entities.get(i).getLifeManager().getLife() == 0) {

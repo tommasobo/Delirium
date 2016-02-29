@@ -32,7 +32,7 @@ public class VisitorImpl implements Visitor {
      * using this type of scene as parameter. Otherwise it returns an
      * Optional.empty().
      * 
-     * @return Optional<DynamicView>
+     * @return Optional.of(DynamicView)
      */
     public Optional<DynamicView> getView() {
         return this.view;
