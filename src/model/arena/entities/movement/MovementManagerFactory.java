@@ -13,6 +13,9 @@ import utility.Pair;
  *
  */
 public class MovementManagerFactory {
+    
+    private MovementManagerFactory() {
+    }
 
     /**
      * This method based on a filter return the right movement manager.

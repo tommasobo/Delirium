@@ -28,7 +28,7 @@
         }
       },
       "life": 70,
-      "lifePattern": "WITHOUT_LIFE",
+      "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": {
           "minTime": 10,
@@ -51,7 +51,7 @@
           "x": 2645,
           "y": 40
         },
-        "direction": "LEFT",
+        "direction": "RIGHT",
         "dimension": {
           "width": 55,
           "height": 35
@@ -75,7 +75,7 @@
       "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": {
-          "minTime": 300,
+          "minTime": 400,
           "shootType": "MONSTER",
           "bulletDamage": 10,
           "movementType": "HORIZONTAL_LINEAR",
@@ -284,7 +284,7 @@
           "bounds": {
             "minX": 2600,
             "maxX": 2900,
-            "minY": 250,
+            "minY": 240,
             "maxY": 300
           },
           "actions": "JUMP",

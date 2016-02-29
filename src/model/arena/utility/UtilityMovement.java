@@ -15,6 +15,9 @@ import model.arena.entities.Position;
  *
  */
 public class UtilityMovement {
+    
+    private UtilityMovement() {
+    }
 
     /**
      * This enum specified if the result is okay or not.

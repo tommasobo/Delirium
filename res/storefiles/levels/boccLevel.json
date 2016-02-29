@@ -28,7 +28,7 @@
         }
       },
       "life": 70,
-      "lifePattern": "WITHOUT_LIFE",
+      "lifePattern": "WITH_LIFE",
       "shootInfo": {
         "value": {
           "minTime": 10,
@@ -726,6 +726,6 @@
   ],
   "levelDimension": {
     "width": 5000,
-    "height": 400
+    "height": 500
   }
 }

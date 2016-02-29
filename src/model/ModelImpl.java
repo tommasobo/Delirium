@@ -139,9 +139,9 @@ public final class ModelImpl implements Model {
         });
         
         long nHero = this.arena.getEntities().stream().filter(t -> t.getCode() == 0).count();
-        long nGoal = this.arena.getEntities().stream().filter(t -> t.getCode() == 0).count();
+        long nGoal = this.arena.getEntities().stream().filter(t -> t.getCode() == -1).count();
         
-        if (nHero > 1 || nGoal > 1) {
+        if (nHero < 1 || nGoal < 1) {
             throw new IllegalStateException("Hero or Goal not present");
         }
 

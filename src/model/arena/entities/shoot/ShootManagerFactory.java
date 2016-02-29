@@ -11,6 +11,9 @@ import model.transfertentities.ShootInfo;
  *
  */
 public class ShootManagerFactory {
+    
+    private ShootManagerFactory() {
+    }
 
     /**
      * This method based on a filter return the right shoot manager.

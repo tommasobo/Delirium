@@ -35,12 +35,15 @@ public interface MovementManager {
     /**
      * Get the speed of the entity.
      * 
+     * In the possibility of the powerUp.
+     * 
      * @return : the speed that you want.
      */
     int getSpeed();
 
     /**
      * Set the value of the speed.
+     * In the possibility of the powerUp.
      * 
      * @param speed
      *            : the value that you want to set.

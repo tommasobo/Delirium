@@ -254,6 +254,7 @@ public class Test {
     public void testEXC() {
 
         this.istanceEntities();
+        Point tempMonsterPoint = this.monsterPosition.getPoint();
         this.monsterPosition.setPoint(new Point(this.monsterPosition.getPoint().getX(), 0));
 
         try {
@@ -263,6 +264,7 @@ public class Test {
             System.out.println("The control of the bounds is right");
         }
 
+        this.monsterPosition.setPoint(tempMonsterPoint);
         EntitiesInfo otherMonster = new EntitiesInfoImpl(2, monsterPosition, Optional.of(monsterMovementInfo), 5,
                 LifePattern.WITH_LIFE, Optional.empty(), Optional.empty());
         this.entities.add(otherMonster);
@@ -273,12 +275,12 @@ public class Test {
         } catch (NotUniqueCodeException e) {
             System.out.println("The control of the unique code is right");
         }
-
+        this.entities.remove(otherMonster);
         this.entities.remove(this.hero);
         try {
             this.modelTest.createArena(this.entities);
             fail("Hero have to be present");
-        } catch (IllegalStateException | NotUniqueCodeException e) {
+        } catch (IllegalStateException  e) {
             System.out.println("The control of Hero present is right");
         }
 
@@ -287,7 +289,7 @@ public class Test {
         try {
             this.modelTest.createArena(this.entities);
             fail("Goal have to be present");
-        } catch (IllegalStateException | NotUniqueCodeException e) {
+        } catch (IllegalStateException  e) {
             System.out.println("The control of Goal present is right");
         }
     }
