@@ -23,6 +23,7 @@ public class SettingsLoaderImpl implements SettingsLoader {
      * The constructor load settings from default file.
      * 
      * @throws IOException
+     *                  If something's wrong
      */
     public SettingsLoaderImpl() throws IOException {
         try (BufferedReader br = new BufferedReader(

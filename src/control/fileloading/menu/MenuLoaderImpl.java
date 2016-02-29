@@ -30,6 +30,7 @@ public class MenuLoaderImpl implements MenuLoader {
      * @param menu
      *            The menu to load
      * @throws IOException
+     *            If something's wrong
      */
     public MenuLoaderImpl(final Menu menu) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(

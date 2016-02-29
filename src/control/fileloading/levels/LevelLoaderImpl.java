@@ -38,6 +38,7 @@ public class LevelLoaderImpl implements LevelLoader {
      * @param statsModifier
      *            The modifier for the loaded entities' statistics
      * @throws IOException
+     *            If something's wrong.
      */
     public LevelLoaderImpl(final Levels level, final EntityStatsModifier statsModifier) throws IOException {
 

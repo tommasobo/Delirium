@@ -27,6 +27,7 @@ public class SettingsMenuLoaderImpl extends MenuLoaderImpl {
      * @param menu Menu to load
      * @param gameSettings Current game's settings
      * @throws IOException
+     *          If something is wrong.
      */
     public SettingsMenuLoaderImpl(final Menu menu, final GameSettings gameSettings) throws IOException {
         super(menu);

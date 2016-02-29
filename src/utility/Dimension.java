@@ -12,7 +12,9 @@ public class Dimension{
     /**
      * 
      * @param width
+     *          The width of the something that you want.
      * @param height
+     *          The height of the something that you want.
      */
     public Dimension(final int width, final int height) {
         this.width = width;

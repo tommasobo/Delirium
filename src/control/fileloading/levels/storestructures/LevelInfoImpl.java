@@ -23,6 +23,7 @@ public class LevelInfoImpl implements LevelInfo {
      * @param levelDimension
      *            The level dimension
      * @throws IOException
+     *            If something's wrong.
      */
     public LevelInfoImpl(final List<EntitiesInfoStoreImpl> entities, final Dimension levelDimension)
             throws IOException {
