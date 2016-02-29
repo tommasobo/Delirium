@@ -5,7 +5,7 @@ import java.util.Optional;
 
 /**
  * Interface that declare methods for object that represent menu's category
- * structure
+ * structure.
  * 
  * @author Matteo Magnani
  *

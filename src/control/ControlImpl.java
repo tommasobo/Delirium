@@ -37,14 +37,14 @@ import view.configs.SceneType;
 /**
  * The class contains all methods for the view communication (according to
  * control interface) ad private methods to convert view inputs to game events
- * and view changes
+ * and view changes.
  * 
  * @author Matteo Magnani
  *
  */
 public class ControlImpl implements Control {
     private final Model model;
-    final private ViewDecorator view;
+    private final ViewDecorator view;
     private final InputManager inputManager;
     private GameThread gameThread;
     private final GameSettings gameSettings;
@@ -74,9 +74,9 @@ public class ControlImpl implements Control {
         
         switch(event) {
         case BACKTOMAINMENU:
-            if(this.gameThread != null && this.gameThread.isRunning()){
+            if (this.gameThread != null && this.gameThread.isRunning()) {
                 this.gameThread.stopGame();
-                if(this.gameThread.isPaused()) {
+                if (this.gameThread.isPaused()) {
                     this.gameThread.reStart();
                 }
                 this.gameThread.setGameEnd();
@@ -91,8 +91,8 @@ public class ControlImpl implements Control {
             gameLoop(levelsIterator.next());
             break;
         case PAUSE:
-            if(gameThread != null) {
-                if( this.gameThread.isPaused()) {
+            if (gameThread != null) {
+                if (this.gameThread.isPaused()) {
                     gameThread.reStart();
                     this.view.notifySceneEvent(Notifications.PLAY);
                 } else {
@@ -102,7 +102,7 @@ public class ControlImpl implements Control {
             }
             break;
         case NEXTLEVEL: 
-            if(this.gameThread == null || this.gameThread.isRunning()) {
+            if (this.gameThread == null || this.gameThread.isRunning()) {
                 throw new IllegalStateException();
             }
             gameLoop(this.levelsIterator.next());
@@ -136,8 +136,8 @@ public class ControlImpl implements Control {
         MenuLoader menuLoader;
         try {
             menuLoader = new MenuLoaderImpl(Menu.INITIAL);
-            if(this.menuToLoad == Menu.NONE) {
-                if(this.gameThread == null) {
+            if (this.menuToLoad == Menu.NONE) {
+                if (this.gameThread == null) {
                     menuLoader = new MenuLoaderImpl(Menu.INITIAL);
                 } else {
                     switch(this.gameThread.getGameState()) {
@@ -154,7 +154,7 @@ public class ControlImpl implements Control {
                         menuLoader = new MenuLoaderImpl(Menu.PAUSE);
                         break;
                     case WON:
-                        if(this.levelsIterator.hasNext()){
+                        if (this.levelsIterator.hasNext()) {
                             menuLoader = new MenuLoaderImpl(Menu.WIN);
                         } else {
                             menuLoader = new MenuLoaderImpl(Menu.WINEND);
@@ -170,7 +170,7 @@ public class ControlImpl implements Control {
                 menuLoader = new SettingsMenuLoaderImpl(this.menuToLoad, this.gameSettings);
                 this.menuToLoad = Menu.NONE;
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new CriticIOExceptions(e);
         }
         return menuLoader.getMenuStructure();

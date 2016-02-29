@@ -7,7 +7,7 @@ import view.utilities.ControlCommunication;
 
 /**
  * Interface that declares methods to translate model's entities to elements
- * that the view can correctly print
+ * that the view can correctly print.
  * 
  * @author Matteo Magnani
  *

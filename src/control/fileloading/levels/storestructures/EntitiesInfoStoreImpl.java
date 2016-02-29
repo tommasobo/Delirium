@@ -9,7 +9,7 @@ import model.transfertentities.ShootInfo;
 
 /**
  * Implementation of EntitiesInfoStore with protected getters and a clone
- * constructor
+ * constructor.
  * 
  * @author Matteo Magnani
  *
@@ -79,6 +79,7 @@ public class EntitiesInfoStoreImpl implements EntitiesInfoStore {
         this.entityType = e.getEntityType();
     }
 
+    @Override
     public int getCode() {
         return code;
     }
@@ -88,10 +89,12 @@ public class EntitiesInfoStoreImpl implements EntitiesInfoStore {
         this.code = code;
     }
 
+    @Override
     public Position getPosition() {
         return new Position(this.position.getPoint(), this.position.getDirection(), this.position.getDimension());
     }
 
+    @Override
     public Optional<MovementInfo> getMovementInfo() {
         return this.movementInfo.isPresent() ? Optional.of(new MovementInfoStore(this.movementInfo.get()))
                 : Optional.empty();
@@ -102,14 +105,17 @@ public class EntitiesInfoStoreImpl implements EntitiesInfoStore {
         return this.movementInfo;
     }
 
+    @Override
     public int getLife() {
         return life;
     }
 
+    @Override
     public LifePattern getLifePattern() {
         return lifePattern;
     }
 
+    @Override
     public Optional<ShootInfo> getShootInfo() {
         return this.shootInfo.isPresent() ? Optional.of(new ShootInfoStore(this.shootInfo.get())) : Optional.empty();
     }
@@ -118,11 +124,13 @@ public class EntitiesInfoStoreImpl implements EntitiesInfoStore {
     public Optional<ShootInfoStore> getShootInfoStore() {
         return this.shootInfo;
     }
-
+    
+    @Override
     public Optional<Integer> getContactDamage() {
         return contactDamage;
     }
-
+    
+    @Override
     public view.configs.Entities getEntityType() {
         return entityType;
     }

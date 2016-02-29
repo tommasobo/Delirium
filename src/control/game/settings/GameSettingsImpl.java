@@ -7,7 +7,7 @@ import control.fileloading.levels.Levels;
 
 /**
  * Implementation of interface GameSettings, contains all possible settings of
- * the game
+ * the game.
  * 
  * @author Matteo Magnani
  *

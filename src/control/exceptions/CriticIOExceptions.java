@@ -3,7 +3,7 @@ package control.exceptions;
 import java.io.IOException;
 
 /**
- * Custom runtime exception to notify insolvable IO exception
+ * Custom runtime exception to notify insolvable IO exception.
  * 
  * @author Matteo Magnani
  *
@@ -11,9 +11,9 @@ import java.io.IOException;
 public class CriticIOExceptions extends RuntimeException {
 
     private static final long serialVersionUID = 142811943478530991L;
-    IOException exception;
+    private final IOException exception;
 
-    public CriticIOExceptions(IOException exception) {
+    public CriticIOExceptions(final IOException exception) {
         super();
         this.exception = exception;
     }

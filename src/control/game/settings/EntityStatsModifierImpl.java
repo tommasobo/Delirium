@@ -9,7 +9,7 @@ import control.fileloading.levels.storestructures.ShootInfoStore;
 
 /**
  * The class modifies entities according to the game difficulty passed on the
- * constructor
+ * constructor.
  * 
  * @author Matteo Magnani
  *
@@ -26,7 +26,8 @@ public class EntityStatsModifierImpl implements EntityStatsModifier {
         this.gameDifficulty = gameDifficulty;
     }
 
-    public EntitiesInfoStore modifyEntity(EntitiesInfoStore entity) {
+    @Override
+    public EntitiesInfoStore modifyEntity(final EntitiesInfoStore entity) {
         final EntitiesInfoStore ent = new EntitiesInfoStoreImpl(entity);
         ent.setLife(this.gameDifficulty.getLifeIncrementer().apply(ent.getLife()));
         if (ent.getMovementInfoStore().isPresent()) {

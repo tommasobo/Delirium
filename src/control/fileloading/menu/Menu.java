@@ -1,7 +1,7 @@
 package control.fileloading.menu;
 
 /**
- * Enumeration that contains all possible game menus with relative file names
+ * Enumeration that contains all possible game menus with relative file names.
  * 
  * @author Matteo Magnani
  *
@@ -16,10 +16,14 @@ public enum Menu {
     NONE("");
     private final String filename;
     
-    private Menu(final String filename) {
+    Menu(final String filename) {
         this.filename = filename;
     }
 
+    /**
+     * 
+     * @return The file name
+     */
     public String getFilename() {
         return filename;
     }

@@ -10,7 +10,7 @@ import control.game.settings.GameSettings;
 import control.game.settings.GameSettingsImpl;
 
 /**
- * Class that load game settings from the file on object creation and save them
+ * Class that load game settings from the file on object creation and save them.
  * 
  * @author Matteo Magnani
  *
@@ -20,7 +20,7 @@ public class SettingsLoaderImpl implements SettingsLoader {
     private GameSettings gameSettings;
 
     /**
-     * The constructor load settings from default file
+     * The constructor load settings from default file.
      * 
      * @throws IOException
      */

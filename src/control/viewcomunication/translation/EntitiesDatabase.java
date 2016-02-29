@@ -8,7 +8,7 @@ import view.configs.Entities;
 
 /**
  * This interface declare methods to manage a database that associate to each
- * game entity to view representation
+ * game entity to view representation.
  * 
  * @author Matteo Magnani
  *
@@ -17,7 +17,7 @@ public interface EntitiesDatabase {
 
     /**
      * Put the input entity's code in the database with the relative view
-     * representation
+     * representation.
      * 
      * @param code
      *            The code of the entity
@@ -28,7 +28,7 @@ public interface EntitiesDatabase {
 
     /**
      * Put the input entity in the database with the relative view
-     * representation
+     * representation.
      * 
      * @param modelEnt
      *            The entity to put in database
@@ -40,7 +40,7 @@ public interface EntitiesDatabase {
     /**
      * Put the input entity in the database with the relative view
      * representation and returns a copy of the entity with the appropriate
-     * univocal code
+     * univocal code.
      * 
      * @param modelEnt
      *            The entity to put in database
@@ -53,7 +53,7 @@ public interface EntitiesDatabase {
     /**
      * Put the input bullets in the database with the relative view
      * representation according to code of the entity that have fired it.Returns
-     * a copy of the entity with the appropriate univocal code
+     * a copy of the entity with the appropriate univocal code.
      * 
      * @param bullets
      *            The list of bullets to put in database
@@ -62,7 +62,7 @@ public interface EntitiesDatabase {
     List<EntitiesInfo> putBulletsAndSetCodes(List<EntitiesInfo> bullets);
 
     /**
-     * Get the view representation of the input entity code
+     * Get the view representation of the input entity code.
      * 
      * @param code
      *            The code of the entity
@@ -85,12 +85,12 @@ public interface EntitiesDatabase {
      * @param entity
      *            The view representation of the entities to put
      */
-    public void putEntities(final List<EntitiesInfo> entities, final Entities entity);
+    void putEntities(final List<EntitiesInfo> entities, final Entities entity);
 
     /**
      * Put the input entities in the database with the relative view
      * representation. Returns a copy of the entity with the appropriate
-     * univocal code
+     * univocal code.
      * 
      * @param entities
      *            The list of entities to put in the database

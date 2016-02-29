@@ -16,7 +16,7 @@ import control.viewcomunication.MenuCategoryEntries;
 import control.viewcomunication.MenuCategoryEntriesImpl;
 
 /**
- * Class that load menu structure from file on object creation and save them
+ * Class that load menu structure from file on object creation and save them.
  * 
  * @author Matteo Magnani
  *

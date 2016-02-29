@@ -20,21 +20,21 @@ import view.configs.Notifications;
 
 /**
  * That class contains the structure of the periodic game loop, when this thread
- * starts, the game begin
+ * starts, the game begin.
  * 
  * @author magna
  *
  */
 public class GameThreadImpl extends Thread implements GameThread {
 
-    private final static int FRAMERATE = 35;
+    private static final int FRAMERATE = 35;
     private final Model model;
     private final ViewDecorator view;
     private final EntitiesDatabase database;
     private final GameWorldTranslator translator;
     private final InputManager inputManager;
     private final Lock mutex;
-    volatile private boolean running;
+    private volatile boolean running;
     private GameState gameState;
     private final Object stateLock;
 

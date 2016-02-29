@@ -1,7 +1,7 @@
 package control.game.thread;
 
 /**
- * Interface that declares methods to interact with the game thread
+ * Interface that declares methods to interact with the game thread.
  * 
  * @author Matteo Magnani
  *
@@ -9,22 +9,22 @@ package control.game.thread;
 public interface GameThread {
 
     /**
-     * Pause the game
+     * Pause the game.
      */
     void pause();
 
     /**
-     * re-start the game from a pause state
+     * re-start the game from a pause state.
      */
     void reStart();
 
     /**
-     * Starts the game loop
+     * Starts the game loop.
      */
     void start();
 
     /**
-     * Stop the game loop
+     * Stop the game loop.
      */
     void stopGame();
 
@@ -47,7 +47,7 @@ public interface GameThread {
     GameState getGameState();
 
     /**
-     * Set the game state to finish
+     * Set the game state to finish.
      * 
      * @throws IllegalStateException
      *             if the game is running

@@ -14,7 +14,7 @@ import view.utilities.ControlCommunication;
 
 /**
  * A decorator for view that makes thread safe methods and calculates scenes
- * dimension starting to screen resolution
+ * dimension starting to screen resolution.
  * 
  * @author Matteo Magnani
  *
@@ -48,7 +48,7 @@ public class ViewDecoratorImpl implements ViewDecorator {
     }
 
     @Override
-    synchronized public void notifySceneEvent(final Notifications notification) {
+    public synchronized void notifySceneEvent(final Notifications notification) {
         this.view.notifySceneEvent(notification);
     }
 

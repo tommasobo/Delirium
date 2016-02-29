@@ -1,7 +1,7 @@
 package control.fileloading.levels;
 
 /**
- * Enumeration that contains all game levels with relative store file name
+ * Enumeration that contains all game levels with relative store file name.
  * 
  * @author Matteo Magnani
  *
@@ -12,7 +12,7 @@ public enum Levels {
     LEVEL3("magnoLevel");
     
     private final String filename;
-    private Levels(final String filename) {
+    Levels(final String filename) {
         this.filename = filename;
     }
     

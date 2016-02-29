@@ -5,7 +5,7 @@ import java.util.Optional;
 
 /**
  * That class contains all elements to determinate the structure of a menu
- * category
+ * category.
  * 
  * @author Matteo Magnani
  *

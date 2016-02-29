@@ -22,7 +22,7 @@ import view.configs.Entities;
  */
 public class EntitiesDatabaseImpl implements EntitiesDatabase {
 
-    final private Map<Integer, Entities> viewEntitiesCodes;
+    private final Map<Integer, Entities> viewEntitiesCodes;
     private final Dimension arenaDimension;
     private final Iterator<Integer> codesIterator;
 

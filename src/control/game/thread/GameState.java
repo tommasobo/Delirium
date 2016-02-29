@@ -1,7 +1,7 @@
 package control.game.thread;
 
 /**
- * That enumeration contains all possible states of game's levels
+ * That enumeration contains all possible states of game's levels.
  * 
  * @author Matteo Magnani
  *

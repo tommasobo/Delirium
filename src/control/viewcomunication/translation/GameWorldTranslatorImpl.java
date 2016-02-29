@@ -10,7 +10,7 @@ import view.utilities.ViewPhysicalProperties;
 
 /**
  * Class that translate model's entities to view entities, translate positions
- * for a correct view print
+ * for a correct view print.
  * 
  * @author Matteo Magnani
  *
@@ -24,7 +24,7 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
      * @param database
      *            The database that contains the view representation for each
      *            model entity
-     * @param screenMoltiplicatorFactor
+     * @param screenMultiplierFactor
      *            The necessary multiplier factor to visualize the game world on
      *            screen
      */

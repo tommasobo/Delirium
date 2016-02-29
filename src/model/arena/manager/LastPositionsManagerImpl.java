@@ -16,44 +16,47 @@ import model.arena.entities.Position;
 class LastPositionsManagerImpl implements LastPositionsManager {
     private final Map<Integer, Position> lastPositions;
 
-    public LastPositionsManagerImpl() {
+    /**
+     * 
+     */
+    LastPositionsManagerImpl() {
         this.lastPositions = new HashMap<>();
     }
 
     @Override
-    public Position getLastPosition(Entities entity) {
+    public Position getLastPosition(final Entities entity) {
         return getLastPosition(entity.getCode());
     }
 
     @Override
-    public Position getLastPosition(int code) {
+    public Position getLastPosition(final int code) {
         Position pos = this.lastPositions.get(code);
         return new Position(pos.getPoint(), pos.getDirection(), pos.getDimension());
     }
 
     @Override
-    public PointOffset getOffsetFromLastPosition(Entities entity, Position position) {
+    public PointOffset getOffsetFromLastPosition(final Entities entity, final Position position) {
         return getOffsetFromLastPosition(entity.getCode(), position);
     }
 
     @Override
-    public PointOffset getOffsetFromLastPosition(int code, Position position) {
+    public PointOffset getOffsetFromLastPosition(final int code, final Position position) {
         Point point = getLastPosition(code).getPoint();
         return new PointOffset(position.getPoint().getX() - point.getX(), position.getPoint().getY() - point.getY());
     }
 
     @Override
-    public void putPosition(Entities entity) {
+    public void putPosition(final Entities entity) {
         this.lastPositions.put(entity.getCode(), entity.getPosition());
     }
 
     @Override
-    public void putPosition(Entities entity, Position position) {
+    public void putPosition(final Entities entity, final Position position) {
         putPosition(entity.getCode(), position);
     }
 
     @Override
-    public void putPosition(int code, Position position) {
+    public void putPosition(final int code, final Position position) {
         Position pos = new Position(position.getPoint(), position.getDirection(), position.getDimension());
         this.lastPositions.put(code, pos);
     }

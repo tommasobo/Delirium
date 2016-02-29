@@ -27,7 +27,7 @@ public enum GameDifficulty {
      * @param lifeIncrementer
      *            The function that increments entities' life
      */
-    private GameDifficulty(final Function<Integer, Integer> speedIncrementer,
+    GameDifficulty(final Function<Integer, Integer> speedIncrementer,
             final Function<Integer, Integer> damageIncrementer, final Function<Integer, Integer> lifeIncrementer) {
         this.speedIncrementer = speedIncrementer;
         this.damageIncrementer = damageIncrementer;

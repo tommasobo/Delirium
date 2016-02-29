@@ -3,6 +3,11 @@ package model.arena.manager;
 import model.arena.entities.Entities;
 import model.arena.entities.Position;
 
+/**
+ * 
+ * @author Matteo Magnani
+ *
+ */
 interface LastPositionsManager {
 
     /**

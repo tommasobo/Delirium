@@ -21,7 +21,7 @@ public enum Buttons {
     private final ViewEvents event;
     private final String name;
 
-    private Buttons(final String name, final ViewEvents event) {
+    Buttons(final String name, final ViewEvents event) {
         this.event = event;
         this.name = name;
     }

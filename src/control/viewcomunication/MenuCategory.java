@@ -11,10 +11,14 @@ public enum MenuCategory {
     DIFFICULTY("DIFFICULTY");
     private final String name;
 
-    private MenuCategory(final String name) {
+    MenuCategory(final String name) {
         this.name = name;
     }
 
+    /**
+     * 
+     * @return Difficulty's name
+     */
     public String getName() {
         return name;
     }

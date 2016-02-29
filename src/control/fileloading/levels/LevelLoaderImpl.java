@@ -19,7 +19,7 @@ import utility.Pair;
 
 /**
  * Class that can load levels from file and modify entities statistics using the
- * EntityStatsModifier passed through constructor
+ * EntityStatsModifier passed through constructor.
  * 
  * @author Matteo Magnani
  *
@@ -31,7 +31,7 @@ public class LevelLoaderImpl implements LevelLoader {
 
     /**
      * The constructor load the level from the file witch name is stored in
-     * Levels' enumeration element
+     * Levels' enumeration element.
      * 
      * @param level
      *            The level to load
@@ -50,7 +50,8 @@ public class LevelLoaderImpl implements LevelLoader {
             throw e;
         }
     }
-
+    
+    @Override
     public Pair<List<EntitiesInfo>, EntitiesDatabase> getLevelStructure() {
         List<EntitiesInfo> entities = new LinkedList<>();
         EntitiesDatabase database = new EntitiesDatabaseImpl(this.levelInfo.getLevelDimension());

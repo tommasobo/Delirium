@@ -16,6 +16,11 @@ import model.arena.utility.Directions;
 import model.arena.utility.UtilityMovement;
 import utility.Pair;
 
+/**
+ * 
+ * @author Matteo Magnani
+ *
+ */
 public class ArenaManagerImpl implements ArenaManager {
 
     private final Arena arena;
@@ -23,6 +28,10 @@ public class ArenaManagerImpl implements ArenaManager {
     private final ActiveMovementDatabase platformEntities;
     private boolean gameWon;
 
+    /**
+     * 
+     * @param arena The game's arena
+     */
     public ArenaManagerImpl(final Arena arena) {
         this.arena = arena;
         this.lastPositionsMan = new LastPositionsManagerImpl();

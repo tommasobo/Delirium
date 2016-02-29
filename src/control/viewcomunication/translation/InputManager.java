@@ -6,7 +6,7 @@ import control.viewcomunication.ViewEvents;
 import utility.Pair;
 
 /**
- * Interface that declares methods for a working input manager
+ * Interface that declares methods for a working input manager.
  * 
  * @author Matteo Magnani
  *
@@ -14,7 +14,7 @@ import utility.Pair;
 public interface InputManager {
 
     /**
-     * The method takes a view event and elaborate it
+     * The method takes a view event and elaborate it.
      * 
      * @param event
      *            The view event

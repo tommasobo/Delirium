@@ -6,7 +6,7 @@ import model.arena.utility.MovementTypes;
 import model.transfertentities.MovementInfo;
 
 /**
- * Class that contains entities' movement traits vith setters
+ * Class that contains entities' movement traits with setters.
  * 
  * @author Matteo Magnani
  *
@@ -40,6 +40,11 @@ public class MovementInfoStore implements MovementInfo {
         this.movementTypes = movementTypes;
     }
 
+    /**
+     * 
+     * @param m
+     *            Movement info to copy
+     */
     public MovementInfoStore(final MovementInfoStore m) {
         this.speed = m.getSpeed();
         this.bounds = m.getBounds();
@@ -73,6 +78,11 @@ public class MovementInfoStore implements MovementInfo {
         return movementTypes;
     }
 
+    /**
+     * 
+     * @param speed
+     *            Entity speed
+     */
     public void setSpeed(final int speed) {
         this.speed = speed;
     }

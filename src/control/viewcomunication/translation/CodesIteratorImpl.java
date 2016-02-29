@@ -2,6 +2,11 @@ package control.viewcomunication.translation;
 
 import java.util.Iterator;
 
+/**
+ * Iterator for game's codes.
+ * @author Matteo Magnani
+ *
+ */
 public class CodesIteratorImpl implements Iterator<Integer> {
 
     private Integer number = -1;

@@ -6,7 +6,7 @@ import utility.Dimension;
 
 /**
  * Interface that declare all methods of a working object that contains level
- * informations
+ * informations.
  * 
  * @author Matteo Magnani
  *

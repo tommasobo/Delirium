@@ -9,7 +9,7 @@ import model.transfertentities.EntitiesInfo;
 /**
  * That interface extends EntitiesInfo(the interface for the communication
  * structure to model) to add setters, this is very helpful for elaboration of
- * entities during the file loading
+ * entities during the file loading.
  * 
  * @author Matteo Magnani
  *
@@ -93,6 +93,6 @@ public interface EntitiesInfoStore extends EntitiesInfo {
      * 
      * @return Entity's view representation
      */
-    public view.configs.Entities getEntityType();
+    view.configs.Entities getEntityType();
 
 }

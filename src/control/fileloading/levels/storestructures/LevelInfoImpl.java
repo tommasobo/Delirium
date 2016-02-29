@@ -7,7 +7,7 @@ import java.util.List;
 import utility.Dimension;
 
 /**
- * Class that contains all informations about a playable level
+ * Class that contains all informations about a playable level.
  * 
  * @author Matteo Magnani
  *
@@ -22,6 +22,7 @@ public class LevelInfoImpl implements LevelInfo {
      *            List of level's entities
      * @param levelDimension
      *            The level dimension
+     * @throws IOException
      */
     public LevelInfoImpl(final List<EntitiesInfoStoreImpl> entities, final Dimension levelDimension)
             throws IOException {

@@ -5,6 +5,11 @@ import java.util.Map;
 import control.viewcomunication.MenuCategory;
 import control.viewcomunication.MenuCategoryEntries;
 
+/**
+ * Interface that declares methods for MenuLoader.
+ * @author Matteo Magnani
+ *
+ */
 public interface MenuLoader {
 
     /**

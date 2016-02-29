@@ -5,7 +5,7 @@ import java.util.Iterator;
 import control.fileloading.levels.Levels;
 
 /**
- * Interface that declares methods for a full implementation of game's settings
+ * Interface that declares methods for a full implementation of game's settings.
  * 
  * @author Matteo Magnani
  *

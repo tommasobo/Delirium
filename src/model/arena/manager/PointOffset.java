@@ -1,7 +1,7 @@
 package model.arena.manager;
 
 /**
- * Difference between two points
+ * Difference between two points.
  * 
  * @author Matteo Magnani
  *

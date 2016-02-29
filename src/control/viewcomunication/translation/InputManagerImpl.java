@@ -21,7 +21,10 @@ public class InputManagerImpl implements InputManager {
     private final Queue<Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>>> actions;
     private boolean keyDeactivated;
     private boolean noMoves;
-
+    
+    /**
+     * 
+     */
     public InputManagerImpl() {
         this.actions = new LinkedList<>();
         this.keyDeactivated = false;
@@ -37,7 +40,8 @@ public class InputManagerImpl implements InputManager {
      * contains key pressed already translated in PG actions.The method is
      * synchronized in order to make it usable to view and game thread.
      */
-    synchronized public void notifyViewInput(final ViewEvents event) {
+    @Override
+    public synchronized void notifyViewInput(final ViewEvents event) {
         if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT
                 || event == ViewEvents.SHOOT) {
             if (!this.actions.contains(Translator.translateViewInput(event))) {
@@ -76,7 +80,8 @@ public class InputManagerImpl implements InputManager {
      * movement if there are actions to perform but there aren't any move
      * actions in the queue
      */
-    synchronized public Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> getNextPGAction() {
+    @Override
+    public synchronized Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> getNextPGAction() {
         Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action;
         if (noMoves || this.actions.isEmpty()) {
             this.noMoves = false;

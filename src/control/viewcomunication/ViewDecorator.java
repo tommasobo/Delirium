@@ -7,23 +7,28 @@ import view.configs.Notifications;
 import view.configs.SceneType;
 import view.utilities.ControlCommunication;
 
+/**
+ * Interface that declares methods for a view decorator.
+ * @author Matteo Magnani
+ *
+ */
 public interface ViewDecorator {
     /**
-     * The method changes the view scene with a suitable dimension
+     * The method changes the view scene with a suitable dimension.
      * 
-     * @param sceneType
+     * @param sceneType The type of scene
      */
     void changeScene(SceneType sceneType);
 
     /**
-     * Notify event to view
+     * Notify event to view.
      * 
-     * @param notification
+     * @param notification The notification
      */
     void notifySceneEvent(Notifications notification);
 
     /**
-     * Update the view game scene
+     * Update the view game scene.
      * 
      * @param entities
      *            List of entities in game
@@ -32,9 +37,9 @@ public interface ViewDecorator {
 
     /**
      * Set the level's dimension ad calculate the appropriate screen multiplier
-     * factor
+     * factor.
      * 
-     * @param levelDimension
+     * @param levelDimension The level's dimension
      */
     void setLevelDimension(Dimension levelDimension);
 

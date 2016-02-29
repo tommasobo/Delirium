@@ -5,7 +5,7 @@ import model.transfertentities.ShootInfo;
 import model.transfertentities.ShootTypes;
 
 /**
- * Class that contains entities' shoot traits with setters
+ * Class that contains entities' shoot traits with setters.
  * 
  * @author Matteo Magnani
  *
@@ -43,6 +43,11 @@ public class ShootInfoStore implements ShootInfo {
         this.speed = speed;
     }
 
+    /**
+     * 
+     * @param s
+     *            Shoot info to clone
+     */
     public ShootInfoStore(final ShootInfoStore s) {
         this.minTime = s.getMinTime();
         this.shootType = s.getShootType();

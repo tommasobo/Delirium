@@ -14,7 +14,7 @@ import control.viewcomunication.MenuCategoryEntriesImpl;
 
 /**
  * A menu loader that contains game settings in order to set the already checked
- * buttons on settings menu
+ * buttons on settings menu.
  * 
  * @author Matteo Magnani
  *
@@ -22,6 +22,12 @@ import control.viewcomunication.MenuCategoryEntriesImpl;
 public class SettingsMenuLoaderImpl extends MenuLoaderImpl {
     private final GameSettings gameSettings;
 
+    /**
+     * 
+     * @param menu Menu to load
+     * @param gameSettings Current game's settings
+     * @throws IOException
+     */
     public SettingsMenuLoaderImpl(final Menu menu, final GameSettings gameSettings) throws IOException {
         super(menu);
         this.gameSettings = gameSettings;
