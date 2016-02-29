@@ -1,18 +1,19 @@
 package model.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import junit.framework.AssertionFailedError;
 import model.Model;
 import model.ModelImpl;
 import model.arena.entities.Point;
 import model.arena.entities.Position;
 import model.arena.entities.life.LifePattern;
+import model.arena.entities.movement.AbstractDinamicMovementManager;
 import model.arena.utility.Actions;
 import model.arena.utility.Bounds;
 import model.arena.utility.Directions;
@@ -38,8 +39,8 @@ import utility.Dimension;
 public class Test {
 
     private Model modelTest = ModelImpl.getModel();
-    private EntitiesInfo hero, goal, monster;
-    private Position heroPosition, monsterPosition;
+    private EntitiesInfo hero, goal, monster, ground;
+    private Position heroPosition, monsterPosition, groundPosition;
     private MovementInfo heroMovementInfo, monsterMovementInfo;
     private ShootInfo heroShootInfo;
     private List<EntitiesInfo> entities;
@@ -63,12 +64,58 @@ public class Test {
         this.entities.add(this.monster);
 
     }
+    
+    private void istanceEntitiesForCollisions() {
+        this.heroPosition = new Position(new Point(0, 50), Directions.RIGHT, new Dimension(40, 60));
+        this.heroMovementInfo = new MovementInfoImpl(7, new Bounds(0, 200, 0, 200), Actions.STOP, false,
+                MovementTypes.HERO);
+        this.heroShootInfo = new ShootInfoImpl(10, ShootTypes.HERO, 10, MovementTypes.HORIZONTAL_LINEAR, 200, 3);
+        this.hero = new EntitiesInfoImpl(0, heroPosition, Optional.of(heroMovementInfo), 30, LifePattern.WITH_LIFE,
+                Optional.of(heroShootInfo), Optional.of(0));
+        this.entities = new LinkedList<>(Arrays.asList(this.hero));
+        this.groundPosition = new Position(new Point(0, 0), Directions.NONE, new Dimension(200, 40));
+        this.ground = new EntitiesInfoImpl(1, this.groundPosition, Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
+        this.entities.add(this.ground);
+        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Dimension(40, 60)),
+                Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
+        this.entities.add(this.goal);
+        this.monsterPosition = new Position(new Point(60, 40), Directions.LEFT, new Dimension(20, 20));
+        this.monsterMovementInfo = new MovementInfoImpl(5, new Bounds(0, 200, 0, 200), Actions.MOVE, true,
+                MovementTypes.HORIZONTAL_LINEAR);
+        this.monster = new EntitiesInfoImpl(2, monsterPosition, Optional.of(monsterMovementInfo), 5,
+                LifePattern.WITH_LIFE, Optional.empty(), Optional.empty());
+        this.entities.add(this.monster);
+
+    }
+    
+    private void istanceEntitiesForReactiveMovement() {
+        this.heroPosition = new Position(new Point(0, 60), Directions.RIGHT, new Dimension(40, 60));
+        this.heroMovementInfo = new MovementInfoImpl(7, new Bounds(0, 200, 0, 200), Actions.STOP, false,
+                MovementTypes.HERO);
+        this.heroShootInfo = new ShootInfoImpl(10, ShootTypes.HERO, 10, MovementTypes.HORIZONTAL_LINEAR, 200, 3);
+        this.hero = new EntitiesInfoImpl(0, heroPosition, Optional.of(heroMovementInfo), 30, LifePattern.WITH_LIFE,
+                Optional.of(heroShootInfo), Optional.of(0));
+        this.entities = new LinkedList<>(Arrays.asList(this.hero));
+        this.groundPosition = new Position(new Point(0, 0), Directions.NONE, new Dimension(200, 40));
+        this.ground = new EntitiesInfoImpl(1, this.groundPosition, Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
+        this.entities.add(this.ground);
+        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Dimension(40, 60)),
+                Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
+        this.entities.add(this.goal);
+        this.monsterPosition = new Position(new Point(0, 40), Directions.RIGHT, new Dimension(20, 20));
+        this.monsterMovementInfo = new MovementInfoImpl(1, new Bounds(0, 200, 0, 200), Actions.MOVE, true,
+                MovementTypes.HORIZONTAL_LINEAR);
+        this.monster = new EntitiesInfoImpl(2, monsterPosition, Optional.of(monsterMovementInfo), 5,
+                LifePattern.WITH_LIFE, Optional.empty(), Optional.empty());
+        this.entities.add(this.monster);
+
+    }
 
     /**
      * This test test movement of the entities.
      */
     @org.junit.Test
-    public void testOK1() {
+    public void movementTest() {
 
         this.istanceEntities();
 
@@ -101,6 +148,95 @@ public class Test {
 
         System.out.println("The hero move right to: " + heroPoint);
 
+    }
+    
+    @org.junit.Test
+    public void collisionAndGravityTest() {
+
+        System.out.println("");
+        System.out.println("----------------------------------------------------------");
+        System.out.println("");
+        System.out.println("Collision and Gravity test begin");
+        System.out.println("");
+        this.istanceEntitiesForCollisions();
+
+        this.modelTest.createArena(entities);
+        Position oldHeroPosition = this.heroPosition;
+        this.modelTest.notifyEvent(Actions.STOP);
+        this.modelTest.updateArena();
+        List<EntitiesInfoToControl> answer = this.modelTest.getState();
+        Position newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny()
+                .get();
+        assertEquals(newHeroPosition.getPoint().getY() , oldHeroPosition.getPoint().getY() - AbstractDinamicMovementManager.GRAVITY);
+        System.out.println("Gravity works and send hero to y " + newHeroPosition.getPoint().getY() + "from y " + oldHeroPosition.getPoint().getY());
+        oldHeroPosition = newHeroPosition;
+        this.modelTest.updateArena();
+        answer = this.modelTest.getState();
+        newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny().get();
+        assertTrue(newHeroPosition.getPoint().getY() != oldHeroPosition.getPoint().getY() - AbstractDinamicMovementManager.GRAVITY);
+        assertEquals(newHeroPosition.getPoint().getY(), this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getHeight());
+        System.out.println("Collisions work and set Hero's y position on the top of the ground, and not under (1)");
+        
+        
+        
+        oldHeroPosition = newHeroPosition;
+        this.modelTest.updateArena();
+        answer = this.modelTest.getState();
+        newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny().get();
+        assertTrue(newHeroPosition.getPoint().getY() != oldHeroPosition.getPoint().getY() - AbstractDinamicMovementManager.GRAVITY);
+        assertTrue(newHeroPosition.getPoint().getY() == oldHeroPosition.getPoint().getY());
+        assertEquals(newHeroPosition.getPoint().getY(), this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getHeight());
+        System.out.println("Collisions work and set Hero's y position on the top of the ground, and not under (2)");
+        
+        
+        
+        oldHeroPosition = newHeroPosition;
+        this.modelTest.updateArena();
+        answer = this.modelTest.getState();
+        newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny().get();
+        assertTrue(newHeroPosition.getPoint().getY() != oldHeroPosition.getPoint().getY() - AbstractDinamicMovementManager.GRAVITY);
+        assertTrue(newHeroPosition.getPoint().getY() == oldHeroPosition.getPoint().getY());
+        assertEquals(newHeroPosition.getPoint().getY(), this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getHeight());
+        System.out.println("Collisions work and set Hero's y position on the top of the ground, and not under (3)");
+        
+        
+        
+        Position oldMonsterPosition = answer.stream().filter(t -> t.getCode() == 2).map(t -> t.getPosition()).findAny().get();
+        this.modelTest.notifyEvent(Actions.MOVE);
+        oldHeroPosition = newHeroPosition;
+        this.modelTest.updateArena();
+        this.modelTest.notifyEvent(Actions.STOP);
+        answer = this.modelTest.getState();
+        newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny().get();
+        Position newMonsterPosition = answer.stream().filter(t -> t.getCode() == 2).map(t -> t.getPosition()).findAny()
+                .get();
+        assertEquals(newHeroPosition.getPoint().getX(), oldHeroPosition.getPoint().getX());
+        assertEquals(newHeroPosition.getPoint().getX() + newHeroPosition.getDimension().getWidth(), newMonsterPosition.getPoint().getX());
+        System.out.println("Collisions work, hero cannot move because have an entity on left. Hero point: " + newHeroPosition.getPoint() + " whith with: " + newHeroPosition.getDimension().getWidth() + "    Other entity point:" + newMonsterPosition.getPoint());
+        assertTrue(newMonsterPosition.getDirection() != oldMonsterPosition.getDirection());
+        assertEquals(newMonsterPosition.getDirection(), Directions.RIGHT);
+        System.out.println("The monster, after collision, has changed his direction from: " + oldMonsterPosition.getDirection() + " to " + newMonsterPosition.getDirection());
+    
+        istanceEntitiesForReactiveMovement();
+        this.modelTest.createArena(entities);
+        oldHeroPosition = this.heroPosition;
+        this.modelTest.updateArena();
+        answer = this.modelTest.getState();
+        newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny().get();
+        this.modelTest.updateArena();
+        answer = this.modelTest.getState();
+        oldHeroPosition = newHeroPosition;
+        newHeroPosition = answer.stream().filter(t -> t.getCode() == 0).map(t -> t.getPosition()).findAny().get();
+        assertEquals(newHeroPosition.getPoint().getX(), oldHeroPosition.getPoint().getX() + this.monsterMovementInfo.getSpeed());
+        System.out.println("The hero is on entity and moves with it");
+        
+        System.out.println("");
+        System.out.println("Collision and Gravity test end");
+        System.out.println("");
+        System.out.println("----------------------------------------------------------");
+        System.out.println("");
+    
+    
     }
 
     /**

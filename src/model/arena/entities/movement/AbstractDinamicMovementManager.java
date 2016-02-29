@@ -9,7 +9,7 @@ import model.arena.utility.Bounds;
 import model.arena.utility.Directions;
 import model.arena.utility.UtilityMovement;
 
-abstract class AbstractDinamicMovementManager implements MovementManager {
+abstract public class AbstractDinamicMovementManager implements MovementManager {
 
     public static final int GRAVITY = 6;
 

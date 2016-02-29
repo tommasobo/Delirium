@@ -59,7 +59,7 @@ public class ArenaManagerImpl implements ArenaManager {
     }
     
     /**
-     * The method check if there are collisions and eventually fix position
+     * The method checks if there are collisions and eventually fix position
      * @param pos Entity's position
      * @param entity the entity
      * @return the position fixed
@@ -69,7 +69,7 @@ public class ArenaManagerImpl implements ArenaManager {
     }
     
     /**
-     * The method check if there are collisions and eventually fix position
+     * The method checks if there are collisions and eventually fix position
      * @param pos Entity's position
      * @param entity the entity
      * @param action Entity's action
@@ -89,7 +89,7 @@ public class ArenaManagerImpl implements ArenaManager {
                     Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
                             .collect(Collectors.toList()));
         } else {
-            //le altre entità invece andranno a muovere chi hanno sopra
+            //le altre entità invece andranno a muovere chi hanno sopra, perciò nelle collisioni non le considerano
             collision = UtilityCollisionsDetection
                     .getFirstCollision(retToFix,
                             entity, Stream.concat(this.arena.getEntities().stream(), this.arena.getBullets().stream())
@@ -99,7 +99,7 @@ public class ArenaManagerImpl implements ArenaManager {
 
         //questo punto raprresenta sia l'assenza di collisioni, sia la fine dell'eventuale ricorsione
         if (collision == null) {
-            //se un proiettile raggiunge i buounds perde vita in modo che muoia
+            //se un proiettile raggiunge i buounds perde vita e muore
             if (arena.getBullets().contains(entity) && UtilityCollisionsDetection.onBounds(posToFix, entity)) {
                 entity.getLifeManager().setLife(1);
             }
@@ -204,7 +204,7 @@ public class ArenaManagerImpl implements ArenaManager {
                     }
                     break;
                 case MOVEONJUMP:
-                    entity.setAction(Actions.MOVEONFALL);
+                    entity.setAction(UtilityCollisionsDetection.getOppositeAction(action));
                     break;
                 default:
                     break;
@@ -270,6 +270,9 @@ public class ArenaManagerImpl implements ArenaManager {
                         });
                     }
                 } else {
+                    if(action == Actions.JUMP) {
+                        entity.setAction(Actions.FALL);
+                    }
                     //se l'entità non si può muovere ritono la posizione precedente
                     return this.lastPositionsMan.getLastPosition(entity);
                 }
@@ -279,7 +282,7 @@ public class ArenaManagerImpl implements ArenaManager {
     }
     
     /**
-     * The method fix the input position changing it's x
+     * The method fixes the input position changing it's x
      * @param posToFix position to fix
      * @param direction direction of the entity
      * @param collisionRectangle
@@ -307,7 +310,7 @@ public class ArenaManagerImpl implements ArenaManager {
     }
 
     /**
-     * This method check if an entity can move on new position or not. Checks
+     * This method checks if an entity can move on new position or not. It checks
      * collisions and entity's bounds
      * 
      * @param entities

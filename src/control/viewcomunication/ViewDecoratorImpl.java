@@ -13,10 +13,10 @@ import view.configs.SceneType;
 import view.utilities.ControlCommunication;
 
 /**
- * A decorator for view that make thread safe methods and calculate scenes
+ * A decorator for view that makes thread safe methods and calculates scenes
  * dimension starting to screen resolution
  * 
- * @author magna
+ * @author Matteo Magnani
  *
  */
 public class ViewDecoratorImpl implements ViewDecorator{
@@ -59,17 +59,14 @@ public class ViewDecoratorImpl implements ViewDecorator{
         calculateMultiplierFactor();
     }
 
-    //TODO fattore moltiplicativo double
+    
     /**
-     * 
+     * This method calculates the screen multiplier factor to lock game screen at 3/4 of the screen
      */
     private void calculateMultiplierFactor() {
-        /*if(this.levelDimension.getHeight() < this.resolution.getHeight()/2) {
-            this.screenMoltiplicatorFactor = (int) ((this.resolution.getHeight()/2)/this.levelDimension.getHeight() + 1);
-        } else {
-            this.screenMoltiplicatorFactor = 1;
-        }*/
-        this.screenMoltiplicatorFactor = this.resolution.getHeight()/2 /this.levelDimension.getHeight();
+        this.screenMoltiplicatorFactor = (double) Math
+                .round(this.resolution.getHeight() / 4 * 3 / this.levelDimension.getHeight() * 100)  / 100;
+        System.out.println(this.screenMoltiplicatorFactor);
     }
     
     @Override

@@ -55,15 +55,31 @@ final class UtilityCollisionsDetection {
         }
     }
     
+    /**
+     * 
+     * @param entity The Entity
+     * @return The entity's movement real action
+     */
     public static Actions realAction(final Entities entity) {
         return entity.getMovementManager().isPresent() ? entity.getMovementManager().get().getAction()
                 : Actions.STOP;
     }
     
+    /**
+     * 
+     * @param p A position
+     * @return The Rectangle that represents the input position
+     */
     public static Rectangle getRectangle(final Position p) {
         return new Rectangle(p.getPoint().getX(), p.getPoint().getY(), p.getDimension().getWidth(), p.getDimension().getHeight());
     }
     
+    /**
+     * Check id an entity is on him bounds
+     * @param pos
+     * @param entity
+     * @return
+     */
     public static boolean onBounds(final Position pos, final Entities entity) {
         Bounds bounds;
         if(entity.getMovementManager().isPresent()) {
@@ -78,6 +94,14 @@ final class UtilityCollisionsDetection {
         
     }
     
+    /**
+     * This methods returns the first collision between the input entity's position rectangle and the input list of entities;
+     * @param rectangle Entity's position rectangle
+     * @param entity The entity
+     * @param entities Entities to check
+     * @param exclusions Entities to exclude from checking
+     * @return A pair that contains the collision entity and the rectangle that represents the collision
+     */
     public static Pair<Entities, Rectangle> getFirstCollision(final Rectangle rectangle, final Entities entity, final Collection<? extends Entities> entities, final Collection<? extends Entities> exclusions) {
         
         final Optional<? extends Entities> ret = entities.stream().filter(entityToTest -> entityToTest.getCode() != entity.getCode())
@@ -93,6 +117,13 @@ final class UtilityCollisionsDetection {
         return null;
     }
     
+    /**
+     * This methods returns the first collision between the input entity's position rectangle and the input list of entities;
+     * @param rectangle Entity's position rectangle
+     * @param entity The entity
+     * @param entities Entities to check
+     * @return A pair that contains the collision entity and the rectangle that represents the collision
+     */
     public static Pair<Entities, Rectangle> getFirstCollision(final Rectangle rectangle, final Entities entity, final Collection<? extends Entities> entities) {
         return getFirstCollision(rectangle, entity, entities, new ArrayList<>());
     }

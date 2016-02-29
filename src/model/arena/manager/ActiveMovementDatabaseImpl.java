@@ -8,7 +8,7 @@ import java.util.Set;
 import model.arena.entities.Entities;
 
 /**
- * Database that associate entities to other entities that are on them
+ * Database that associates entities to other entities that are on them
  * @author Matteo Magnani
  *
  */
