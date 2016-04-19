@@ -1,5 +1,6 @@
 package view.screens.sprites;
 
+import javafx.geometry.Dimension2D;
 import view.configs.Actions;
 import view.configs.Directions;
 
@@ -36,5 +37,6 @@ interface UpdatableSprite extends Sprite {
      *             If called before initialization
      */
     void resumeSpriteAnimation();
+    void changeDimension(final Dimension2D newDim);
 
 }

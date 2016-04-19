@@ -136,7 +136,7 @@ public class ArenaManagerImpl implements ArenaManager {
             switch (action) {
             case JUMP:
                 posToFix.setPoint(new Point(posToFix.getPoint().getX(),
-                        collisionRectangle.y - posToFix.getDimension().getHeight()));
+                        collisionRectangle.y - posToFix.getDimension().getX().getHeight()));
                 verticalLimit = true;
                 break;
             case FALL:
@@ -327,7 +327,7 @@ public class ArenaManagerImpl implements ArenaManager {
             break;
         case RIGHT:
             posToFix.setPoint(
-                    new Point(collisionRectangle.x - posToFix.getDimension().getWidth(), posToFix.getPoint().getY()));
+                    new Point(collisionRectangle.x - posToFix.getDimension().getX().getWidth(), posToFix.getPoint().getY()));
             break;
         default:
             break;

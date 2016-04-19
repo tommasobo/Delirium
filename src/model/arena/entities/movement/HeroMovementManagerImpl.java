@@ -6,6 +6,7 @@ import model.arena.entities.Position;
 import model.arena.utility.Actions;
 import model.arena.utility.Bounds;
 import model.arena.utility.UtilityMovement;
+import utility.Pair;
 
 class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements HeroMovementManager {
 
@@ -13,6 +14,7 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
     private boolean onJump;
     private int time;
     private boolean onPlatform;
+    private boolean bended;
 
     public HeroMovementManagerImpl(final Position position, final Bounds bounds, final Actions action, final int speed,
             final boolean canFly) {
@@ -20,11 +22,17 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
         this.onJump = false;
         this.time = 0;
         this.onPlatform = false;
+        this.bended = false;
     }
 
     /**
      * @author Matteo Magnani
      */
+    
+    private void switchDimension() {
+        super.setDimension(new Pair<>(this.getPosition().getDimension().getY(), this.getPosition().getDimension().getX()));
+    }
+    
     @Override
     public Position getNextMove() {
         Position newPosition = this.getPosition();
@@ -78,6 +86,19 @@ class HeroMovementManagerImpl extends AbstractDinamicMovementManager implements 
     @Override
     public void setOnPlatform(final boolean bool) {
         this.onPlatform = bool;
+    }
+
+    @Override
+    public void bendPG(boolean bool) {
+        if(bool != this.bended) {
+            this.switchDimension();
+        }
+        this.bended = bool;
+    }
+
+    @Override
+    public boolean isBended() {
+        return this.bended;
     }
 
 }

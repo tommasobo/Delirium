@@ -109,11 +109,11 @@ public class UtilityMovement {
                 : (newPosition.getPoint().getY() + speed > bounds.getMinY() ? CheckResult.TRUEBUTFIX
                         : CheckResult.FALSE);
         final CheckResult checkUp = newPosition.getPoint().getY()
-                + newPosition.getDimension()
+                + newPosition.getDimension().getX()
                         .getHeight() <= bounds
                                 .getMaxY()
                                         ? CheckResult.TRUE
-                                        : (newPosition.getPoint().getY() + newPosition.getDimension().getHeight()
+                                        : (newPosition.getPoint().getY() + newPosition.getDimension().getX().getHeight()
                                                 - speed < bounds.getMaxY() ? CheckResult.TRUEBUTFIX
                                                         : CheckResult.FALSE);
         CheckResult checkMove;
@@ -124,9 +124,9 @@ public class UtilityMovement {
                             : CheckResult.FALSE);
             break;
         case RIGHT:
-            checkMove = newPosition.getPoint().getX() + newPosition.getDimension().getWidth() <= bounds.getMaxX()
+            checkMove = newPosition.getPoint().getX() + newPosition.getDimension().getX().getWidth() <= bounds.getMaxX()
                     ? CheckResult.TRUE
-                    : (newPosition.getPoint().getX() + newPosition.getDimension().getWidth() - speed < bounds.getMaxX()
+                    : (newPosition.getPoint().getX() + newPosition.getDimension().getX().getWidth() - speed < bounds.getMaxX()
                             ? CheckResult.TRUEBUTFIX : CheckResult.FALSE);
             break;
         case NONE:
@@ -163,7 +163,7 @@ public class UtilityMovement {
                 break;
             case RIGHT:
                 position.setPoint(
-                        new Point(bounds.getMaxX() - position.getDimension().getWidth(), position.getPoint().getY()));
+                        new Point(bounds.getMaxX() - position.getDimension().getX().getWidth(), position.getPoint().getY()));
                 break;
             case NONE:
                 break;
@@ -173,7 +173,7 @@ public class UtilityMovement {
             break;
         case JUMP:
             position.setPoint(
-                    new Point(position.getPoint().getX(), bounds.getMaxY() - position.getDimension().getHeight()));
+                    new Point(position.getPoint().getX(), bounds.getMaxY() - position.getDimension().getX().getHeight()));
         case MOVEONFALL:
         case MOVEONJUMP:
             break;

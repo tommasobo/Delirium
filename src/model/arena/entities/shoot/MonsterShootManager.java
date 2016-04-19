@@ -12,6 +12,7 @@ import model.arena.utility.MovementTypes;
 import model.transfertentities.EntitiesInfo;
 import model.transfertentities.EntitiesInfoImpl;
 import model.transfertentities.MovementInfoImpl;
+import utility.Pair;
 
 /**
  * This implementation shoot always shoot every minTime quantum of time.
@@ -54,10 +55,10 @@ class MonsterShootManager implements ShootManager {
     public Optional<EntitiesInfo> getBullet(final int code, final Position position) {
         position.setPoint(new Point(position.getDirection() == Directions.LEFT
                 ? position.getPoint().getX() - ShootManager.BULLET_DIMENSION.getWidth() - ShootManager.BULLET_OFFSET
-                : position.getPoint().getX() + position.getDimension().getWidth()
+                : position.getPoint().getX() + position.getDimension().getX().getWidth()
                         + ShootManager.BULLET_DIMENSION.getWidth() + ShootManager.BULLET_OFFSET,
-                (int) position.getPoint().getY() + position.getDimension().getHeight() / 2));
-        position.setDimension(ShootManager.BULLET_DIMENSION);
+                (int) position.getPoint().getY() + position.getDimension().getX().getHeight() / 2));
+        position.setDimension(new Pair<>(ShootManager.BULLET_DIMENSION, ShootManager.BULLET_DIMENSION));
         count++;
         return this.isOnShoot() ? Optional.of(new EntitiesInfoImpl(code, position,
                 Optional.of(new MovementInfoImpl(this.speed,

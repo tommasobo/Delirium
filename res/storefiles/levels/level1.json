@@ -9,8 +9,14 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 40,
           "height": 60
+          },
+        "y":{
+          "width": 40,
+          "height": 40
+          }
         }
       },
       "movementInfo": {
@@ -53,9 +59,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 55,
           "height": 35
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -97,9 +109,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 400,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -123,9 +141,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 1100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -149,9 +173,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 300,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -176,9 +206,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 250,
           "height": 20
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -202,9 +238,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 80,
           "height": 20
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -240,9 +282,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 40,
           "height": 60
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -274,9 +322,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 50,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -311,9 +365,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 300,
           "height": 20
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -337,9 +397,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 55,
           "height": 35
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -381,9 +447,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 50,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -419,9 +491,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 50,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 25,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -456,9 +534,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 35,
           "height": 55
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -500,9 +584,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 50,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -538,9 +628,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 35,
           "height": 55
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -582,9 +678,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -619,9 +721,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 40,
           "height": 60
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -652,9 +760,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -678,9 +792,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -704,9 +824,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -730,9 +856,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -756,9 +888,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -782,9 +920,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -808,9 +952,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -834,9 +984,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 400,
           "height": 40
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -860,9 +1016,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 55,
           "height": 35
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -904,9 +1066,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 100,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -941,9 +1109,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 50,
           "height": 20
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -967,9 +1141,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 50,
           "height": 15
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -1004,9 +1184,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 300,
           "height": 20
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null
@@ -1030,9 +1216,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 35,
           "height": 55
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -1074,9 +1266,15 @@
         },
         "direction": "LEFT",
         "dimension": {
+        "x":{
           "width": 35,
           "height": 55
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": {
@@ -1109,6 +1307,8 @@
       },
       "entityType": "VOLPE"
     },
+    
+    
     {
       "code": -1,
       "position": {
@@ -1118,9 +1318,15 @@
         },
         "direction": "RIGHT",
         "dimension": {
+        "x":{
           "width": 40,
           "height": 60
-        }
+          },
+        "y":{
+          "width": 40,
+          "height": 30
+          }
+         }
       },
       "movementInfo": {
         "value": null

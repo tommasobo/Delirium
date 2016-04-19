@@ -8,6 +8,8 @@ import model.arena.utility.Actions;
 import model.arena.utility.Bounds;
 import model.arena.utility.Directions;
 import model.arena.utility.UtilityMovement;
+import utility.Dimension;
+import utility.Pair;
 
 public abstract class AbstractDinamicMovementManager implements MovementManager {
 
@@ -78,6 +80,10 @@ public abstract class AbstractDinamicMovementManager implements MovementManager 
     public void setPosition(final Point point, final Directions direction) {
         this.position.setPoint(point);
         this.position.setDirection(direction);
+    }
+    
+    protected void setDimension(Pair<Dimension, Dimension> dimensionPair) {
+        this.position.setDimension(dimensionPair);
     }
 
     protected void setDirection(final Directions direction) {

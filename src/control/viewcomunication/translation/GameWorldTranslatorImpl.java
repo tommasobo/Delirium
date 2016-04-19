@@ -57,9 +57,9 @@ public class GameWorldTranslatorImpl implements GameWorldTranslator {
         final Position p = info.getPosition();
         return new ViewPhysicalProperties((int) Math.round(p.getPoint().getX() * this.screenMultiplierFactor),
                 (int) Math.round((this.database.getArenaDimension().getHeight() - p.getPoint().getY()
-                        - p.getDimension().getHeight()) * this.screenMultiplierFactor),
-                (int) Math.round(p.getDimension().getWidth() * this.screenMultiplierFactor),
-                (int) Math.round(p.getDimension().getHeight() * this.screenMultiplierFactor),
+                        - p.getDimension().getX().getHeight()) * this.screenMultiplierFactor),
+                (int) Math.round(p.getDimension().getX().getWidth() * this.screenMultiplierFactor),
+                (int) Math.round(p.getDimension().getX().getHeight() * this.screenMultiplierFactor),
                 info.getSpeed().isPresent() ? (int) Math.round(info.getSpeed().get() * this.screenMultiplierFactor) : 0,
                 Translator.directionFromModeltoView(p.getDirection()));
     }

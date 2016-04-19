@@ -75,8 +75,8 @@ final class UtilityCollisionsDetection {
      * @return The Rectangle that represents the input position
      */
     public static Rectangle getRectangle(final Position p) {
-        return new Rectangle(p.getPoint().getX(), p.getPoint().getY(), p.getDimension().getWidth(),
-                p.getDimension().getHeight());
+        return new Rectangle(p.getPoint().getX(), p.getPoint().getY(), p.getDimension().getX().getWidth(),
+                p.getDimension().getX().getHeight());
     }
 
     /**
@@ -94,7 +94,7 @@ final class UtilityCollisionsDetection {
             return true;
         }
         final Point point = pos.getPoint();
-        final Dimension dimension = pos.getDimension();
+        final Dimension dimension = pos.getDimension().getX();
 
         return point.getX() == bounds.getMinX() || point.getY() == bounds.getMinY()
                 || point.getX() + dimension.getWidth() == bounds.getMaxX()

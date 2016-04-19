@@ -2,6 +2,7 @@ package model.arena.entities;
 
 import model.arena.utility.Directions;
 import utility.Dimension;
+import utility.Pair;
 
 /**
  * This class decorated the @Point, the @Directions and the @Dimension. It
@@ -14,7 +15,7 @@ public class Position {
 
     private Point point;
     private Directions direction;
-    private Dimension dimension;
+    private Pair<Dimension, Dimension> dimension;
 
     /**
      * This constructor initialized the fields.
@@ -26,7 +27,7 @@ public class Position {
      * @param dimension
      *            : how much is big the entity.
      */
-    public Position(final Point point, final Directions direction, final Dimension dimension) {
+    public Position(final Point point, final Directions direction, final Pair<Dimension, Dimension> dimension) {
         this.point = point;
         this.direction = direction;
         this.dimension = dimension;
@@ -75,8 +76,8 @@ public class Position {
      * 
      * @return : the dimension field.
      */
-    public Dimension getDimension() {
-        return new Dimension(this.dimension.getWidth(), this.dimension.getHeight());
+    public Pair<Dimension, Dimension> getDimension() {
+        return new Pair<>(new Dimension(this.dimension.getX().getWidth(), this.dimension.getX().getHeight()), new Dimension(this.dimension.getY().getWidth(), this.dimension.getY().getHeight()));
     }
 
     /**
@@ -85,7 +86,7 @@ public class Position {
      * @param dimension
      *            : the value that you want to set.
      */
-    public void setDimension(final Dimension dimension) {
+    public void setDimension(final Pair<Dimension, Dimension> dimension) {
         this.dimension = dimension;
     }
 

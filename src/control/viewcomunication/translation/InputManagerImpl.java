@@ -21,6 +21,7 @@ public class InputManagerImpl implements InputManager {
     private final Queue<Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>>> actions;
     private boolean keyDeactivated;
     private boolean noMoves;
+    private boolean stopBend;
     
     /**
      * 
@@ -29,6 +30,7 @@ public class InputManagerImpl implements InputManager {
         this.actions = new LinkedList<>();
         this.keyDeactivated = false;
         this.noMoves = false;
+        this.stopBend = false;
     }
 
     /**
@@ -43,7 +45,8 @@ public class InputManagerImpl implements InputManager {
     @Override
     public synchronized void notifyViewInput(final ViewEvents event) {
         if (event == ViewEvents.MLEFT || event == ViewEvents.JUMP || event == ViewEvents.MRIGHT
-                || event == ViewEvents.SHOOT) {
+                || event == ViewEvents.SHOOT || event == ViewEvents.BEND) {
+            
             if (!this.actions.contains(Translator.translateViewInput(event))) {
                 this.actions.add(Translator.translateViewInput(event));
             }
@@ -71,6 +74,9 @@ public class InputManagerImpl implements InputManager {
                 this.actions.add(Translator.translateViewInput(ViewEvents.MLEFT));
                 this.keyDeactivated = false;
             }
+            if (event == ViewEvents.STOPBEND) {
+                this.stopBend = true;
+            }
         }
     }
 
@@ -83,7 +89,10 @@ public class InputManagerImpl implements InputManager {
     @Override
     public synchronized Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> getNextPGAction() {
         Pair<model.arena.utility.Actions, Optional<model.arena.utility.Directions>> action;
-        if (noMoves || this.actions.isEmpty()) {
+        if (this.stopBend == true) {
+            action = new Pair<>(Actions.UNBEND, Optional.empty());
+            this.stopBend = false;
+        } else if (noMoves || this.actions.isEmpty()) {
             this.noMoves = false;
             action = new Pair<>(Actions.STOP, Optional.empty());
         } else {

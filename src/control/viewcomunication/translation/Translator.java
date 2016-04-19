@@ -43,6 +43,9 @@ final class Translator {
         case SHOOT:
         case STOPSHOOT:
             return new Pair<>(model.arena.utility.Actions.SHOOT, Optional.empty());
+        case BEND:
+        case STOPBEND:
+            return new Pair<>(model.arena.utility.Actions.BEND, Optional.empty());
         default:
             throw new IllegalArgumentException(event.toString());
         }
@@ -90,6 +93,8 @@ final class Translator {
             return view.configs.Actions.SHOOT;
         case STOP:
             return view.configs.Actions.IDLE;
+        case BEND:
+            return view.configs.Actions.BEND;
         default:
             throw new IllegalArgumentException(action.toString());
         }

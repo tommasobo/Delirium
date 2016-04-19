@@ -50,6 +50,7 @@ public class SpriteManagerImpl implements SpriteManager, SpriteRemover {
     public void updateSpriteState(final int code, final Actions action, final ViewPhysicalProperties properties) {
         this.checkTracking(code);
         if (this.updatableSprite.containsKey(code)) {
+            this.updatableSprite.get(code).changeDimension(properties.getDimension());
             this.updatableSprite.get(code).updateSprite(action, properties.getDirection());
         }
         this.getFromMaps(code).getSpritePane().relocate(properties.getPoint().getX(), properties.getPoint().getY());

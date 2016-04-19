@@ -8,4 +8,8 @@ public interface HeroMovementManager extends MovementManager {
      */
     void setOnPlatform(boolean bool);
 
+    void bendPG(boolean bool);
+    
+    boolean isBended();
+
 }

@@ -26,6 +26,8 @@ public enum Actions {
      * To shoot a bullet.
      */
     SHOOT("shoot", 1),
+    
+    BEND("bend", Timeline.INDEFINITE),
     /**
      * To die.
      */

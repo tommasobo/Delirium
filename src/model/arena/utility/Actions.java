@@ -36,7 +36,14 @@ public enum Actions {
     /**
      * The new point is actual point, indeed isn't a movement action.
      */
-    SHOOT((point, speed, direction) -> point);
+    SHOOT((point, speed, direction) -> point),
+    /**
+     * The new point is actual point, indeed isn't a movement action.
+     */
+    BEND((point, speed, direction) -> point),
+    
+    UNBEND((point, speed, direction) -> point);
+    
 
     private final DeterminateNewPoint function;
 

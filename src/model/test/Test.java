@@ -1,6 +1,8 @@
 package model.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -28,6 +30,7 @@ import model.transfertentities.ShootInfo;
 import model.transfertentities.ShootInfoImpl;
 import model.transfertentities.ShootTypes;
 import utility.Dimension;
+import utility.Pair;
 
 /**
  * This test check the basic and fundamental behaviour of the model.
@@ -45,17 +48,17 @@ public class Test {
     private List<EntitiesInfo> entities;
 
     private void istanceEntities() {
-        this.heroPosition = new Position(new Point(0, 0), Directions.RIGHT, new Dimension(40, 60));
+        this.heroPosition = new Position(new Point(0, 0), Directions.RIGHT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.heroMovementInfo = new MovementInfoImpl(5, new Bounds(0, 200, 0, 200), Actions.STOP, false,
                 MovementTypes.HERO);
         this.heroShootInfo = new ShootInfoImpl(10, ShootTypes.HERO, 10, MovementTypes.HORIZONTAL_LINEAR, 200, 3);
         this.hero = new EntitiesInfoImpl(0, heroPosition, Optional.of(heroMovementInfo), 30, LifePattern.WITH_LIFE,
                 Optional.of(heroShootInfo), Optional.of(0));
         this.entities = new LinkedList<>(Arrays.asList(this.hero));
-        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Dimension(40, 60)),
+        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30))),
                 Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
         this.entities.add(this.goal);
-        this.monsterPosition = new Position(new Point(150, 150), Directions.RIGHT, new Dimension(20, 20));
+        this.monsterPosition = new Position(new Point(150, 150), Directions.RIGHT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.monsterMovementInfo = new MovementInfoImpl(4, new Bounds(100, 200, 100, 200), Actions.MOVE, true,
                 MovementTypes.HORIZONTAL_LINEAR);
         this.monster = new EntitiesInfoImpl(2, monsterPosition, Optional.of(monsterMovementInfo), 5,
@@ -65,21 +68,21 @@ public class Test {
     }
 
     private void istanceEntitiesForCollisions() {
-        this.heroPosition = new Position(new Point(0, 50), Directions.RIGHT, new Dimension(40, 60));
+        this.heroPosition = new Position(new Point(0, 50), Directions.RIGHT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.heroMovementInfo = new MovementInfoImpl(7, new Bounds(0, 200, 0, 200), Actions.STOP, false,
                 MovementTypes.HERO);
         this.heroShootInfo = new ShootInfoImpl(10, ShootTypes.HERO, 10, MovementTypes.HORIZONTAL_LINEAR, 200, 3);
         this.hero = new EntitiesInfoImpl(0, heroPosition, Optional.of(heroMovementInfo), 30, LifePattern.WITH_LIFE,
                 Optional.of(heroShootInfo), Optional.of(0));
         this.entities = new LinkedList<>(Arrays.asList(this.hero));
-        this.groundPosition = new Position(new Point(0, 0), Directions.NONE, new Dimension(200, 40));
+        this.groundPosition = new Position(new Point(0, 0), Directions.NONE, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.ground = new EntitiesInfoImpl(1, this.groundPosition, Optional.empty(), 1, LifePattern.WITHOUT_LIFE,
                 Optional.empty(), Optional.empty());
         this.entities.add(this.ground);
-        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Dimension(40, 60)),
+        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30))),
                 Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
         this.entities.add(this.goal);
-        this.monsterPosition = new Position(new Point(60, 40), Directions.LEFT, new Dimension(20, 20));
+        this.monsterPosition = new Position(new Point(60, 40), Directions.LEFT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.monsterMovementInfo = new MovementInfoImpl(5, new Bounds(0, 200, 0, 200), Actions.MOVE, true,
                 MovementTypes.HORIZONTAL_LINEAR);
         this.monster = new EntitiesInfoImpl(2, monsterPosition, Optional.of(monsterMovementInfo), 5,
@@ -89,21 +92,21 @@ public class Test {
     }
 
     private void istanceEntitiesForReactiveMovement() {
-        this.heroPosition = new Position(new Point(0, 60), Directions.RIGHT, new Dimension(40, 60));
+        this.heroPosition = new Position(new Point(0, 60), Directions.RIGHT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.heroMovementInfo = new MovementInfoImpl(7, new Bounds(0, 200, 0, 200), Actions.STOP, false,
                 MovementTypes.HERO);
         this.heroShootInfo = new ShootInfoImpl(10, ShootTypes.HERO, 10, MovementTypes.HORIZONTAL_LINEAR, 200, 3);
         this.hero = new EntitiesInfoImpl(0, heroPosition, Optional.of(heroMovementInfo), 30, LifePattern.WITH_LIFE,
                 Optional.of(heroShootInfo), Optional.of(0));
         this.entities = new LinkedList<>(Arrays.asList(this.hero));
-        this.groundPosition = new Position(new Point(0, 0), Directions.NONE, new Dimension(200, 40));
+        this.groundPosition = new Position(new Point(0, 0), Directions.NONE, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.ground = new EntitiesInfoImpl(1, this.groundPosition, Optional.empty(), 1, LifePattern.WITHOUT_LIFE,
                 Optional.empty(), Optional.empty());
         this.entities.add(this.ground);
-        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Dimension(40, 60)),
+        this.goal = new EntitiesInfoImpl(-1, new Position(new Point(100, 100), Directions.LEFT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30))),
                 Optional.empty(), 1, LifePattern.WITHOUT_LIFE, Optional.empty(), Optional.empty());
         this.entities.add(this.goal);
-        this.monsterPosition = new Position(new Point(0, 40), Directions.RIGHT, new Dimension(20, 20));
+        this.monsterPosition = new Position(new Point(0, 40), Directions.RIGHT, new Pair<>(new Dimension(40, 60), new Dimension(40, 30)));
         this.monsterMovementInfo = new MovementInfoImpl(1, new Bounds(0, 200, 0, 200), Actions.MOVE, true,
                 MovementTypes.HORIZONTAL_LINEAR);
         this.monster = new EntitiesInfoImpl(2, monsterPosition, Optional.of(monsterMovementInfo), 5,
@@ -179,7 +182,7 @@ public class Test {
         assertTrue(newHeroPosition.getPoint().getY() != oldHeroPosition.getPoint().getY()
                 - AbstractDinamicMovementManager.GRAVITY);
         assertEquals(newHeroPosition.getPoint().getY(),
-                this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getHeight());
+                this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getX().getHeight());
         System.out.println("Collisions work and set Hero's y position on the top of the ground, and not under (1)");
 
         oldHeroPosition = newHeroPosition;
@@ -190,7 +193,7 @@ public class Test {
                 - AbstractDinamicMovementManager.GRAVITY);
         assertTrue(newHeroPosition.getPoint().getY() == oldHeroPosition.getPoint().getY());
         assertEquals(newHeroPosition.getPoint().getY(),
-                this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getHeight());
+                this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getX().getHeight());
         System.out.println("Collisions work and set Hero's y position on the top of the ground, and not under (2)");
 
         oldHeroPosition = newHeroPosition;
@@ -201,7 +204,7 @@ public class Test {
                 - AbstractDinamicMovementManager.GRAVITY);
         assertTrue(newHeroPosition.getPoint().getY() == oldHeroPosition.getPoint().getY());
         assertEquals(newHeroPosition.getPoint().getY(),
-                this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getHeight());
+                this.groundPosition.getPoint().getY() + this.groundPosition.getDimension().getX().getHeight());
         System.out.println("Collisions work and set Hero's y position on the top of the ground, and not under (3)");
 
         Position oldMonsterPosition = answer.stream().filter(t -> t.getCode() == 2).map(t -> t.getPosition()).findAny()
@@ -215,10 +218,10 @@ public class Test {
         Position newMonsterPosition = answer.stream().filter(t -> t.getCode() == 2).map(t -> t.getPosition()).findAny()
                 .get();
         assertEquals(newHeroPosition.getPoint().getX(), oldHeroPosition.getPoint().getX());
-        assertEquals(newHeroPosition.getPoint().getX() + newHeroPosition.getDimension().getWidth(),
+        assertEquals(newHeroPosition.getPoint().getX() + newHeroPosition.getDimension().getX().getWidth(),
                 newMonsterPosition.getPoint().getX());
         System.out.println("Collisions work, hero cannot move because have an entity on left. Hero point: "
-                + newHeroPosition.getPoint() + " whith with: " + newHeroPosition.getDimension().getWidth()
+                + newHeroPosition.getPoint() + " whith with: " + newHeroPosition.getDimension().getX().getWidth()
                 + "    Other entity point:" + newMonsterPosition.getPoint());
         assertTrue(newMonsterPosition.getDirection() != oldMonsterPosition.getDirection());
         assertEquals(newMonsterPosition.getDirection(), Directions.RIGHT);

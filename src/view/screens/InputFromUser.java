@@ -39,6 +39,9 @@ class InputFromUser implements EventHandler<KeyEvent> {
             if (code == KeyCode.SPACE) {
                 this.listener.notifyEvent(ViewEvents.SHOOT);
             }
+            if (code == KeyCode.S) {
+                this.listener.notifyEvent(ViewEvents.BEND);
+            }
         } else {
             if (code == KeyCode.A) {
                 this.listener.notifyEvent(ViewEvents.STOPMLEFT);
@@ -54,6 +57,9 @@ class InputFromUser implements EventHandler<KeyEvent> {
             }
             if (code == KeyCode.ESCAPE) {
                 this.listener.notifyEvent(ViewEvents.PAUSE);
+            }
+            if (code == KeyCode.S) {
+                this.listener.notifyEvent(ViewEvents.STOPBEND);
             }
         }
         event.consume();

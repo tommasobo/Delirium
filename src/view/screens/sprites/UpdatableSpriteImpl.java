@@ -132,4 +132,13 @@ class UpdatableSpriteImpl extends AbstractSprite implements UpdatableSprite {
         }
     }
 
+    @Override
+    public void changeDimension(Dimension2D newDim) {
+        if (newDim.getHeight() != super.getSpritePane().getPrefHeight() || newDim.getWidth() != super.getSpritePane().getPrefWidth()) {
+            super.getSpritePane().setPrefHeight(newDim.getHeight());
+            super.getSpritePane().setPrefWidth(newDim.getWidth());
+        }
+        
+    }
+
 }
