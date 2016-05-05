@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import control.Control;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
@@ -12,8 +14,12 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import view.configs.Music;
 import view.configs.Notifications;
 import view.screens.sprites.SpriteManager;
@@ -58,8 +64,39 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
             AudioManager.getAudioManager().playTheme(Music.GAMETHEME);
         }
         final Pane entitiesPane = new Pane();
+        final LinearGradient gradient2 = new javafx.scene.paint.LinearGradient(0, 0, 0, 1 , true, CycleMethod.NO_CYCLE, new Stop[]{
+                new Stop(0, Color.BLACK),
+                new Stop(0.40, Color.web("#191919")),
+                new Stop(0.90, Color.web("#464646")),
+                new Stop(0.96, Color.DARKRED),
+                new Stop(1, Color.FIREBRICK),
+        }); 
+        final LinearGradient gradient = new javafx.scene.paint.LinearGradient(0, 0, 0, 1 , true, CycleMethod.NO_CYCLE, new Stop[]{
+                new Stop(0, Color.BLACK),
+                new Stop(0.4, Color.web("#191919")),
+                new Stop(0.91, Color.web("#464646")),
+                new Stop(0.95, Color.DARKRED),
+                new Stop(1, Color.FIREBRICK),
+        });  
+        
+        final Timeline timeline = new Timeline();
+        timeline.setCycleCount(-1);
+        timeline.setAutoReverse(true);
+        int cont = 0;
+        final KeyFrame key = new KeyFrame(Duration.millis(cont), bx -> {
+            entitiesPane.setBackground(new Background(new BackgroundFill(gradient2, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+        cont += 1000;
+        timeline.getKeyFrames().add(key);
+        final KeyFrame key1 = new KeyFrame(Duration.millis(cont), bx -> {
+            entitiesPane.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+        timeline.getKeyFrames().add(key1);
+        cont += 1000;
+        timeline.play();
+        
         entitiesPane.setPrefSize(this.worldDimension.getWidth(), this.worldDimension.getHeight());
-        entitiesPane.setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
+        
         entitiesPane.setCache(true);
         entitiesPane.setCacheHint(CacheHint.QUALITY);
         this.overlayPane.setPrefSize(super.getSceneDimension().getWidth() + 2, super.getSceneDimension().getHeight());

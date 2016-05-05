@@ -1,5 +1,18 @@
 @font-face {
+    src: url("creed.ttf");
+}
+
+@font-face {
     src: url("Zombie_Holocaust.ttf");
+}
+
+@font-face {
+    src: url("ASTONISHED.ttf");
+}
+
+#menutxt {
+    -fx-font-family: 'Mason Regular';
+    -fx-font-size: 1.7em;
 }
 #button {
     -fx-background-color: transparent;
@@ -16,8 +29,7 @@
 }
 #title {
     -fx-font-family: 'Zombie Holocaust';
-    -fx-fill: black;
-    -fx-font-size: 15em;
+    -fx-font-size: 12em;
 }
 #text1 {
     -fx-font-family: 'Zombie Holocaust';
@@ -95,4 +107,10 @@
 
 .slider .thumb{
     -fx-background-color: #7d0303;     
+}
+
+#rect {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 2px 10px 4px 20px;
 }

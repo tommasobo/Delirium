@@ -29,6 +29,7 @@ public class Launcher extends Application {
             final Control control = new ControlImpl(view);
             control.startGame();
         } catch (final Exception e) {
+            e.printStackTrace();
             this.generateErrorWindow(primaryStage, e.toString());
         }
         

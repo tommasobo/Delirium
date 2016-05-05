@@ -9,6 +9,9 @@ package control.viewcomunication;
  */
 public enum Buttons {
     NEWGAME("NEW GAME", ViewEvents.LEVEL1),
+    ARCADE("ARCADE", ViewEvents.LEVEL1),
+    MYCHARACTER("MY CHARACTER", ViewEvents.LEVEL1),
+    EDITOR("EDITOR", ViewEvents.LEVEL1),
     MAINMENU("MAIN MENU", ViewEvents.BACKTOMAINMENU),
     EXIT("EXIT", ViewEvents.EXIT),
     NEXTLEVEL("NEXT LEVEL", ViewEvents.NEXTLEVEL),
