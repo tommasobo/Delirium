@@ -66,18 +66,16 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
         final Pane entitiesPane = new Pane();
         final LinearGradient gradient2 = new javafx.scene.paint.LinearGradient(0, 0, 0, 1 , true, CycleMethod.NO_CYCLE, new Stop[]{
                 new Stop(0, Color.BLACK),
-                new Stop(0.40, Color.web("#191919")),
-                new Stop(0.90, Color.web("#464646")),
-                new Stop(0.96, Color.DARKRED),
+                new Stop(0.25, Color.web("#191919")),
+                new Stop(0.85, Color.DARKRED),
                 new Stop(1, Color.FIREBRICK),
         }); 
         final LinearGradient gradient = new javafx.scene.paint.LinearGradient(0, 0, 0, 1 , true, CycleMethod.NO_CYCLE, new Stop[]{
                 new Stop(0, Color.BLACK),
-                new Stop(0.4, Color.web("#191919")),
-                new Stop(0.91, Color.web("#464646")),
-                new Stop(0.95, Color.DARKRED),
+                new Stop(0.25, Color.web("#191919")),
+                new Stop(0.85, Color.DARKRED),
                 new Stop(1, Color.FIREBRICK),
-        });  
+        }); 
         
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(-1);
@@ -94,7 +92,7 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
         timeline.getKeyFrames().add(key1);
         cont += 1000;
         timeline.play();
-        
+
         entitiesPane.setPrefSize(this.worldDimension.getWidth(), this.worldDimension.getHeight());
         
         entitiesPane.setCache(true);
