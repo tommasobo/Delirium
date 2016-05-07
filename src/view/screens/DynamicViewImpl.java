@@ -60,6 +60,7 @@ class DynamicViewImpl extends AbstractGenericView implements DynamicView {
     @Override
     protected void completeInitialization() {
 
+        //TODO delete the change of background
         if (AudioManager.getAudioManager().isAudioAvailable()) {
             AudioManager.getAudioManager().playTheme(Music.GAMETHEME);
         }
